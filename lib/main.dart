@@ -18,6 +18,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "ASPDM Project App",
       theme: lightTheme,
+      navigatorKey: locator<NavigationService>().navigationKey,
       initialRoute: Routes.main,
       routes: {
         Routes.main: (_) => MainPage(),
