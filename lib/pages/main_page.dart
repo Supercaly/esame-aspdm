@@ -1,3 +1,5 @@
+import 'package:aspdm_project/pages/settings_page.dart';
+import 'package:aspdm_project/pages/tasks_page.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,9 +22,9 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(title: Text("Tasks")),
       body: IndexedStack(
         children: [
+          TasksPage(),
           Container(),
-          Container(),
-          Container(),
+          SettingsPage(),
         ],
         index: _currentIdx,
       ),
