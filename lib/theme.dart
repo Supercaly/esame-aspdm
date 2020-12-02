@@ -7,6 +7,11 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   accentColor: EasyColors.secondary,
   accentColorBrightness: Brightness.dark,
   scaffoldBackgroundColor: EasyColors.background,
+  buttonTheme: ButtonThemeData(
+    buttonColor: EasyColors.secondary,
+    textTheme: ButtonTextTheme.primary,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+  ),
 );
 
 final ThemeData darkTheme = ThemeData.dark();

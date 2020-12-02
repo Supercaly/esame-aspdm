@@ -1,5 +1,8 @@
+import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/pages/settings_page.dart';
 import 'package:aspdm_project/pages/tasks_page.dart';
+import 'package:aspdm_project/routes.dart';
+import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -44,7 +47,7 @@ class _MainPageState extends State<MainPage> {
   void _navigateTo(int newIdx) {
     // Navigate to NewTaskPage
     if (newIdx == 1) {
-
+      locator<NavigationService>().navigateTo(Routes.newTask);
     } else
       setState(() => _currentIdx = newIdx);
   }
