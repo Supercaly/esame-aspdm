@@ -1,4 +1,5 @@
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/pages/archive_page.dart';
 import 'package:aspdm_project/pages/login_page.dart';
 import 'package:aspdm_project/pages/new_task_page.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
@@ -27,6 +28,7 @@ class App extends StatelessWidget {
         Routes.main: (_) => MainPage(),
         Routes.newTask: (_) => NewTaskPage(),
         Routes.login: (_) => LoginPage(),
+        Routes.archive: (_) => ArchivePage(),
       },
     );
   }

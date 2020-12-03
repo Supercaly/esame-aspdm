@@ -1,5 +1,7 @@
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/routes.dart';
 import 'package:aspdm_project/services/log_service.dart';
+import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/widgets/settings_widget.dart';
 import 'package:aspdm_project/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,9 @@ class SettingsPage extends StatelessWidget {
           item: SettingsGroupItem(
             text: "Show archived tasks",
             icon: Icon(Icons.archive),
-            onTap: null,
+            onTap: () {
+              locator<NavigationService>().navigateTo(Routes.archive);
+            },
           ),
         ),
         SettingsGroup(
