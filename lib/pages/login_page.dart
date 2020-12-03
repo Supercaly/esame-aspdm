@@ -1,4 +1,6 @@
 import 'package:aspdm_project/generated/gen_colors.g.dart';
+import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/services/log_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,16 +12,16 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController;
   TextEditingController _passwordController;
   bool _obscurePassword;
-  
+
   @override
   void initState() {
     super.initState();
-    
+
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _obscurePassword = true;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +59,10 @@ class _LoginPageState extends State<LoginPage> {
                   RaisedButton(
                     padding: const EdgeInsets.symmetric(horizontal: 82.0),
                     child: Text("Log In"),
-                    onPressed: () {},
+                    onPressed: () {
+                      locator<LogService>().info(
+                          "Email: ${_emailController.text} Password: ${_passwordController.text}");
+                    },
                   ),
                 ],
               ),
