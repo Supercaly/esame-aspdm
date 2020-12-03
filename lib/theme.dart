@@ -12,6 +12,10 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     textTheme: ButtonTextTheme.primary,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
   ),
+  cardTheme: CardTheme(
+    elevation: 0.0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+  ),
 );
 
 final ThemeData darkTheme = ThemeData.dark();
