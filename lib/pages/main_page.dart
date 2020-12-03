@@ -22,7 +22,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tasks")),
+      appBar: AppBar(
+        title: Text("Tasks"),
+        centerTitle: true,
+      ),
       body: IndexedStack(
         children: [
           TasksPage(),
@@ -36,8 +39,10 @@ class _MainPageState extends State<MainPage> {
         onTap: _navigateTo,
         items: [
           BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: "New Task", icon: Icon(Icons.add_circle_outline)),
-          BottomNavigationBarItem(label: "Settings", icon: Icon(Icons.settings)),
+          BottomNavigationBarItem(
+              label: "New Task", icon: Icon(Icons.add_circle_outline)),
+          BottomNavigationBarItem(
+              label: "Settings", icon: Icon(Icons.settings)),
         ],
         type: BottomNavigationBarType.fixed,
       ),
