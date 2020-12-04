@@ -2,6 +2,7 @@ import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/pages/archive_page.dart';
 import 'package:aspdm_project/pages/login_page.dart';
 import 'package:aspdm_project/pages/new_task_page.dart';
+import 'package:aspdm_project/pages/task_info_page.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:aspdm_project/pages/main_page.dart';
@@ -29,6 +30,7 @@ class App extends StatelessWidget {
         Routes.newTask: (_) => NewTaskPage(),
         Routes.login: (_) => LoginPage(),
         Routes.archive: (_) => ArchivePage(),
+        Routes.task: (_) => TaskInfoPage(),
       },
     );
   }
