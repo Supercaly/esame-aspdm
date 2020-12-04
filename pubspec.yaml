@@ -13,6 +13,7 @@ dependencies:
 
   # Misc. dependencies
   equatable: ^1.2.5
+  provider: ^4.3.2+2
   get_it: ^5.0.1
 
 dev_dependencies:

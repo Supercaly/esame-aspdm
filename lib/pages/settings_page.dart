@@ -1,10 +1,11 @@
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/routes.dart';
-import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/widgets/settings_widget.dart';
 import 'package:aspdm_project/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -59,8 +60,8 @@ class SettingsPage extends StatelessWidget {
             text: "Sign Out",
             icon: Icon(Icons.exit_to_app, color: Colors.red),
             textColor: Colors.red,
-            onTap: () {
-              locator<LogService>().info("Sign Out!");
+            onTap: () async {
+              await context.read<AuthState>().logout();
             },
           ),
         )
