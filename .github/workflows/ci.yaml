@@ -8,19 +8,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # SetUp Flutter
+      # Setup Flutter
       - name: Install Flutter
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: dev
-
-      - name: Install dependencies
-        run: flutter pub get
+      - run: flutter pub get
 
       # Build part files
       - name: Build part files
-        run: ./script/linux/build_ci.sh
+        run: ./scripts/linux/build_ci.sh
 
+      # Format
+      - name: Format
+        run: flutter format --dry-run --set-exit-if-changed .
+
+      # Analyze
+      - name: Analyze
+        run: flutter analyze
+
+      # Run tests
+      - name: Tests
+        run: flutter test
