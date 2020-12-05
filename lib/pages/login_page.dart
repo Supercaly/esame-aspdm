@@ -50,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                       prefixIcon: Icon(Icons.email),
                       filled: true,
                     ),
+                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (!RegExp(_emailRegex).hasMatch(value))
                         return "Invalid email!";

@@ -6,11 +6,9 @@ import 'package:flutter/foundation.dart';
 class AuthState extends ChangeNotifier {
   User _currentUser;
 
-  AuthState() : _currentUser = null;
-
   User get currentUser => _currentUser;
 
-  Future<bool> login(String email, String password) async{
+  Future<bool> login(String email, String password) async {
     try {
       final newUser = User(id: "mock_id", name: "Mock User", email: email);
       if (_currentUser != newUser) {
@@ -24,7 +22,7 @@ class AuthState extends ChangeNotifier {
     }
   }
 
-  Future<void> logout() async{
+  Future<void> logout() async {
     locator<LogService>().info("Sign Out user!");
     _currentUser = null;
     notifyListeners();
