@@ -3,6 +3,7 @@ import 'package:aspdm_project/pages/archive_page.dart';
 import 'package:aspdm_project/pages/login_page.dart';
 import 'package:aspdm_project/pages/new_task_page.dart';
 import 'package:aspdm_project/pages/task_info_page.dart';
+import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/states/task_state.dart';
@@ -17,7 +18,9 @@ import 'model/user.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Init locator services
   await setupLocator();
+  await locator<AppInfoService>().init();
 
   runApp(App());
 }

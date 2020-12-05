@@ -1,5 +1,6 @@
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/routes.dart';
+import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/widgets/settings_widget.dart';
@@ -40,7 +41,8 @@ class SettingsPage extends StatelessWidget {
               icon: Icon(Icons.bookmark),
             ),
             SettingsGroupItem(
-              text: "Version 0.0.1(1)",
+              text:
+                  "Version ${locator<AppInfoService>().version}(${locator<AppInfoService>().buildNumber})",
               onLongPress: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
