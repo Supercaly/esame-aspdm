@@ -4,6 +4,7 @@ import 'package:aspdm_project/pages/login_page.dart';
 import 'package:aspdm_project/pages/new_task_page.dart';
 import 'package:aspdm_project/pages/task_info_page.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
+import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/states/task_state.dart';
@@ -30,7 +31,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthState>(create: (context) => AuthState()),
+        ChangeNotifierProvider<AuthState>(create: (context) => AuthState(null)),
         Provider<TaskState>(create: (_) => TaskState()),
       ],
       child: MaterialApp(
@@ -55,6 +56,7 @@ class Root extends StatelessWidget {
     return Selector<AuthState, User>(
       selector: (_, state) => state.currentUser,
       builder: (_, value, __) {
+        locator<LogService>().logBuild("Root $value");
         if (value != null)
           return MainPage();
         else
