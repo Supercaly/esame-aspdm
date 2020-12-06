@@ -124,4 +124,54 @@ class DummyData {
       ],
     ),
   ];
+
+  static final Task task = Task(
+      "1",
+      "title",
+      "description",
+      [
+        Label(Colors.green, "label"),
+        Label(Colors.red, "label"),
+        Label(Colors.blue, "label"),
+      ],
+      [
+        User(),
+        User(),
+        User(),
+      ],
+      DateTime.now(),
+      [
+        Checklist("Checklist 1", [
+          ChecklistItem("item", true),
+          ChecklistItem("item", false),
+          ChecklistItem("item", true),
+          ChecklistItem("item", false),
+          ChecklistItem("item", true),
+        ]),
+        Checklist("Checklist 2", [
+          ChecklistItem("item", true),
+          ChecklistItem("item", false),
+          ChecklistItem("item", false),
+          ChecklistItem("item", false),
+          ChecklistItem("item", true),
+        ]),
+        Checklist("Checklist 3", null),
+      ],
+      [
+        Comment(
+          content: "looong text",
+          creationDate: DateTime.now(),
+          dislikes: 1,
+          likes: 100,
+          user: user,
+          disliked: false,
+          liked: false,
+        ),
+        Comment(disliked: true),
+        Comment(liked: true),
+        Comment(),
+      ]);
+
+  static final User user =
+      User(id: "0", name: "Jon Doe", email: "jon.doe@email.com");
 }
