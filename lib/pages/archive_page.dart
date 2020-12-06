@@ -27,7 +27,7 @@ class ArchivePage extends StatelessWidget {
             ],
           ),
           body: BlocConsumer<ArchiveBloc, ArchiveState>(
-            listenWhen: (prev, current) => current.hasError && !prev.hasError,
+            listenWhen: (_, current) => current.hasError,
             listener: (context, state) =>
                 ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Unknown error occurred!")),

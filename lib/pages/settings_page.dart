@@ -1,6 +1,7 @@
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/routes.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
+import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/widgets/settings_widget.dart';
@@ -11,6 +12,8 @@ import 'package:provider/provider.dart';
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    locator<LogService>().logBuild("SettingsPage");
+    final appInfo = locator<AppInfoService>();
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       children: [
@@ -41,8 +44,19 @@ class SettingsPage extends StatelessWidget {
               icon: Icon(Icons.bookmark),
             ),
             SettingsGroupItem(
+              text: "Open Source",
+              icon: Icon(Icons.adb),
+              onTap: () {
+                showLicensePage(
+                  context: context,
+                  applicationVersion: appInfo.version,
+                  applicationLegalese: "©2020 Lorenzo Calisti"
+                );
+              },
+            ),
+            SettingsGroupItem(
               text:
-                  "Version ${locator<AppInfoService>().version}(${locator<AppInfoService>().buildNumber})",
+                  "Version ${appInfo.version}(${appInfo.buildNumber})",
               onLongPress: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

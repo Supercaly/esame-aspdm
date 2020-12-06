@@ -37,7 +37,12 @@ class ArchiveState {
   /// List of archived tasks.
   final List<Task> data;
 
-  const ArchiveState(this.isLoading, this.hasError, this.data);
+  /// Creates a new [ArchiveState] ensuring that [data], [isLoading]
+  /// and [hasError] will never be `null`.
+  const ArchiveState(this.isLoading, this.hasError, this.data)
+      : assert(data != null),
+        assert(isLoading != null),
+        assert(hasError != null);
 
   /// Constructor for the data.
   const ArchiveState.data(this.data)

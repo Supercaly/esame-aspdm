@@ -1,16 +1,46 @@
-import 'package:aspdm_project/dummy_data.dart';
+import 'package:aspdm_project/bloc/home_bloc.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/widgets/task_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
 class TasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    locator<LogService>().logBuild("TasksPage");
-    return ListView.builder(
-      itemBuilder: (_, index) => TaskCard(DummyData.tasks[index]),
-      itemCount: DummyData.tasks.length,
+    return BlocConsumer<HomeBloc, HomeState>(
+      listenWhen: (_, current) => current.hasError,
+      listener: (context, state) => ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Unknown error occurred!"))),
+      builder: (context, state) => LoadingOverlay(
+        isLoading: state.isLoading,
+        color: Colors.black26,
+        child: RefreshIndicator(
+          onRefresh: () => context.read<HomeBloc>().fetch(showLoading: false),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              locator<LogService>().logBuild("TaskPage $state");
+              if (!state.isLoading && state.data.isEmpty)
+                return SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Center(
+                      child: Text("Nothing to show here!"),
+                    ),
+                  ),
+                );
+              return ListView.builder(
+                itemBuilder: (_, index) => TaskCard(state.data[index]),
+                itemCount: state.data.length,
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
