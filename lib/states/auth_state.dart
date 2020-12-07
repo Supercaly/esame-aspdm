@@ -1,6 +1,7 @@
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/log_service.dart';
+import 'package:aspdm_project/services/preference_service.dart';
 import 'package:flutter/foundation.dart';
 
 /// Class containing the authentication state.
@@ -20,6 +21,7 @@ class AuthState extends ChangeNotifier {
       final newUser = User(id: "mock_id", name: "Mock User", email: email);
       if (_currentUser != newUser) {
         _currentUser = newUser;
+        locator<PreferenceService>().storeSignedInUser(newUser);
         notifyListeners();
       }
       return true;
@@ -33,6 +35,7 @@ class AuthState extends ChangeNotifier {
   /// After this method call [currentUser] will be `null`.
   Future<void> logout() async {
     locator<LogService>().info("Sign Out user!");
+    locator<PreferenceService>().storeSignedInUser(null);
     _currentUser = null;
     notifyListeners();
   }

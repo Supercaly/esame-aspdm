@@ -6,6 +6,7 @@ import 'package:aspdm_project/pages/task_info_page.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:aspdm_project/services/preference_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/states/task_state.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
   // Init locator services
   await setupLocator();
   await locator<AppInfoService>().init();
+  await locator<PreferenceService>().init();
 
   runApp(App());
 }
@@ -31,7 +33,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthState>(create: (context) => AuthState(null)),
+        ChangeNotifierProvider<AuthState>(
+          create: (context) =>
+              AuthState(locator<PreferenceService>().getLastSignedInUser()),
+        ),
         Provider<TaskState>(create: (_) => TaskState()),
       ],
       child: MaterialApp(
