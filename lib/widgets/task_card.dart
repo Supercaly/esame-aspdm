@@ -76,7 +76,7 @@ class TaskCard extends StatelessWidget {
                 ],
               ),
               if (hasExpiration) SizedBox(height: 10.0),
-              if (hasExpiration) ExpirationBadge(task.expireDate),
+              if (hasExpiration) ExpirationBadge(date: task.expireDate),
             ],
           ),
         ),

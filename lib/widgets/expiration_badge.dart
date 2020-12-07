@@ -1,43 +1,39 @@
+import 'package:aspdm_project/generated/gen_colors.g.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ExpirationBadge extends StatelessWidget {
-  final DateTime expireDate;
-  final int _state;
+  final DateTime date;
 
-  ExpirationBadge(this.expireDate) : _state = _checkDate(expireDate.toUtc());
-
-  // TODO: Check the time on each rebuild
-  static int _checkDate(DateTime expDate) {
-    final now = DateTime.now().toUtc();
-
-    if (expDate.isAfter(now.add(Duration(days: 4))))
-      return 2;
-    else if (expDate.isAfter(now))
-      return 1;
-    else
-      return 0;
-  }
+  ExpirationBadge({
+    Key key,
+    this.date,
+  })  : assert(date != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Color textColor;
-    Color boxColor;
+    final now = DateTime.now();
+    Color color;
+    Color bgColor;
 
-    // TODO: Fix This time conversion
-    if (_state == 0) {
-      textColor = Colors.white;
-      boxColor = Colors.red;
-    } else if (_state == 1) {
-      textColor = Colors.white;
-      boxColor = Colors.deepOrange;
+    if (date.toUtc().isBefore(now)) {
+      // The task has expired
+      color = Colors.white;
+      bgColor = EasyColors.timeExpired;
+    } else if (date.isBefore(now.add(Duration(days: 2)))) {
+      // The task is about to expire in 2 days
+      color = Colors.white;
+      bgColor = EasyColors.timeExpiring;
     } else {
-      textColor = Color(0xFF666666);
+      // The task is not expired yet
+      color = Color(0xFF666666);
     }
 
     return Container(
       padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
-        color: boxColor,
+        color: bgColor,
         borderRadius: BorderRadius.circular(4.0),
       ),
       child: Row(
@@ -46,13 +42,12 @@ class ExpirationBadge extends StatelessWidget {
         children: [
           Icon(
             Icons.access_time_outlined,
-            color: textColor,
+            color: color,
           ),
           SizedBox(width: 4.0),
           Text(
-            "30 nov.",
-            style:
-                Theme.of(context).textTheme.caption.copyWith(color: textColor),
+            DateFormat("dd MMM y").format(date),
+            style: Theme.of(context).textTheme.caption.copyWith(color: color),
           ),
         ],
       ),
