@@ -58,4 +58,7 @@ class ArchiveState {
   const ArchiveState.error(this.data)
       : isLoading = false,
         hasError = true;
+
+  @override
+  String toString() => "ArchiveState {isLoading: $isLoading, hasError: $hasError, data: $data}";
 }

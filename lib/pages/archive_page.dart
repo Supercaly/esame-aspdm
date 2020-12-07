@@ -1,5 +1,7 @@
 import 'package:aspdm_project/bloc/archive_bloc.dart';
+import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/repositories/archive_repository.dart';
+import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/widgets/task_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +42,7 @@ class ArchivePage extends StatelessWidget {
                     context.read<ArchiveBloc>().fetch(showLoading: false),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
+                    locator<LogService>().logBuild("ArchivePage - $state");
                     if (!state.isLoading && state.data.isEmpty)
                       return SingleChildScrollView(
                         physics: AlwaysScrollableScrollPhysics(),

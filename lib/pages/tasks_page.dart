@@ -20,7 +20,7 @@ class TasksPage extends StatelessWidget {
           onRefresh: () => context.read<HomeBloc>().fetch(showLoading: false),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              locator<LogService>().logBuild("TaskPage $state");
+              locator<LogService>().logBuild("TaskPage - $state");
               if (!state.isLoading && state.data.isEmpty)
                 return SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
