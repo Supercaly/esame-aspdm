@@ -32,8 +32,16 @@ class Task extends Equatable {
   /// [Comment]s associated with the task.
   final List<Comment> comments;
 
-  Task(this.id, this.title, this.description, this.labels, this.members,
-      this.expireDate, this.checklists, this.comments);
+  Task({
+    this.id,
+    this.title,
+    this.description,
+    this.labels,
+    this.members,
+    this.expireDate,
+    this.checklists,
+    this.comments,
+  });
 
   @override
   List<Object> get props => [id];

@@ -56,7 +56,8 @@ class ArchivePage extends StatelessWidget {
                         ),
                       );
                     return ListView.builder(
-                      itemBuilder: (_, index) => TaskCard(state.data[index]),
+                      itemBuilder: (_, index) =>
+                          TaskCard(task: state.data[index]),
                       itemCount: state.data.length,
                     );
                   },
