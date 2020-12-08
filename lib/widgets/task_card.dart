@@ -6,10 +6,20 @@ import 'package:aspdm_project/widgets/expiration_badge.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
 import 'package:flutter/material.dart';
 
+/// Widget displaying a card with a short recap
+/// of all the task's info.
+/// This widget can't be created with a task that has
+/// null [title].
 class TaskCard extends StatelessWidget {
+  /// The task to display.
   final Task task;
 
-  TaskCard(this.task);
+  TaskCard({
+    Key key,
+    this.task,
+  })  : assert(task != null),
+        assert(task.title != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +33,7 @@ class TaskCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           locator<NavigationService>()
-              .navigateTo(Routes.task, arguments: task.id);
+              .navigateTo(Routes.task, arguments: task?.id);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -45,7 +55,7 @@ class TaskCard extends StatelessWidget {
                   : SizedBox.shrink(),
               SizedBox(height: 10.0),
               Text(
-                "Title",
+                task.title,
                 style: Theme.of(context).textTheme.headline5,
               ),
               SizedBox(height: 10.0),
@@ -59,7 +69,7 @@ class TaskCard extends StatelessWidget {
                   if (hasChecklists)
                     TaskIcon(
                       icon: Icons.check_circle,
-                      text: "7/10",
+                      text: _getChecklistCount(),
                     ),
                   if (hasChecklists) SizedBox(width: 10.0),
                   if (hasComments)
@@ -83,8 +93,24 @@ class TaskCard extends StatelessWidget {
       ),
     );
   }
+
+  /// Returns a string with the number
+  /// of completed items of all the checklists.
+  /// The string is formatted as checked/total.
+  String _getChecklistCount() {
+    int totalItems = 0;
+    int checkedItems = 0;
+    task?.checklists?.forEach((c) {
+      c?.items?.forEach((i) {
+        totalItems++;
+        if (i.checked) checkedItems++;
+      });
+    });
+    return "$checkedItems/$totalItems";
+  }
 }
 
+/// Widget with an icon ad a text used in [TaskCard].
 class TaskIcon extends StatelessWidget {
   final IconData icon;
   final String text;
@@ -94,10 +120,7 @@ class TaskIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Icon(
-        icon,
-        color: Color(0xFF666666),
-      ),
+      Icon(icon),
       SizedBox(width: 4.0),
       (text != null) ? Text(text) : SizedBox.shrink(),
     ]);
