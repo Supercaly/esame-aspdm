@@ -1,10 +1,11 @@
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/repositories/home_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Class used to manage the state of the tasks page.
 class HomeBloc extends Cubit<HomeState> {
-  HomeRepository _repository;
+  final HomeRepository _repository;
 
   /// Keep in memory the old data so they can be
   /// displayed even during loading or error.
@@ -17,7 +18,10 @@ class HomeBloc extends Cubit<HomeState> {
     if (showLoading) emit(HomeState.loading(_oldData));
     try {
       final newData = await _repository.getTasks();
-      _oldData = newData;
+      if (newData != null)
+        _oldData = newData;
+      else
+        _oldData = [];
       emit(HomeState.data(newData));
     } catch (e) {
       emit(HomeState.error(_oldData));
@@ -26,7 +30,7 @@ class HomeBloc extends Cubit<HomeState> {
 }
 
 /// Class with the state of the [HomeBloc].
-class HomeState {
+class HomeState extends Equatable {
   /// Tells the widget that the data is loading.
   final bool isLoading;
 
@@ -35,13 +39,6 @@ class HomeState {
 
   /// List of tasks to display.
   final List<Task> data;
-
-  /// Creates a new [HomeState] ensuring that [data], [isLoading]
-  /// and [hasError] will never be `null`.
-  const HomeState(this.isLoading, this.hasError, this.data)
-      : assert(data != null),
-        assert(isLoading != null),
-        assert(hasError != null);
 
   /// Constructor for the data.
   const HomeState.data(this.data)
@@ -59,5 +56,10 @@ class HomeState {
         hasError = true;
 
   @override
-  String toString() => "HomeState {isLoading: $isLoading, hasError: $hasError, data: $data}";
+  String toString() => "HomeState {isLoading: $isLoading, "
+      "hasError: $hasError, "
+      "data: ${(data.isNotEmpty) ? "[${data.length}]" : data}}";
+
+  @override
+  List<Object> get props => [isLoading, hasError, data];
 }

@@ -1,32 +1,36 @@
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/repositories/archive_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Cubit class used to manage the state of the archived tasks page.
 class ArchiveBloc extends Cubit<ArchiveState> {
-  ArchiveRepository _repository;
+  final ArchiveRepository _repository;
 
   /// Keep in memory the old data so they can be
   /// displayed even during loading or error.
-  List<Task> _oldTasks = [];
+  List<Task> _oldData = [];
 
   ArchiveBloc(this._repository) : super(const ArchiveState.loading([]));
 
   /// Tells [ArchiveBloc] to fetch the data from [ArchiveRepository].
   Future<void> fetch({bool showLoading = true}) async {
-    if (showLoading) emit(ArchiveState.loading(_oldTasks));
+    if (showLoading) emit(ArchiveState.loading(_oldData));
     try {
-      final newTasks = await _repository.getArchivedTasks();
-      _oldTasks = newTasks;
-      emit(ArchiveState.data(newTasks));
+      final newData = await _repository.getArchivedTasks();
+      if (newData != null)
+        _oldData = newData;
+      else
+        _oldData = [];
+      emit(ArchiveState.data(newData));
     } catch (e) {
-      emit(ArchiveState.error(_oldTasks));
+      emit(ArchiveState.error(_oldData));
     }
   }
 }
 
 /// Class with the state of the [ArchiveBloc].
-class ArchiveState {
+class ArchiveState extends Equatable {
   /// Tells the widget that the data is loading.
   final bool isLoading;
 
@@ -36,13 +40,6 @@ class ArchiveState {
 
   /// List of archived tasks.
   final List<Task> data;
-
-  /// Creates a new [ArchiveState] ensuring that [data], [isLoading]
-  /// and [hasError] will never be `null`.
-  const ArchiveState(this.isLoading, this.hasError, this.data)
-      : assert(data != null),
-        assert(isLoading != null),
-        assert(hasError != null);
 
   /// Constructor for the data.
   const ArchiveState.data(this.data)
@@ -60,5 +57,10 @@ class ArchiveState {
         hasError = true;
 
   @override
-  String toString() => "ArchiveState {isLoading: $isLoading, hasError: $hasError, data: $data}";
+  String toString() => "HomeState {isLoading: $isLoading, "
+      "hasError: $hasError, "
+      "data: ${(data.isNotEmpty) ? "[${data.length}]" : data}}";
+
+  @override
+  List<Object> get props => [isLoading, hasError, data];
 }
