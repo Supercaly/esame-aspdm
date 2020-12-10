@@ -8,7 +8,6 @@ import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
-import 'package:aspdm_project/states/task_state.dart';
 import 'package:flutter/material.dart';
 import 'package:aspdm_project/pages/main_page.dart';
 import 'package:aspdm_project/routes.dart';
@@ -37,7 +36,6 @@ class App extends StatelessWidget {
           create: (context) =>
               AuthState(locator<PreferenceService>().getLastSignedInUser()),
         ),
-        Provider<TaskState>(create: (_) => TaskState()),
       ],
       child: MaterialApp(
         title: "ASPDM Project App",
