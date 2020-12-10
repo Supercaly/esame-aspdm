@@ -48,15 +48,13 @@ class SettingsPage extends StatelessWidget {
               icon: Icon(Icons.adb),
               onTap: () {
                 showLicensePage(
-                  context: context,
-                  applicationVersion: appInfo.version,
-                  applicationLegalese: "©2020 Lorenzo Calisti"
-                );
+                    context: context,
+                    applicationVersion: appInfo.version,
+                    applicationLegalese: "©2020 Lorenzo Calisti");
               },
             ),
             SettingsGroupItem(
-              text:
-                  "Version ${appInfo.version}(${appInfo.buildNumber})",
+              text: "Version ${appInfo.version}(${appInfo.buildNumber})",
               onLongPress: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

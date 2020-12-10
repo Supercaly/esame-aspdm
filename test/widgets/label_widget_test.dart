@@ -10,7 +10,7 @@ void main() {
     try {
       LabelWidget();
       fail("This should throw an error!");
-    }catch(e) {
+    } catch (e) {
       expect(e, isA<AssertionError>());
     }
   });

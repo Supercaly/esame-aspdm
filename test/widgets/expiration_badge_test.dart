@@ -99,7 +99,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)), findsOneWidget);
+      expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)),
+          findsOneWidget);
       expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
           equals(EasyColors.timeExpired));
     });
@@ -118,7 +119,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)), findsOneWidget);
+      expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)),
+          findsOneWidget);
       expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
           equals(EasyColors.timeExpiring));
     });
@@ -137,7 +139,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)), findsOneWidget);
+      expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)),
+          findsOneWidget);
       expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
           equals(Color(0x8a000000)));
     });

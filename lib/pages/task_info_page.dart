@@ -112,9 +112,10 @@ class TaskInfoPageContent extends StatelessWidget {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         spacing: 8.0,
                         runSpacing: 4.0,
-                        children: [Icon(Icons.person)]..addAll(task.members.map(
-                            (m) =>
-                                CircleAvatar(child: Text(m.name.substring(0, 1).toUpperCase()), radius: 16.0))),
+                        children: [Icon(Icons.person)]
+                          ..addAll(task.members.map((m) => CircleAvatar(
+                              child: Text(m.name.substring(0, 1).toUpperCase()),
+                              radius: 16.0))),
                       ),
                     ),
                   if (hasExpDate) ExpirationText(date: task.expireDate),

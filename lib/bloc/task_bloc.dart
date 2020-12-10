@@ -53,7 +53,8 @@ class TaskBloc extends Cubit<TaskState> {
     String userId,
   ) async {
     try {
-      final newTask = await _repository.editComment(commentId, newContent, userId);
+      final newTask =
+          await _repository.editComment(commentId, newContent, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -84,7 +85,7 @@ class TaskBloc extends Cubit<TaskState> {
   }
 
   /// Tells [TaskRepository] the user created a new comment under this task.
-  Future<void> addComment(String content, String userId) async{
+  Future<void> addComment(String content, String userId) async {
     try {
       final newTask = await _repository.addComment(content, userId);
       _oldTask = newTask;
@@ -93,8 +94,6 @@ class TaskBloc extends Cubit<TaskState> {
       emit(TaskState.error(_oldTask));
     }
   }
-
-
 }
 
 /// Class with the state of the [TaskBloc].
