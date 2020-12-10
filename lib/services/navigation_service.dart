@@ -18,4 +18,8 @@ class NavigationService {
 
   /// Pops the current route returning given [result]
   void pop({dynamic result}) => _navigationKey.currentState.pop(result);
+
+  T arguments<T>(BuildContext context) {
+    return ModalRoute.of<T>(context)?.settings?.arguments;
+  }
 }
