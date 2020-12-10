@@ -15,9 +15,9 @@ void main() {
     state = MockAuthState();
 
     when(state.currentUser).thenReturn(User(
-      id: "mock_id",
-      name: "Mock User",
-      email: "mock.user@email.com",
+      "mock_id",
+      "Mock User",
+      "mock.user@email.com",
     ));
   });
 

@@ -37,9 +37,9 @@ void main() {
       user,
       equals(
         User(
-          id: "mock_id",
-          name: "mock user",
-          email: "mock.user@email.com",
+          "mock_id",
+          "mock user",
+          "mock.user@email.com",
         ),
       ),
     );
@@ -87,9 +87,9 @@ void main() {
     expect(user, isNull);
 
     await service.storeSignedInUser(User(
-      id: "mock_id",
-      name: "mock user",
-      email: "mock.user@email.com",
+      "mock_id",
+      "mock user",
+      "mock.user@email.com",
     ));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));
