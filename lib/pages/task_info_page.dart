@@ -8,6 +8,7 @@ import 'package:aspdm_project/widgets/checklist_widget.dart';
 import 'package:aspdm_project/widgets/comment_widget.dart';
 import 'package:aspdm_project/widgets/expiration_badge.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
+import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -113,9 +114,10 @@ class TaskInfoPageContent extends StatelessWidget {
                         spacing: 8.0,
                         runSpacing: 4.0,
                         children: [Icon(Icons.person)]
-                          ..addAll(task.members.map((m) => CircleAvatar(
-                              child: Text(m.name.substring(0, 1).toUpperCase()),
-                              radius: 16.0))),
+                          ..addAll(task.members.map((m) => UserAvatar(
+                                user: m,
+                                size: 32.0,
+                              ))),
                       ),
                     ),
                   if (hasExpDate) ExpirationText(date: task.expireDate),

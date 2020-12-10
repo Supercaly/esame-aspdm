@@ -1,5 +1,6 @@
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/states/auth_state.dart';
+import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,22 +14,10 @@ class UserInfoCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Container(
-                width: 56.0,
-                height: 56.0,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Center(
-                  child: Text(
-                    user?.name?.substring(0, 1)?.toUpperCase() ?? "",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: Colors.white),
-                  ),
-                ),
+              UserAvatar(
+                size: 56.0,
+                rectangle: true,
+                user: user,
               ),
               SizedBox(width: 24.0),
               Column(

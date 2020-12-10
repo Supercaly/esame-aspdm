@@ -1,6 +1,10 @@
 import 'package:aspdm_project/model/comment.dart';
+import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/log_service.dart';
+import 'package:aspdm_project/states/auth_state.dart';
+import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../locator.dart';
 
@@ -70,9 +74,9 @@ class _CommentWidgetState extends State<CommentWidget> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 20.0,
-            child: Text(widget.comment?.user?.name?.substring(0, 1) ?? ""),
+          UserAvatar(
+            size: 48.0,
+            user: widget.comment?.user,
           ),
           SizedBox(width: 10.0),
           Expanded(
@@ -126,6 +130,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         onPressed: () => widget.onDislike?.call(),
                       ),
                     if (_type == CommentWidgetType.normal) SizedBox(width: 6.0),
+                    // TODO: Add minutes ago.
                     Text("38 min ago.")
                   ],
                 )
@@ -133,31 +138,39 @@ class _CommentWidgetState extends State<CommentWidget> {
             ),
           ),
           if (_type == CommentWidgetType.normal)
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: PopupMenuButton<CommentWidgetAction>(
-                onSelected: (value) {
-                  switch (value) {
-                    case CommentWidgetAction.edit:
-                      setState(() {
-                        _type = CommentWidgetType.edit;
-                      });
-                      break;
-                    case CommentWidgetAction.delete:
-                      widget.onDelete?.call();
-                      break;
-                    default:
-                      locator<LogService>()
-                          .wtf("Unknown comment action $value");
-                  }
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                      value: CommentWidgetAction.edit, child: Text("Edit")),
-                  PopupMenuItem(
-                      value: CommentWidgetAction.delete, child: Text("Delete")),
-                ],
-              ),
+            Selector<AuthState, User>(
+              selector: (_, state) => state.currentUser,
+              builder: (context, currentUser, _) =>
+                  (currentUser == widget.comment.user)
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: PopupMenuButton<CommentWidgetAction>(
+                            onSelected: (value) {
+                              switch (value) {
+                                case CommentWidgetAction.edit:
+                                  setState(() {
+                                    _type = CommentWidgetType.edit;
+                                  });
+                                  break;
+                                case CommentWidgetAction.delete:
+                                  widget.onDelete?.call();
+                                  break;
+                                default:
+                                  locator<LogService>()
+                                      .wtf("Unknown comment action $value");
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                  value: CommentWidgetAction.edit,
+                                  child: Text("Edit")),
+                              PopupMenuItem(
+                                  value: CommentWidgetAction.delete,
+                                  child: Text("Delete")),
+                            ],
+                          ),
+                        )
+                      : SizedBox.shrink(),
             ),
         ],
       ),
@@ -260,7 +273,6 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
           icon: Icon(Icons.send),
           onPressed: (_sendEnabled)
               ? () {
-                  print("ciao ${_controller.text}");
                   widget.onNewComment?.call(_controller.text);
                   _controller.clear();
                   setState(() {
