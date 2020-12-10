@@ -44,14 +44,14 @@ class TaskInfoPageWidget extends StatelessWidget {
             builder: (context, constraints) {
               locator<LogService>().logBuild("TaskInfoPageWidget - $state");
 
-              if (state.hasError && state.data == null)
+              if (!state.isLoading && state.data == null)
                 return SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   child: ConstrainedBox(
                     constraints:
                         BoxConstraints(minHeight: constraints.maxHeight),
                     child: Center(
-                      child: Text("Unknown error occurred!"),
+                      child: Text("Nothing to show here"),
                     ),
                   ),
                 );
@@ -114,7 +114,7 @@ class TaskInfoPageContent extends StatelessWidget {
                         runSpacing: 4.0,
                         children: [Icon(Icons.person)]..addAll(task.members.map(
                             (m) =>
-                                CircleAvatar(child: Text("j"), radius: 16.0))),
+                                CircleAvatar(child: Text(m.name.substring(0, 1).toUpperCase()), radius: 16.0))),
                       ),
                     ),
                   if (hasExpDate) ExpirationText(date: task.expireDate),
@@ -158,64 +158,64 @@ class TaskInfoPageContent extends StatelessWidget {
                 .toList(),
           ),
         // Comments
-        if (task?.comments != null)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.message),
-                      SizedBox(width: 8.0),
-                      Text(
-                        "Comments",
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  ),
-                  AddCommentWidget(
-                    onNewComment: (content) => print(content),
-                  ),
-                  if (task?.comments != null && task.comments.isNotEmpty)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: task.comments
-                          .map(
-                            (comment) => CommentWidget(
-                              comment: comment,
-                              onDelete: () => context
-                                  .read<TaskBloc>()
-                                  .deleteComment(
-                                    comment.id,
-                                    context.read<AuthState>().currentUser.id,
-                                  ),
-                              onEdit: (content) => context.read<TaskBloc>().editComment(
-                                comment.id,
-                                content,
-                                context.read<AuthState>().currentUser.id,
-                              ),
-                              onLike: () => context
-                                  .read<TaskBloc>()
-                                  .likeComment(
-                                    comment.id,
-                                    context.read<AuthState>().currentUser.id,
-                                  ),
-                              onDislike: () => context
-                                  .read<TaskBloc>()
-                                  .dislikeComment(
-                                    comment.id,
-                                    context.read<AuthState>().currentUser.id,
-                                  ),
-                            ),
-                          )
-                          .toList(),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.message),
+                    SizedBox(width: 8.0),
+                    Text(
+                      "Comments",
+                      style: Theme.of(context).textTheme.headline6,
                     ),
-                ],
-              ),
+                  ],
+                ),
+                AddCommentWidget(
+                  onNewComment: (content) =>
+                      context.read<TaskBloc>().addComment(
+                            content,
+                            context.read<AuthState>().currentUser.id,
+                          ),
+                ),
+                if (task?.comments != null && task.comments.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: task.comments
+                        .map(
+                          (comment) => CommentWidget(
+                            comment: comment,
+                            onDelete: () =>
+                                context.read<TaskBloc>().deleteComment(
+                                      comment.id,
+                                      context.read<AuthState>().currentUser.id,
+                                    ),
+                            onEdit: (content) =>
+                                context.read<TaskBloc>().editComment(
+                                      comment.id,
+                                      content,
+                                      context.read<AuthState>().currentUser.id,
+                                    ),
+                            onLike: () => context.read<TaskBloc>().likeComment(
+                                  comment.id,
+                                  context.read<AuthState>().currentUser.id,
+                                ),
+                            onDislike: () =>
+                                context.read<TaskBloc>().dislikeComment(
+                                      comment.id,
+                                      context.read<AuthState>().currentUser.id,
+                                    ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+              ],
             ),
-          )
+          ),
+        )
       ],
     );
   }

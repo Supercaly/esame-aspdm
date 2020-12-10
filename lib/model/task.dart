@@ -15,7 +15,7 @@ class Task extends Equatable {
   final String id;
 
   /// Title of the task.
-  @JsonKey(nullable: true)
+  @JsonKey(required: true, disallowNullValue: true)
   final String title;
 
   /// Description of the task.
@@ -70,6 +70,7 @@ class Task extends Equatable {
       ];
 
   @override
-  String toString() =>
-      'Task{id: $id, title: $title, comments: $comments} $hashCode';
+  String toString() {
+    return 'Task{id: $id, title: $title, description: $description, labels: $labels, members: $members, expireDate: $expireDate, checklists: $checklists, comments: $comments}';
+  }
 }

@@ -25,6 +25,7 @@ class TaskBloc extends Cubit<TaskState> {
     if (showLoading) emit(TaskState.loading(_oldTask));
     try {
       final newTask = await _repository.getTask(_taskId);
+      _oldTask = newTask;
       print("fetched...");
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -36,8 +37,9 @@ class TaskBloc extends Cubit<TaskState> {
   /// comments under this task.
   Future<void> deleteComment(String commentId, String userId) async {
     try {
-      _oldTask = await _repository.deleteComment(commentId, userId);
-      emit(TaskState.data(_oldTask));
+      final newTask = await _repository.deleteComment(commentId, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
     } catch (e) {
       emit(TaskState.error(_oldTask));
     }
@@ -51,8 +53,9 @@ class TaskBloc extends Cubit<TaskState> {
     String userId,
   ) async {
     try {
-      _oldTask = await _repository.editComment(commentId, newContent, userId);
-      emit(TaskState.data(_oldTask));
+      final newTask = await _repository.editComment(commentId, newContent, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
     } catch (e) {
       emit(TaskState.error(_oldTask));
     }
@@ -62,6 +65,7 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> likeComment(String commentId, String userId) async {
     try {
       final newTask = await _repository.likeComment(commentId, userId);
+      _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
       emit(TaskState.error(_oldTask));
@@ -72,9 +76,20 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> dislikeComment(String commentId, String userId) async {
     try {
       final newTask = await _repository.dislikeComment(commentId, userId);
+      _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
-      print("$e");
+      emit(TaskState.error(_oldTask));
+    }
+  }
+
+  /// Tells [TaskRepository] the user created a new comment under this task.
+  Future<void> addComment(String content, String userId) async{
+    try {
+      final newTask = await _repository.addComment(content, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
+    } catch (e) {
       emit(TaskState.error(_oldTask));
     }
   }

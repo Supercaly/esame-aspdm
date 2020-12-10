@@ -261,6 +261,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
           onPressed: (_sendEnabled)
               ? () {
                   print("ciao ${_controller.text}");
+                  widget.onNewComment?.call(_controller.text);
                   _controller.clear();
                   setState(() {
                     _sendEnabled = false;
