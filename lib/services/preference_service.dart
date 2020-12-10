@@ -29,9 +29,9 @@ class PreferenceService {
     final id = _preferences.getString("user_id");
     if (id == null) return null;
     return User(
-      id: id,
-      name: _preferences.getString("user_name"),
-      email: _preferences.getString("user_email"),
+      id,
+      _preferences.getString("user_name"),
+      _preferences.getString("user_email"),
     );
   }
 }

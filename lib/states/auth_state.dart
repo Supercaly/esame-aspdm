@@ -18,7 +18,7 @@ class AuthState extends ChangeNotifier {
   /// `true` otherwise.
   Future<bool> login(String email, String password) async {
     try {
-      final newUser = User(id: "mock_id", name: "Mock User", email: email);
+      final newUser = User("mock_id", "Mock User", email);
       if (_currentUser != newUser) {
         _currentUser = newUser;
         locator<PreferenceService>().storeSignedInUser(newUser);
