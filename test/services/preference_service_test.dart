@@ -95,12 +95,8 @@ void main() {
     User user = service.getLastSignedInUser();
     expect(user, isNull);
 
-    await service.storeSignedInUser(User(
-      "mock_id",
-      "mock user",
-      "mock.user@email.com",
-      Colors.yellow
-    ));
+    await service.storeSignedInUser(
+        User("mock_id", "mock user", "mock.user@email.com", Colors.yellow));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));
     expect(mockPreferences.getString("user_name"), equals("mock user"));

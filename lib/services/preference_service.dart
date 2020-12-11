@@ -35,7 +35,7 @@ class PreferenceService {
       id,
       _preferences.getString("user_name"),
       _preferences.getString("user_email"),
-      colorValue != null ? Color(colorValue): null,
+      colorValue != null ? Color(colorValue) : null,
     );
   }
 }

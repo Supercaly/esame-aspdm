@@ -72,7 +72,8 @@ class TaskRepository {
         "content": "ciao",
         "liked": false,
         "likes": 0,
-        "creation_date": DateTime.now().subtract(Duration(hours: 3)).toIso8601String(),
+        "creation_date":
+            DateTime.now().subtract(Duration(hours: 3)).toIso8601String(),
         "disliked": false,
         "dislikes": 0,
       },

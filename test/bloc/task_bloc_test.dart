@@ -63,7 +63,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.deleteComment(any, any)).thenAnswer(
-                  (_) => Future.value(Task(id: "mock_id", title: "mock title")));
+              (_) => Future.value(Task(id: "mock_id", title: "mock title")));
           bloc.deleteComment("commentId", "userId");
         },
         expect: [
@@ -73,8 +73,8 @@ void main() {
     blocTest("emits error on comment delete error",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.deleteComment(any, any)).thenAnswer(
-                  (_) => Future.error(Error()));
+          when(repository.deleteComment(any, any))
+              .thenAnswer((_) => Future.error(Error()));
           bloc.deleteComment("commentId", "userId");
         },
         expect: [
@@ -85,7 +85,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.editComment(any, any, any)).thenAnswer(
-                  (_) => Future.value(Task(id: "mock_id", title: "mock title")));
+              (_) => Future.value(Task(id: "mock_id", title: "mock title")));
           bloc.editComment("commentId", "newContent", "userId");
         },
         expect: [
@@ -95,8 +95,8 @@ void main() {
     blocTest("emits error on comment edit error",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.editComment(any, any, any)).thenAnswer(
-                  (_) => Future.error(Error()));
+          when(repository.editComment(any, any, any))
+              .thenAnswer((_) => Future.error(Error()));
           bloc.editComment("commentId", "newContent", "userId");
         },
         expect: [
@@ -107,7 +107,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.likeComment(any, any)).thenAnswer(
-                  (_) => Future.value(Task(id: "mock_id", title: "mock title")));
+              (_) => Future.value(Task(id: "mock_id", title: "mock title")));
           bloc.likeComment("commentId", "userId");
         },
         expect: [
@@ -117,8 +117,8 @@ void main() {
     blocTest("emits error on comment like error",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.likeComment(any, any)).thenAnswer(
-                  (_) => Future.error(Error()));
+          when(repository.likeComment(any, any))
+              .thenAnswer((_) => Future.error(Error()));
           bloc.likeComment("commentId", "userId");
         },
         expect: [
@@ -129,7 +129,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.dislikeComment(any, any)).thenAnswer(
-                  (_) => Future.value(Task(id: "mock_id", title: "mock title")));
+              (_) => Future.value(Task(id: "mock_id", title: "mock title")));
           bloc.dislikeComment("commentId", "userId");
         },
         expect: [
@@ -139,8 +139,8 @@ void main() {
     blocTest("emits error on comment dislike error",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.dislikeComment(any, any)).thenAnswer(
-                  (_) => Future.error(Error()));
+          when(repository.dislikeComment(any, any))
+              .thenAnswer((_) => Future.error(Error()));
           bloc.dislikeComment("commentId", "userId");
         },
         expect: [
@@ -151,7 +151,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.addComment(any, any)).thenAnswer(
-                  (_) => Future.value(Task(id: "mock_id", title: "mock title")));
+              (_) => Future.value(Task(id: "mock_id", title: "mock title")));
           bloc.addComment("content", "userId");
         },
         expect: [
@@ -161,8 +161,8 @@ void main() {
     blocTest("emits error on add comment error",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.addComment(any, any)).thenAnswer(
-                  (_) => Future.error(Error()));
+          when(repository.addComment(any, any))
+              .thenAnswer((_) => Future.error(Error()));
           bloc.addComment("content", "userId");
         },
         expect: [
