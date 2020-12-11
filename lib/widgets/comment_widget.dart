@@ -2,6 +2,7 @@ import 'package:aspdm_project/model/comment.dart';
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
+import 'package:aspdm_project/widgets/ago.dart';
 import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -130,8 +131,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         onPressed: () => widget.onDislike?.call(),
                       ),
                     if (_type == CommentWidgetType.normal) SizedBox(width: 6.0),
-                    // TODO: Add minutes ago.
-                    Text("38 min ago.")
+                    Ago(time: widget.comment.creationDate),
                   ],
                 )
               ],
