@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 /// Widget displaying a nice circle or rectangular
 /// avatar for the given [user].
-class UserAvatar extends StatelessWidget {
+class UserAvatar extends StatefulWidget {
   /// User to display.
   final User user;
 
@@ -26,18 +26,35 @@ class UserAvatar extends StatelessWidget {
         super(key: key);
 
   @override
+  _UserAvatarState createState() => _UserAvatarState();
+}
+
+class _UserAvatarState extends State<UserAvatar> {
+  Color boxColor;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // If the user doesn't have a profile color
+    // pick one at random.
+    if (widget.user?.profileColor != null)
+      boxColor = widget.user.profileColor;
+    else
+      boxColor =
+          Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final userInitial = user?.name?.substring(0, 1)?.toUpperCase() ?? "";
+    final userInitial = widget.user?.name?.substring(0, 1)?.toUpperCase() ?? "";
     return Container(
-      width: size,
-      height: size,
+      width: widget.size,
+      height: widget.size,
       decoration: BoxDecoration(
-        color: (user?.profileColor != null)
-            ? user.profileColor
-            : Color((Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0),
-        shape: rectangle ? BoxShape.rectangle : BoxShape.circle,
-        borderRadius: rectangle ? BorderRadius.circular(8.0) : null,
+        color: boxColor,
+        shape: widget.rectangle ? BoxShape.rectangle : BoxShape.circle,
+        borderRadius: widget.rectangle ? BorderRadius.circular(8.0) : null,
       ),
       child: Center(
         child: Text(
