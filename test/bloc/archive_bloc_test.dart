@@ -58,5 +58,18 @@ void main() {
         ArchiveState.data([]),
       ],
     );
+
+    blocTest(
+      "emits empty data when repository returns null",
+      build: () => ArchiveBloc(repository),
+      act: (ArchiveBloc bloc) {
+        when(repository.getArchivedTasks()).thenAnswer((_) => Future.value(null));
+        bloc.fetch();
+      },
+      expect: [
+        ArchiveState.loading([]),
+        ArchiveState.data([]),
+      ],
+    );
   });
 }

@@ -5,6 +5,85 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group("SettingsGroup Tests", () {
+    test("SettingsGroup with null title or children throws an error", () {
+      try {
+        SettingsGroup();
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        SettingsGroup(
+          title: "title",
+        );
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        SettingsGroup(
+          title: "title",
+          children: [],
+        );
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    testWidgets("display a group correctly", (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SettingsGroup(
+              title: "group",
+              children: [
+                SettingsGroupItem(
+                  icon: Icon(Icons.home),
+                  text: "mock item 1",
+                  textColor: Colors.red,
+                ),
+                SettingsGroupItem(
+                  icon: Icon(Icons.home),
+                  text: "mock item 2",
+                  textColor: Colors.red,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text("GROUP"), findsOneWidget);
+      expect(find.byType(SettingsGroupItem), findsNWidgets(2));
+    });
+
+    testWidgets("display a group with a single item correctly", (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SettingsGroup.single(
+              title: "group",
+              item: SettingsGroupItem(
+                icon: Icon(Icons.home),
+                text: "mock item 1",
+                textColor: Colors.red,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text("GROUP"), findsOneWidget);
+      expect(find.byType(SettingsGroupItem), findsOneWidget);
+    });
+  });
+
   group("SettingsGroupItem Tests", () {
     test("SettingsGroupItem with null text throws an error", () {
       try {

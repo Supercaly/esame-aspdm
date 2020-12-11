@@ -57,5 +57,18 @@ void main() {
         HomeState.data([]),
       ],
     );
+
+    blocTest(
+      "emits empty data when repository returns null",
+      build: () => HomeBloc(repository),
+      act: (HomeBloc bloc) {
+        when(repository.getTasks()).thenAnswer((_) => Future.value(null));
+        bloc.fetch();
+      },
+      expect: [
+        HomeState.loading([]),
+        HomeState.data([]),
+      ],
+    );
   });
 }

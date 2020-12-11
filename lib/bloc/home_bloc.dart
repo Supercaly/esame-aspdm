@@ -22,7 +22,7 @@ class HomeBloc extends Cubit<HomeState> {
         _oldData = newData;
       else
         _oldData = [];
-      emit(HomeState.data(newData));
+      emit(HomeState.data(_oldData));
     } catch (e) {
       emit(HomeState.error(_oldData));
     }

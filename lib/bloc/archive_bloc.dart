@@ -22,7 +22,7 @@ class ArchiveBloc extends Cubit<ArchiveState> {
         _oldData = newData;
       else
         _oldData = [];
-      emit(ArchiveState.data(newData));
+      emit(ArchiveState.data(_oldData));
     } catch (e) {
       emit(ArchiveState.error(_oldData));
     }

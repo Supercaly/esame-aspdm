@@ -3,10 +3,15 @@ import 'package:aspdm_project/model/comment.dart';
 import 'package:aspdm_project/model/label.dart';
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/model/user.dart';
+import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
 import 'package:aspdm_project/widgets/task_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mockito/mockito.dart';
+
+import '../mocks/mock_navigation_service.dart';
 
 void main() {
   testWidgets("task with nothing but title displayed correctly",
@@ -155,6 +160,32 @@ void main() {
     expect(find.text("3"), findsOneWidget);
     expect(find.byIcon(Icons.person), findsOneWidget);
     expect(find.text("1"), findsOneWidget);
+  });
+
+  testWidgets("pressing on card navigates to route", (tester) async {
+    final navService = MockNavigationService();
+    when(navService.navigateTo(any, arguments: anyNamed("arguments")))
+        .thenAnswer((_) => null);
+    GetIt.I.registerSingleton<NavigationService>(navService);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: TaskCard(
+            task: Task(
+              id: "mock_id",
+              title: "mock title",
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(Card));
+    await tester.pumpAndSettle();
+
+    verify(navService.navigateTo(any, arguments: anyNamed("arguments"))).called(1);
   });
 
   test("create task with null arguments throws an error", () {
