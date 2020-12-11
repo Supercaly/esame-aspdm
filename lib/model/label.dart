@@ -1,3 +1,4 @@
+import 'package:aspdm_project/utils/color_parser.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -13,8 +14,8 @@ class Label extends Equatable {
   @JsonKey(
     required: true,
     disallowNullValue: true,
-    fromJson: _colorFromJson,
-    toJson: _colorToJson,
+    fromJson: colorFromJson,
+    toJson: colorToJson,
   )
   final Color color;
 
@@ -33,10 +34,3 @@ class Label extends Equatable {
   @override
   List<Object> get props => [color, text];
 }
-
-Color _colorFromJson(String color) {
-  int intColor = int.tryParse(color, radix: 16);
-  return intColor == null ? null : Color(intColor);
-}
-
-String _colorToJson(Color color) => color.value.toRadixString(16);
