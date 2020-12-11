@@ -3,6 +3,7 @@ import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// Class containing the authentication state.
 class AuthState extends ChangeNotifier {
@@ -18,7 +19,7 @@ class AuthState extends ChangeNotifier {
   /// `true` otherwise.
   Future<bool> login(String email, String password) async {
     try {
-      final newUser = User("mock_id", "Mock User", email);
+      final newUser = User("mock_id", "Mock User", email, Colors.green);
       if (_currentUser != newUser) {
         _currentUser = newUser;
         locator<PreferenceService>().storeSignedInUser(newUser);

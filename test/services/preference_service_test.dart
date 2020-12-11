@@ -1,5 +1,6 @@
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/preference_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +16,7 @@ void main() {
       "user_id": null,
       "user_name": null,
       "user_email": null,
+      "user_color": null,
     });
     mockPreferences = await SharedPreferences.getInstance();
     service = PreferenceService.private(mockPreferences);
@@ -27,6 +29,7 @@ void main() {
       "user_id": "mock_id",
       "user_name": "mock user",
       "user_email": "mock.user@email.com",
+      "user_color": 0xFFFF0000,
     });
     mockPreferences = await SharedPreferences.getInstance();
     service = PreferenceService.private(mockPreferences);
@@ -40,6 +43,7 @@ void main() {
           "mock_id",
           "mock user",
           "mock.user@email.com",
+          Colors.red,
         ),
       ),
     );
@@ -50,6 +54,7 @@ void main() {
       "user_id": null,
       "user_name": null,
       "user_email": null,
+      "user_color": null,
     });
     mockPreferences = await SharedPreferences.getInstance();
     service = PreferenceService.private(mockPreferences);
@@ -58,6 +63,7 @@ void main() {
     expect(mockPreferences.getString("user_id"), isNull);
     expect(mockPreferences.getString("user_name"), isNull);
     expect(mockPreferences.getString("user_email"), isNull);
+    expect(mockPreferences.getInt("user_color"), isNull);
 
     User user = service.getLastSignedInUser();
     expect(user, isNull);
@@ -67,6 +73,7 @@ void main() {
     expect(mockPreferences.getString("user_id"), isNull);
     expect(mockPreferences.getString("user_name"), isNull);
     expect(mockPreferences.getString("user_email"), isNull);
+    expect(mockPreferences.getInt("user_color"), isNull);
   });
 
   test("store real user", () async {
@@ -74,6 +81,7 @@ void main() {
       "user_id": null,
       "user_name": null,
       "user_email": null,
+      "user_color": null,
     });
     mockPreferences = await SharedPreferences.getInstance();
     service = PreferenceService.private(mockPreferences);
@@ -82,6 +90,7 @@ void main() {
     expect(mockPreferences.getString("user_id"), isNull);
     expect(mockPreferences.getString("user_name"), isNull);
     expect(mockPreferences.getString("user_email"), isNull);
+    expect(mockPreferences.getInt("user_color"), isNull);
 
     User user = service.getLastSignedInUser();
     expect(user, isNull);
@@ -90,11 +99,13 @@ void main() {
       "mock_id",
       "mock user",
       "mock.user@email.com",
+      Colors.yellow
     ));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));
     expect(mockPreferences.getString("user_name"), equals("mock user"));
     expect(
         mockPreferences.getString("user_email"), equals("mock.user@email.com"));
+    expect(mockPreferences.getInt("user_color"), equals(Colors.yellow.value));
   });
 }

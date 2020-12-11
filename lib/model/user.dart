@@ -1,4 +1,6 @@
+import 'package:aspdm_project/utils/color_parser.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -18,7 +20,14 @@ class User extends Equatable {
   @JsonKey(required: true, disallowNullValue: true)
   final String email;
 
-  const User(this.id, this.name, this.email);
+  @JsonKey(
+    name: "profile_color",
+    toJson: colorToJson,
+    fromJson: colorFromJson,
+  )
+  final Color profileColor;
+
+  const User(this.id, this.name, this.email, this.profileColor);
 
   /// Creates a new [User] from json data.
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -30,5 +39,6 @@ class User extends Equatable {
   List<Object> get props => [id];
 
   @override
-  String toString() => "User {id: $id, name: $name, email: $email}";
+  String toString() => "User {id: $id, name: $name, email: $email, "
+      "profileColor: ${profileColor?.value?.toRadixString(16)?.toUpperCase()}}";
 }

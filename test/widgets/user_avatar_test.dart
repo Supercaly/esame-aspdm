@@ -3,13 +3,15 @@ import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../finders/container_by_color_finder.dart';
+
 void main() {
   testWidgets("display circle avatar", (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User("mock_id", "Mock User", "mock@email.com"),
+            user: User("mock_id", "Mock User", "mock@email.com", Colors.red),
             size: 48.0,
           ),
         ),
@@ -23,6 +25,7 @@ void main() {
                 as BoxDecoration)
             .shape,
         BoxShape.circle);
+    expect(ContainerByColorFinder(Colors.red), findsOneWidget);
   });
 
   testWidgets("display rectangular avatar", (tester) async {
@@ -30,7 +33,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User("mock_id", "Mock User", "mock@email.com"),
+            user: User("mock_id", "Mock User", "mock@email.com", Colors.blue),
             size: 48.0,
             rectangle: true,
           ),
@@ -52,6 +55,7 @@ void main() {
           .borderRadius,
       BorderRadius.circular(8.0),
     );
+    expect(ContainerByColorFinder(Colors.blue), findsOneWidget);
   });
 
   testWidgets("null user works correctly", (tester) async {

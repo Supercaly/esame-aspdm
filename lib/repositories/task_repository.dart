@@ -1,5 +1,6 @@
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/model/user.dart';
+import 'package:flutter/material.dart';
 
 class TaskRepository {
   final _dummyTaskMap = {
@@ -30,6 +31,7 @@ class TaskRepository {
         "id": "1",
         "name": "deb d",
         "email": "TestA@email.com",
+        "profile_color": "FF00FF00",
       },
       {
         "id": "3",
@@ -48,51 +50,60 @@ class TaskRepository {
           {"text": "item", "checked": false},
           {"text": "item", "checked": true},
         ]
+      },
+      {
+        "title": "checklist 2",
+        "items": [
+          {"text": "item", "checked": true},
+          {"text": "item", "checked": false},
+          {"text": "item", "checked": false},
+          {"text": "item", "checked": true},
+        ]
       }
     ],
     "comments": [
-      //   {
-      //     "id": "comment1",
-      //     "user": {
-      //       "id": "1",
-      //       "name": "Test A",
-      //       "email": "TestA@email.com",
-      //     },
-      //     "content": "ciao",
-      //     "liked": false,
-      //     "likes": 0,
-      //     "creation_date": DateTime.now().toIso8601String(),
-      //     "disliked": false,
-      //     "dislikes": 0,
-      //   },
-      //   {
-      //     "id": "comment2",
-      //     "user": {
-      //       "id": "1",
-      //       "name": "Test A",
-      //       "email": "TestA@email.com",
-      //     },
-      //     "content": "ciao ciao",
-      //     "liked": true,
-      //     "likes": 10,
-      //     "creation_date": DateTime.now().toIso8601String(),
-      //     "disliked": false,
-      //     "dislikes": 0,
-      //   },
-      //   {
-      //     "id": "comment3",
-      //     "user": {
-      //       "id": "1",
-      //       "name": "Test A",
-      //       "email": "TestA@email.com",
-      //     },
-      //     "content": "ciao ciao ciao",
-      //     "creation_date": DateTime.now().toIso8601String(),
-      //     "liked": false,
-      //     "likes": 10,
-      //     "disliked": true,
-      //     "dislikes": 1,
-      //   },
+      {
+        "id": "comment1",
+        "user": {
+          "id": "1",
+          "name": "Test A",
+          "email": "TestA@email.com",
+        },
+        "content": "ciao",
+        "liked": false,
+        "likes": 0,
+        "creation_date": DateTime.now().subtract(Duration(hours: 3)).toIso8601String(),
+        "disliked": false,
+        "dislikes": 0,
+      },
+      {
+        "id": "comment2",
+        "user": {
+          "id": "1",
+          "name": "Test A",
+          "email": "TestA@email.com",
+        },
+        "content": "ciao ciao",
+        "liked": true,
+        "likes": 10,
+        "creation_date": DateTime.now().toIso8601String(),
+        "disliked": false,
+        "dislikes": 0,
+      },
+      {
+        "id": "comment3",
+        "user": {
+          "id": "1",
+          "name": "Test A",
+          "email": "TestA@email.com",
+        },
+        "content": "ciao ciao ciao",
+        "creation_date": DateTime.now().toIso8601String(),
+        "liked": false,
+        "likes": 10,
+        "disliked": true,
+        "dislikes": 1,
+      },
     ],
   };
 
@@ -221,7 +232,7 @@ class TaskRepository {
   Future<Task> addComment(String content, String userId) async {
     (_dummyTaskMap['comments'] as List).add({
       "id": "0",
-      "user": User(userId, "name", "email").toJson(),
+      "user": User(userId, "name", "email", Colors.red).toJson(),
       "creation_date": DateTime.now().toIso8601String(),
       "content": content,
       "dislikes": 0,

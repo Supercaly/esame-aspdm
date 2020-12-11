@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
+import '../finders/container_by_color_finder.dart';
 import '../mocks/mock_auth_state.dart';
 
 void main() {
@@ -18,6 +19,7 @@ void main() {
       "mock_id",
       "Mock User",
       "mock.user@email.com",
+      Colors.green,
     ));
   });
 
@@ -41,5 +43,6 @@ void main() {
     expect(find.text("M"), findsOneWidget);
     expect(find.text("Mock User"), findsOneWidget);
     expect(find.text("mock.user@email.com"), findsOneWidget);
+    expect(ContainerByColorFinder(Colors.green), findsOneWidget);
   });
 }

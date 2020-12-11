@@ -32,7 +32,10 @@ class UserAvatar extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+        color: (user?.profileColor != null)
+            ? user.profileColor
+            : Color((Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0),
         shape: rectangle ? BoxShape.rectangle : BoxShape.circle,
         borderRadius: rectangle ? BorderRadius.circular(8.0) : null,
       ),
