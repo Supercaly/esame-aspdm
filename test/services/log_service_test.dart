@@ -85,5 +85,14 @@ void main() {
     test("widget build logs", () {
       service.logBuild("mock class name");
     });
+    
+    test("pass StackTrace as error throws an exception", () {
+      try {
+        service.warning("mock message", StackTrace.current);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<ArgumentError>());
+      }
+    });
   });
 }

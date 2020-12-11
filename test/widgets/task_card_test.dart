@@ -185,7 +185,8 @@ void main() {
     await tester.tap(find.byType(Card));
     await tester.pumpAndSettle();
 
-    verify(navService.navigateTo(any, arguments: anyNamed("arguments"))).called(1);
+    verify(navService.navigateTo(any, arguments: anyNamed("arguments")))
+        .called(1);
   });
 
   test("create task with null arguments throws an error", () {
