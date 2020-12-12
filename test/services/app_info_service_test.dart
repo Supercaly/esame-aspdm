@@ -39,9 +39,5 @@ void main() {
       expect(service.version, equals("1.0.0"));
       expect(service.buildNumber, equals("1"));
     });
-
-    test("init", () async {
-      await AppInfoService.private(packageInfo).init();
-    });
   });
 }
