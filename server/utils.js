@@ -12,6 +12,6 @@ exports.arrayValidator = arrayValidator;
 exports.colorValidator = colorValidator;
 
 exports.populateTask = {
-    path: 'author members comments',
+    path: 'author members comments labels',
     populate: {path: 'author like_users dislike_users'},
 }

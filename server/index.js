@@ -20,6 +20,7 @@ app.use("/api/", require('./routes/users_route'));
 app.use("/api/list", require('./routes/list_tasks_route'));
 app.use("/api/task", require('./routes/task_route'));
 app.use("/api/comment", require('./routes/comments_route'));
+app.use("/api/labels", require('./routes/label_route'));
 
 // Listen to server
 app.listen(5000, () => console.log("Listening server on port 3000!"));

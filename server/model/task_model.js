@@ -20,17 +20,7 @@ const TaskSchema = mongoose.Schema({
         default: false,
     },
     expire_date: Date,
-    labels: [{
-        label: String,
-        color: {
-            type: String,
-            validate: {
-                validator: function (v) { return (/^#([0-9a-f]{6})$/i).test(v); },
-                message: 'Invalid Color'
-            },
-            required: true,
-        }
-    }],
+    labels: [{type: mongoose.Types.ObjectId, ref: "Label"}],
     members: [{type: mongoose.Types.ObjectId, ref: "User"}],
     checklists: [{
         title: {
