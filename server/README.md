@@ -83,6 +83,39 @@ The remaining fields of the task are auto-populated by the database.
 This will create a new task that *is not archived*, *has no comments*, *has checklists with un-checked items* and is created *now*. 
 The new task is returned after his creation.
 
+### PATCH /api/task
+
+Updates a task with given id and body parameters:
+
+```json
+{
+  "id": "task_id",
+  "task": {
+    "title": "task_title",
+    "description": "task_description",
+    "expire_date": "date",
+    "members": [
+      "user_ids"
+    ],
+    "labels": [
+      {
+        "label": "label",
+        "color": "Color String in format #RRGGBB"
+      }
+    ],
+    "checklists": [
+      {
+        "title": "checklist_title",
+        "items": {
+          "item": "item",
+          "checked": true
+        }
+      }
+    ]
+  }
+}
+```
+
 ### POST /api/task/archive
 
 Archive/un-archive the task with given id. This operation is only possible if

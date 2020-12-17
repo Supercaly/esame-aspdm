@@ -24,7 +24,9 @@ router.get("/:taskId", [
 
 // Creates a new Task with parameters from body
 router.post("/", [
-    body('title').notEmpty(),
+    body('title').isString().notEmpty(),
+    body('description').optional({nullable: true}).isString(),
+    body('expire_date').optional({nullable: true}).isDate(),
     body('author').custom(idValidator).customSanitizer(idSanitizer),
     body('members').custom(arrayValidator),
     body('labels').custom(arrayValidator),
@@ -62,6 +64,54 @@ router.post("/", [
     } catch (e) {
         console.error(e);
         res.json({errors: e});
+    }
+});
+
+// Update a Task with parameters from body
+router.patch("/", [
+    body('id').custom(idValidator).customSanitizer(idSanitizer),
+    body('task.title').isString().notEmpty(),
+    body('task.description').optional({nullable: true}).isString(),
+    body('task.expire_date').optional({nullable: true}).isDate(),
+    body('task.members').custom(arrayValidator),
+    body('task.labels').custom(arrayValidator),
+    body('task.checklists').custom(arrayValidator),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+        return res.status(400).json({errors: errors.array()});
+
+    try {
+        const update = req.body.task;
+        const task = await Task.findByIdAndUpdate(req.body.id, {
+            $set: {
+                title: update.title,
+                description: update.description,
+                expire_date: update.expire_date,
+                members: (update.members != null) ? update.members.map(user => user) : [],
+                labels: (update.labels != null) ? update.labels.map(label => {
+                    return {
+                        label: label.label,
+                        color: label.color,
+                    }
+                }) : [],
+                checklists: (update.checklists != null) ? update.checklists.map(checklist => {
+                    return {
+                        title: checklist.title,
+                        items: (checklist.items != null) ? checklist.items.map(item => {
+                            return {
+                                item: item.item,
+                                checked: item.checked,
+                            }
+                        }) : [],
+                    }
+                }) : [],
+            }
+        }, {new: true}).populate(populateTask).exec();
+        res.json({task});
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({errors: e});
     }
 });
 
