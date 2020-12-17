@@ -37,18 +37,13 @@ router.post("/", [
         return res.status(400).json({errors: errors.array()});
 
     try {
-        const tasks = (await Task.create({
+        const tasks = await Task.create({
             author: req.body.author,
             title: req.body.title,
             description: req.body.description,
             expire_date: req.body.expire_date,
-            members: (req.body.members != null) ? req.body.members.map(user => user) : [],
-            labels: (req.body.labels != null) ? req.body.labels.map(label => {
-                return {
-                    label: label.label,
-                    color: label.color,
-                }
-            }) : [],
+            members: (req.body.members != null) ? req.body.members : [],
+            labels: (req.body.labels != null) ? req.body.labels : [],
             checklists: (req.body.checklists != null) ? req.body.checklists.map(checklist => {
                 return {
                     title: checklist.title,
@@ -59,7 +54,8 @@ router.post("/", [
                     }) : [],
                 }
             }) : [],
-        }));
+        });
+        // TODO: Return a populated task
         res.json(tasks);
     } catch (e) {
         console.error(e);
@@ -88,13 +84,8 @@ router.patch("/", [
                 title: update.title,
                 description: update.description,
                 expire_date: update.expire_date,
-                members: (update.members != null) ? update.members.map(user => user) : [],
-                labels: (update.labels != null) ? update.labels.map(label => {
-                    return {
-                        label: label.label,
-                        color: label.color,
-                    }
-                }) : [],
+                members: (update.members != null) ? update.members : [],
+                labels: (update.labels != null) ? update.labels : [],
                 checklists: (update.checklists != null) ? update.checklists.map(checklist => {
                     return {
                         title: checklist.title,

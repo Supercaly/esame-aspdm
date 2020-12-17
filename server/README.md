@@ -12,7 +12,8 @@ Each user has only `name`, `email`, `profile_color`.
 Return `name`, `email`, `profile_color` of the user with given ***userId***.
 If the user doesn't exist `null` will be returned instead.
 
-### POST /api/users
+### POST /api/users  
+**// TODO: REMOVE THIS COMMAND!** 
 
 Creates a new user with given name, email, password, profile_color. 
 Returns the whole new `user`.
@@ -29,6 +30,12 @@ Authenticate a user with given:
 ```
 
 Returns `null` if the email or password are not valid, otherwise returns `email`, `name`, `profile_color`.
+
+## List Labels
+
+### GET /api/labels
+
+List all available labels by `label` and `color`.
 
 ## List Tasks
 
@@ -62,10 +69,7 @@ Creates a new task with given:
     "user_ids"
   ],
   "labels": [
-    {
-      "label": "label",
-      "color": "Color String in format #RRGGBB"
-    }
+    "label_ids"
   ],
   "expire_date": "date",
   "checklists": [
@@ -98,10 +102,7 @@ Updates a task with given id and body parameters:
       "user_ids"
     ],
     "labels": [
-      {
-        "label": "label",
-        "color": "Color String in format #RRGGBB"
-      }
+      "label_ids"
     ],
     "checklists": [
       {
