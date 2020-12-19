@@ -37,7 +37,7 @@ router.post("/", [
         return res.status(400).json({errors: errors.array()});
 
     try {
-        const tasks = await Task.create({
+        const task = await Task.create({
             author: req.body.author,
             title: req.body.title,
             description: req.body.description,
@@ -55,11 +55,14 @@ router.post("/", [
                 }
             }) : [],
         });
-        // TODO: Return a populated task
-        res.json(tasks);
+        if (task != null) {
+            const newTask = await Task.findById(task._id).populate(populateTask).exec();
+            res.json(newTask);
+        } else
+            res.json(task);
     } catch (e) {
         console.error(e);
-        res.json({errors: e});
+        res.status(500).json({errors: e});
     }
 });
 
@@ -92,14 +95,14 @@ router.patch("/", [
                         items: (checklist.items != null) ? checklist.items.map(item => {
                             return {
                                 item: item.item,
-                                checked: item.checked,
+                                complete: item.checked,
                             }
                         }) : [],
                     }
                 }) : [],
             }
         }, {new: true}).populate(populateTask).exec();
-        res.json({task});
+        res.json(task);
     } catch (e) {
         console.error(e);
         res.status(500).json({errors: e});
@@ -123,6 +126,44 @@ router.post("/archive", [
             {new: true})
             .populate(populateTask)
             .exec();
+        res.json(task);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({errors: e});
+    }
+});
+
+// Checks a checklist's item on a given task
+router.post("/check", [
+    body('task').custom(idValidator).customSanitizer(idSanitizer),
+    body('user').custom(idValidator).customSanitizer(idSanitizer),
+    body('checklist').custom(idValidator).customSanitizer(idSanitizer),
+    body('item').custom(idValidator).customSanitizer(idSanitizer),
+    body('checked').isBoolean(),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+        return res.status(400).json({errors: errors.array()});
+
+    try {
+        const task = await Task.findOneAndUpdate({
+            _id: req.body.task,
+            $or: [{author: req.body.user}, {members: req.body.user}],
+            "checklists": {
+                $elemMatch: {
+                    "_id": req.body.checklist,
+                    "items._id": req.body.item,
+                }
+            },
+        }, {
+            $set: {
+                "checklists.$[check].items.$[item].complete": req.body.checked
+            }
+        }, {
+            multi: false,
+            arrayFilters: [{"check._id": req.body.checklist}, {"item._id": req.body.item}],
+            new: true,
+        });
         res.json(task);
     } catch (e) {
         console.error(e);

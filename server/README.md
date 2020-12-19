@@ -135,6 +135,22 @@ The body parameter of this request are:
 
 If archive is ***true*** the task will be archived, if it's ***false*** it'll be un-archived.
 
+### POST /api/task/check
+
+Marks as done a checklist's item under a given task. The parameters are: 
+
+```json
+{
+  "user": "user_id",
+  "task": "task_id",
+  "checklist": "checklist_id",
+  "item": "item_id",
+  "checked": true
+}
+```
+
+Returns `null` if the user is not the author or a member or if the item doesn't belong to the checklist or task.    
+
 ## Manipulate Comment
 
 ### POST /api/comment
