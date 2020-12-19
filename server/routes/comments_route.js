@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const {body, param, validationResult} = require('express-validator');
-const {idValidator, idSanitizer, arrayValidator, populateTask} = require('../utils');
+const {body, validationResult} = require('express-validator');
+const {idValidator, idSanitizer, populateTask} = require('../utils');
 const Task = require('../model/task_model');
 
 // Creates a new Comment inside a Task with given id
@@ -85,6 +85,7 @@ router.patch("/", [
     }
 });
 
+// Likes a given comments
 router.post("/like", [
     body('task').custom(idValidator).customSanitizer(idSanitizer),
     body('user').custom(idValidator).customSanitizer(idSanitizer),
@@ -97,23 +98,68 @@ router.post("/like", [
     try {
         const task = await Task.findById(req.body.task);
         const comment = task.comments.id(req.body.comment);
-        // The user already liked the comment
-        if (comment.like_users.includes(req.body.user)) {
-            // Remove the like
-            comment.like_users.remove(req.body.user);
-        } else if (comment.dislike_users.includes(req.body.user)) {
-            // Remove the like
-            comment.dislike_users.remove(req.body.user);
+        const likes = comment.like_users;
+
+        let updated;
+        if (likes.includes(req.body.user)) {
+            updated = await Task.findOneAndUpdate({
+                _id: req.body.task,
+                "comments._id": req.body.comment
+            }, {
+                $pull: {"comments.$.like_users": req.body.user}
+            }, {new: true})
         } else {
-            // Add the like
-            comment.like_users.push(req.body.user);
+            updated = await Task.findOneAndUpdate({
+                _id: req.body.task,
+                "comments._id": req.body.comment
+            }, {
+                $pull: {"comments.$.dislike_users": req.body.user},
+                $addToSet: {"comments.$.like_users": req.body.user}
+            }, {new: true});
         }
-        await comment.save();
-        console.log(typeof comment);
-        res.json(task);
+        res.json(updated);
     } catch (e) {
         console.error(e);
-        res.status(500).json({error: `No Task found with id ${req.params.id}`});
+        res.status(500).json({error: e});
+    }
+});
+
+// Dislikes a given comments
+router.post("/dislike", [
+    body('task').custom(idValidator).customSanitizer(idSanitizer),
+    body('user').custom(idValidator).customSanitizer(idSanitizer),
+    body('comment').custom(idValidator).customSanitizer(idSanitizer),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+        return res.status(400).json({errors: errors.array()});
+
+    try {
+        const task = await Task.findById(req.body.task);
+        const comment = task.comments.id(req.body.comment);
+        const dislikes = comment.dislike_users;
+
+        let updated;
+        if (dislikes.includes(req.body.user)) {
+            updated = await Task.findOneAndUpdate({
+                _id: req.body.task,
+                "comments._id": req.body.comment
+            }, {
+                $pull: {"comments.$.dislike_users": req.body.user}
+            }, {new: true})
+        } else {
+            updated = await Task.findOneAndUpdate({
+                _id: req.body.task,
+                "comments._id": req.body.comment
+            }, {
+                $pull: {"comments.$.like_users": req.body.user},
+                $addToSet: {"comments.$.dislike_users": req.body.user}
+            }, {new: true});
+        }
+        res.json(updated);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({errors: e});
     }
 });
 

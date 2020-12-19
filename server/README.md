@@ -202,6 +202,33 @@ When the comment is edited successfully the updated document is returned.
 If the user is not the author of the comment, or the comment doesn't exist the operation
 will do nothing, and the document will be returned. If the task doesn't exist `null` will be returned.
 
+### POST /api/comment/like
+
+Sets the given user as one that liked the given comment under a task.
+If the user already liked the comment it will be removed form the likes.
+The parameters are: 
+
+```json
+{
+  "user": "user_id",
+  "task": "task_id",
+  "comment": "comment_id"
+}
+```
+
+### POST /api/comment/dislike
+
+Sets the given user as one that disliked the given comment under a task.
+If the user already disliked the comment it will be removed form the dislikes.
+The parameters are:
+
+```json
+{
+  "user": "user_id",
+  "task": "task_id",
+  "comment": "comment_id"
+}
+```
 
 # Error handling
 
