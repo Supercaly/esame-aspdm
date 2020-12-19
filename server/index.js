@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,4 +24,4 @@ app.use("/api/comment", require('./routes/comments_route'));
 app.use("/api/labels", require('./routes/label_route'));
 
 // Listen to server
-app.listen(5000, () => console.log("Listening server on port 3000!"));
+app.listen(process.env.PORT, () => console.log(`Listening server on port ${process.env.PORT}!`));
