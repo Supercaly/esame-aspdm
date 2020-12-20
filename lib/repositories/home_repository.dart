@@ -12,6 +12,11 @@ class HomeRepository {
         "labels": [
           {"color": "FFFF0000"}
         ],
+        "user": {
+          "id": "mock_id",
+          "name": "aa aa",
+          "email": "test@a.it",
+        }
       },
       {
         "id": "1",
@@ -19,6 +24,11 @@ class HomeRepository {
         "labels": [
           {"color": "FFFF0000"}
         ],
+        "user": {
+          "id": "mock_id",
+          "name": "aa aa",
+          "email": "test@a.it",
+        },
         "members": [
           {
             "id": "id",
@@ -40,6 +50,11 @@ class HomeRepository {
           {"color": "FF00FF00"},
           {"color": "FF0000FF"},
         ],
+        "user": {
+          "id": "mock_id",
+          "name": "aa aa",
+          "email": "test@a.it",
+        },
         "members": [
           {
             "id": "id",
@@ -68,6 +83,11 @@ class HomeRepository {
         "id": "3",
         "title": "title",
         "expire_date": DateTime.now().toIso8601String(),
+        "user": {
+          "id": "mock_id",
+          "name": "aa aa",
+          "email": "test@a.it",
+        },
       },
       {
         "id": "4",
@@ -78,6 +98,11 @@ class HomeRepository {
           {"color": "FF00FF00"},
           {"color": "FF0000FF"},
         ],
+        "user": {
+          "id": "mock_id",
+          "name": "aa aa",
+          "email": "test@a.it",
+        },
         "members": [
           {
             "id": "id",

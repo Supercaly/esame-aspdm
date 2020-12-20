@@ -21,9 +21,14 @@ class TaskRepository {
         "text": "Label",
       },
     ],
+    "user": {
+      "id": "mock_id_2",
+      "name": "aa aa",
+      "email": "test@a.it",
+    },
     "members": [
       {
-        "id": "1",
+        "id": "mock_id",
         "name": "ff s",
         "email": "TestA@email.com",
       },
