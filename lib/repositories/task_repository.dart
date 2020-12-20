@@ -249,4 +249,18 @@ class TaskRepository {
     print(_dummyTaskMap);
     return Task.fromJson(_dummyTaskMap);
   }
+
+  Future<Task> archiveTask(String taskId) async {
+    assert(taskId != null);
+    _dummyTaskMap['archived'] = true;
+
+    return Task.fromJson(_dummyTaskMap);
+  }
+
+  Future<Task> unarchiveTask(String taskId) async {
+    assert(taskId != null);
+    _dummyTaskMap['archived'] = false;
+
+    return Task.fromJson(_dummyTaskMap);
+  }
 }

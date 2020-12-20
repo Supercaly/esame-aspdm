@@ -181,7 +181,10 @@ class TaskInfoPageContent extends StatelessWidget {
         if (task?.checklists != null && task.checklists.isNotEmpty)
           Column(
             children: task.checklists
-                .map((cl) => DisplayChecklist(checklist: cl))
+                .map((cl) => DisplayChecklist(
+                      checklist: cl,
+                      onItemChange: (i, v) => print("Check item $i $v"),
+                    ))
                 .toList(),
           ),
         // Comments

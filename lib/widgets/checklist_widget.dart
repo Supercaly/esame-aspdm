@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class DisplayChecklist extends StatefulWidget {
   /// The [Checklist] object to display.
   final Checklist checklist;
+  final void Function(int, bool) onItemChange;
 
   const DisplayChecklist({
     Key key,
     this.checklist,
+    this.onItemChange,
   }) : super(key: key);
 
   @override
@@ -69,11 +71,13 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
             if (_showItems && hasItems)
               Column(
                 children: widget.checklist.items
-                    .map((i) => Row(
+                    .mapIndexed((idx, i) => Row(
                           children: [
                             Checkbox(
                               value: i.checked,
-                              onChanged: (_) {},
+                              onChanged: (value) {
+                                widget.onItemChange?.call(idx, value);
+                              },
                             ),
                             Text(i.text),
                           ],
@@ -91,5 +95,19 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
     final checkedItems = items.where((element) => element.checked);
     if (checkedItems.isEmpty) return 0.0;
     return checkedItems.length / items.length;
+  }
+}
+
+/// Extension class over [Iterable].
+extension MapIndexed<E> on Iterable<E> {
+  /// Implements a function that maps every element to
+  /// another type using a [transform] function that has
+  /// the current element and his index.
+  Iterable<R> mapIndexed<R>(R transform(int idx, E e)) sync* {
+    int currentIdx = 0;
+    for (final element in this) {
+      yield transform(currentIdx, element);
+      currentIdx++;
+    }
   }
 }
