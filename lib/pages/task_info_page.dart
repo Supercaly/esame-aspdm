@@ -29,44 +29,68 @@ class TaskInfoPage extends StatelessWidget {
 class TaskInfoPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final currentUser = context.watch<AuthState>().currentUser;
+
     return BlocConsumer<TaskBloc, TaskState>(
-      listenWhen: (_, current) => current.hasError && current.data != null,
-      listener: (context, state) => ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Unknown error occurred!")),
-      ),
-      builder: (context, state) => Scaffold(
-        appBar: AppBar(
-          title: Text(state.data?.title ?? ""),
-          centerTitle: true,
-        ),
-        body: RefreshIndicator(
-          onRefresh: () => context.read<TaskBloc>().fetch(showLoading: false),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              locator<LogService>().logBuild("TaskInfoPageWidget - $state");
+        listenWhen: (_, current) => current.hasError && current.data != null,
+        listener: (context, state) =>
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Unknown error occurred!")),
+            ),
+        builder: (context, state) {
+          final canModify = (currentUser == state.data?.user) ||
+              (state.data?.members?.any((e) => currentUser == e) ?? false);
 
-              if (!state.isLoading && state.data == null)
-                return SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight),
-                    child: Center(
-                      child: Text("Nothing to show here"),
-                    ),
-                  ),
-                );
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(state.data?.title ?? ""),
+              centerTitle: true,
+              actions: canModify
+                  ? [
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () => print("Edit..."),
+                      ),
+                      if (!state.data.archived) IconButton(
+                        icon: Icon(Icons.archive),
+                        onPressed: () => print("Archive..."),
+                      ),
+                      if (state.data.archived) IconButton(
+                        icon: Icon(Icons.unarchive),
+                        onPressed: () => print("Unarchive..."),
+                      ),
+                    ]
+                  : null,
+            ),
+            body: RefreshIndicator(
+              onRefresh: () =>
+                  context.read<TaskBloc>().fetch(showLoading: false),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  locator<LogService>().logBuild("TaskInfoPageWidget - $state");
 
-              return LoadingOverlay(
-                isLoading: state.isLoading,
-                color: Colors.black26,
-                child: TaskInfoPageContent(task: state.data),
-              );
-            },
-          ),
-        ),
-      ),
-    );
+                  if (!state.isLoading && state.data == null)
+                    return SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: constraints.maxHeight),
+                        child: Center(
+                          child: Text("Nothing to show here"),
+                        ),
+                      ),
+                    );
+
+                  return LoadingOverlay(
+                    isLoading: state.isLoading,
+                    color: Colors.black26,
+                    child: TaskInfoPageContent(task: state.data),
+                  );
+                },
+              ),
+            ),
+          );
+        });
   }
 }
 
