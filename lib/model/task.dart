@@ -25,6 +25,10 @@ class Task extends Equatable {
   /// [Label]s associated with the task.
   final List<Label> labels;
 
+  /// The [User] that created the task.
+  @JsonKey(required: true, disallowNullValue: true)
+  final User user;
+
   /// [User]s assigned to the task.
   final List<User> members;
 
@@ -40,15 +44,22 @@ class Task extends Equatable {
   /// [Comment]s associated with the task.
   final List<Comment> comments;
 
+  /// If `true` this task was archived,
+  /// otherwise it's still accessible.
+  @JsonKey(defaultValue: false)
+  final bool archived;
+
   Task({
     this.id,
     this.title,
     this.description,
     this.labels,
+    this.user,
     this.members,
     this.expireDate,
     this.checklists,
     this.comments,
+    this.archived,
   });
 
   /// Creates a new [User] from json data.
@@ -63,14 +74,18 @@ class Task extends Equatable {
         title,
         description,
         labels,
+        user,
         members,
         expireDate,
         checklists,
         comments,
+        archived,
       ];
 
   @override
-  String toString() {
-    return 'Task{id: $id, title: $title, description: $description, labels: $labels, members: $members, expireDate: $expireDate, checklists: $checklists, comments: $comments}';
-  }
+  String toString() =>
+      'Task{id: $id, title: $title, description: $description, '
+      'labels: $labels, user: $user, members: $members, '
+      'expireDate: $expireDate, checklists: $checklists, '
+      'comments: $comments, archived: $archived}';
 }
