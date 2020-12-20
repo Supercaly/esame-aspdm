@@ -7,7 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 
 // Connect database
-mongoose.connect("mongodb://localhost:27017/database", {
+const dbUri = `mongodb+srv://${process.env.USER}:${process.env.PWD}@${process.env.HOST}/${process.env.DB}?retryWrites=true&w=majority`
+mongoose.connect(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
