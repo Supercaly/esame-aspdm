@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DisplayChecklist extends StatefulWidget {
   /// The [Checklist] object to display.
   final Checklist checklist;
-  final void Function(int, bool) onItemChange;
+  final void Function(ChecklistItem, bool) onItemChange;
 
   const DisplayChecklist({
     Key key,
@@ -43,7 +43,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
               Icon(Icons.check_circle_outline),
               SizedBox(width: 8.0),
               Text(
-                widget.checklist.title,
+                widget.checklist.title ?? "",
                 style: Theme.of(context).textTheme.headline6,
               ),
               Expanded(
@@ -71,15 +71,15 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
             if (_showItems && hasItems)
               Column(
                 children: widget.checklist.items
-                    .mapIndexed((idx, i) => Row(
+                    .map((item) => Row(
                           children: [
                             Checkbox(
-                              value: i.complete,
+                              value: item.complete,
                               onChanged: (value) {
-                                widget.onItemChange?.call(idx, value);
+                                widget.onItemChange?.call(item, value);
                               },
                             ),
-                            Text(i.item ?? ""),
+                            Text(item.item ?? "-"),
                           ],
                         ))
                     .toList(),
