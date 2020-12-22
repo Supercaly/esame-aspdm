@@ -67,5 +67,6 @@ class ChecklistItem extends Equatable {
   List<Object> get props => [id];
 
   @override
-  String toString() => "ChecklistItem{id: $id, item: $item, complete: $complete}";
+  String toString() =>
+      "ChecklistItem{id: $id, item: $item, complete: $complete}";
 }
