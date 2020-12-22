@@ -77,7 +77,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         children: [
           UserAvatar(
             size: 48.0,
-            user: widget.comment?.user,
+            user: widget.comment?.author,
           ),
           SizedBox(width: 10.0),
           Expanded(
@@ -85,7 +85,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.comment?.user?.name ?? "",
+                  widget.comment?.author?.name ?? "",
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 SizedBox(height: 10.0),
@@ -113,26 +113,32 @@ class _CommentWidgetState extends State<CommentWidget> {
                       )
                     : Text(widget.comment?.content ?? ""),
                 SizedBox(height: 10.0),
-                Row(
-                  children: [
-                    if (_type == CommentWidgetType.normal)
-                      LikeButton(
-                        icon: Icons.thumb_up,
-                        value: widget.comment.likes ?? 0,
-                        selected: widget.comment.liked,
-                        onPressed: () => widget.onLike?.call(),
-                      ),
-                    if (_type == CommentWidgetType.normal) SizedBox(width: 6.0),
-                    if (_type == CommentWidgetType.normal)
-                      LikeButton(
-                        icon: Icons.thumb_down,
-                        value: widget.comment.dislikes ?? 0,
-                        selected: widget.comment.disliked,
-                        onPressed: () => widget.onDislike?.call(),
-                      ),
-                    if (_type == CommentWidgetType.normal) SizedBox(width: 6.0),
-                    Ago(time: widget.comment.creationDate),
-                  ],
+                Selector<AuthState, User>(
+                  selector: (_, state) => state.currentUser,
+                  builder: (context, currentUser, _) => Row(
+                    children: [
+                      if (_type == CommentWidgetType.normal)
+                        LikeButton(
+                          icon: Icons.thumb_up,
+                          value: widget.comment.likes ?? 0,
+                          selected: widget.comment.likes.contains(currentUser),
+                          onPressed: () => widget.onLike?.call(),
+                        ),
+                      if (_type == CommentWidgetType.normal)
+                        SizedBox(width: 6.0),
+                      if (_type == CommentWidgetType.normal)
+                        LikeButton(
+                          icon: Icons.thumb_down,
+                          value: widget.comment.dislikes ?? 0,
+                          selected:
+                              widget.comment.dislikes.contains(currentUser),
+                          onPressed: () => widget.onDislike?.call(),
+                        ),
+                      if (_type == CommentWidgetType.normal)
+                        SizedBox(width: 6.0),
+                      Ago(time: widget.comment.creationDate),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -141,7 +147,7 @@ class _CommentWidgetState extends State<CommentWidget> {
             Selector<AuthState, User>(
               selector: (_, state) => state.currentUser,
               builder: (context, currentUser, _) =>
-                  (currentUser == widget.comment.user)
+                  (currentUser == widget.comment.author)
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: PopupMenuButton<CommentWidgetAction>(

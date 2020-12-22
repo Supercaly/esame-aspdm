@@ -89,7 +89,8 @@ class _LoginPageState extends State<LoginPage> {
                             locator<LogService>().info(
                                 "Email: ${_emailController.text} Password: ${_passwordController.text}");
                             if (!await context.read<AuthState>().login(
-                                _emailController.text, _passwordController.text)) {
+                                _emailController.text,
+                                _passwordController.text)) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("Error logging in!")));
                             }

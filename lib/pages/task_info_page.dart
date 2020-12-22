@@ -38,7 +38,7 @@ class TaskInfoPageWidget extends StatelessWidget {
               SnackBar(content: Text("Unknown error occurred!")),
             ),
         builder: (context, state) {
-          final canModify = (currentUser == state.data?.user) ||
+          final canModify = (currentUser == state.data?.author) ||
               (state.data?.members?.any((e) => currentUser == e) ?? false);
 
           return Scaffold(
@@ -51,14 +51,16 @@ class TaskInfoPageWidget extends StatelessWidget {
                         icon: Icon(Icons.edit),
                         onPressed: () => print("Edit..."),
                       ),
-                      if (!state.data.archived) IconButton(
-                        icon: Icon(Icons.archive),
-                        onPressed: () => print("Archive..."),
-                      ),
-                      if (state.data.archived) IconButton(
-                        icon: Icon(Icons.unarchive),
-                        onPressed: () => print("Unarchive..."),
-                      ),
+                      if (!state.data.archived)
+                        IconButton(
+                          icon: Icon(Icons.archive),
+                          onPressed: () => print("Archive..."),
+                        ),
+                      if (state.data.archived)
+                        IconButton(
+                          icon: Icon(Icons.unarchive),
+                          onPressed: () => print("Unarchive..."),
+                        ),
                     ]
                   : null,
             ),

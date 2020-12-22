@@ -28,6 +28,10 @@ class DataSource {
     _dio.close(force: true);
   }
 
+  /// Authenticate a user with given [email] and [password].
+  /// If the credentials are valid the corresponding [User] is returned,
+  /// otherwise null is returned.
+  /// This method throw [DioError] is some connection error happens.
   Future<User> authenticate(String email, String password) async {
     try {
       final res = await _dio.post(
@@ -37,8 +41,7 @@ class DataSource {
           "password": password,
         },
       );
-      if (res.data != null)
-        return User.fromJson(res.data);
+      if (res.data != null) return User.fromJson(res.data);
       return null;
     } on DioError catch (e) {
       if (e.response != null && e.response.statusCode == 400)
@@ -55,12 +58,12 @@ class DataSource {
     try {
       final res = await _dio.get("/list");
       if (res.data != null) {
-        final a = (res.data as List<dynamic>).map((e) =>
-            Task.fromJson(e as Map<String, dynamic>)).toList();
+        final a = (res.data as List<dynamic>)
+            .map((e) => Task.fromJson(e as Map<String, dynamic>))
+            .toList();
         print(a);
         return a;
-      }
-      else
+      } else
         return null;
     } on DioError catch (e) {
       if (e.response != null && e.response.statusCode == 400)
