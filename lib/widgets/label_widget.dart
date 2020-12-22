@@ -33,7 +33,7 @@ class LabelWidget extends StatelessWidget {
       child: (!compact)
           ? Center(
               child: Text(
-              label.text ?? "",
+              label.label ?? "",
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                     fontWeight: FontWeight.w400,
                     color: Colors.white,

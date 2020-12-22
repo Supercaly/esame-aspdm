@@ -80,7 +80,7 @@ class TaskCard extends StatelessWidget {
                   if (hasComments) SizedBox(width: 10.0),
                   if (hasMembers)
                     TaskIcon(
-                      icon: Icons.person,
+                      icon: Icons.group,
                       text: task.members.length.toString(),
                     ),
                 ],
@@ -103,7 +103,7 @@ class TaskCard extends StatelessWidget {
     task?.checklists?.forEach((c) {
       c?.items?.forEach((i) {
         totalItems++;
-        if (i.checked) checkedItems++;
+        if (i.complete) checkedItems++;
       });
     });
     return "$checkedItems/$totalItems";

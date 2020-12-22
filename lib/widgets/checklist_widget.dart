@@ -74,12 +74,12 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                     .mapIndexed((idx, i) => Row(
                           children: [
                             Checkbox(
-                              value: i.checked,
+                              value: i.complete,
                               onChanged: (value) {
                                 widget.onItemChange?.call(idx, value);
                               },
                             ),
-                            Text(i.text),
+                            Text(i.item ?? ""),
                           ],
                         ))
                     .toList(),
@@ -92,7 +92,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
 
   double _getChecklistProgress(List<ChecklistItem> items) {
     if (items == null || items.isEmpty) return 0.0;
-    final checkedItems = items.where((element) => element.checked);
+    final checkedItems = items.where((element) => element.complete);
     if (checkedItems.isEmpty) return 0.0;
     return checkedItems.length / items.length;
   }

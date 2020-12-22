@@ -120,7 +120,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
                           icon: Icons.thumb_up,
-                          value: widget.comment.likes ?? 0,
+                          value: widget.comment?.likes?.length ?? 0,
                           selected: widget.comment.likes.contains(currentUser),
                           onPressed: () => widget.onLike?.call(),
                         ),
@@ -129,7 +129,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
                           icon: Icons.thumb_down,
-                          value: widget.comment.dislikes ?? 0,
+                          value: widget.comment?.dislikes?.length ?? 0,
                           selected:
                               widget.comment.dislikes.contains(currentUser),
                           onPressed: () => widget.onDislike?.call(),

@@ -132,6 +132,16 @@ class TaskInfoPageContent extends StatelessWidget {
                             task.labels.map((l) => LabelWidget(label: l))),
                       ),
                     ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.person),
+                        SizedBox(width: 8.0),
+                        UserAvatar(user: task.author, size: 32.0),
+                      ],
+                    ),
+                  ),
                   if (hasMembers)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
@@ -139,7 +149,7 @@ class TaskInfoPageContent extends StatelessWidget {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         spacing: 8.0,
                         runSpacing: 4.0,
-                        children: [Icon(Icons.person)]
+                        children: [Icon(Icons.group)]
                           ..addAll(task.members.map((m) => UserAvatar(
                                 user: m,
                                 size: 32.0,
