@@ -10,6 +10,14 @@ part 'label.g.dart';
 /// that has a [color] and a [text].
 @JsonSerializable()
 class Label extends Equatable {
+  /// Id of the label.
+  @JsonKey(
+    name: "_id",
+    required: true,
+    disallowNullValue: true,
+  )
+  final String id;
+
   /// Color of the label.
   @JsonKey(
     required: true,
@@ -23,7 +31,7 @@ class Label extends Equatable {
   @JsonKey(nullable: true)
   final String text;
 
-  Label(this.color, this.text);
+  Label(this.id, this.color, this.text);
 
   /// Creates a new [Label] from json data.
   factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);
@@ -32,5 +40,5 @@ class Label extends Equatable {
   Map<String, dynamic> toJson() => _$LabelToJson(this);
 
   @override
-  List<Object> get props => [color, text];
+  List<Object> get props => [id];
 }

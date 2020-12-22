@@ -11,12 +11,24 @@ part 'task.g.dart';
 @JsonSerializable()
 class Task extends Equatable {
   /// Unique identifier.
-  @JsonKey(required: true, disallowNullValue: true)
+  @JsonKey(
+    name: "_id",
+    required: true,
+    disallowNullValue: true,
+  )
   final String id;
 
   /// Title of the task.
   @JsonKey(required: true, disallowNullValue: true)
   final String title;
+
+  /// Date when the task was created.
+  @JsonKey(
+    name: "creation_date",
+    required: true,
+    disallowNullValue: true,
+  )
+  final DateTime creationDate;
 
   /// Description of the task.
   @JsonKey(nullable: true)
@@ -27,7 +39,7 @@ class Task extends Equatable {
 
   /// The [User] that created the task.
   @JsonKey(required: true, disallowNullValue: true)
-  final User user;
+  final User author;
 
   /// [User]s assigned to the task.
   final List<User> members;
@@ -49,18 +61,18 @@ class Task extends Equatable {
   @JsonKey(defaultValue: false)
   final bool archived;
 
-  Task({
-    this.id,
-    this.title,
-    this.description,
-    this.labels,
-    this.user,
-    this.members,
-    this.expireDate,
-    this.checklists,
-    this.comments,
-    this.archived,
-  });
+  Task(
+      {this.id,
+      this.title,
+      this.description,
+      this.labels,
+      this.author,
+      this.members,
+      this.expireDate,
+      this.checklists,
+      this.comments,
+      this.archived,
+      this.creationDate});
 
   /// Creates a new [User] from json data.
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
@@ -74,18 +86,20 @@ class Task extends Equatable {
         title,
         description,
         labels,
-        user,
+        author,
         members,
         expireDate,
         checklists,
         comments,
         archived,
+        creationDate,
       ];
 
   @override
   String toString() =>
       'Task{id: $id, title: $title, description: $description, '
-      'labels: $labels, user: $user, members: $members, '
+      'labels: $labels, author: $author, members: $members, '
       'expireDate: $expireDate, checklists: $checklists, '
-      'comments: $comments, archived: $archived}';
+      'comments: $comments, creationDate: $creationDate, '
+      'archived: $archived}';
 }
