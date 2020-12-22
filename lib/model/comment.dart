@@ -52,10 +52,10 @@ class Comment extends Equatable {
   );
 
   /// Creates a new [Comment] from json data.
-  factory Comment.fromJson(Map<String, dynamic> json) => null;
+  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
 
   /// Converts this [Comment] to json data.
-  Map<String, dynamic> toJson() => null;
+  Map<String, dynamic> toJson() => _$CommentToJson(this);
 
   @override
   List<Object> get props => [
