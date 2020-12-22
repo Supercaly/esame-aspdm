@@ -163,7 +163,7 @@ router.post("/check", [
             multi: false,
             arrayFilters: [{"check._id": req.body.checklist}, {"item._id": req.body.item}],
             new: true,
-        });
+        }).populate(populateTask).exec();
         res.json(task);
     } catch (e) {
         console.error(e);

@@ -107,7 +107,7 @@ router.post("/like", [
                 "comments._id": req.body.comment
             }, {
                 $pull: {"comments.$.like_users": req.body.user}
-            }, {new: true})
+            }, {new: true}).populate(populateTask).exec();
         } else {
             updated = await Task.findOneAndUpdate({
                 _id: req.body.task,
@@ -115,7 +115,7 @@ router.post("/like", [
             }, {
                 $pull: {"comments.$.dislike_users": req.body.user},
                 $addToSet: {"comments.$.like_users": req.body.user}
-            }, {new: true});
+            }, {new: true}).populate(populateTask).exec();
         }
         res.json(updated);
     } catch (e) {
@@ -146,7 +146,7 @@ router.post("/dislike", [
                 "comments._id": req.body.comment
             }, {
                 $pull: {"comments.$.dislike_users": req.body.user}
-            }, {new: true})
+            }, {new: true}).populate(populateTask).exec();
         } else {
             updated = await Task.findOneAndUpdate({
                 _id: req.body.task,
@@ -154,7 +154,7 @@ router.post("/dislike", [
             }, {
                 $pull: {"comments.$.like_users": req.body.user},
                 $addToSet: {"comments.$.dislike_users": req.body.user}
-            }, {new: true});
+            }, {new: true}).populate(populateTask).exec();
         }
         res.json(updated);
     } catch (e) {
