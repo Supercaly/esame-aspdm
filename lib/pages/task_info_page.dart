@@ -54,12 +54,15 @@ class TaskInfoPageWidget extends StatelessWidget {
                       if (!state.data.archived)
                         IconButton(
                           icon: Icon(Icons.archive),
-                          onPressed: () => print("Archive..."),
+                          onPressed: () =>
+                              context.read<TaskBloc>().archive(currentUser.id),
                         ),
                       if (state.data.archived)
                         IconButton(
                           icon: Icon(Icons.unarchive),
-                          onPressed: () => print("Unarchive..."),
+                          onPressed: () => context
+                              .read<TaskBloc>()
+                              .unarchive(currentUser.id),
                         ),
                     ]
                   : null,
@@ -193,9 +196,10 @@ class TaskInfoPageContent extends StatelessWidget {
         if (task?.checklists != null && task.checklists.isNotEmpty)
           Column(
             children: task.checklists
-                .map((cl) => DisplayChecklist(
-                      checklist: cl,
-                      onItemChange: (i, v) => print("Check item $i $v"),
+                .map((checklist) => DisplayChecklist(
+                      checklist: checklist,
+                      onItemChange: (item, value) =>
+                          print("Check ${checklist.id} - ${item.id} - $value"),
                     ))
                 .toList(),
           ),

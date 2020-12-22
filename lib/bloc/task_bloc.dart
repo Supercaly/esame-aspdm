@@ -1,11 +1,14 @@
+import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/repositories/task_repository.dart';
+import 'package:aspdm_project/services/log_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Class used to manage the state of the task info page.
 class TaskBloc extends Cubit<TaskState> {
   final TaskRepository _repository;
+  final LogService _logService;
 
   /// Id of the task that we want to display.
   final String _taskId;
@@ -18,7 +21,8 @@ class TaskBloc extends Cubit<TaskState> {
   TaskBloc(
     this._taskId,
     this._repository,
-  ) : super(TaskState.loading(null));
+  )   : _logService = locator<LogService>(),
+        super(TaskState.loading(null));
 
   /// Tells [TaskRepository] to fetch the task with id [_taskId].
   Future<void> fetch({bool showLoading = true}) async {
@@ -26,7 +30,6 @@ class TaskBloc extends Cubit<TaskState> {
     try {
       final newTask = await _repository.getTask(_taskId);
       _oldTask = newTask;
-      print("fetched...");
       emit(TaskState.data(newTask));
     } catch (e) {
       emit(TaskState.error(_oldTask));
@@ -37,10 +40,12 @@ class TaskBloc extends Cubit<TaskState> {
   /// comments under this task.
   Future<void> deleteComment(String commentId, String userId) async {
     try {
-      final newTask = await _repository.deleteComment(commentId, userId);
+      final newTask =
+          await _repository.deleteComment(_oldTask.id, commentId, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
+      _logService.error("TaskBloc.deleteComment: ", e);
       emit(TaskState.error(_oldTask));
     }
   }
@@ -53,33 +58,16 @@ class TaskBloc extends Cubit<TaskState> {
     String userId,
   ) async {
     try {
-      final newTask =
-          await _repository.editComment(commentId, newContent, userId);
+      final newTask = await _repository.editComment(
+        _oldTask.id,
+        commentId,
+        newContent,
+        userId,
+      );
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
-      emit(TaskState.error(_oldTask));
-    }
-  }
-
-  /// Tells [TaskRepository] the user likes a comment under this task.
-  Future<void> likeComment(String commentId, String userId) async {
-    try {
-      final newTask = await _repository.likeComment(commentId, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      emit(TaskState.error(_oldTask));
-    }
-  }
-
-  /// Tells [TaskRepository] the user dislikes a comment under this task.
-  Future<void> dislikeComment(String commentId, String userId) async {
-    try {
-      final newTask = await _repository.dislikeComment(commentId, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
+      _logService.error("TaskBloc.editComment: ", e);
       emit(TaskState.error(_oldTask));
     }
   }
@@ -87,10 +75,62 @@ class TaskBloc extends Cubit<TaskState> {
   /// Tells [TaskRepository] the user created a new comment under this task.
   Future<void> addComment(String content, String userId) async {
     try {
-      final newTask = await _repository.addComment(content, userId);
+      final newTask =
+          await _repository.addComment(_oldTask.id, content, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
+      _logService.error("TaskBloc.addComment: ", e);
+      emit(TaskState.error(_oldTask));
+    }
+  }
+
+  /// Tells [TaskRepository] the user likes a comment under this task.
+  Future<void> likeComment(String commentId, String userId) async {
+    try {
+      final newTask =
+          await _repository.likeComment(_oldTask.id, commentId, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
+    } catch (e) {
+      _logService.error("TaskBloc.likeComment: ", e);
+      emit(TaskState.error(_oldTask));
+    }
+  }
+
+  /// Tells [TaskRepository] the user dislikes a comment under this task.
+  Future<void> dislikeComment(String commentId, String userId) async {
+    try {
+      final newTask =
+          await _repository.dislikeComment(_oldTask.id, commentId, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
+    } catch (e) {
+      _logService.error("TaskBloc.dislikeComment: ", e);
+      emit(TaskState.error(_oldTask));
+    }
+  }
+
+  /// Tells [TaskRepository] the task is archived.
+  Future<void> archive(String userId) async {
+    try {
+      final newTask = await _repository.archiveTask(_oldTask.id, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
+    } catch (e) {
+      _logService.error("TaskBloc.archive: ", e);
+      emit(TaskState.error(_oldTask));
+    }
+  }
+
+  /// Tells [TaskRepository] the task is un-archived.
+  Future<void> unarchive(String userId) async {
+    try {
+      final newTask = await _repository.unarchiveTask(_oldTask.id, userId);
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
+    } catch (e) {
+      _logService.error("TaskBloc.unarchive: ", e);
       emit(TaskState.error(_oldTask));
     }
   }
