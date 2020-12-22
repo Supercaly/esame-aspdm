@@ -115,7 +115,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                 SizedBox(height: 10.0),
                 Selector<AuthState, User>(
                   selector: (_, state) => state.currentUser,
-                  builder: (context, currentUser, _) => Row(
+                  builder: (context, currentUser, _) => Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    runSpacing: 6.0,
                     children: [
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
