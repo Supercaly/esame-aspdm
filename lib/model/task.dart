@@ -62,17 +62,18 @@ class Task extends Equatable {
   final bool archived;
 
   Task(
-      {this.id,
-      this.title,
-      this.description,
-      this.labels,
-      this.author,
-      this.members,
-      this.expireDate,
-      this.checklists,
-      this.comments,
-      this.archived,
-      this.creationDate});
+    this.id,
+    this.title,
+    this.description,
+    this.labels,
+    this.author,
+    this.members,
+    this.expireDate,
+    this.checklists,
+    this.comments,
+    this.archived,
+    this.creationDate,
+  );
 
   /// Creates a new [User] from json data.
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);

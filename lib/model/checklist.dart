@@ -31,6 +31,9 @@ class Checklist extends Equatable {
 
   @override
   List<Object> get props => [id];
+
+  @override
+  String toString() => "Checklist{id: $id, title: $title, items: $items}";
 }
 
 /// Class representing a single item of a checklist.
@@ -45,13 +48,13 @@ class ChecklistItem extends Equatable {
   final String id;
 
   /// title of the item.
-  final String text;
+  final String item;
 
   /// Whether the item is marked as completed or not.
   @JsonKey(defaultValue: false)
-  final bool checked;
+  final bool complete;
 
-  ChecklistItem(this.id, this.text, this.checked);
+  ChecklistItem(this.id, this.item, this.complete);
 
   /// Creates a new [ChecklistItem] from json data.
   factory ChecklistItem.fromJson(Map<String, dynamic> json) =>
@@ -62,4 +65,7 @@ class ChecklistItem extends Equatable {
 
   @override
   List<Object> get props => [id];
+
+  @override
+  String toString() => "ChecklistItem{id: $id, item: $item, complete: $complete}";
 }

@@ -7,7 +7,7 @@ part 'label.g.dart';
 
 /// Class representing a label.
 /// A label is an information associated with a task
-/// that has a [color] and a [text].
+/// that has a [color] and a [label].
 @JsonSerializable()
 class Label extends Equatable {
   /// Id of the label.
@@ -29,9 +29,9 @@ class Label extends Equatable {
 
   /// Label's text.
   @JsonKey(nullable: true)
-  final String text;
+  final String label;
 
-  Label(this.id, this.color, this.text);
+  Label(this.id, this.color, this.label);
 
   /// Creates a new [Label] from json data.
   factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);
@@ -41,4 +41,7 @@ class Label extends Equatable {
 
   @override
   List<Object> get props => [id];
+
+  @override
+  String toString() => "Label{id: $id, color: $color, label: $label}";
 }

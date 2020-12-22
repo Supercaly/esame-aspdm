@@ -64,6 +64,8 @@ class Comment extends Equatable {
         content,
         author,
         creationDate,
+        likes,
+        dislikes,
       ];
 
   @override
