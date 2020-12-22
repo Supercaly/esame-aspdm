@@ -83,7 +83,7 @@ class TaskInfoPageWidget extends StatelessWidget {
 
                   return LoadingOverlay(
                     isLoading: state.isLoading,
-                    color: Colors.black26,
+                    color: Colors.black45,
                     child: TaskInfoPageContent(task: state.data),
                   );
                 },
