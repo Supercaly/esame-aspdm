@@ -174,7 +174,7 @@ void main() {
     expect(find.text("3/7"), findsOneWidget);
     expect(find.byIcon(Icons.message), findsOneWidget);
     expect(find.text("3"), findsOneWidget);
-    expect(find.byIcon(Icons.person), findsOneWidget);
+    expect(find.byIcon(Icons.group), findsOneWidget);
     expect(find.text("1"), findsOneWidget);
   });
 

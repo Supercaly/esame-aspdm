@@ -41,7 +41,7 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> deleteComment(String commentId, String userId) async {
     try {
       final newTask =
-          await _repository.deleteComment(_oldTask.id, commentId, userId);
+          await _repository.deleteComment(_oldTask?.id, commentId, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -59,7 +59,7 @@ class TaskBloc extends Cubit<TaskState> {
   ) async {
     try {
       final newTask = await _repository.editComment(
-        _oldTask.id,
+        _oldTask?.id,
         commentId,
         newContent,
         userId,
@@ -76,7 +76,7 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> addComment(String content, String userId) async {
     try {
       final newTask =
-          await _repository.addComment(_oldTask.id, content, userId);
+          await _repository.addComment(_oldTask?.id, content, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -89,7 +89,7 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> likeComment(String commentId, String userId) async {
     try {
       final newTask =
-          await _repository.likeComment(_oldTask.id, commentId, userId);
+          await _repository.likeComment(_oldTask?.id, commentId, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -102,7 +102,7 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> dislikeComment(String commentId, String userId) async {
     try {
       final newTask =
-          await _repository.dislikeComment(_oldTask.id, commentId, userId);
+          await _repository.dislikeComment(_oldTask?.id, commentId, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -114,7 +114,7 @@ class TaskBloc extends Cubit<TaskState> {
   /// Tells [TaskRepository] the task is archived.
   Future<void> archive(String userId) async {
     try {
-      final newTask = await _repository.archiveTask(_oldTask.id, userId);
+      final newTask = await _repository.archiveTask(_oldTask?.id, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
@@ -126,7 +126,7 @@ class TaskBloc extends Cubit<TaskState> {
   /// Tells [TaskRepository] the task is un-archived.
   Future<void> unarchive(String userId) async {
     try {
-      final newTask = await _repository.unarchiveTask(_oldTask.id, userId);
+      final newTask = await _repository.unarchiveTask(_oldTask?.id, userId);
       _oldTask = newTask;
       emit(TaskState.data(newTask));
     } catch (e) {
