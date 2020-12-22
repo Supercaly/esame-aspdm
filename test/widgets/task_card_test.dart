@@ -21,8 +21,17 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
+              "mock_id",
+              "mock title",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
             ),
           ),
         ),
@@ -39,12 +48,20 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
-              labels: [
+              "mock_id",
+              "mock title",
+              null,
+              [
                 Label("mock_id", Colors.red, "label"),
                 Label("mock_id", Colors.blue, "label"),
               ],
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
             ),
           ),
         ),
@@ -62,35 +79,15 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
-              description: "mock description",
-              labels: [
+              "mock_id",
+              "mock title",
+              "mock description",
+              [
                 Label("mock_id", Colors.red, "label"),
                 Label("mock_id", Colors.blue, "label"),
               ],
-              checklists: [
-                Checklist(
-                  "mock_id",
-                  "checklist1",
-                  [
-                    ChecklistItem("mock_id", "item", false),
-                    ChecklistItem("mock_id", "item", true),
-                    ChecklistItem("mock_id", "item", false),
-                    ChecklistItem("mock_id", "item", true),
-                  ],
-                ),
-                Checklist(
-                  "mock_id",
-                  "checklist1",
-                  [
-                    ChecklistItem("mock_id", "item", false),
-                    ChecklistItem("mock_id", "item", true),
-                    ChecklistItem("mock_id", "item", false),
-                  ],
-                ),
-              ],
-              members: [
+              null,
+              [
                 User(
                   "mock_user",
                   "Mock User",
@@ -98,8 +95,29 @@ void main() {
                   null,
                 )
               ],
-              expireDate: DateTime.now(),
-              comments: [
+              DateTime.now(),
+              [
+                Checklist(
+                  "mock_id",
+                  "checklist1",
+                  [
+                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem("mock_id", "item", true),
+                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem("mock_id", "item", true),
+                  ],
+                ),
+                Checklist(
+                  "mock_id",
+                  "checklist1",
+                  [
+                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem("mock_id", "item", true),
+                    ChecklistItem("mock_id", "item", false),
+                  ],
+                ),
+              ],
+              [
                 Comment(
                   "c1",
                   "comment 1",
@@ -140,6 +158,8 @@ void main() {
                   DateTime.now(),
                 ),
               ],
+              false,
+              null,
             ),
           ),
         ),
@@ -169,8 +189,17 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
+              "mock_id",
+              "mock title",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
             ),
           ),
         ),
@@ -194,7 +223,21 @@ void main() {
     }
 
     try {
-      TaskCard(task: Task());
+      TaskCard(
+        task: Task(
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+        ),
+      );
       fail("This should throw an error!");
     } catch (e) {
       expect(e, isA<AssertionError>());
