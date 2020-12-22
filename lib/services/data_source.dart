@@ -31,50 +31,231 @@ class DataSource {
   /// Authenticate a user with given [email] and [password].
   /// If the credentials are valid the corresponding [User] is returned,
   /// otherwise null is returned.
-  /// This method throw [DioError] is some connection error happens.
+  /// This method throw [DioError] if some connection error happens.
   Future<User> authenticate(String email, String password) async {
-    try {
-      final res = await _dio.post(
-        "/authenticate",
-        data: {
-          "email": email,
-          "password": password,
-        },
-      );
-      if (res.data != null) return User.fromJson(res.data);
-      return null;
-    } on DioError catch (e) {
-      if (e.response != null && e.response.statusCode == 400)
-        _logService.error(
-            "DataSource.getUnarchivedTasks: Bad request: ${e.response.data}");
-      else if (e.error is SocketException)
-        _logService
-            .error("DataSource.getUnarchivedTasks: No internet connection!");
-      rethrow;
-    }
+    final res = await _post("/authenticate", {
+      "email": email,
+      "password": password,
+    });
+    if (res.data != null) return User.fromJson(res.data);
+    return null;
   }
 
+  /// Returns a list of all [Task]s that are not archived.
+  /// This method throw [DioError] if some connection error happens.
   Future<List<Task>> getUnarchivedTasks() async {
+    final res = await _get("/list");
+    if (res.data != null)
+      return (res.data as List<dynamic>)
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList();
+    else
+      return null;
+  }
+
+  /// Returns a list of all [Task]s that are archived.
+  /// This method throw [DioError] if some connection error happens.
+  Future<List<Task>> getArchivedTasks() async {
+    final res = await _get("/list/archived");
+    if (res.data != null)
+      return (res.data as List<dynamic>)
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList();
+    else
+      return null;
+  }
+
+  /// Returns a [Task] with given [taskId].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> getTask(String taskId) async {
+    assert(taskId != null);
+
+    final res = await _get("/task/$taskId");
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Adds a new comment under a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> postComment(String taskId, String userId, String content) async {
+    assert(taskId != null);
+    assert(userId != null);
+    assert(content != null);
+
+    final res = await _post("/comment", {
+      "task": taskId,
+      "comment": {
+        "author": userId,
+        "content": content,
+      },
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Deletes a comment under a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> deleteComment(
+    String taskId,
+    String commentId,
+    String userId,
+  ) async {
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+
+    final res = await _delete("/comment", {
+      "task": taskId,
+      "user": userId,
+      "comment": commentId,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Updates a comment under a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> patchComment(
+    String taskId,
+    String commentId,
+    String userId,
+    String newContent,
+  ) async {
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+    assert(newContent != null);
+
+    final res = await _patch("/comment", {
+      "task": taskId,
+      "user": userId,
+      "comment": commentId,
+      "content": newContent,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Likes a comment under a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> likeComment(
+    String taskId,
+    String commentId,
+    String userId,
+  ) async {
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+
+    final res = await _post("/comment/like", {
+      "task": taskId,
+      "user": userId,
+      "comment": commentId,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Dislikes a comment under a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> dislikeComment(
+    String taskId,
+    String commentId,
+    String userId,
+  ) async {
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+
+    final res = await _post("/comment/dislike", {
+      "task": taskId,
+      "user": userId,
+      "comment": commentId,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Archive/Unarchive a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> archive(String taskId, String userId, bool archive) async {
+    assert(taskId != null);
+    assert(userId != null);
+
+    final res = await _post("/task/archive", {
+      "task": taskId,
+      "user": userId,
+      "archive": archive,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  Future<dynamic> _get(String url) async {
     try {
-      final res = await _dio.get("/list");
-      if (res.data != null) {
-        final a = (res.data as List<dynamic>)
-            .map((e) => Task.fromJson(e as Map<String, dynamic>))
-            .toList();
-        print(a);
-        return a;
-      } else
-        return null;
+      return await _dio.get(url);
     } on DioError catch (e) {
       if (e.response != null && e.response.statusCode == 400)
-        _logService.error(
-            "DataSource.getUnarchivedTasks: Bad request: ${e.response.data}");
+        _logService.error("DataSource get: Bad request: ${e.response.data}");
       else if (e.error is SocketException)
-        _logService
-            .error("DataSource.getUnarchivedTasks: No internet connection!");
+        _logService.error("DataSource get: No internet connection!");
       rethrow;
     }
   }
 
-  //Future getArchivedTasks() {}
+  Future<dynamic> _post(String url, Map<String, dynamic> body) async {
+    try {
+      return await _dio.post(url, data: body);
+    } on DioError catch (e) {
+      if (e.response != null && e.response.statusCode == 400)
+        _logService.error("DataSource post: Bad request: ${e.response.data}");
+      else if (e.error is SocketException)
+        _logService.error("DataSource post: No internet connection!");
+      rethrow;
+    }
+  }
+
+  Future<dynamic> _patch(String url, Map<String, dynamic> body) async {
+    try {
+      return await _dio.post(url, data: body);
+    } on DioError catch (e) {
+      if (e.response != null && e.response.statusCode == 400)
+        _logService.error("DataSource patch: Bad request: ${e.response.data}");
+      else if (e.error is SocketException)
+        _logService.error("DataSource patch: No internet connection!");
+      rethrow;
+    }
+  }
+
+  Future<dynamic> _delete(String url, Map<String, dynamic> body) async {
+    try {
+      return await _dio.post(url, data: body);
+    } on DioError catch (e) {
+      if (e.response != null && e.response.statusCode == 400)
+        _logService.error("DataSource delete: Bad request: ${e.response.data}");
+      else if (e.error is SocketException)
+        _logService.error("DataSource delete: No internet connection!");
+      rethrow;
+    }
+  }
 }
