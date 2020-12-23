@@ -30,7 +30,7 @@ class Checklist extends Equatable {
   Map<String, dynamic> toJson() => _$ChecklistToJson(this);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, title, items];
 
   @override
   String toString() => "Checklist{id: $id, title: $title, items: $items}";
@@ -64,7 +64,7 @@ class ChecklistItem extends Equatable {
   Map<String, dynamic> toJson() => _$ChecklistItemToJson(this);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, item, complete];
 
   @override
   String toString() =>
