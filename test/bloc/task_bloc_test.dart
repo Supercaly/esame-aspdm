@@ -342,5 +342,97 @@ void main() {
         expect: [
           TaskState.error(null),
         ]);
+
+    blocTest("emits data on archive success",
+        build: () => TaskBloc("mock_id", repository),
+        act: (TaskBloc bloc) {
+          when(repository.archiveTask(any, any))
+              .thenAnswer((_) => Future.value(Task(
+                    "mock_id",
+                    "mock title",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  )));
+          bloc.archive("userId");
+        },
+        expect: [
+          TaskState.data(Task(
+            "mock_id",
+            "mock title",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          )),
+        ]);
+
+    blocTest("emits error on archive error",
+        build: () => TaskBloc("mock_id", repository),
+        act: (TaskBloc bloc) {
+          when(repository.archiveTask(any, any))
+              .thenAnswer((_) => Future.error(Error()));
+          bloc.archive("userId");
+        },
+        expect: [
+          TaskState.error(null),
+        ]);
+
+    blocTest("emits data on unarchive success",
+        build: () => TaskBloc("mock_id", repository),
+        act: (TaskBloc bloc) {
+          when(repository.unarchiveTask(any, any))
+              .thenAnswer((_) => Future.value(Task(
+                    "mock_id",
+                    "mock title",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  )));
+          bloc.unarchive("userId");
+        },
+        expect: [
+          TaskState.data(Task(
+            "mock_id",
+            "mock title",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          )),
+        ]);
+
+    blocTest("emits error on unarchive error",
+        build: () => TaskBloc("mock_id", repository),
+        act: (TaskBloc bloc) {
+          when(repository.unarchiveTask(any, any))
+              .thenAnswer((_) => Future.error(Error()));
+          bloc.unarchive("userId");
+        },
+        expect: [
+          TaskState.error(null),
+        ]);
   });
 }
