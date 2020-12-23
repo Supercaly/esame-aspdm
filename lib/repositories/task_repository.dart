@@ -73,8 +73,10 @@ class TaskRepository {
     String itemId,
     bool complete,
   ) async {
-    final updated = await _dataSource.check(taskId, userId, checklistId, itemId, complete);
-    if (updated == null) throw Exception("Error completing checklist item $itemId");
+    final updated =
+        await _dataSource.check(taskId, userId, checklistId, itemId, complete);
+    if (updated == null)
+      throw Exception("Error completing checklist item $itemId");
     return updated;
   }
 }

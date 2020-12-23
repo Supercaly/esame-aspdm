@@ -89,7 +89,35 @@ class TaskInfoPageWidget extends StatelessWidget {
                   return LoadingOverlay(
                     isLoading: state.isLoading,
                     color: Colors.black45,
-                    child: TaskInfoPageContent(task: state.data),
+                    child: ListView(
+                      children: [
+                        HeaderCard(task: state.data),
+                        DescriptionCard(task: state.data),
+                        if (state.data?.checklists != null &&
+                            state.data.checklists.isNotEmpty)
+                          Column(
+                            children: state.data.checklists
+                                .map((checklist) => DisplayChecklist(
+                                      checklist: checklist,
+                                      onItemChange: canModify
+                                          ? (item, value) => context
+                                              .read<TaskBloc>()
+                                              .completeChecklist(
+                                                context
+                                                    .read<AuthState>()
+                                                    .currentUser
+                                                    .id,
+                                                checklist.id,
+                                                item.id,
+                                                value,
+                                              )
+                                          : null,
+                                    ))
+                                .toList(),
+                          ),
+                        CommentsCard(task: state.data),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -99,170 +127,169 @@ class TaskInfoPageWidget extends StatelessWidget {
   }
 }
 
-class TaskInfoPageContent extends StatelessWidget {
+/// Widget that displays a [Card] with header elements.
+class HeaderCard extends StatelessWidget {
   final Task task;
 
-  TaskInfoPageContent({
-    Key key,
-    this.task,
-  }) : super(key: key);
+  const HeaderCard({Key key, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final hasLabels = task?.labels != null && task.labels.isNotEmpty;
-    final hasMembers = task?.members != null && task.members.isNotEmpty;
-    final hasExpDate = task?.expireDate != null;
-    final hasHeader = hasLabels || hasMembers || hasExpDate;
-
-    return ListView(
-      children: [
-        // Header
-        if (hasHeader)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (task?.labels != null && task.labels.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8.0,
+                  runSpacing: 4.0,
+                  children: [Icon(Icons.label)]
+                    ..addAll(task.labels.map((l) => LabelWidget(label: l))),
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
                 children: [
-                  if (hasLabels)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 8.0,
-                        runSpacing: 4.0,
-                        children: [Icon(Icons.label)]..addAll(
-                            task.labels.map((l) => LabelWidget(label: l))),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.person),
-                        SizedBox(width: 8.0),
-                        UserAvatar(user: task.author, size: 32.0),
-                      ],
-                    ),
-                  ),
-                  if (hasMembers)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 8.0,
-                        runSpacing: 4.0,
-                        children: [Icon(Icons.group)]
-                          ..addAll(task.members.map((m) => UserAvatar(
-                                user: m,
-                                size: 32.0,
-                              ))),
-                      ),
-                    ),
-                  if (hasExpDate) ExpirationText(date: task.expireDate),
+                  Icon(Icons.person),
+                  SizedBox(width: 8.0),
+                  UserAvatar(user: task?.author, size: 32.0),
                 ],
               ),
             ),
+            if (task?.members != null && task.members.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8.0,
+                  runSpacing: 4.0,
+                  children: [Icon(Icons.group)]..addAll(
+                      task.members.map(
+                        (member) => UserAvatar(
+                          user: member,
+                          size: 32.0,
+                        ),
+                      ),
+                    ),
+                ),
+              ),
+            if (task?.expireDate != null) ExpirationText(date: task.expireDate),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Widget that displays a [Card] with the description.
+class DescriptionCard extends StatelessWidget {
+  final Task task;
+
+  const DescriptionCard({Key key, this.task}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (task?.description != null)
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.format_align_left),
+                  SizedBox(width: 8.0),
+                  Text(
+                    "Description",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ],
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                task.description,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
           ),
-        // Description
-        if (task?.description != null)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+        ),
+      );
+    else
+      return SizedBox.shrink();
+  }
+}
+
+/// Widget that displays a [Card] with the comments.
+class CommentsCard extends StatelessWidget {
+  final Task task;
+
+  const CommentsCard({Key key, this.task}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.message),
+                SizedBox(width: 8.0),
+                Text(
+                  "Comments",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ],
+            ),
+            AddCommentWidget(
+              onNewComment: (content) => context.read<TaskBloc>().addComment(
+                    content,
+                    context.read<AuthState>().currentUser.id,
+                  ),
+            ),
+            if (task?.comments != null && task.comments.isNotEmpty)
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.format_align_left),
-                      SizedBox(width: 8.0),
-                      Text(
-                        "Description",
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    task.description,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        // Checklists
-        if (task?.checklists != null && task.checklists.isNotEmpty)
-          Column(
-            children: task.checklists
-                .map((checklist) => DisplayChecklist(
-                      checklist: checklist,
-                      onItemChange: (item, value) =>
-                          print("Check ${checklist.id} - ${item.id} - $value"),
-                    ))
-                .toList(),
-          ),
-        // Comments
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.message),
-                    SizedBox(width: 8.0),
-                    Text(
-                      "Comments",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
-                ),
-                AddCommentWidget(
-                  onNewComment: (content) =>
-                      context.read<TaskBloc>().addComment(
-                            content,
-                            context.read<AuthState>().currentUser.id,
-                          ),
-                ),
-                if (task?.comments != null && task.comments.isNotEmpty)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: task.comments
-                        .map(
-                          (comment) => CommentWidget(
-                            comment: comment,
-                            onDelete: () =>
-                                context.read<TaskBloc>().deleteComment(
-                                      comment.id,
-                                      context.read<AuthState>().currentUser.id,
-                                    ),
-                            onEdit: (content) =>
-                                context.read<TaskBloc>().editComment(
-                                      comment.id,
-                                      content,
-                                      context.read<AuthState>().currentUser.id,
-                                    ),
-                            onLike: () => context.read<TaskBloc>().likeComment(
+                children: task.comments
+                    .map(
+                      (comment) => CommentWidget(
+                        comment: comment,
+                        onDelete: () => context.read<TaskBloc>().deleteComment(
+                              comment.id,
+                              context.read<AuthState>().currentUser.id,
+                            ),
+                        onEdit: (content) =>
+                            context.read<TaskBloc>().editComment(
+                                  comment.id,
+                                  content,
+                                  context.read<AuthState>().currentUser.id,
+                                ),
+                        onLike: () => context.read<TaskBloc>().likeComment(
+                              comment.id,
+                              context.read<AuthState>().currentUser.id,
+                            ),
+                        onDislike: () =>
+                            context.read<TaskBloc>().dislikeComment(
                                   comment.id,
                                   context.read<AuthState>().currentUser.id,
                                 ),
-                            onDislike: () =>
-                                context.read<TaskBloc>().dislikeComment(
-                                      comment.id,
-                                      context.read<AuthState>().currentUser.id,
-                                    ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-              ],
-            ),
-          ),
-        )
-      ],
+                      ),
+                    )
+                    .toList(),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
