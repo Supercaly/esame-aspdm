@@ -38,11 +38,19 @@ class _UserAvatarState extends State<UserAvatar> {
 
     // If the user doesn't have a profile color
     // pick one at random.
-    if (widget.user?.profileColor != null)
-      boxColor = widget.user.profileColor;
-    else
-      boxColor =
+    boxColor = widget.user?.profileColor ??
+        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  }
+
+  @override
+  void didUpdateWidget(covariant UserAvatar oldWidget) {
+    // This widget now has a different user
+    if (oldWidget.user != widget.user) {
+      // Change the boxColor with the new user's color
+      boxColor = widget.user?.profileColor ??
           Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
