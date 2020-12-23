@@ -211,6 +211,35 @@ class DataSource {
       return null;
   }
 
+  /// Mark a checklist's item of a [Task] with given [taskId] as complete.
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> check(
+    String taskId,
+    String userId,
+    String checklistId,
+    String itemId,
+    bool checked,
+  ) async {
+    assert(taskId != null);
+    assert(userId != null);
+    assert(checklistId != null);
+    assert(itemId != null);
+    assert(checked != null);
+
+    final res = await _post("/task/check", {
+      "task": taskId,
+      "user": userId,
+      "checklist": checklistId,
+      "item": itemId,
+      "checked": checked,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
   /// Run a HTTP request with method GET to the given [url].
   /// Returns the JSON response or throws a [DioError].
   Future<dynamic> _get(String url) async {

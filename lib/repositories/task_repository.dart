@@ -65,4 +65,16 @@ class TaskRepository {
     if (updated == null) throw Exception("Error un-archiving task $taskId");
     return updated;
   }
+
+  Future<Task> completeChecklist(
+    String taskId,
+    String userId,
+    String checklistId,
+    String itemId,
+    bool complete,
+  ) async {
+    final updated = await _dataSource.check(taskId, userId, checklistId, itemId, complete);
+    if (updated == null) throw Exception("Error completing checklist item $itemId");
+    return updated;
+  }
 }

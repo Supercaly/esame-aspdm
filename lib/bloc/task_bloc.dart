@@ -134,6 +134,29 @@ class TaskBloc extends Cubit<TaskState> {
       emit(TaskState.error(_oldTask));
     }
   }
+
+  /// Tells [TaskRepository] a checklist's item is completed.
+  Future<void> completeChecklist(
+    String userId,
+    String checklistId,
+    String itemId,
+    bool complete,
+  ) async {
+    try {
+      final newTask = await _repository.completeChecklist(
+        _oldTask?.id,
+        userId,
+        checklistId,
+        itemId,
+        complete,
+      );
+      _oldTask = newTask;
+      emit(TaskState.data(newTask));
+    } catch (e) {
+      _logService.error("TaskBlock.completeChecklist: ", e);
+      emit(TaskState.error(_oldTask));
+    }
+  }
 }
 
 /// Class with the state of the [TaskBloc].
