@@ -5,13 +5,19 @@ import 'package:flutter/material.dart';
 class DisplayChecklist extends StatefulWidget {
   /// The [Checklist] object to display.
   final Checklist checklist;
+
+  /// Method called every time a [ChecklistItem] change.
+  /// This method has the [ChecklistItem] and [bool] value.
+  /// If this is `null` the widget will be un-modifiable by
+  /// the current user.
   final void Function(ChecklistItem, bool) onItemChange;
 
   const DisplayChecklist({
     Key key,
     this.checklist,
     this.onItemChange,
-  }) : super(key: key);
+  })  : assert(checklist != null),
+        super(key: key);
 
   @override
   _DisplayChecklistState createState() => _DisplayChecklistState();
@@ -75,9 +81,10 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                           children: [
                             Checkbox(
                               value: item.complete,
-                              onChanged: (value) {
-                                widget.onItemChange?.call(item, value);
-                              },
+                              onChanged: (widget.onItemChange != null)
+                                  ? (value) =>
+                                      widget.onItemChange?.call(item, value)
+                                  : null,
                             ),
                             Text(item.item ?? "-"),
                           ],
