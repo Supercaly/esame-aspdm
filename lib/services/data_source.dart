@@ -211,6 +211,8 @@ class DataSource {
       return null;
   }
 
+  /// Run a HTTP request with method GET to the given [url].
+  /// Returns the JSON response or throws a [DioError].
   Future<dynamic> _get(String url) async {
     try {
       return await _dio.get(url);
@@ -223,6 +225,9 @@ class DataSource {
     }
   }
 
+  /// Run a HTTP request with method POST to the given [url] with
+  /// given [body] parameters.
+  /// Returns the JSON response or throws a [DioError].
   Future<dynamic> _post(String url, Map<String, dynamic> body) async {
     try {
       return await _dio.post(url, data: body);
@@ -235,9 +240,12 @@ class DataSource {
     }
   }
 
+  /// Run a HTTP request with method PATCH to the given [url] with
+  /// given [body] parameters.
+  /// Returns the JSON response or throws a [DioError].
   Future<dynamic> _patch(String url, Map<String, dynamic> body) async {
     try {
-      return await _dio.post(url, data: body);
+      return await _dio.patch(url, data: body);
     } on DioError catch (e) {
       if (e.response != null && e.response.statusCode == 400)
         _logService.error("DataSource patch: Bad request: ${e.response.data}");
@@ -247,9 +255,12 @@ class DataSource {
     }
   }
 
+  /// Run a HTTP request with method DELETE to the given [url] with
+  /// given [body] parameters.
+  /// Returns the JSON response or throws a [DioError].
   Future<dynamic> _delete(String url, Map<String, dynamic> body) async {
     try {
-      return await _dio.post(url, data: body);
+      return await _dio.delete(url, data: body);
     } on DioError catch (e) {
       if (e.response != null && e.response.statusCode == 400)
         _logService.error("DataSource delete: Bad request: ${e.response.data}");
