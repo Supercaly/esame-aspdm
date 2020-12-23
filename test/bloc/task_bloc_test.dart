@@ -434,5 +434,51 @@ void main() {
         expect: [
           TaskState.error(null),
         ]);
+
+    blocTest("emits data on complete checklist success",
+        build: () => TaskBloc("mock_id", repository),
+        act: (TaskBloc bloc) {
+          when(repository.completeChecklist(any, any, any, any, any))
+              .thenAnswer((_) => Future.value(Task(
+                    "mock_id",
+                    "mock title",
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  )));
+          bloc.completeChecklist("userId", "checklistId", "itemId", true);
+        },
+        expect: [
+          TaskState.data(Task(
+            "mock_id",
+            "mock title",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          )),
+        ]);
+
+    blocTest("emits error on complete checklist error",
+        build: () => TaskBloc("mock_id", repository),
+        act: (TaskBloc bloc) {
+          when(repository.completeChecklist(any, any, any, any, any))
+              .thenAnswer((_) => Future.error(Error()));
+          bloc.completeChecklist("userId", "checklistId", "itemId", true);
+        },
+        expect: [
+          TaskState.error(null),
+        ]);
   });
 }

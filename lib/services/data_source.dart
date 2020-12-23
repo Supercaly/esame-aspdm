@@ -11,13 +11,13 @@ import 'package:flutter/material.dart';
 /// and send to him the one that the app generates.
 class DataSource {
   /// Base url of the API endpoint.
-  static const String baseUrl = "aspdm-project-server.glitch.me";
+  static const String _baseUrl = "aspdm-project-server.glitch.me";
 
   Dio _dio;
   LogService _logService;
 
   DataSource()
-      : _dio = Dio(BaseOptions(baseUrl: Uri.https(baseUrl, "api").toString())),
+      : _dio = Dio(BaseOptions(baseUrl: Uri.https(_baseUrl, "api").toString())),
         _logService = locator<LogService>();
 
   @visibleForTesting
@@ -33,7 +33,7 @@ class DataSource {
   /// otherwise null is returned.
   /// This method throw [DioError] if some connection error happens.
   Future<User> authenticate(String email, String password) async {
-    final res = await _post("/authenticate", {
+    final res = await post("/authenticate", {
       "email": email,
       "password": password,
     });
@@ -44,7 +44,7 @@ class DataSource {
   /// Returns a list of all [Task]s that are not archived.
   /// This method throw [DioError] if some connection error happens.
   Future<List<Task>> getUnarchivedTasks() async {
-    final res = await _get("/list");
+    final res = await get("/list");
     if (res.data != null)
       return (res.data as List<dynamic>)
           .map((e) => Task.fromJson(e as Map<String, dynamic>))
@@ -56,7 +56,7 @@ class DataSource {
   /// Returns a list of all [Task]s that are archived.
   /// This method throw [DioError] if some connection error happens.
   Future<List<Task>> getArchivedTasks() async {
-    final res = await _get("/list/archived");
+    final res = await get("/list/archived");
     if (res.data != null)
       return (res.data as List<dynamic>)
           .map((e) => Task.fromJson(e as Map<String, dynamic>))
@@ -70,7 +70,7 @@ class DataSource {
   Future<Task> getTask(String taskId) async {
     assert(taskId != null);
 
-    final res = await _get("/task/$taskId");
+    final res = await get("/task/$taskId");
     if (res.data != null)
       return Task.fromJson(res.data as Map<String, dynamic>);
     else
@@ -85,7 +85,7 @@ class DataSource {
     assert(userId != null);
     assert(content != null);
 
-    final res = await _post("/comment", {
+    final res = await post("/comment", {
       "task": taskId,
       "comment": {
         "author": userId,
@@ -110,7 +110,7 @@ class DataSource {
     assert(commentId != null);
     assert(userId != null);
 
-    final res = await _delete("/comment", {
+    final res = await delete("/comment", {
       "task": taskId,
       "user": userId,
       "comment": commentId,
@@ -135,7 +135,7 @@ class DataSource {
     assert(userId != null);
     assert(newContent != null);
 
-    final res = await _patch("/comment", {
+    final res = await patch("/comment", {
       "task": taskId,
       "user": userId,
       "comment": commentId,
@@ -159,7 +159,7 @@ class DataSource {
     assert(commentId != null);
     assert(userId != null);
 
-    final res = await _post("/comment/like", {
+    final res = await post("/comment/like", {
       "task": taskId,
       "user": userId,
       "comment": commentId,
@@ -182,7 +182,7 @@ class DataSource {
     assert(commentId != null);
     assert(userId != null);
 
-    final res = await _post("/comment/dislike", {
+    final res = await post("/comment/dislike", {
       "task": taskId,
       "user": userId,
       "comment": commentId,
@@ -200,7 +200,7 @@ class DataSource {
     assert(taskId != null);
     assert(userId != null);
 
-    final res = await _post("/task/archive", {
+    final res = await post("/task/archive", {
       "task": taskId,
       "user": userId,
       "archive": archive,
@@ -227,7 +227,7 @@ class DataSource {
     assert(itemId != null);
     assert(checked != null);
 
-    final res = await _post("/task/check", {
+    final res = await post("/task/check", {
       "task": taskId,
       "user": userId,
       "checklist": checklistId,
@@ -242,7 +242,8 @@ class DataSource {
 
   /// Run a HTTP request with method GET to the given [url].
   /// Returns the JSON response or throws a [DioError].
-  Future<dynamic> _get(String url) async {
+  @visibleForTesting
+  Future<Response<dynamic>> get(String url) async {
     try {
       return await _dio.get(url);
     } on DioError catch (e) {
@@ -257,7 +258,8 @@ class DataSource {
   /// Run a HTTP request with method POST to the given [url] with
   /// given [body] parameters.
   /// Returns the JSON response or throws a [DioError].
-  Future<dynamic> _post(String url, Map<String, dynamic> body) async {
+  @visibleForTesting
+  Future<Response<dynamic>> post(String url, Map<String, dynamic> body) async {
     try {
       return await _dio.post(url, data: body);
     } on DioError catch (e) {
@@ -272,7 +274,8 @@ class DataSource {
   /// Run a HTTP request with method PATCH to the given [url] with
   /// given [body] parameters.
   /// Returns the JSON response or throws a [DioError].
-  Future<dynamic> _patch(String url, Map<String, dynamic> body) async {
+  @visibleForTesting
+  Future<Response<dynamic>> patch(String url, Map<String, dynamic> body) async {
     try {
       return await _dio.patch(url, data: body);
     } on DioError catch (e) {
@@ -287,7 +290,11 @@ class DataSource {
   /// Run a HTTP request with method DELETE to the given [url] with
   /// given [body] parameters.
   /// Returns the JSON response or throws a [DioError].
-  Future<dynamic> _delete(String url, Map<String, dynamic> body) async {
+  @visibleForTesting
+  Future<Response<dynamic>> delete(
+    String url,
+    Map<String, dynamic> body,
+  ) async {
     try {
       return await _dio.delete(url, data: body);
     } on DioError catch (e) {
