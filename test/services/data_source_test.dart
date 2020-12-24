@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:aspdm_project/model/checklist.dart';
+import 'package:aspdm_project/model/comment.dart';
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/data_source.dart';
@@ -311,6 +313,662 @@ void main() {
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res2 = await source.getArchivedTasks();
+
+      expect(res2, isNull);
+    });
+
+    test("get tasks works correctly", () async {
+      when(dio.get(any)).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+          },
+        ),
+      );
+      final res = await source.getTask("mock_task_id");
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            null,
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.get(any)).thenAnswer((_) async => Response(data: null));
+      final res2 = await source.getTask("mock_task_id");
+
+      expect(res2, isNull);
+    });
+
+    test("post comment works correctly", () async {
+      when(dio.post(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "comments": [
+              {
+                "_id": "mock_comment",
+                "content": "mock_content",
+                "author": {
+                  "_id": "mock_id",
+                  "name": "Mock User",
+                  "email": "mock@email.com",
+                  "profile_color": "#FF0000",
+                },
+                "like_users": [],
+                "dislike_users": [],
+                "creation_date": "2020-12-22",
+              },
+            ]
+          },
+        ),
+      );
+      final res = await source.postComment(
+        "mock_task_id",
+        "mock_user_id",
+        "mock_content",
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            [
+              Comment(
+                  "mock_comment",
+                  "mock_content",
+                  User(
+                    "mock_id",
+                    "Mock User",
+                    "mock@email.com",
+                    Color(0xFFFF0000),
+                  ),
+                  [],
+                  [],
+                  DateTime.parse("2020-12-22"))
+            ],
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.post(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.postComment(
+        "mock_task_id",
+        "mock_user_id",
+        "mock_content",
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("delete comment works correctly", () async {
+      when(dio.delete(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "comments": [
+              {
+                "_id": "mock_comment",
+                "content": "mock_content",
+                "author": {
+                  "_id": "mock_id",
+                  "name": "Mock User",
+                  "email": "mock@email.com",
+                  "profile_color": "#FF0000",
+                },
+                "like_users": [],
+                "dislike_users": [],
+                "creation_date": "2020-12-22",
+              },
+            ]
+          },
+        ),
+      );
+      final res = await source.deleteComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            [
+              Comment(
+                  "mock_comment",
+                  "mock_content",
+                  User(
+                    "mock_id",
+                    "Mock User",
+                    "mock@email.com",
+                    Color(0xFFFF0000),
+                  ),
+                  [],
+                  [],
+                  DateTime.parse("2020-12-22"))
+            ],
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.delete(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.deleteComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("patch comment works correctly", () async {
+      when(dio.patch(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "comments": [
+              {
+                "_id": "mock_comment",
+                "content": "mock_content",
+                "author": {
+                  "_id": "mock_id",
+                  "name": "Mock User",
+                  "email": "mock@email.com",
+                  "profile_color": "#FF0000",
+                },
+                "like_users": [],
+                "dislike_users": [],
+                "creation_date": "2020-12-22",
+              },
+            ]
+          },
+        ),
+      );
+      final res = await source.patchComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+        "mock_content",
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            [
+              Comment(
+                  "mock_comment",
+                  "mock_content",
+                  User(
+                    "mock_id",
+                    "Mock User",
+                    "mock@email.com",
+                    Color(0xFFFF0000),
+                  ),
+                  [],
+                  [],
+                  DateTime.parse("2020-12-22"))
+            ],
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.patch(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.patchComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+        "mock_content",
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("like comment works correctly", () async {
+      when(dio.post(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "comments": [
+              {
+                "_id": "mock_comment",
+                "content": "mock_content",
+                "author": {
+                  "_id": "mock_id",
+                  "name": "Mock User",
+                  "email": "mock@email.com",
+                  "profile_color": "#FF0000",
+                },
+                "like_users": [
+                  {
+                    "_id": "mock_id",
+                    "name": "Mock User",
+                    "email": "mock@email.com",
+                    "profile_color": "#FF0000",
+                  },
+                ],
+                "dislike_users": [],
+                "creation_date": "2020-12-22",
+              },
+            ]
+          },
+        ),
+      );
+      final res = await source.likeComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            [
+              Comment(
+                  "mock_comment",
+                  "mock_content",
+                  User(
+                    "mock_id",
+                    "Mock User",
+                    "mock@email.com",
+                    Color(0xFFFF0000),
+                  ),
+                  [
+                    User(
+                      "mock_id",
+                      "Mock User",
+                      "mock@email.com",
+                      Color(0xFFFF0000),
+                    ),
+                  ],
+                  [],
+                  DateTime.parse("2020-12-22"))
+            ],
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.post(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.likeComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("dislike comment works correctly", () async {
+      when(dio.post(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "comments": [
+              {
+                "_id": "mock_comment",
+                "content": "mock_content",
+                "author": {
+                  "_id": "mock_id",
+                  "name": "Mock User",
+                  "email": "mock@email.com",
+                  "profile_color": "#FF0000",
+                },
+                "like_users": [],
+                "dislike_users": [
+                  {
+                    "_id": "mock_id",
+                    "name": "Mock User",
+                    "email": "mock@email.com",
+                    "profile_color": "#FF0000",
+                  },
+                ],
+                "creation_date": "2020-12-22",
+              },
+            ]
+          },
+        ),
+      );
+      final res = await source.dislikeComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            [
+              Comment(
+                  "mock_comment",
+                  "mock_content",
+                  User(
+                    "mock_id",
+                    "Mock User",
+                    "mock@email.com",
+                    Color(0xFFFF0000),
+                  ),
+                  [],
+                  [
+                    User(
+                      "mock_id",
+                      "Mock User",
+                      "mock@email.com",
+                      Color(0xFFFF0000),
+                    ),
+                  ],
+                  DateTime.parse("2020-12-22"))
+            ],
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.post(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.dislikeComment(
+        "mock_task_id",
+        "mock_comment_id",
+        "mock_user_id",
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("archive works correctly", () async {
+      when(dio.post(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "comments": [],
+            "archived": true,
+          },
+        ),
+      );
+      final res = await source.archive(
+        "mock_task_id",
+        "mock_user_id",
+        true,
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            null,
+            [],
+            true,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.post(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.archive(
+        "mock_task_id",
+        "mock_user_id",
+        true,
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("check works correctly", () async {
+      when(dio.post(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "creation_date": "2020-12-22",
+            "checklists": [
+              {
+                "_id": "mock_checklist_id",
+                "title": "mock checklist title",
+                "items": [
+                  {
+                    "_id": "mock_item_id",
+                    "item": "item 1",
+                    "complete": true,
+                  },
+                ],
+              },
+            ],
+          },
+        ),
+      );
+      final res = await source.check(
+        "mock_task_id",
+        "mock_user_id",
+        "mock_checklist__id",
+        "mock_item_id",
+        true,
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            null,
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            null,
+            [
+              Checklist(
+                "mock_checklist_id",
+                "mock checklist title",
+                [
+                  ChecklistItem(
+                    "mock_item_id",
+                    "item 1",
+                    true,
+                  )
+                ],
+              ),
+            ],
+            null,
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.post(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.check(
+        "mock_task_id",
+        "mock_user_id",
+        "mock_checklist__id",
+        "mock_item__id",
+        true,
+      );
 
       expect(res2, isNull);
     });
