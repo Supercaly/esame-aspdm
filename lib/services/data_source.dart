@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/model/label.dart';
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/services/log_service.dart';
@@ -28,6 +29,36 @@ class DataSource {
     _dio.close(force: true);
   }
 
+  /*
+   * ----------------------------------------
+   *            User API
+   * ----------------------------------------
+   */
+
+  /// Returns a list of all [User]s.
+  /// This method throw [DioError] if some connection error happens.
+  Future<List<User>> getUsers() async {
+    final res = await get("/users");
+    if (res.data != null)
+      return (res.data as List<dynamic>)
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList();
+    else
+      return null;
+  }
+
+  /// Returns a [User] with given [userId].
+  /// This method throw [DioError] if some connection error happens.
+  Future<User> getUser(String userId) async {
+    assert(userId != null);
+
+    final res = await get("/user/$userId");
+    if (res.data != null)
+      return User.fromJson(res.data);
+    else
+      return null;
+  }
+
   /// Authenticate a user with given [email] and [password].
   /// If the credentials are valid the corresponding [User] is returned,
   /// otherwise null is returned.
@@ -40,6 +71,30 @@ class DataSource {
     if (res.data != null) return User.fromJson(res.data);
     return null;
   }
+
+  /*
+   * ----------------------------------------
+   *            Label API
+   * ----------------------------------------
+   */
+
+  /// Returns a list of all [Label]s.
+  /// This method throw [DioError] if some connection error happens.
+  Future<List<Label>> getLabels() async {
+    final res = await get("/labels");
+    if (res.data != null)
+      return (res.data as List<dynamic>)
+          .map((e) => Label.fromJson(e as Map<String, dynamic>))
+          .toList();
+    else
+      return null;
+  }
+
+  /*
+   * ----------------------------------------
+   *            Task API
+   * ----------------------------------------
+   */
 
   /// Returns a list of all [Task]s that are not archived.
   /// This method throw [DioError] if some connection error happens.
@@ -76,6 +131,66 @@ class DataSource {
     else
       return null;
   }
+
+  /// Archive/Unarchive a [Task] with given [taskId].
+  /// This method will return the updated [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> archive(String taskId, String userId, bool archive) async {
+    assert(taskId != null);
+    assert(userId != null);
+
+    final res = await post("/task/archive", {
+      "task": taskId,
+      "user": userId,
+      "archive": archive,
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Creates a new task from a given [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> postTask(Task newTask) async {
+    assert(newTask != null);
+
+    final jsonTask = newTask.toJson();
+    final res = await post("/task", {
+      "title": jsonTask['title'],
+      "description": jsonTask['description'],
+      "author": jsonTask['author'],
+      "members": jsonTask['members'],
+      "labels": jsonTask['labels'],
+      "expire_date": jsonTask['expire_date'],
+      "checklists": newTask.checklists?.map((e) => {
+            "title": e.title,
+            "items": e.items?.map((i) => i.item),
+          }),
+    });
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /// Updates an existing task from a given [Task].
+  /// This method throw [DioError] if some connection error happens.
+  Future<Task> patchTask(Task newTask) async {
+    assert(newTask != null);
+
+    final res = await patch("/task", newTask.toJson());
+    if (res.data != null)
+      return Task.fromJson(res.data as Map<String, dynamic>);
+    else
+      return null;
+  }
+
+  /*
+   * ----------------------------------------
+   *            Comment API
+   * ----------------------------------------
+   */
 
   /// Adds a new comment under a [Task] with given [taskId].
   /// This method will return the updated [Task].
@@ -193,24 +308,6 @@ class DataSource {
       return null;
   }
 
-  /// Archive/Unarchive a [Task] with given [taskId].
-  /// This method will return the updated [Task].
-  /// This method throw [DioError] if some connection error happens.
-  Future<Task> archive(String taskId, String userId, bool archive) async {
-    assert(taskId != null);
-    assert(userId != null);
-
-    final res = await post("/task/archive", {
-      "task": taskId,
-      "user": userId,
-      "archive": archive,
-    });
-    if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
-  }
-
   /// Mark a checklist's item of a [Task] with given [taskId] as complete.
   /// This method will return the updated [Task].
   /// This method throw [DioError] if some connection error happens.
@@ -239,6 +336,12 @@ class DataSource {
     else
       return null;
   }
+
+  /*
+   * ----------------------------------------
+   *            Internal HTTP methods
+   * ----------------------------------------
+   */
 
   /// Run a HTTP request with method GET to the given [url].
   /// Returns the JSON response or throws a [DioError].

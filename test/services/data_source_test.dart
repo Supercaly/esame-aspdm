@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:aspdm_project/model/checklist.dart';
 import 'package:aspdm_project/model/comment.dart';
+import 'package:aspdm_project/model/label.dart';
 import 'package:aspdm_project/model/task.dart';
 import 'package:aspdm_project/model/user.dart';
 import 'package:aspdm_project/services/data_source.dart';
@@ -174,6 +175,88 @@ void main() {
       source = null;
     });
 
+    test("get users works correctly", () async {
+      when(dio.get(any)).thenAnswer(
+        (_) async => Response(
+          data: [
+            {
+              "_id": "mock_id_1",
+              "name": "Mock User 1",
+              "email": "mock1@email.com",
+              "profile_color": "#FF0000",
+            },
+            {
+              "_id": "mock_id_2",
+              "name": "Mock User 2",
+              "email": "mock2@email.com",
+              "profile_color": "#00FF00",
+            }
+          ],
+        ),
+      );
+      final res = await source.getUsers();
+
+      expect(res, isNotNull);
+      expect(res, isNotEmpty);
+      expect(res, hasLength(2));
+      expect(
+        res,
+        equals(
+          [
+            User(
+              "mock_id_1",
+              "Mock User 1",
+              "mock1@email.com",
+              Color(0xFFFF0000),
+            ),
+            User(
+              "mock_id_2",
+              "Mock User 2",
+              "mock2@email.com",
+              Color(0xFF00FF00),
+            ),
+          ],
+        ),
+      );
+
+      when(dio.get(any)).thenAnswer((_) async => Response(data: null));
+      final res2 = await source.getUsers();
+
+      expect(res2, isNull);
+    });
+
+    test("get user works correctly", () async {
+      when(dio.get(any)).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_id_1",
+            "name": "Mock User 1",
+            "email": "mock1@email.com",
+            "profile_color": "#FF0000",
+          },
+        ),
+      );
+      final res = await source.getUser("mock_id_1");
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          User(
+            "mock_id_1",
+            "Mock User 1",
+            "mock1@email.com",
+            Color(0xFFFF0000),
+          ),
+        ),
+      );
+
+      when(dio.get(any)).thenAnswer((_) async => Response(data: null));
+      final res2 = await source.getUser("mock_id_1");
+
+      expect(res2, isNull);
+    });
+
     test("authentication works correctly", () async {
       when(dio.post(any, data: anyNamed("data"))).thenAnswer(
         (_) async => Response(
@@ -203,6 +286,62 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.authenticate("mock@email.com", "mock_password");
+
+      expect(res2, isNull);
+    });
+
+    test("get labels works correctly", () async {
+      when(dio.get(any)).thenAnswer(
+        (_) async => Response(
+          data: [
+            {
+              "_id": "mock_id_1",
+              "label": "Label 1",
+              "color": "#FF0000",
+            },
+            {
+              "_id": "mock_id_2",
+              "label": "Label 2",
+              "color": "#00FF00",
+            },
+            {
+              "_id": "mock_id_3",
+              "label": "Label 3",
+              "color": "#0000FF",
+            },
+          ],
+        ),
+      );
+      final res = await source.getLabels();
+
+      expect(res, isNotNull);
+      expect(res, isNotEmpty);
+      expect(res, hasLength(3));
+      expect(
+        res,
+        equals(
+          [
+            Label(
+              "mock_id_1",
+              Color(0xFFFF0000),
+              "Label 1",
+            ),
+            Label(
+              "mock_id_2",
+              Color(0xFF00FF00),
+              "Label 2",
+            ),
+            Label(
+              "mock_id_3",
+              Color(0xFF0000FF),
+              "Label 3",
+            ),
+          ],
+        ),
+      );
+
+      when(dio.get(any)).thenAnswer((_) async => Response(data: null));
+      final res2 = await source.getLabels();
 
       expect(res2, isNull);
     });
@@ -362,6 +501,186 @@ void main() {
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res2 = await source.getTask("mock_task_id");
+
+      expect(res2, isNull);
+    });
+
+    test("post task works correctly", () async {
+      when(dio.post(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "description": "Mock Description",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "expire_date": "2021-01-03",
+            "creation_date": "2020-12-22",
+          },
+        ),
+      );
+      final res = await source.postTask(
+        Task(
+          null,
+          "Mock Title",
+          "Mock Description",
+          null,
+          User(
+            "mock_id",
+            "Mock User",
+            "mock@email.com",
+            Color(0xFFFF0000),
+          ),
+          null,
+          DateTime.parse("2021-01-03"),
+          null,
+          null,
+          false,
+          DateTime.parse("2020-12-22"),
+        ),
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            "Mock Description",
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            DateTime.parse("2021-01-03"),
+            null,
+            null,
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.post(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.postTask(
+        Task(
+          null,
+          "Mock Title",
+          "Mock Description",
+          null,
+          User(
+            "mock_id",
+            "Mock User",
+            "mock@email.com",
+            Color(0xFFFF0000),
+          ),
+          null,
+          DateTime.parse("2021-01-03"),
+          null,
+          null,
+          false,
+          DateTime.parse("2020-12-22"),
+        ),
+      );
+
+      expect(res2, isNull);
+    });
+
+    test("patch task works correctly", () async {
+      when(dio.patch(any, data: anyNamed("data"))).thenAnswer(
+        (_) async => Response(
+          data: {
+            "_id": "mock_task_id",
+            "title": "Mock Title",
+            "description": "Mock Description",
+            "author": {
+              "_id": "mock_id",
+              "name": "Mock User",
+              "email": "mock@email.com",
+              "profile_color": "#FF0000",
+            },
+            "expire_date": "2021-01-03",
+            "creation_date": "2020-12-22",
+          },
+        ),
+      );
+      final res = await source.patchTask(
+        Task(
+          null,
+          "Mock Title",
+          "Mock Description",
+          null,
+          User(
+            "mock_id",
+            "Mock User",
+            "mock@email.com",
+            Color(0xFFFF0000),
+          ),
+          null,
+          DateTime.parse("2021-01-03"),
+          null,
+          null,
+          false,
+          DateTime.parse("2020-12-22"),
+        ),
+      );
+
+      expect(res, isNotNull);
+      expect(
+        res,
+        equals(
+          Task(
+            "mock_task_id",
+            "Mock Title",
+            "Mock Description",
+            null,
+            User(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              Color(0xFFFF0000),
+            ),
+            null,
+            DateTime.parse("2021-01-03"),
+            null,
+            null,
+            false,
+            DateTime.parse("2020-12-22"),
+          ),
+        ),
+      );
+
+      when(dio.patch(any, data: anyNamed("data")))
+          .thenAnswer((_) async => Response(data: null));
+      final res2 = await source.patchTask(
+        Task(
+          null,
+          "Mock Title",
+          "Mock Description",
+          null,
+          User(
+            "mock_id",
+            "Mock User",
+            "mock@email.com",
+            Color(0xFFFF0000),
+          ),
+          null,
+          DateTime.parse("2021-01-03"),
+          null,
+          null,
+          false,
+          DateTime.parse("2020-12-22"),
+        ),
+      );
 
       expect(res2, isNull);
     });
