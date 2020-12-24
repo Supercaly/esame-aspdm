@@ -1,266 +1,82 @@
 import 'package:aspdm_project/model/task.dart';
-import 'package:aspdm_project/model/user.dart';
-import 'package:flutter/material.dart';
+import 'package:aspdm_project/services/data_source.dart';
+
+import '../locator.dart';
 
 class TaskRepository {
-  final _dummyTaskMap = {
-    "id": "mock_id",
-    "title": "Mock Title",
-    "description": "Mock Description",
-    "labels": [
-      {
-        "color": "FFFF0000",
-        "text": "Label",
-      },
-      {
-        "color": "FF00FF00",
-        "text": "Label",
-      },
-      {
-        "color": "FF0000FF",
-        "text": "Label",
-      },
-    ],
-    "user": {
-      "id": "mock_id_2",
-      "name": "aa aa",
-      "email": "test@a.it",
-    },
-    "members": [
-      {
-        "id": "mock_id",
-        "name": "ff s",
-        "email": "TestA@email.com",
-      },
-      {
-        "id": "1",
-        "name": "deb d",
-        "email": "TestA@email.com",
-        "profile_color": "FF00FF00",
-      },
-      {
-        "id": "3",
-        "name": "Abc",
-        "email": "TestA@email.com",
-      },
-    ],
-    "expire_date": DateTime.now().toIso8601String(),
-    "checklists": [
-      {
-        "title": "checklist 1",
-        "items": [
-          {"text": "item", "checked": true},
-          {"text": "item", "checked": false},
-          {"text": "item", "checked": false},
-          {"text": "item", "checked": false},
-          {"text": "item", "checked": true},
-        ]
-      },
-      {
-        "title": "checklist 2",
-        "items": [
-          {"text": "item", "checked": true},
-          {"text": "item", "checked": false},
-          {"text": "item", "checked": false},
-          {"text": "item", "checked": true},
-        ]
-      }
-    ],
-    "comments": [
-      {
-        "id": "comment1",
-        "user": {
-          "id": "1",
-          "name": "Test A",
-          "email": "TestA@email.com",
-        },
-        "content": "ciao",
-        "liked": false,
-        "likes": 0,
-        "creation_date":
-            DateTime.now().subtract(Duration(hours: 3)).toIso8601String(),
-        "disliked": false,
-        "dislikes": 0,
-      },
-      {
-        "id": "comment2",
-        "user": {
-          "id": "1",
-          "name": "Test A",
-          "email": "TestA@email.com",
-        },
-        "content": "ciao ciao",
-        "liked": true,
-        "likes": 10,
-        "creation_date": DateTime.now().toIso8601String(),
-        "disliked": false,
-        "dislikes": 0,
-      },
-      {
-        "id": "comment3",
-        "user": {
-          "id": "1",
-          "name": "Test A",
-          "email": "TestA@email.com",
-        },
-        "content": "ciao ciao ciao",
-        "creation_date": DateTime.now().toIso8601String(),
-        "liked": false,
-        "likes": 10,
-        "disliked": true,
-        "dislikes": 1,
-      },
-    ],
-  };
+  final DataSource _dataSource = locator<DataSource>();
 
-  Future<Task> getTask(String id) async {
+  Future<Task> getTask(String id) {
     assert(id != null);
 
-    await Future.delayed(Duration(seconds: 5));
-    return Task.fromJson(_dummyTaskMap);
+    return _dataSource.getTask(id);
   }
 
-  Future<Task> deleteComment(String commentId, String userId) async {
-    final Map<String, dynamic> comment =
-        (_dummyTaskMap['comments'] as List).firstWhere(
-      (element) => element['id'] == commentId,
-      orElse: () => null,
-    );
-    if (comment == null) throw Exception("No comment with id $commentId");
-
-    final idx = (_dummyTaskMap['comments'] as List).indexOf(comment);
-    (_dummyTaskMap['comments'] as List).removeAt(idx);
-
-    return Task.fromJson(_dummyTaskMap);
+  Future<Task> deleteComment(
+    String taskId,
+    String commentId,
+    String userId,
+  ) async {
+    final updated = await _dataSource.deleteComment(taskId, commentId, userId);
+    if (updated == null) throw Exception("Error deleting comment $commentId");
+    return updated;
   }
 
   Future<Task> editComment(
+    String taskId,
     String commentId,
     String content,
     String userId,
   ) async {
-    final Map<String, dynamic> comment =
-        (_dummyTaskMap['comments'] as List).firstWhere(
-      (element) => element['id'] == commentId,
-      orElse: () => null,
-    );
-
-    if (comment == null) throw Exception("No comment with id $commentId");
-
-    final idx = (_dummyTaskMap['comments'] as List).indexOf(comment);
-    (_dummyTaskMap['comments'] as List)[idx] = {
-      "id": comment['id'],
-      "content": content,
-      "user": comment['user'],
-      "creation_date": comment['creation_date'],
-      "dislikes": comment['dislikes'],
-      "disliked": comment['disliked'],
-      "likes": comment['likes'],
-      "liked": comment['liked'],
-    };
-    return Task.fromJson(_dummyTaskMap);
+    final updated =
+        await _dataSource.patchComment(taskId, commentId, userId, content);
+    if (updated == null) throw Exception("Error updating comment $commentId");
+    return updated;
   }
 
-  Future<Task> likeComment(String commentId, String userId) async {
-    final Map<String, dynamic> comment =
-        (_dummyTaskMap['comments'] as List).firstWhere(
-      (element) => element['id'] == commentId,
-      orElse: () => null,
-    );
-
-    if (comment == null) throw Exception("No comment with id $commentId");
-
-    final idx = (_dummyTaskMap['comments'] as List).indexOf(comment);
-    int dislikes = comment['dislikes'];
-    bool disliked = comment['disliked'];
-    int likes = comment['likes'] + 1;
-    bool liked = !comment['liked'];
-
-    if (disliked) {
-      dislikes--;
-      disliked = false;
-    }
-    if (!liked) {
-      likes -= 2;
-      liked = false;
-    }
-    (_dummyTaskMap['comments'] as List)[idx] = {
-      "id": comment['id'],
-      "user": comment['user'],
-      "creation_date": comment['creation_date'],
-      "content": comment['content'],
-      "dislikes": dislikes,
-      "disliked": disliked,
-      "likes": likes,
-      "liked": liked,
-    };
-
-    return Task.fromJson(_dummyTaskMap);
+  Future<Task> addComment(String taskId, String content, String userId) async {
+    final updated = await _dataSource.postComment(taskId, userId, content);
+    if (updated == null) throw Exception("Error adding a comment!");
+    return updated;
   }
 
-  Future<Task> dislikeComment(String commentId, String userId) async {
-    final Map<String, dynamic> comment =
-        (_dummyTaskMap['comments'] as List).firstWhere(
-      (element) => element['id'] == commentId,
-      orElse: () => null,
-    );
-
-    if (comment == null) throw Exception("No comment with id $commentId");
-
-    final idx = (_dummyTaskMap['comments'] as List).indexOf(comment);
-    int likes = comment['likes'];
-    bool liked = comment['liked'];
-    int dislikes = comment['dislikes'] + 1;
-    bool disliked = !comment['disliked'];
-
-    if (liked) {
-      likes--;
-      liked = false;
-    }
-    if (!disliked) {
-      dislikes -= 2;
-      disliked = false;
-    }
-
-    (_dummyTaskMap['comments'] as List)[idx] = {
-      "id": comment['id'],
-      "user": comment['user'],
-      "creation_date": comment['creation_date'],
-      "content": comment['content'],
-      "dislikes": dislikes,
-      "disliked": disliked,
-      "likes": likes,
-      "liked": liked,
-    };
-    return Task.fromJson(_dummyTaskMap);
+  Future<Task> likeComment(
+      String taskId, String commentId, String userId) async {
+    final updated = await _dataSource.likeComment(taskId, commentId, userId);
+    if (updated == null) throw Exception("Error liking comment $commentId");
+    return updated;
   }
 
-  Future<Task> addComment(String content, String userId) async {
-    (_dummyTaskMap['comments'] as List).add({
-      "id": "0",
-      "user": User(userId, "name", "email", Colors.red).toJson(),
-      "creation_date": DateTime.now().toIso8601String(),
-      "content": content,
-      "dislikes": 0,
-      "disliked": false,
-      "likes": 0,
-      "liked": false,
-    });
-    print(_dummyTaskMap);
-    return Task.fromJson(_dummyTaskMap);
+  Future<Task> dislikeComment(
+      String taskId, String commentId, String userId) async {
+    final updated = await _dataSource.dislikeComment(taskId, commentId, userId);
+    if (updated == null) throw Exception("Error disliking comment $commentId");
+    return updated;
   }
 
-  Future<Task> archiveTask(String taskId) async {
-    assert(taskId != null);
-    _dummyTaskMap['archived'] = true;
-
-    return Task.fromJson(_dummyTaskMap);
+  Future<Task> archiveTask(String taskId, String userId) async {
+    final updated = await _dataSource.archive(taskId, userId, true);
+    if (updated == null) throw Exception("Error un-archiving task $taskId");
+    return updated;
   }
 
-  Future<Task> unarchiveTask(String taskId) async {
-    assert(taskId != null);
-    _dummyTaskMap['archived'] = false;
+  Future<Task> unarchiveTask(String taskId, String userId) async {
+    final updated = await _dataSource.archive(taskId, userId, false);
+    if (updated == null) throw Exception("Error un-archiving task $taskId");
+    return updated;
+  }
 
-    return Task.fromJson(_dummyTaskMap);
+  Future<Task> completeChecklist(
+    String taskId,
+    String userId,
+    String checklistId,
+    String itemId,
+    bool complete,
+  ) async {
+    final updated =
+        await _dataSource.check(taskId, userId, checklistId, itemId, complete);
+    if (updated == null)
+      throw Exception("Error completing checklist item $itemId");
+    return updated;
   }
 }

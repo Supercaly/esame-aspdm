@@ -3,6 +3,7 @@ import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,66 +32,74 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: EasyColors.primary,
-      body: Center(
-        child: Card(
-          margin: const EdgeInsets.all(25.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Placeholder(fallbackHeight: 128.0),
-                  SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      prefixIcon: Icon(Icons.email),
-                      filled: true,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (!RegExp(_emailRegex).hasMatch(value))
-                        return "Invalid email!";
-                      else
-                        return null;
-                    },
+      body: Selector<AuthState, bool>(
+        selector: (_, state) => state.isLoading,
+        builder: (context, loading, _) => LoadingOverlay(
+          isLoading: loading,
+          color: Colors.black45,
+          child: Center(
+            child: Card(
+              margin: const EdgeInsets.all(25.0),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Placeholder(fallbackHeight: 128.0),
+                      SizedBox(height: 8.0),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          prefixIcon: Icon(Icons.email),
+                          filled: true,
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (!RegExp(_emailRegex).hasMatch(value))
+                            return "Invalid email!";
+                          else
+                            return null;
+                        },
+                      ),
+                      SizedBox(height: 8.0),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          prefixIcon: Icon(Icons.lock),
+                          filled: true,
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty)
+                            return "Password can't be empty!";
+                          else
+                            return null;
+                        },
+                      ),
+                      SizedBox(height: 8.0),
+                      RaisedButton(
+                        padding: const EdgeInsets.symmetric(horizontal: 82.0),
+                        child: Text("Log In"),
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            locator<LogService>().info(
+                                "Email: ${_emailController.text} Password: ${_passwordController.text}");
+                            if (!await context.read<AuthState>().login(
+                                _emailController.text,
+                                _passwordController.text)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Error logging in!")));
+                            }
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      prefixIcon: Icon(Icons.lock),
-                      filled: true,
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty)
-                        return "Password can't be empty!";
-                      else
-                        return null;
-                    },
-                  ),
-                  SizedBox(height: 8.0),
-                  RaisedButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 82.0),
-                    child: Text("Log In"),
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        locator<LogService>().info(
-                            "Email: ${_emailController.text} Password: ${_passwordController.text}");
-                        if (!await context.read<AuthState>().login(
-                            _emailController.text, _passwordController.text)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Error logging in!")));
-                        }
-                      }
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
           ),

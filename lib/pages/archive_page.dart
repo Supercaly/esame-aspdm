@@ -36,7 +36,7 @@ class ArchivePage extends StatelessWidget {
             ),
             builder: (context, state) => LoadingOverlay(
               isLoading: state.isLoading,
-              color: Colors.black26,
+              color: Colors.black45,
               child: RefreshIndicator(
                 onRefresh: () =>
                     context.read<ArchiveBloc>().fetch(showLoading: false),

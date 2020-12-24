@@ -8,46 +8,47 @@ part 'comment.g.dart';
 @JsonSerializable()
 class Comment extends Equatable {
   /// Id of the comment.
-  @JsonKey(required: true, disallowNullValue: true)
+  @JsonKey(
+    name: "_id",
+    required: true,
+    disallowNullValue: true,
+  )
   final String id;
 
   /// The text content of the comment.
-  @JsonKey(required: true, disallowNullValue: true)
+  @JsonKey(required: true, defaultValue: "")
   final String content;
 
   /// The [User] that created the comment.
-  @JsonKey(required: true, disallowNullValue: true)
-  final User user;
+  @JsonKey(
+    required: true,
+    disallowNullValue: true,
+  )
+  final User author;
 
-  /// Number of likes.
-  @JsonKey(defaultValue: 0)
-  final int likes;
+  /// [User]s that liked this comment.
+  @JsonKey(name: "like_users")
+  final List<User> likes;
 
-  /// Number of dislikes.
-  @JsonKey(defaultValue: 0)
-  final int dislikes;
+  /// [User]s that disliked this comment.
+  @JsonKey(name: "dislike_users")
+  final List<User> dislikes;
 
   /// Date when the comment was created.
-  @JsonKey(name: "creation_date", required: true, disallowNullValue: true)
+  @JsonKey(
+    name: "creation_date",
+    required: true,
+    disallowNullValue: true,
+  )
   final DateTime creationDate;
-
-  /// Flag telling that the current user has liked this comment.
-  @JsonKey(defaultValue: false)
-  final bool liked;
-
-  /// Flag telling that the current user has disliked this comment.
-  @JsonKey(defaultValue: false)
-  final bool disliked;
 
   const Comment(
     this.id,
     this.content,
-    this.user,
+    this.author,
     this.likes,
     this.dislikes,
     this.creationDate,
-    this.liked,
-    this.disliked,
   );
 
   /// Creates a new [Comment] from json data.
@@ -55,19 +56,20 @@ class Comment extends Equatable {
       _$CommentFromJson(json);
 
   /// Converts this [Comment] to json data.
-  Map<String, dynamic> fromJson() => _$CommentToJson(this);
+  Map<String, dynamic> toJson() => _$CommentToJson(this);
 
   @override
   List<Object> get props => [
         id,
         content,
+        author,
+        creationDate,
         likes,
         dislikes,
-        liked,
-        disliked,
       ];
 
   @override
-  String toString() =>
-      "Comment{id: $id, likes: $likes, dislikes: $dislikes, liked: $liked, disliked: $disliked}";
+  String toString() => 'Comment{id: $id, content: $content, author: $author, '
+      'likes: ${likes?.length}, dislikes: ${dislikes?.length}, '
+      'creationDate: $creationDate}';
 }

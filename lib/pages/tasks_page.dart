@@ -15,7 +15,7 @@ class TasksPage extends StatelessWidget {
           .showSnackBar(SnackBar(content: Text("Unknown error occurred!"))),
       builder: (context, state) => LoadingOverlay(
         isLoading: state.isLoading,
-        color: Colors.black26,
+        color: Colors.black45,
         child: RefreshIndicator(
           onRefresh: () => context.read<HomeBloc>().fetch(showLoading: false),
           child: LayoutBuilder(

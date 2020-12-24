@@ -9,7 +9,7 @@ part 'user.g.dart';
 @JsonSerializable()
 class User extends Equatable {
   /// Unique user identifier.
-  @JsonKey(required: true, disallowNullValue: true)
+  @JsonKey(name: "_id", required: true, disallowNullValue: true)
   final String id;
 
   /// User's full name.
@@ -40,5 +40,5 @@ class User extends Equatable {
 
   @override
   String toString() => "User {id: $id, name: $name, email: $email, "
-      "profileColor: ${profileColor?.value?.toRadixString(16)?.toUpperCase()}}";
+      "profileColor: $profileColor";
 }

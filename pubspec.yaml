@@ -17,6 +17,7 @@ dependencies:
   flutter_bloc: ^6.1.1
   bloc_test: ^7.1.0
   get_it: ^5.0.1
+  dio: ^3.0.10
   shared_preferences: ^0.5.12+4
   package_info: ^0.4.3+2
   mockito: ^4.1.3

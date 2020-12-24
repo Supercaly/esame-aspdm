@@ -21,8 +21,17 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
+              "mock_id",
+              "mock title",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
             ),
           ),
         ),
@@ -39,12 +48,20 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
-              labels: [
-                Label(Colors.red, "label"),
-                Label(Colors.blue, "label"),
+              "mock_id",
+              "mock title",
+              null,
+              [
+                Label("mock_id", Colors.red, "label"),
+                Label("mock_id", Colors.blue, "label"),
               ],
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
             ),
           ),
         ),
@@ -62,33 +79,15 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
-              description: "mock description",
-              labels: [
-                Label(Colors.red, "label"),
-                Label(Colors.blue, "label"),
+              "mock_id",
+              "mock title",
+              "mock description",
+              [
+                Label("mock_id", Colors.red, "label"),
+                Label("mock_id", Colors.blue, "label"),
               ],
-              checklists: [
-                Checklist(
-                  "checklist1",
-                  [
-                    ChecklistItem("item", false),
-                    ChecklistItem("item", true),
-                    ChecklistItem("item", false),
-                    ChecklistItem("item", true),
-                  ],
-                ),
-                Checklist(
-                  "checklist1",
-                  [
-                    ChecklistItem("item", false),
-                    ChecklistItem("item", true),
-                    ChecklistItem("item", false),
-                  ],
-                ),
-              ],
-              members: [
+              null,
+              [
                 User(
                   "mock_user",
                   "Mock User",
@@ -96,8 +95,29 @@ void main() {
                   null,
                 )
               ],
-              expireDate: DateTime.now(),
-              comments: [
+              DateTime.now(),
+              [
+                Checklist(
+                  "mock_id",
+                  "checklist1",
+                  [
+                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem("mock_id", "item", true),
+                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem("mock_id", "item", true),
+                  ],
+                ),
+                Checklist(
+                  "mock_id",
+                  "checklist1",
+                  [
+                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem("mock_id", "item", true),
+                    ChecklistItem("mock_id", "item", false),
+                  ],
+                ),
+              ],
+              [
                 Comment(
                   "c1",
                   "comment 1",
@@ -107,11 +127,9 @@ void main() {
                     "mock.user@email.com",
                     null,
                   ),
-                  0,
-                  0,
+                  [],
+                  [],
                   DateTime.now(),
-                  false,
-                  false,
                 ),
                 Comment(
                   "c2",
@@ -122,11 +140,9 @@ void main() {
                     "mock.user@email.com",
                     null,
                   ),
-                  0,
-                  0,
+                  [],
+                  [],
                   DateTime.now(),
-                  false,
-                  false,
                 ),
                 Comment(
                   "c3",
@@ -137,13 +153,13 @@ void main() {
                     "mock.user@email.com",
                     null,
                   ),
-                  0,
-                  0,
+                  [],
+                  [],
                   DateTime.now(),
-                  false,
-                  false,
                 ),
               ],
+              false,
+              null,
             ),
           ),
         ),
@@ -158,7 +174,7 @@ void main() {
     expect(find.text("3/7"), findsOneWidget);
     expect(find.byIcon(Icons.message), findsOneWidget);
     expect(find.text("3"), findsOneWidget);
-    expect(find.byIcon(Icons.person), findsOneWidget);
+    expect(find.byIcon(Icons.group), findsOneWidget);
     expect(find.text("1"), findsOneWidget);
   });
 
@@ -173,8 +189,17 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              id: "mock_id",
-              title: "mock title",
+              "mock_id",
+              "mock title",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
             ),
           ),
         ),
@@ -198,7 +223,21 @@ void main() {
     }
 
     try {
-      TaskCard(task: Task());
+      TaskCard(
+        task: Task(
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+        ),
+      );
       fail("This should throw an error!");
     } catch (e) {
       expect(e, isA<AssertionError>());

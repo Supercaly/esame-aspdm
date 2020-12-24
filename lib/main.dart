@@ -3,6 +3,7 @@ import 'package:aspdm_project/pages/archive_page.dart';
 import 'package:aspdm_project/pages/login_page.dart';
 import 'package:aspdm_project/pages/new_task_page.dart';
 import 'package:aspdm_project/pages/task_info_page.dart';
+import 'package:aspdm_project/repositories/auth_repository.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
@@ -33,8 +34,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthState>(
-          create: (context) =>
-              AuthState(locator<PreferenceService>().getLastSignedInUser()),
+          create: (context) => AuthState(AuthRepository()),
         ),
       ],
       child: MaterialApp(

@@ -5,13 +5,19 @@ import 'package:flutter/material.dart';
 class DisplayChecklist extends StatefulWidget {
   /// The [Checklist] object to display.
   final Checklist checklist;
-  final void Function(int, bool) onItemChange;
+
+  /// Method called every time a [ChecklistItem] change.
+  /// This method has the [ChecklistItem] and [bool] value.
+  /// If this is `null` the widget will be un-modifiable by
+  /// the current user.
+  final void Function(ChecklistItem, bool) onItemChange;
 
   const DisplayChecklist({
     Key key,
     this.checklist,
     this.onItemChange,
-  }) : super(key: key);
+  })  : assert(checklist != null),
+        super(key: key);
 
   @override
   _DisplayChecklistState createState() => _DisplayChecklistState();
@@ -43,7 +49,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
               Icon(Icons.check_circle_outline),
               SizedBox(width: 8.0),
               Text(
-                widget.checklist.title,
+                widget.checklist.title ?? "",
                 style: Theme.of(context).textTheme.headline6,
               ),
               Expanded(
@@ -71,15 +77,16 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
             if (_showItems && hasItems)
               Column(
                 children: widget.checklist.items
-                    .mapIndexed((idx, i) => Row(
+                    .map((item) => Row(
                           children: [
                             Checkbox(
-                              value: i.checked,
-                              onChanged: (value) {
-                                widget.onItemChange?.call(idx, value);
-                              },
+                              value: item.complete,
+                              onChanged: (widget.onItemChange != null)
+                                  ? (value) =>
+                                      widget.onItemChange?.call(item, value)
+                                  : null,
                             ),
-                            Text(i.text),
+                            Text(item.item ?? "-"),
                           ],
                         ))
                     .toList(),
@@ -92,7 +99,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
 
   double _getChecklistProgress(List<ChecklistItem> items) {
     if (items == null || items.isEmpty) return 0.0;
-    final checkedItems = items.where((element) => element.checked);
+    final checkedItems = items.where((element) => element.complete);
     if (checkedItems.isEmpty) return 0.0;
     return checkedItems.length / items.length;
   }
