@@ -138,6 +138,7 @@ class DataSource {
   Future<Task> archive(String taskId, String userId, bool archive) async {
     assert(taskId != null);
     assert(userId != null);
+    assert(archive != null);
 
     final res = await post("/task/archive", {
       "task": taskId,

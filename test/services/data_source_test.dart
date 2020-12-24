@@ -520,6 +520,29 @@ void main() {
             },
             "expire_date": "2021-01-03",
             "creation_date": "2020-12-22",
+            "checklists": [
+              {
+                "_id": "mock_checklist_id",
+                "title": "Mock Checklist Title",
+                "items": [
+                  {
+                    "_id": "mock_item_1",
+                    "item": "item 1",
+                    "complete": false,
+                  },
+                  {
+                    "_id": "mock_item_2",
+                    "item": "item 2",
+                    "complete": false,
+                  },
+                  {
+                    "_id": "mock_item_3",
+                    "item": "item 3",
+                    "complete": false,
+                  },
+                ]
+              }
+            ]
           },
         ),
       );
@@ -537,7 +560,17 @@ void main() {
           ),
           null,
           DateTime.parse("2021-01-03"),
-          null,
+          [
+            Checklist(
+              "mock_checklist_id",
+              "Mock Checklist Title",
+              [
+                ChecklistItem("mock_item_1", "item 1", false),
+                ChecklistItem("mock_item_2", "item 2", false),
+                ChecklistItem("mock_item_3", "item 3", false),
+              ],
+            ),
+          ],
           null,
           false,
           DateTime.parse("2020-12-22"),
@@ -561,7 +594,17 @@ void main() {
             ),
             null,
             DateTime.parse("2021-01-03"),
-            null,
+            [
+              Checklist(
+                "mock_checklist_id",
+                "Mock Checklist Title",
+                [
+                  ChecklistItem("mock_item_1", "item 1", false),
+                  ChecklistItem("mock_item_2", "item 2", false),
+                  ChecklistItem("mock_item_3", "item 3", false),
+                ],
+              ),
+            ],
             null,
             false,
             DateTime.parse("2020-12-22"),
@@ -1290,6 +1333,224 @@ void main() {
       );
 
       expect(res2, isNull);
+    });
+
+    test("get user throws an error with null parameters", () async {
+      try {
+        await source.getUser(null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("get task throws an error with null parameters", () async {
+      try {
+        await source.getTask(null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("archive throws an error with null parameters", () async {
+      try {
+        await source.archive(null, "userId", true);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.archive("taskId", null, true);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.archive("taskId", "userId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("post task throws an error with null parameters", () async {
+      try {
+        await source.postTask(null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("patch task throws an error with null parameters", () async {
+      try {
+        await source.patchTask(null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("post comment throws an error with null parameters", () async {
+      try {
+        await source.postComment(null, "userId", "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.postComment("taskId", null, "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.postComment("taskId", "userId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("delete comment throws an error with null parameters", () async {
+      try {
+        await source.deleteComment(null, "commentId", "userId");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.deleteComment("taskId", null, "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.deleteComment("taskId", "commentId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("patch comment throws an error with null parameters", () async {
+      try {
+        await source.patchComment(null, "commentId", "userId", "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.patchComment("taskId", null, "userId", "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.patchComment("taskId", "commentId", null, "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.patchComment("taskId", "commentId", "userId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("like comment throws an error with null parameters", () async {
+      try {
+        await source.likeComment(null, "commentId", "userId");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.likeComment("taskId", null, "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.likeComment("taskId", "commentId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("dislike comment throws an error with null parameters", () async {
+      try {
+        await source.dislikeComment(null, "commentId", "userId");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.dislikeComment("taskId", null, "content");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.dislikeComment("taskId", "commentId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("check throws an error with null parameters", () async {
+      try {
+        await source.check(null, "userId", "checklistId", "itemId", true);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.check("taskId", null, "checklistId", "itemId", true);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.check("taskId", "userId", null, "itemId", true);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.check("taskId", "userId", "checklistId", null, true);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      try {
+        await source.check("taskId", "userId", "checklistId", "itemId", null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
     });
   });
 }
