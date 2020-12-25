@@ -4,6 +4,7 @@ import 'package:aspdm_project/routes.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/widgets/expiration_badge.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
+import 'package:aspdm_project/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
 /// Widget displaying a card with a short recap
@@ -29,6 +30,8 @@ class TaskCard extends StatelessWidget {
     final hasComments = task.comments != null && task.comments.isNotEmpty;
     final hasExpiration = task.expireDate != null;
 
+    final isLarge = Responsive.isLarge(context);
+
     return Card(
       child: InkWell(
         onTap: () {
@@ -36,7 +39,9 @@ class TaskCard extends StatelessWidget {
               .navigateTo(Routes.task, arguments: task?.id);
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          padding: isLarge
+              ? const EdgeInsets.all(24.0)
+              : const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +53,7 @@ class TaskCard extends StatelessWidget {
                       children: task.labels
                           .map((label) => LabelWidget(
                                 label: label,
-                                compact: true,
+                                compact: !isLarge,
                               ))
                           .toList(),
                     )
