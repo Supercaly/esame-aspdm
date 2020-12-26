@@ -15,6 +15,11 @@ jobs:
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: dev
+
+      - uses: stelynx/dart-full-coverage@v1.0.3
+          with:
+            package: aspdm_project
+
       - run: flutter pub get
 
       # Build part files
