@@ -40,6 +40,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: "ASPDM Project App",
         theme: lightTheme,
+        darkTheme: darkTheme,
         navigatorKey: locator<NavigationService>().navigationKey,
         routes: {
           Routes.newTask: (_) => NewTaskPage(),

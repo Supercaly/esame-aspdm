@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
+import '../theme.dart';
+
 class ArchivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -56,18 +58,25 @@ class ArchivePage extends StatelessWidget {
                           ),
                         ),
                       );
-                    return Center(
-                      child: Container(
-                        width: Responsive.isLarge(context)
-                            ? 500
-                            : double.maxFinite,
-                        padding: Responsive.isLarge(context)
-                            ? const EdgeInsets.only(top: 24.0)
-                            : null,
-                        child: ListView.builder(
-                          itemBuilder: (_, index) =>
-                              TaskCard(task: state.data[index]),
-                          itemCount: state.data.length,
+                    return Theme(
+                      data: Responsive.isLarge(context)
+                          ? Theme.of(context).brightness == Brightness.light
+                              ? lightThemeDesktop
+                              : darkThemeDesktop
+                          : Theme.of(context),
+                      child: Center(
+                        child: Container(
+                          width: Responsive.isLarge(context)
+                              ? 500
+                              : double.maxFinite,
+                          padding: Responsive.isLarge(context)
+                              ? const EdgeInsets.only(top: 24.0)
+                              : null,
+                          child: ListView.builder(
+                            itemBuilder: (_, index) =>
+                                TaskCard(task: state.data[index]),
+                            itemCount: state.data.length,
+                          ),
                         ),
                       ),
                     );

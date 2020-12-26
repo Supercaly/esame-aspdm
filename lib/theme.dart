@@ -10,12 +10,52 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   buttonTheme: ButtonThemeData(
     buttonColor: EasyColors.secondary,
     textTheme: ButtonTextTheme.primary,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
   ),
   cardTheme: CardTheme(
     elevation: 0.0,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.zero,
+    ),
+    margin: const EdgeInsets.symmetric(vertical: 4.0),
   ),
 );
 
-final ThemeData darkTheme = ThemeData.dark();
+final ThemeData darkTheme = ThemeData.dark().copyWith(
+  accentColor: EasyColors.secondary,
+  accentColorBrightness: Brightness.dark,
+  buttonTheme: ButtonThemeData(
+    buttonColor: EasyColors.secondary,
+    textTheme: ButtonTextTheme.primary,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+  ),
+  cardTheme: CardTheme(
+    elevation: 0.0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.zero,
+    ),
+    margin: const EdgeInsets.symmetric(vertical: 4.0),
+  ),
+);
+
+final ThemeData lightThemeDesktop = lightTheme.copyWith(
+  cardTheme: CardTheme(
+    elevation: 4.0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+  ),
+);
+
+final ThemeData darkThemeDesktop = darkTheme.copyWith(
+  cardTheme: CardTheme(
+    elevation: 4.0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+  ),
+);
