@@ -17,8 +17,8 @@ jobs:
           channel: dev
 
       - uses: stelynx/dart-full-coverage@v1.0.3
-          with:
-            package: aspdm_project
+        with:
+          package: aspdm_project
 
       - run: flutter pub get
 
