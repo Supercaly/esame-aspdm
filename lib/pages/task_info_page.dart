@@ -1,13 +1,15 @@
 import 'package:aspdm_project/bloc/task_bloc.dart';
 import 'package:aspdm_project/model/task.dart';
+import 'package:aspdm_project/pages/desktop/task_info_page_content_desktop.dart';
+import 'package:aspdm_project/pages/mobile/task_info_page_content_mobile.dart';
 import 'package:aspdm_project/repositories/task_repository.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
-import 'package:aspdm_project/widgets/checklist_widget.dart';
 import 'package:aspdm_project/widgets/comment_widget.dart';
 import 'package:aspdm_project/widgets/expiration_badge.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
+import 'package:aspdm_project/widgets/responsive.dart';
 import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,38 +89,18 @@ class TaskInfoPageWidget extends StatelessWidget {
                     );
 
                   return LoadingOverlay(
-                    isLoading: state.isLoading,
-                    color: Colors.black45,
-                    child: ListView(
-                      children: [
-                        HeaderCard(task: state.data),
-                        DescriptionCard(task: state.data),
-                        if (state.data?.checklists != null &&
-                            state.data.checklists.isNotEmpty)
-                          Column(
-                            children: state.data.checklists
-                                .map((checklist) => DisplayChecklist(
-                                      checklist: checklist,
-                                      onItemChange: canModify
-                                          ? (item, value) => context
-                                              .read<TaskBloc>()
-                                              .completeChecklist(
-                                                context
-                                                    .read<AuthState>()
-                                                    .currentUser
-                                                    .id,
-                                                checklist.id,
-                                                item.id,
-                                                value,
-                                              )
-                                          : null,
-                                    ))
-                                .toList(),
-                          ),
-                        CommentsCard(task: state.data),
-                      ],
-                    ),
-                  );
+                      isLoading: state.isLoading,
+                      color: Colors.black45,
+                      child: Responsive(
+                        small: TaskInfoPageContentMobile(
+                          task: state.data,
+                          canModify: canModify,
+                        ),
+                        large: TaskInfoPageContentDesktop(
+                          task: state.data,
+                          canModify: canModify,
+                        ),
+                      ));
                 },
               ),
             ),
