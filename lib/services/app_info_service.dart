@@ -23,7 +23,7 @@ class AppInfoService {
   AppInfoService.private(this._packageInfo);
 
   /// Returns the app name.
-  String get appName => _packageInfo?.appName;
+  String get appName => _packageInfo?.appName ?? "Tasky";
 
   /// Returns the package name.
   String get packageName => _packageInfo?.packageName;

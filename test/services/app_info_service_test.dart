@@ -34,7 +34,7 @@ void main() {
 
     test("unsupported platform returns default values", () {
       final service = AppInfoService.private(null);
-      expect(service.appName, isNull);
+      expect(service.appName, "Tasky");
       expect(service.packageName, isNull);
       expect(service.version, equals("1.0.0"));
       expect(service.buildNumber, equals("1"));
