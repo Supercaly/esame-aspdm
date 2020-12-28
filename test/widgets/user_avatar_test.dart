@@ -79,6 +79,42 @@ void main() {
     );
   });
 
+  testWidgets("updates user when reconfiguring", (tester) async {
+    final GlobalKey key = GlobalKey();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: UserAvatar(
+            key: key,
+            user: User("mock_id", "Mock User", "mock@email.com", Colors.blue),
+            size: 48.0,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("M"), findsOneWidget);
+    expect(ContainerByColorFinder(Colors.blue), findsOneWidget);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: UserAvatar(
+            key: key,
+            user: User("mock_id_2", "New Mocked User", "mock2@email.com",
+                Colors.green),
+            size: 48.0,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("N"), findsOneWidget);
+    expect(ContainerByColorFinder(Colors.green), findsOneWidget);
+  });
+
   test("null size throws an error", () {
     try {
       UserAvatar();

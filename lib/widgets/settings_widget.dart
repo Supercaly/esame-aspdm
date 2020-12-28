@@ -80,9 +80,7 @@ class SettingsGroupItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Theme.of(context).primaryColor,
+      color: Theme.of(context).cardColor,
       child: InkWell(
         onLongPress: () => onLongPress?.call(),
         onTap: () => onTap?.call(),
