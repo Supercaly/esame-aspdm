@@ -24,7 +24,7 @@ dependencies:
   loading_overlay: ^0.2.1
   intl: ^0.16.1
   connectivity: ^2.0.2
-
+  flutter_feather_icons: ^1.0.3
   json_annotation: ^3.0.0
 
 dev_dependencies:
