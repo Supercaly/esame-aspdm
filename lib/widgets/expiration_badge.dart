@@ -1,5 +1,6 @@
 import 'package:aspdm_project/generated/gen_colors.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 
 /// Widget displaying a colored badge with
@@ -47,7 +48,7 @@ class ExpirationBadge extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
-            Icons.access_time_outlined,
+            FeatherIcons.clock,
             color: color,
           ),
           SizedBox(width: 4.0),
@@ -96,7 +97,7 @@ class ExpirationText extends StatelessWidget {
     return Row(
       children: [
         Icon(
-          Icons.calendar_today,
+          FeatherIcons.calendar,
           color: color,
         ),
         SizedBox(width: 8.0),

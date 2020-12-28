@@ -1,5 +1,6 @@
 import 'package:aspdm_project/model/checklist.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 /// Widget that displays a single [Checklist].
 class DisplayChecklist extends StatefulWidget {
@@ -46,7 +47,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
-              Icon(Icons.check_circle_outline),
+              Icon(FeatherIcons.checkCircle),
               SizedBox(width: 8.0),
               Text(
                 widget.checklist.title ?? "",
@@ -56,8 +57,9 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    icon: Icon(
-                        _showItems ? Icons.expand_less : Icons.expand_more),
+                    icon: Icon(_showItems
+                        ? FeatherIcons.chevronUp
+                        : FeatherIcons.chevronDown),
                     onPressed: () {
                       setState(() {
                         _showItems = !_showItems;

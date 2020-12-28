@@ -7,6 +7,7 @@ import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
 import 'package:aspdm_project/widgets/task_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
@@ -169,12 +170,12 @@ void main() {
 
     expect(find.text("mock title"), findsOneWidget);
     expect(find.byType(LabelWidget), findsNWidgets(2));
-    expect(find.byIcon(Icons.format_align_left), findsOneWidget);
-    expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    expect(find.byIcon(FeatherIcons.alignLeft), findsOneWidget);
+    expect(find.byIcon(FeatherIcons.checkCircle), findsOneWidget);
     expect(find.text("3/7"), findsOneWidget);
-    expect(find.byIcon(Icons.message), findsOneWidget);
+    expect(find.byIcon(FeatherIcons.messageSquare), findsOneWidget);
     expect(find.text("3"), findsOneWidget);
-    expect(find.byIcon(Icons.group), findsOneWidget);
+    expect(find.byIcon(FeatherIcons.users), findsOneWidget);
     expect(find.text("1"), findsOneWidget);
   });
 

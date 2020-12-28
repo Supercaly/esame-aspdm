@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class MainPageContentMobile extends StatelessWidget {
   final int currentIndex;
@@ -40,15 +41,15 @@ class MainPageContentMobile extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
             label: "Home",
-            icon: Icon(Icons.home),
+            icon: Icon(FeatherIcons.home),
           ),
           BottomNavigationBarItem(
             label: "New Task",
-            icon: Icon(Icons.add_circle_outline),
+            icon: Icon(FeatherIcons.plusCircle),
           ),
           BottomNavigationBarItem(
             label: "Settings",
-            icon: Icon(Icons.settings),
+            icon: Icon(FeatherIcons.settings),
           ),
         ],
         type: BottomNavigationBarType.fixed,

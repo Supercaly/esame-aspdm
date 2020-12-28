@@ -6,6 +6,7 @@ import 'package:aspdm_project/widgets/expiration_badge.dart';
 import 'package:aspdm_project/widgets/label_widget.dart';
 import 'package:aspdm_project/widgets/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 /// Widget displaying a card with a short recap
 /// of all the task's info.
@@ -68,24 +69,24 @@ class TaskCard extends StatelessWidget {
                 children: [
                   if (hasDescription)
                     TaskIcon(
-                      icon: Icons.format_align_left,
+                      icon: FeatherIcons.alignLeft,
                     ),
                   if (hasDescription) SizedBox(width: 10.0),
                   if (hasChecklists)
                     TaskIcon(
-                      icon: Icons.check_circle,
+                      icon: FeatherIcons.checkCircle,
                       text: _getChecklistCount(),
                     ),
                   if (hasChecklists) SizedBox(width: 10.0),
                   if (hasComments)
                     TaskIcon(
-                      icon: Icons.message,
+                      icon: FeatherIcons.messageSquare,
                       text: task.comments.length.toString(),
                     ),
                   if (hasComments) SizedBox(width: 10.0),
                   if (hasMembers)
                     TaskIcon(
-                      icon: Icons.group,
+                      icon: FeatherIcons.users,
                       text: task.members.length.toString(),
                     ),
                 ],

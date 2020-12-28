@@ -2,6 +2,7 @@ import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class MainPageContentDesktop extends StatelessWidget {
   final int currentIndex;
@@ -123,19 +124,19 @@ class _CustomAppBarState extends State<CustomAppBar>
         tabs: [
           Tab(
             icon: Icon(
-              Icons.home,
+              FeatherIcons.home,
               color: widget.selectedIndex == 0 ? Colors.white : Colors.black45,
             ),
           ),
           Tab(
             icon: Icon(
-              Icons.add_circle_outline,
+              FeatherIcons.plusCircle,
               color: widget.selectedIndex == 1 ? Colors.white : Colors.black45,
             ),
           ),
           Tab(
             icon: Icon(
-              Icons.settings,
+              FeatherIcons.settings,
               color: widget.selectedIndex == 2 ? Colors.white : Colors.black45,
             ),
           ),

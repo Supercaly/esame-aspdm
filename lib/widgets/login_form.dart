@@ -1,6 +1,7 @@
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 import '../locator.dart';
 
@@ -43,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _emailController,
             decoration: InputDecoration(
               labelText: "Email",
-              prefixIcon: Icon(Icons.email),
+              prefixIcon: Icon(FeatherIcons.mail),
               filled: true,
             ),
             keyboardType: TextInputType.emailAddress,
@@ -60,10 +61,10 @@ class _LoginFormState extends State<LoginForm> {
             obscureText: _obscurePwd,
             decoration: InputDecoration(
               labelText: "Password",
-              prefixIcon: Icon(Icons.lock),
+              prefixIcon: Icon(FeatherIcons.lock),
               suffixIcon: IconButton(
                   icon: Icon(
-                      _obscurePwd ? Icons.visibility_off : Icons.visibility),
+                      _obscurePwd ? FeatherIcons.eyeOff : FeatherIcons.eye),
                   onPressed: () => setState(() => _obscurePwd = !_obscurePwd)),
               filled: true,
             ),

@@ -5,6 +5,7 @@ import 'package:aspdm_project/states/auth_state.dart';
 import 'package:aspdm_project/widgets/ago.dart';
 import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../locator.dart';
@@ -95,7 +96,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         autofocus: true,
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.send,
+                            icon: Icon(FeatherIcons.send,
                                 color: Theme.of(context).accentColor),
                             onPressed: () {
                               if (_editingController.text.length <= 500) {
@@ -121,7 +122,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     children: [
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
-                          icon: Icons.thumb_up,
+                          icon: FeatherIcons.thumbsUp,
                           value: widget.comment?.likes?.length ?? 0,
                           selected: widget.comment.likes.contains(currentUser),
                           onPressed: () => widget.onLike?.call(),
@@ -130,7 +131,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         SizedBox(width: 6.0),
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
-                          icon: Icons.thumb_down,
+                          icon: FeatherIcons.thumbsDown,
                           value: widget.comment?.dislikes?.length ?? 0,
                           selected:
                               widget.comment.dislikes.contains(currentUser),
@@ -278,7 +279,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
       decoration: InputDecoration(
         labelText: "Add comment",
         suffixIcon: IconButton(
-          icon: Icon(Icons.send),
+          icon: Icon(FeatherIcons.send),
           onPressed: (_sendEnabled)
               ? () {
                   widget.onNewComment?.call(_controller.text);

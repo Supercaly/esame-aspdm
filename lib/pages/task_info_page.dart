@@ -13,6 +13,7 @@ import 'package:aspdm_project/widgets/responsive.dart';
 import 'package:aspdm_project/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 import '../locator.dart';
@@ -50,7 +51,7 @@ class TaskInfoPageWidget extends StatelessWidget {
               actions: canModify
                   ? [
                       IconButton(
-                        icon: Icon(Icons.edit),
+                        icon: Icon(FeatherIcons.edit3),
                         onPressed: () => print("Edit..."),
                       ),
                       if (!state.data.archived)
@@ -130,7 +131,7 @@ class HeaderCard extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 8.0,
                   runSpacing: 4.0,
-                  children: [Icon(Icons.label)]
+                  children: [Icon(FeatherIcons.tag)]
                     ..addAll(task.labels.map((l) => LabelWidget(label: l))),
                 ),
               ),
@@ -138,7 +139,7 @@ class HeaderCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 children: [
-                  Icon(Icons.person),
+                  Icon(FeatherIcons.user),
                   SizedBox(width: 8.0),
                   UserAvatar(user: task?.author, size: 32.0),
                 ],
@@ -151,7 +152,7 @@ class HeaderCard extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 8.0,
                   runSpacing: 4.0,
-                  children: [Icon(Icons.group)]..addAll(
+                  children: [Icon(FeatherIcons.users)]..addAll(
                       task.members.map(
                         (member) => UserAvatar(
                           user: member,
@@ -187,7 +188,7 @@ class DescriptionCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.format_align_left),
+                  Icon(FeatherIcons.alignLeft),
                   SizedBox(width: 8.0),
                   Text(
                     "Description",
@@ -224,7 +225,7 @@ class CommentsCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.message),
+                Icon(FeatherIcons.messageSquare),
                 SizedBox(width: 8.0),
                 Text(
                   "Comments",

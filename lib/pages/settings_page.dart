@@ -8,6 +8,7 @@ import 'package:aspdm_project/widgets/responsive.dart';
 import 'package:aspdm_project/widgets/settings_widget.dart';
 import 'package:aspdm_project/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -26,7 +27,7 @@ class SettingsPage extends StatelessWidget {
               title: "notifications",
               item: SettingsGroupItem(
                 text: "Show system settings",
-                icon: Icon(Icons.notifications),
+                icon: Icon(FeatherIcons.bell),
                 onTap: null,
               ),
             ),
@@ -34,7 +35,7 @@ class SettingsPage extends StatelessWidget {
               title: "archive",
               item: SettingsGroupItem(
                 text: "Show archived tasks",
-                icon: Icon(Icons.archive),
+                icon: Icon(FeatherIcons.archive),
                 onTap: () {
                   locator<NavigationService>().navigateTo(Routes.archive);
                 },
@@ -45,11 +46,11 @@ class SettingsPage extends StatelessWidget {
               children: [
                 SettingsGroupItem(
                   text: "About this app",
-                  icon: Icon(Icons.bookmark),
+                  icon: Icon(FeatherIcons.bookmark),
                 ),
                 SettingsGroupItem(
                   text: "Open Source",
-                  icon: Icon(Icons.adb),
+                  icon: Icon(Icons.adb_outlined),
                   onTap: () {
                     showLicensePage(
                         context: context,
@@ -76,7 +77,7 @@ class SettingsPage extends StatelessWidget {
               title: "account",
               item: SettingsGroupItem(
                 text: "Sign Out",
-                icon: Icon(Icons.exit_to_app, color: Colors.red),
+                icon: Icon(FeatherIcons.logOut, color: Colors.red),
                 textColor: Colors.red,
                 onTap: () async {
                   await context.read<AuthState>().logout();
