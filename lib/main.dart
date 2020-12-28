@@ -5,10 +5,12 @@ import 'package:aspdm_project/pages/new_task_page.dart';
 import 'package:aspdm_project/pages/task_info_page.dart';
 import 'package:aspdm_project/repositories/auth_repository.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
+import 'package:aspdm_project/services/connectivity_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:aspdm_project/states/auth_state.dart';
+import 'package:aspdm_project/widgets/stream_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:aspdm_project/pages/main_page.dart';
 import 'package:aspdm_project/routes.dart';
@@ -57,15 +59,26 @@ class App extends StatelessWidget {
 class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Selector<AuthState, User>(
-      selector: (_, state) => state.currentUser,
-      builder: (_, value, __) {
-        locator<LogService>().logBuild("Root $value");
-        if (value != null)
-          return MainPage();
-        else
-          return LoginPage();
+    return StreamListener<bool>(
+      listener: (_, status) {
+        if (status.hasData && !status.data)
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("The device is offline!"),
+            ),
+          );
       },
+      stream: locator<ConnectivityService>().onConnectionStateChange,
+      child: Selector<AuthState, User>(
+        selector: (_, state) => state.currentUser,
+        builder: (_, value, __) {
+          locator<LogService>().logBuild("Root $value");
+          if (value != null)
+            return MainPage();
+          else
+            return LoginPage();
+        },
+      ),
     );
   }
 }
