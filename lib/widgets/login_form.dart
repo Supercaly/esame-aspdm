@@ -35,6 +35,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final focusScope = FocusScope.of(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -54,6 +55,8 @@ class _LoginFormState extends State<LoginForm> {
               else
                 return null;
             },
+            onEditingComplete: () => focusScope.nextFocus(),
+            textInputAction: TextInputAction.next,
           ),
           SizedBox(height: 8.0),
           TextFormField(
@@ -74,6 +77,8 @@ class _LoginFormState extends State<LoginForm> {
               else
                 return null;
             },
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (value) => focusScope.unfocus(),
           ),
           SizedBox(height: 8.0),
           RaisedButton(
@@ -81,8 +86,9 @@ class _LoginFormState extends State<LoginForm> {
             child: Text("Log In"),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                locator<LogService>().info(
-                    "Email: ${_emailController.text} Password: ${_passwordController.text}");
+                locator<LogService>().debug(
+                    "Trying logging in with Email: ${_emailController.text} "
+                    "and Password: ${_passwordController.text}");
                 if (!await context
                     .read<AuthState>()
                     .login(_emailController.text, _passwordController.text)) {

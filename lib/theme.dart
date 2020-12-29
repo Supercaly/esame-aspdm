@@ -49,6 +49,7 @@ final ThemeData lightThemeDesktop = lightTheme.copyWith(
       borderRadius: BorderRadius.circular(8.0),
     ),
   ),
+  snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
 );
 
 final ThemeData darkThemeDesktop = darkTheme.copyWith(
@@ -58,4 +59,5 @@ final ThemeData darkThemeDesktop = darkTheme.copyWith(
       borderRadius: BorderRadius.circular(8.0),
     ),
   ),
+  snackBarTheme: SnackBarThemeData(behavior: SnackBarBehavior.floating),
 );
