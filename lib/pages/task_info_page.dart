@@ -51,18 +51,21 @@ class TaskInfoPageWidget extends StatelessWidget {
               actions: canModify
                   ? [
                       IconButton(
-                        icon: Icon(FeatherIcons.edit3),
+                        icon: Icon(FeatherIcons.edit),
                         onPressed: () => print("Edit..."),
+                        tooltip: "Edit",
                       ),
                       if (!state.data.archived)
                         IconButton(
-                          icon: Icon(Icons.archive),
+                          icon: Icon(FeatherIcons.sunset),
                           onPressed: () =>
                               context.read<TaskBloc>().archive(currentUser.id),
+                          tooltip: "Archive",
                         ),
                       if (state.data.archived)
                         IconButton(
-                          icon: Icon(Icons.unarchive),
+                          icon: Icon(FeatherIcons.sunrise),
+                          tooltip: "Unarchive",
                           onPressed: () => context
                               .read<TaskBloc>()
                               .unarchive(currentUser.id),

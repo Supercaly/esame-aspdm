@@ -22,24 +22,29 @@ class LabelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: compact ? 42.0 : 82.0,
-      height: compact ? 10.0 : 32.0,
-      //padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      decoration: BoxDecoration(
-        color: label.color,
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: (!compact)
-          ? Center(
-              child: Text(
-              label.label ?? "",
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                  ),
-            ))
-          : null,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: compact ? 10.0 : 32.0,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          constraints: BoxConstraints(minWidth: 42.0),
+          decoration: BoxDecoration(
+            color: label.color,
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: (!compact)
+              ? Center(
+                  child: Text(
+                  label.label ?? "",
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                ))
+              : null,
+        ),
+      ],
     );
   }
 }

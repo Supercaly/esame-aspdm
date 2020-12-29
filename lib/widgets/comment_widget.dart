@@ -111,6 +111,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         maxLength: 500,
                         maxLines: 10,
                         minLines: 1,
+                        textInputAction: TextInputAction.done,
                       )
                     : Text(widget.comment?.content ?? ""),
                 SizedBox(height: 10.0),
@@ -295,6 +296,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
       maxLength: 500,
       minLines: 1,
       maxLines: 6,
+      textInputAction: TextInputAction.done,
     );
   }
 }

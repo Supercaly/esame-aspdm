@@ -69,7 +69,7 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
                 SettingsGroupItem(
-                  text: "Made with <3 from Italy.",
+                  text: "Made with ❤ from Italy.",
                 ),
               ],
             ),
