@@ -1,5 +1,5 @@
 ![ASPDM Project CI](https://github.com/Supercaly/ASDM-Project/workflows/ASPDM%20Project%20CI/badge.svg)
-[![codecov](https://codecov.io/gh/Supercaly/ASDM-Project/branch/master/graph/badge.svg?token=J4P3RO1ZCL)](https://codecov.io/gh/Supercaly/ASDM-Project)
+[![codecov](https://codecov.io/gh/Supercaly/ASPDM-Project/branch/master/graph/badge.svg?token=J4P3RO1ZCL)](https://codecov.io/gh/Supercaly/ASPDM-Project)
 
 # aspdm_project
 
