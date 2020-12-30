@@ -25,9 +25,10 @@ class MainPageContentDesktop extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         leading: [
-          Placeholder(
-            fallbackWidth: 48.0,
-            fallbackHeight: 48.0,
+          Image.asset(
+            "assets/icons/ic_launcher.png",
+            width: 48.0,
+            height: 48.0,
           ),
           SizedBox(width: 16.0),
           Text(locator<AppInfoService>().appName),

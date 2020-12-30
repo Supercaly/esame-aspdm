@@ -19,8 +19,12 @@ class LoginPageContentMobile extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Placeholder(fallbackHeight: 128.0),
-                    SizedBox(height: 8.0),
+                    Image.asset(
+                      "assets/icons/ic_launcher.png",
+                      width: 100.0,
+                      height: 100.0,
+                    ),
+                    SizedBox(height: 16.0),
                     LoginForm(),
                   ],
                 ),

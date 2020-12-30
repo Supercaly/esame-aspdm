@@ -43,13 +43,19 @@ class LoginPageContentDesktop extends StatelessWidget {
           child: Container(
             width: double.maxFinite,
             height: double.maxFinite,
-            color: EasyColors.primary,
+            color: EasyColors.secondary,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(child: Placeholder(fallbackHeight: 128.0)),
+                Center(
+                  child: Image.asset(
+                    "assets/icons/ic_launcher.png",
+                    width: 250.0,
+                    height: 250.0,
+                  ),
+                ),
               ],
             ),
           ),
