@@ -23,7 +23,7 @@ class TaskInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final taskId = locator<NavigationService>().arguments(context);
     return BlocProvider<TaskBloc>(
-      create: (context) => TaskBloc(taskId, TaskRepository())..fetch(),
+      create: (context) => TaskBloc(taskId, locator<TaskRepository>())..fetch(),
       child: TaskInfoPageWidget(),
     );
   }

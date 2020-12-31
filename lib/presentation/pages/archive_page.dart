@@ -14,7 +14,7 @@ class ArchivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ArchiveBloc>(
-      create: (context) => ArchiveBloc(ArchiveRepository())..fetch(),
+      create: (context) => ArchiveBloc(locator<ArchiveRepository>())..fetch(),
       child: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
