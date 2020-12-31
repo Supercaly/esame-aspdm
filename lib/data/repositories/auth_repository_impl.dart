@@ -1,12 +1,12 @@
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/services/data_source.dart';
+import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 
 import '../../locator.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  DataSource _dataSource = locator<DataSource>();
+  RemoteDataSource _dataSource = locator<RemoteDataSource>();
   PreferenceService _preferenceService = locator<PreferenceService>();
 
   @override

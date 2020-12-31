@@ -36,13 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety.2"
-  presentation.bloc:
+  bloc:
     dependency: transitive
     description:
-      name: presentation.bloc
+      name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.0"
+    version: "6.1.1"
   bloc_test:
     dependency: "direct main"
     description:

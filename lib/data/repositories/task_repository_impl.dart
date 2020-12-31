@@ -1,11 +1,11 @@
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
-import 'package:aspdm_project/services/data_source.dart';
+import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 
 import '../../locator.dart';
 
 class TaskRepositoryImpl extends TaskRepository {
-  final DataSource _dataSource = locator<DataSource>();
+  final RemoteDataSource _dataSource = locator<RemoteDataSource>();
 
   @override
   Future<Task> getTask(String id) {

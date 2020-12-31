@@ -8,7 +8,7 @@ import 'package:aspdm_project/domain/repositories/home_repository.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/connectivity_service.dart';
-import 'package:aspdm_project/services/data_source.dart';
+import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
@@ -27,9 +27,9 @@ Future<void> setupLocator() async {
   );
 
   // Data sources
-  locator.registerLazySingleton<DataSource>(
-    () => DataSource(),
-    dispose: (param) => param.close(),
+  locator.registerLazySingleton<RemoteDataSource>(
+    () => RemoteDataSource(),
+    dispose: (p) => p.close(),
   );
 
   // Repositories

@@ -5,14 +5,14 @@ import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/services/data_source.dart';
+import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mocks/mock_log_service.dart';
+import '../../mocks/mock_log_service.dart';
 
 class MockDio extends Mock implements Dio {}
 
@@ -20,12 +20,12 @@ void main() {
   group("Internal requests tests", () {
     Dio dio;
     LogService logService;
-    DataSource source;
+    RemoteDataSource source;
 
     setUpAll(() {
       dio = MockDio();
       logService = MockLogService();
-      source = DataSource.test(dio, logService);
+      source = RemoteDataSource.test(dio, logService);
     });
 
     tearDownAll(() {
@@ -161,12 +161,12 @@ void main() {
   group("API methods tests", () {
     Dio dio;
     LogService logService;
-    DataSource source;
+    RemoteDataSource source;
 
     setUpAll(() {
       dio = MockDio();
       logService = MockLogService();
-      source = DataSource.test(dio, logService);
+      source = RemoteDataSource.test(dio, logService);
     });
 
     tearDownAll(() {

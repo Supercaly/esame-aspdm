@@ -10,19 +10,19 @@ import 'package:flutter/material.dart';
 /// Class representing the data source of the entire application.
 /// This class has the purpose to receive data from the remote server
 /// and send to him the one that the app generates.
-class DataSource {
+class RemoteDataSource {
   /// Base url of the API endpoint.
   static const String _baseUrl = "aspdm-project-server.glitch.me";
 
   Dio _dio;
   LogService _logService;
 
-  DataSource()
+  RemoteDataSource()
       : _dio = Dio(BaseOptions(baseUrl: Uri.https(_baseUrl, "api").toString())),
         _logService = locator<LogService>();
 
   @visibleForTesting
-  DataSource.test(this._dio, this._logService);
+  RemoteDataSource.test(this._dio, this._logService);
 
   /// Close the connection to the data source.
   void close() {
