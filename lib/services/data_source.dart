@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/model/label.dart';
-import 'package:aspdm_project/model/user.dart';
-import 'package:aspdm_project/model/task.dart';
+import 'package:aspdm_project/domain/entities/label.dart';
+import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

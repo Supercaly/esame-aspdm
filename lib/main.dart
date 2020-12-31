@@ -1,23 +1,22 @@
+import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/pages/archive_page.dart';
-import 'package:aspdm_project/pages/login_page.dart';
-import 'package:aspdm_project/pages/new_task_page.dart';
-import 'package:aspdm_project/pages/task_info_page.dart';
-import 'package:aspdm_project/repositories/auth_repository.dart';
+import 'package:aspdm_project/presentation/pages/archive_page.dart';
+import 'package:aspdm_project/presentation/pages/login_page.dart';
+import 'package:aspdm_project/presentation/pages/new_task_page.dart';
+import 'package:aspdm_project/presentation/pages/task_info_page.dart';
+import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/connectivity_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
-import 'package:aspdm_project/states/auth_state.dart';
-import 'package:aspdm_project/widgets/stream_listener.dart';
+import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/presentation/widgets/stream_listener.dart';
 import 'package:flutter/material.dart';
-import 'package:aspdm_project/pages/main_page.dart';
-import 'package:aspdm_project/routes.dart';
-import 'package:aspdm_project/theme.dart';
+import 'package:aspdm_project/presentation/pages/main_page.dart';
+import 'package:aspdm_project/presentation/routes.dart';
+import 'package:aspdm_project/presentation/theme.dart';
 import 'package:provider/provider.dart';
-
-import 'model/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

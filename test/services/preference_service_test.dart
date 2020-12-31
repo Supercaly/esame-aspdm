@@ -1,4 +1,4 @@
-import 'package:aspdm_project/model/user.dart';
+import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

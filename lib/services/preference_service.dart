@@ -1,4 +1,4 @@
-import 'package:aspdm_project/model/user.dart';
+import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
