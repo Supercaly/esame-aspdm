@@ -11,21 +11,31 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.0
 
-  # Misc. dependencies
-  equatable: ^1.2.5
+  # Dependency injection
+  get_it: ^5.0.1
+
+  # State management
   provider: ^4.3.2+2
   flutter_bloc: ^6.1.1
   bloc_test: ^7.1.0
-  get_it: ^5.0.1
+
+  # Equality
+  equatable: ^1.2.5
+
+  # Remote API
   dio: ^3.0.10
+
+  # Local cache
   shared_preferences: ^0.5.12+4
-  package_info: ^0.4.3+2
-  mockito: ^4.1.3
-  loading_overlay: ^0.2.1
-  intl: ^0.16.1
-  connectivity: ^2.0.2
-  flutter_feather_icons: ^1.0.3
+
+  # Misc. dependencies
   json_annotation: ^3.0.0
+  connectivity: ^2.0.2
+  package_info: ^0.4.3+2
+  flutter_feather_icons: ^1.0.3
+  loading_overlay: ^0.2.1
+  mockito: ^4.1.3
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
