@@ -1,17 +1,20 @@
-import 'package:aspdm_project/model/task.dart';
+import 'package:aspdm_project/domain/entities/task.dart';
+import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/services/data_source.dart';
 
-import '../locator.dart';
+import '../../locator.dart';
 
-class TaskRepository {
+class TaskRepositoryImpl extends TaskRepository {
   final DataSource _dataSource = locator<DataSource>();
 
+  @override
   Future<Task> getTask(String id) {
     assert(id != null);
 
     return _dataSource.getTask(id);
   }
 
+  @override
   Future<Task> deleteComment(
     String taskId,
     String commentId,
@@ -22,6 +25,7 @@ class TaskRepository {
     return updated;
   }
 
+  @override
   Future<Task> editComment(
     String taskId,
     String commentId,
@@ -34,12 +38,14 @@ class TaskRepository {
     return updated;
   }
 
+  @override
   Future<Task> addComment(String taskId, String content, String userId) async {
     final updated = await _dataSource.postComment(taskId, userId, content);
     if (updated == null) throw Exception("Error adding a comment!");
     return updated;
   }
 
+  @override
   Future<Task> likeComment(
       String taskId, String commentId, String userId) async {
     final updated = await _dataSource.likeComment(taskId, commentId, userId);
@@ -47,6 +53,7 @@ class TaskRepository {
     return updated;
   }
 
+  @override
   Future<Task> dislikeComment(
       String taskId, String commentId, String userId) async {
     final updated = await _dataSource.dislikeComment(taskId, commentId, userId);
@@ -54,18 +61,21 @@ class TaskRepository {
     return updated;
   }
 
+  @override
   Future<Task> archiveTask(String taskId, String userId) async {
     final updated = await _dataSource.archive(taskId, userId, true);
     if (updated == null) throw Exception("Error un-archiving task $taskId");
     return updated;
   }
 
+  @override
   Future<Task> unarchiveTask(String taskId, String userId) async {
     final updated = await _dataSource.archive(taskId, userId, false);
     if (updated == null) throw Exception("Error un-archiving task $taskId");
     return updated;
   }
 
+  @override
   Future<Task> completeChecklist(
     String taskId,
     String userId,
