@@ -1,4 +1,4 @@
-import 'package:aspdm_project/model/user.dart';
+import 'user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
