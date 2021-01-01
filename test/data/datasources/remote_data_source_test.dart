@@ -6,6 +6,7 @@ import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
+import 'package:aspdm_project/errors/failures.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ void main() {
         await source.get("mock_get_url");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
 
@@ -62,7 +63,7 @@ void main() {
         await source.get("mock_get_url");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
     });
@@ -82,7 +83,7 @@ void main() {
         await source.post("mock_post_url", {});
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
 
@@ -92,7 +93,7 @@ void main() {
         await source.post("mock_post_url", {});
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
     });
@@ -112,7 +113,7 @@ void main() {
         await source.patch("mock_patch_url", {});
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
 
@@ -122,7 +123,7 @@ void main() {
         await source.patch("mock_patch_url", {});
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
     });
@@ -142,7 +143,7 @@ void main() {
         await source.delete("mock_delete_url", {});
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
 
@@ -152,7 +153,7 @@ void main() {
         await source.delete("mock_delete_url", {});
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<DioError>());
+        expect(e, isA<ServerFailure>());
         verify(logService.error(any)).called(1);
       }
     });

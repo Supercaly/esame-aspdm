@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:aspdm_project/data/models/label_model.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
+import 'package:aspdm_project/errors/failures.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
@@ -356,7 +357,7 @@ class RemoteDataSource {
         _logService.error("DataSource get: Bad request: ${e.response.data}");
       else if (e.error is SocketException)
         _logService.error("DataSource get: No internet connection!");
-      rethrow;
+      throw ServerFailure();
     }
   }
 
@@ -372,7 +373,7 @@ class RemoteDataSource {
         _logService.error("DataSource post: Bad request: ${e.response.data}");
       else if (e.error is SocketException)
         _logService.error("DataSource post: No internet connection!");
-      rethrow;
+      throw ServerFailure();
     }
   }
 
@@ -388,7 +389,7 @@ class RemoteDataSource {
         _logService.error("DataSource patch: Bad request: ${e.response.data}");
       else if (e.error is SocketException)
         _logService.error("DataSource patch: No internet connection!");
-      rethrow;
+      throw ServerFailure();
     }
   }
 
@@ -407,7 +408,7 @@ class RemoteDataSource {
         _logService.error("DataSource delete: Bad request: ${e.response.data}");
       else if (e.error is SocketException)
         _logService.error("DataSource delete: No internet connection!");
-      rethrow;
+      throw ServerFailure();
     }
   }
 }
