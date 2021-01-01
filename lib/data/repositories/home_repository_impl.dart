@@ -7,7 +7,7 @@ class HomeRepositoryImpl extends HomeRepository {
   final RemoteDataSource _dataSource = locator<RemoteDataSource>();
 
   @override
-  Future<List<Task>> getTasks() {
-    return _dataSource.getUnarchivedTasks();
+  Future<List<Task>> getTasks() async {
+    return (await _dataSource.getUnarchivedTasks()).map((e) => e.toTask());
   }
 }

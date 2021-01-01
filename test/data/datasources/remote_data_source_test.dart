@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
@@ -194,7 +194,7 @@ void main() {
           ],
         ),
       );
-      final res = await source.getUsers();
+      final res = (await source.getUsers()).map((e) => e.toUser());
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -240,7 +240,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toUser(),
         equals(
           User(
             "mock_id_1",
@@ -272,7 +272,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toUser(),
         equals(
           User(
             "mock_id",
@@ -312,7 +312,7 @@ void main() {
           ],
         ),
       );
-      final res = await source.getLabels();
+      final res = (await source.getLabels()).map((e) => e.toLabel());
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -364,7 +364,7 @@ void main() {
           ],
         ),
       );
-      final res = await source.getUnarchivedTasks();
+      final res = (await source.getUnarchivedTasks()).map((e) => e.toTask());
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -419,7 +419,7 @@ void main() {
           ],
         ),
       );
-      final res = await source.getArchivedTasks();
+      final res = (await source.getArchivedTasks()).map((e) => e.toTask());
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -476,7 +476,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -547,7 +547,7 @@ void main() {
         ),
       );
       final res = await source.postTask(
-        Task(
+        TaskModel.fromTask(Task(
           null,
           "Mock Title",
           "Mock Description",
@@ -574,12 +574,12 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        ),
+        )),
       );
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -615,7 +615,7 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.postTask(
-        Task(
+        TaskModel.fromTask(Task(
           null,
           "Mock Title",
           "Mock Description",
@@ -632,7 +632,7 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        ),
+        )),
       );
 
       expect(res2, isNull);
@@ -657,7 +657,7 @@ void main() {
         ),
       );
       final res = await source.patchTask(
-        Task(
+        TaskModel.fromTask(Task(
           null,
           "Mock Title",
           "Mock Description",
@@ -674,12 +674,12 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        ),
+        )),
       );
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -705,7 +705,7 @@ void main() {
       when(dio.patch(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.patchTask(
-        Task(
+        TaskModel.fromTask(Task(
           null,
           "Mock Title",
           "Mock Description",
@@ -722,7 +722,7 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        ),
+        )),
       );
 
       expect(res2, isNull);
@@ -767,7 +767,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -853,7 +853,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -940,7 +940,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -1034,7 +1034,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -1134,7 +1134,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -1214,7 +1214,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",
@@ -1287,7 +1287,7 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res,
+        res.toTask(),
         equals(
           Task(
             "mock_task_id",

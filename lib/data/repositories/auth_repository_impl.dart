@@ -14,9 +14,10 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<User> login(String email, String password) async {
-    final user = await _dataSource.authenticate(email, password);
-    if (user == null) throw Exception("Invalid user!");
+    final userModel = await _dataSource.authenticate(email, password);
+    if (userModel == null) throw Exception("Invalid user!");
 
+    final user = userModel.toUser();
     _preferenceService.storeSignedInUser(user);
     return user;
   }

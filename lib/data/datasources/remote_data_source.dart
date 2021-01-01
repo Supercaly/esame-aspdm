@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:aspdm_project/data/models/label_model.dart';
+import 'package:aspdm_project/data/models/task_model.dart';
+import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -35,40 +35,40 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
-  /// Returns a list of all [User]s.
+  /// Returns a list of all [UserModel]s.
   /// This method throw [DioError] if some connection error happens.
-  Future<List<User>> getUsers() async {
+  Future<List<UserModel>> getUsers() async {
     final res = await get("/users");
     if (res.data != null)
       return (res.data as List<dynamic>)
-          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
           .toList();
     else
       return null;
   }
 
-  /// Returns a [User] with given [userId].
+  /// Returns a [UserModel] with given [userId].
   /// This method throw [DioError] if some connection error happens.
-  Future<User> getUser(String userId) async {
+  Future<UserModel> getUser(String userId) async {
     assert(userId != null);
 
     final res = await get("/user/$userId");
     if (res.data != null)
-      return User.fromJson(res.data);
+      return UserModel.fromJson(res.data);
     else
       return null;
   }
 
   /// Authenticate a user with given [email] and [password].
-  /// If the credentials are valid the corresponding [User] is returned,
+  /// If the credentials are valid the corresponding [UserModel] is returned,
   /// otherwise null is returned.
   /// This method throw [DioError] if some connection error happens.
-  Future<User> authenticate(String email, String password) async {
+  Future<UserModel> authenticate(String email, String password) async {
     final res = await post("/authenticate", {
       "email": email,
       "password": password,
     });
-    if (res.data != null) return User.fromJson(res.data);
+    if (res.data != null) return UserModel.fromJson(res.data);
     return null;
   }
 
@@ -78,13 +78,13 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
-  /// Returns a list of all [Label]s.
+  /// Returns a list of all [LabelModel]s.
   /// This method throw [DioError] if some connection error happens.
-  Future<List<Label>> getLabels() async {
+  Future<List<LabelModel>> getLabels() async {
     final res = await get("/labels");
     if (res.data != null)
       return (res.data as List<dynamic>)
-          .map((e) => Label.fromJson(e as Map<String, dynamic>))
+          .map((e) => LabelModel.fromJson(e as Map<String, dynamic>))
           .toList();
     else
       return null;
@@ -92,50 +92,50 @@ class RemoteDataSource {
 
   /*
    * ----------------------------------------
-   *            Task API
+   *            TaskModel API
    * ----------------------------------------
    */
 
-  /// Returns a list of all [Task]s that are not archived.
+  /// Returns a list of all [TaskModel]s that are not archived.
   /// This method throw [DioError] if some connection error happens.
-  Future<List<Task>> getUnarchivedTasks() async {
+  Future<List<TaskModel>> getUnarchivedTasks() async {
     final res = await get("/list");
     if (res.data != null)
       return (res.data as List<dynamic>)
-          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .map((e) => TaskModel.fromJson(e as Map<String, dynamic>))
           .toList();
     else
       return null;
   }
 
-  /// Returns a list of all [Task]s that are archived.
+  /// Returns a list of all [TaskModel]s that are archived.
   /// This method throw [DioError] if some connection error happens.
-  Future<List<Task>> getArchivedTasks() async {
+  Future<List<TaskModel>> getArchivedTasks() async {
     final res = await get("/list/archived");
     if (res.data != null)
       return (res.data as List<dynamic>)
-          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .map((e) => TaskModel.fromJson(e as Map<String, dynamic>))
           .toList();
     else
       return null;
   }
 
-  /// Returns a [Task] with given [taskId].
+  /// Returns a [TaskModel] with given [taskId].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> getTask(String taskId) async {
+  Future<TaskModel> getTask(String taskId) async {
     assert(taskId != null);
 
     final res = await get("/task/$taskId");
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Archive/Unarchive a [Task] with given [taskId].
-  /// This method will return the updated [Task].
+  /// Archive/Unarchive a [TaskModel] with given [taskId].
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> archive(String taskId, String userId, bool archive) async {
+  Future<TaskModel> archive(String taskId, String userId, bool archive) async {
     assert(taskId != null);
     assert(userId != null);
     assert(archive != null);
@@ -146,14 +146,14 @@ class RemoteDataSource {
       "archive": archive,
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Creates a new task from a given [Task].
+  /// Creates a new task from a given [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> postTask(Task newTask) async {
+  Future<TaskModel> postTask(TaskModel newTask) async {
     assert(newTask != null);
 
     final jsonTask = newTask.toJson();
@@ -170,19 +170,19 @@ class RemoteDataSource {
           }),
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Updates an existing task from a given [Task].
+  /// Updates an existing task from a given [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> patchTask(Task newTask) async {
+  Future<TaskModel> patchTask(TaskModel newTask) async {
     assert(newTask != null);
 
     final res = await patch("/task", newTask.toJson());
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
@@ -193,10 +193,11 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
-  /// Adds a new comment under a [Task] with given [taskId].
-  /// This method will return the updated [Task].
+  /// Adds a new comment under a [TaskModel] with given [taskId].
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> postComment(String taskId, String userId, String content) async {
+  Future<TaskModel> postComment(
+      String taskId, String userId, String content) async {
     assert(taskId != null);
     assert(userId != null);
     assert(content != null);
@@ -209,15 +210,15 @@ class RemoteDataSource {
       },
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Deletes a comment under a [Task] with given [taskId].
-  /// This method will return the updated [Task].
+  /// Deletes a comment under a [TaskModel] with given [taskId].
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> deleteComment(
+  Future<TaskModel> deleteComment(
     String taskId,
     String commentId,
     String userId,
@@ -232,15 +233,15 @@ class RemoteDataSource {
       "comment": commentId,
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Updates a comment under a [Task] with given [taskId].
-  /// This method will return the updated [Task].
+  /// Updates a comment under a [TaskModel] with given [taskId].
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> patchComment(
+  Future<TaskModel> patchComment(
     String taskId,
     String commentId,
     String userId,
@@ -258,15 +259,15 @@ class RemoteDataSource {
       "content": newContent,
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Likes a comment under a [Task] with given [taskId].
-  /// This method will return the updated [Task].
+  /// Likes a comment under a [TaskModel] with given [taskId].
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> likeComment(
+  Future<TaskModel> likeComment(
     String taskId,
     String commentId,
     String userId,
@@ -281,15 +282,15 @@ class RemoteDataSource {
       "comment": commentId,
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Dislikes a comment under a [Task] with given [taskId].
-  /// This method will return the updated [Task].
+  /// Dislikes a comment under a [TaskModel] with given [taskId].
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> dislikeComment(
+  Future<TaskModel> dislikeComment(
     String taskId,
     String commentId,
     String userId,
@@ -304,15 +305,15 @@ class RemoteDataSource {
       "comment": commentId,
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }
 
-  /// Mark a checklist's item of a [Task] with given [taskId] as complete.
-  /// This method will return the updated [Task].
+  /// Mark a checklist's item of a [TaskModel] with given [taskId] as complete.
+  /// This method will return the updated [TaskModel].
   /// This method throw [DioError] if some connection error happens.
-  Future<Task> check(
+  Future<TaskModel> check(
     String taskId,
     String userId,
     String checklistId,
@@ -333,7 +334,7 @@ class RemoteDataSource {
       "checked": checked,
     });
     if (res.data != null)
-      return Task.fromJson(res.data as Map<String, dynamic>);
+      return TaskModel.fromJson(res.data as Map<String, dynamic>);
     else
       return null;
   }

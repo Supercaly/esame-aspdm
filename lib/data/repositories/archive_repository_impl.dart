@@ -8,7 +8,9 @@ class ArchiveRepositoryImpl extends ArchiveRepository {
   final RemoteDataSource _dataSource = locator<RemoteDataSource>();
 
   @override
-  Future<List<Task>> getArchivedTasks() {
-    return _dataSource.getArchivedTasks();
+  Future<List<Task>> getArchivedTasks() async {
+    return (await _dataSource.getArchivedTasks())
+        .map((e) => e.toTask())
+        .toList();
   }
 }
