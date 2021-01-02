@@ -3,11 +3,11 @@ import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 
-import '../../locator.dart';
-
 class AuthRepositoryImpl extends AuthRepository {
-  RemoteDataSource _dataSource = locator<RemoteDataSource>();
-  PreferenceService _preferenceService = locator<PreferenceService>();
+  RemoteDataSource _dataSource;
+  PreferenceService _preferenceService;
+
+  AuthRepositoryImpl(this._dataSource, this._preferenceService);
 
   @override
   User get lastSignedInUser => _preferenceService.getLastSignedInUser();

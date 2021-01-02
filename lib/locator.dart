@@ -17,7 +17,7 @@ import 'package:get_it/get_it.dart';
 GetIt locator = GetIt.instance;
 
 Future<void> setupLocator() async {
-  // Navigation
+  // Services
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<LogService>(() => LogService());
   locator.registerLazySingleton<AppInfoService>(() => AppInfoService());
@@ -33,10 +33,19 @@ Future<void> setupLocator() async {
   );
 
   // Repositories
-  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
-  locator.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl());
-  locator.registerLazySingleton<ArchiveRepository>(
-    () => ArchiveRepositoryImpl(),
+  locator.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      locator<RemoteDataSource>(),
+      locator<PreferenceService>(),
+    ),
   );
-  locator.registerLazySingleton<TaskRepository>(() => TaskRepositoryImpl());
+  locator.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(locator<RemoteDataSource>()),
+  );
+  locator.registerLazySingleton<ArchiveRepository>(
+    () => ArchiveRepositoryImpl(locator<RemoteDataSource>()),
+  );
+  locator.registerLazySingleton<TaskRepository>(
+    () => TaskRepositoryImpl(locator<RemoteDataSource>()),
+  );
 }
