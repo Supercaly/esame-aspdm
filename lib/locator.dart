@@ -20,8 +20,16 @@ Future<void> setupLocator() async {
   // Services
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<LogService>(() => LogService());
-  locator.registerLazySingleton<AppInfoService>(() => AppInfoService());
-  locator.registerLazySingleton<PreferenceService>(() => PreferenceService());
+  locator.registerLazySingletonAsync<AppInfoService>(() async {
+    final s = AppInfoService(locator<LogService>());
+    await s.init();
+    return s;
+  });
+  locator.registerLazySingletonAsync<PreferenceService>(() async {
+    final s = PreferenceService();
+    await s.init();
+    return s;
+  });
   locator.registerLazySingleton<ConnectivityService>(
     () => ConnectivityService(),
   );

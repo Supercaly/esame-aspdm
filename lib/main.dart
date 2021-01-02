@@ -5,11 +5,9 @@ import 'package:aspdm_project/presentation/pages/login_page.dart';
 import 'package:aspdm_project/presentation/pages/new_task_page.dart';
 import 'package:aspdm_project/presentation/pages/task_info_page.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/connectivity_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/services/preference_service.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/stream_listener.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +21,6 @@ Future<void> main() async {
 
   // Init locator services
   await setupLocator();
-  await locator<AppInfoService>().init();
-  await locator<PreferenceService>().init();
 
   runApp(App());
 }

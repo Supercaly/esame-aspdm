@@ -1,7 +1,10 @@
 import 'package:aspdm_project/services/app_info_service.dart';
+import 'package:aspdm_project/services/log_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info/package_info.dart';
+
+import '../mocks/mock_log_service.dart';
 
 class MockPackageInfo extends Mock implements PackageInfo {}
 
@@ -10,8 +13,10 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
 
     PackageInfo packageInfo;
+    LogService logService;
 
     setUpAll(() {
+      logService = MockLogService();
       packageInfo = MockPackageInfo();
 
       when(packageInfo.appName).thenReturn("mock_app_name");
@@ -22,10 +27,11 @@ void main() {
 
     tearDownAll(() {
       packageInfo = null;
+      logService = null;
     });
 
     test("return all parameters", () {
-      final service = AppInfoService.private(packageInfo);
+      final service = AppInfoService.private(packageInfo, logService);
       expect(service.appName, equals("mock_app_name"));
       expect(service.packageName, equals("mock.app.name"));
       expect(service.version, equals("0.0.1"));
@@ -33,7 +39,7 @@ void main() {
     });
 
     test("unsupported platform returns default values", () {
-      final service = AppInfoService.private(null);
+      final service = AppInfoService.private(null, logService);
       expect(service.appName, "Tasky");
       expect(service.packageName, isNull);
       expect(service.version, equals("1.0.0"));

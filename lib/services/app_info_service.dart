@@ -3,24 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 
-import '../locator.dart';
-
 class AppInfoService {
+  final LogService _logService;
   PackageInfo _packageInfo;
 
   Future<void> init() async {
     try {
       _packageInfo = await PackageInfo.fromPlatform();
     } on MissingPluginException {
-      locator<LogService>().warning(
+      _logService.warning(
           "AppInfoService.init: Unsupported platform! Default values will be used instead.");
     }
   }
 
-  AppInfoService();
+  AppInfoService(this._logService);
 
   @visibleForTesting
-  AppInfoService.private(this._packageInfo);
+  AppInfoService.private(this._packageInfo, this._logService);
 
   /// Returns the app name.
   String get appName => _packageInfo?.appName ?? "Tasky";
