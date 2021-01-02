@@ -37,7 +37,7 @@ class RemoteDataSource {
    */
 
   /// Returns a list of all [UserModel]s.
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<List<UserModel>> getUsers() async {
     final res = await get("/users");
     if (res.data != null)
@@ -49,7 +49,7 @@ class RemoteDataSource {
   }
 
   /// Returns a [UserModel] with given [userId].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<UserModel> getUser(String userId) async {
     assert(userId != null);
 
@@ -63,7 +63,7 @@ class RemoteDataSource {
   /// Authenticate a user with given [email] and [password].
   /// If the credentials are valid the corresponding [UserModel] is returned,
   /// otherwise null is returned.
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<UserModel> authenticate(String email, String password) async {
     final res = await post("/authenticate", {
       "email": email,
@@ -80,7 +80,7 @@ class RemoteDataSource {
    */
 
   /// Returns a list of all [LabelModel]s.
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<List<LabelModel>> getLabels() async {
     final res = await get("/labels");
     if (res.data != null)
@@ -98,7 +98,7 @@ class RemoteDataSource {
    */
 
   /// Returns a list of all [TaskModel]s that are not archived.
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<List<TaskModel>> getUnarchivedTasks() async {
     final res = await get("/list");
     if (res.data != null)
@@ -110,7 +110,7 @@ class RemoteDataSource {
   }
 
   /// Returns a list of all [TaskModel]s that are archived.
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<List<TaskModel>> getArchivedTasks() async {
     final res = await get("/list/archived");
     if (res.data != null)
@@ -122,7 +122,7 @@ class RemoteDataSource {
   }
 
   /// Returns a [TaskModel] with given [taskId].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> getTask(String taskId) async {
     assert(taskId != null);
 
@@ -135,7 +135,7 @@ class RemoteDataSource {
 
   /// Archive/Unarchive a [TaskModel] with given [taskId].
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> archive(String taskId, String userId, bool archive) async {
     assert(taskId != null);
     assert(userId != null);
@@ -153,7 +153,7 @@ class RemoteDataSource {
   }
 
   /// Creates a new task from a given [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> postTask(TaskModel newTask) async {
     assert(newTask != null);
 
@@ -177,7 +177,7 @@ class RemoteDataSource {
   }
 
   /// Updates an existing task from a given [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> patchTask(TaskModel newTask) async {
     assert(newTask != null);
 
@@ -196,7 +196,7 @@ class RemoteDataSource {
 
   /// Adds a new comment under a [TaskModel] with given [taskId].
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> postComment(
       String taskId, String userId, String content) async {
     assert(taskId != null);
@@ -218,7 +218,7 @@ class RemoteDataSource {
 
   /// Deletes a comment under a [TaskModel] with given [taskId].
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> deleteComment(
     String taskId,
     String commentId,
@@ -241,7 +241,7 @@ class RemoteDataSource {
 
   /// Updates a comment under a [TaskModel] with given [taskId].
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> patchComment(
     String taskId,
     String commentId,
@@ -267,7 +267,7 @@ class RemoteDataSource {
 
   /// Likes a comment under a [TaskModel] with given [taskId].
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> likeComment(
     String taskId,
     String commentId,
@@ -290,7 +290,7 @@ class RemoteDataSource {
 
   /// Dislikes a comment under a [TaskModel] with given [taskId].
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> dislikeComment(
     String taskId,
     String commentId,
@@ -313,7 +313,7 @@ class RemoteDataSource {
 
   /// Mark a checklist's item of a [TaskModel] with given [taskId] as complete.
   /// This method will return the updated [TaskModel].
-  /// This method throw [DioError] if some connection error happens.
+  /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> check(
     String taskId,
     String userId,
@@ -347,7 +347,7 @@ class RemoteDataSource {
    */
 
   /// Run a HTTP request with method GET to the given [url].
-  /// Returns the JSON response or throws a [DioError].
+  /// Returns the JSON response or throws a [ServerFailure].
   @visibleForTesting
   Future<Response<dynamic>> get(String url) async {
     try {
@@ -363,7 +363,7 @@ class RemoteDataSource {
 
   /// Run a HTTP request with method POST to the given [url] with
   /// given [body] parameters.
-  /// Returns the JSON response or throws a [DioError].
+  /// Returns the JSON response or throws a [ServerFailure].
   @visibleForTesting
   Future<Response<dynamic>> post(String url, Map<String, dynamic> body) async {
     try {
@@ -379,7 +379,7 @@ class RemoteDataSource {
 
   /// Run a HTTP request with method PATCH to the given [url] with
   /// given [body] parameters.
-  /// Returns the JSON response or throws a [DioError].
+  /// Returns the JSON response or throws a [ServerFailure].
   @visibleForTesting
   Future<Response<dynamic>> patch(String url, Map<String, dynamic> body) async {
     try {
@@ -395,7 +395,7 @@ class RemoteDataSource {
 
   /// Run a HTTP request with method DELETE to the given [url] with
   /// given [body] parameters.
-  /// Returns the JSON response or throws a [DioError].
+  /// Returns the JSON response or throws a [ServerFailure].
   @visibleForTesting
   Future<Response<dynamic>> delete(
     String url,
