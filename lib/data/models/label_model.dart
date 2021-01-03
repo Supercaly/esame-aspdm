@@ -1,5 +1,5 @@
 import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/utils/color_parser.dart';
+import 'package:aspdm_project/data/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 

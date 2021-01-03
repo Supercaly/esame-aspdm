@@ -1,4 +1,4 @@
-import 'package:aspdm_project/utils/color_parser.dart';
+import 'package:aspdm_project/data/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
