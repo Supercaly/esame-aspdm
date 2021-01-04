@@ -14,21 +14,23 @@ import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:get_it/get_it.dart';
 
+/// Instance of [GetIt] that can be used throughout the app.
 GetIt locator = GetIt.instance;
 
+/// Setup all the classes provided by the [locator].
 Future<void> setupLocator() async {
   // Services
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<LogService>(() => LogService());
   locator.registerLazySingletonAsync<AppInfoService>(() async {
-    final s = AppInfoService(locator<LogService>());
-    await s.init();
-    return s;
+    final infoService = AppInfoService(locator<LogService>());
+    await infoService.init();
+    return infoService;
   });
   locator.registerLazySingletonAsync<PreferenceService>(() async {
-    final s = PreferenceService();
-    await s.init();
-    return s;
+    final prefService = PreferenceService();
+    await prefService.init();
+    return prefService;
   });
   locator.registerLazySingleton<ConnectivityService>(
     () => ConnectivityService(),
@@ -41,11 +43,12 @@ Future<void> setupLocator() async {
   );
 
   // Repositories
-  locator.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(
+  locator.registerSingletonAsync<AuthRepository>(
+    () async => AuthRepositoryImpl(
       locator<RemoteDataSource>(),
-      locator<PreferenceService>(),
+      await locator.getAsync<PreferenceService>(),
     ),
+    dependsOn: [PreferenceService],
   );
   locator.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(locator<RemoteDataSource>()),
@@ -56,4 +59,7 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<TaskRepository>(
     () => TaskRepositoryImpl(locator<RemoteDataSource>()),
   );
+
+  // Wait all singletons are ready before sarting the app
+  await locator.allReady();
 }
