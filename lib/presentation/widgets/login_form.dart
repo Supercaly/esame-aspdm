@@ -89,12 +89,15 @@ class _LoginFormState extends State<LoginForm> {
                 locator<LogService>().debug(
                     "Trying logging in with Email: ${_emailController.text} "
                     "and Password: ${_passwordController.text}");
-                if (!await context
-                    .read<AuthState>()
-                    .login(_emailController.text, _passwordController.text)) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Error logging in!")));
-                }
+                (await context
+                        .read<AuthState>()
+                        .login(_emailController.text, _passwordController.text))
+                    .fold(
+                  (e) => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Error logging in!")),
+                  ),
+                  (_) {},
+                );
               }
             },
           ),

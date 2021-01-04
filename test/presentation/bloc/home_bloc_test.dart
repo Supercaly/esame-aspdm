@@ -1,8 +1,11 @@
+import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/presentation/bloc/home_bloc.dart';
 import 'package:aspdm_project/domain/repositories/home_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+import '../../mocks/mock_failure.dart';
 
 class MockHomeRepository extends Mock implements HomeRepository {}
 
@@ -24,7 +27,8 @@ void main() {
       "emits data on success",
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
-        when(repository.getTasks()).thenAnswer((_) => Future.value([]));
+        when(repository.getTasks())
+            .thenAnswer((_) => Future.value(Either.right([])));
         bloc.fetch();
       },
       expect: [
@@ -37,7 +41,8 @@ void main() {
       "emits error on error",
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
-        when(repository.getTasks()).thenAnswer((_) => Future.error(Error()));
+        when(repository.getTasks())
+            .thenAnswer((_) => Future.value(Either.left(MockFailure())));
         bloc.fetch();
       },
       expect: [
@@ -50,23 +55,11 @@ void main() {
       "don't emits loading when fetch has showLoading false",
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
-        when(repository.getTasks()).thenAnswer((_) => Future.value([]));
+        when(repository.getTasks())
+            .thenAnswer((_) => Future.value(Either.right([])));
         bloc.fetch(showLoading: false);
       },
       expect: [
-        HomeState.data([]),
-      ],
-    );
-
-    blocTest(
-      "emits empty data when repository returns null",
-      build: () => HomeBloc(repository),
-      act: (HomeBloc bloc) {
-        when(repository.getTasks()).thenAnswer((_) => Future.value(null));
-        bloc.fetch();
-      },
-      expect: [
-        HomeState.loading([]),
         HomeState.data([]),
       ],
     );

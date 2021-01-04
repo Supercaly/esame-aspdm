@@ -1,3 +1,5 @@
+import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/unit.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/services/log_service.dart';
@@ -18,11 +20,12 @@ void main() {
   });
 
   test("create AuthState wih user", () {
-    when(repository.lastSignedInUser).thenReturn(null);
+    when(repository.lastSignedInUser).thenReturn(Either.right(null));
     expect(AuthState(repository).currentUser, isNull);
 
-    when(repository.lastSignedInUser)
-        .thenReturn(User("mock_id", "Mock User", "mock.user@email.it", null));
+    when(repository.lastSignedInUser).thenReturn(
+      Either.right(User("mock_id", "Mock User", "mock.user@email.it", null)),
+    );
     expect(
       AuthState(repository).currentUser,
       equals(User("mock_id", "Mock User", "mock.user@email.it", null)),
@@ -30,13 +33,15 @@ void main() {
   });
 
   test("login with correct data logs the user", () async {
-    when(repository.login(any, any)).thenAnswer(
-        (_) async => User("mock_id", "Mock Name", "mock@email.com", null));
+    when(repository.lastSignedInUser).thenReturn(Either.right(null));
+    when(repository.login(any, any)).thenAnswer((_) async =>
+        Either.right(User("mock_id", "Mock Name", "mock@email.com", null)));
 
     final authState = AuthState(repository);
     final res = await authState.login("email", "password");
 
-    expect(res, isTrue);
+    expect(res, isA<Right>());
+    expect((res as Right).value, isA<Unit>());
     expect(
       authState.currentUser,
       equals(User("mock_id", "Mock Name", "mock@email.com", null)),
@@ -44,9 +49,11 @@ void main() {
   });
 
   test("logout sets currentUser to null", () async {
-    when(repository.lastSignedInUser)
-        .thenReturn(User("mock_id", "Mock Name", "mock@email.com", null));
+    when(repository.lastSignedInUser).thenReturn(Either.right(null));
+    when(repository.lastSignedInUser).thenReturn(
+        Either.right(User("mock_id", "Mock Name", "mock@email.com", null)));
     when(repository.logout()).thenAnswer((_) => null);
+
     final authState = AuthState(repository);
 
     expect(authState.currentUser, isNotNull);

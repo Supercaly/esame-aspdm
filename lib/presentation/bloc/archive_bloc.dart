@@ -16,16 +16,15 @@ class ArchiveBloc extends Cubit<ArchiveState> {
   /// Tells [ArchiveBloc] to fetch the data from [ArchiveRepository].
   Future<void> fetch({bool showLoading = true}) async {
     if (showLoading) emit(ArchiveState.loading(_oldData));
-    try {
-      final newData = await _repository.getArchivedTasks();
-      if (newData != null)
-        _oldData = newData;
-      else
-        _oldData = [];
-      emit(ArchiveState.data(_oldData));
-    } catch (e) {
-      emit(ArchiveState.error(_oldData));
-    }
+    (await _repository.getArchivedTasks()).fold(
+      (_) {
+        emit(ArchiveState.error(_oldData));
+      },
+      (right) {
+        _oldData = right;
+        emit(ArchiveState.data(_oldData));
+      },
+    );
   }
 }
 

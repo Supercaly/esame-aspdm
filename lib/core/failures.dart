@@ -9,3 +9,5 @@ abstract class Failure extends Equatable {
 
 /// Represent that a [Failure] with the server happened.
 class ServerFailure extends Failure {}
+
+class InvalidUserFailure extends Failure {}

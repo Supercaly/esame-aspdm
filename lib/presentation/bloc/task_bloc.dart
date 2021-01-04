@@ -27,27 +27,29 @@ class TaskBloc extends Cubit<TaskState> {
   /// Tells [TaskRepository] to fetch the task with id [_taskId].
   Future<void> fetch({bool showLoading = true}) async {
     if (showLoading) emit(TaskState.loading(_oldTask));
-    try {
-      final newTask = await _repository.getTask(_taskId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      emit(TaskState.error(_oldTask));
-    }
+
+    (await _repository.getTask(_taskId)).fold(
+      (_) => emit(TaskState.error(_oldTask)),
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the user wants to delete one of his
   /// comments under this task.
   Future<void> deleteComment(String commentId, String userId) async {
-    try {
-      final newTask =
-          await _repository.deleteComment(_oldTask?.id, commentId, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.deleteComment: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.deleteComment(_oldTask?.id, commentId, userId)).fold(
+      (e) {
+        _logService.error("TaskBloc.deleteComment: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the user wants to edit one of his
@@ -57,82 +59,87 @@ class TaskBloc extends Cubit<TaskState> {
     String newContent,
     String userId,
   ) async {
-    try {
-      final newTask = await _repository.editComment(
-        _oldTask?.id,
-        commentId,
-        newContent,
-        userId,
-      );
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.editComment: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.editComment(_oldTask?.id, commentId, newContent, userId))
+        .fold(
+      (e) {
+        _logService.error("TaskBloc.editComment: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the user created a new comment under this task.
   Future<void> addComment(String content, String userId) async {
-    try {
-      final newTask =
-          await _repository.addComment(_oldTask?.id, content, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.addComment: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.addComment(_oldTask?.id, content, userId)).fold(
+      (e) {
+        _logService.error("TaskBloc.addComment: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the user likes a comment under this task.
   Future<void> likeComment(String commentId, String userId) async {
-    try {
-      final newTask =
-          await _repository.likeComment(_oldTask?.id, commentId, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.likeComment: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.likeComment(_oldTask?.id, commentId, userId)).fold(
+      (e) {
+        _logService.error("TaskBloc.likeComment: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the user dislikes a comment under this task.
   Future<void> dislikeComment(String commentId, String userId) async {
-    try {
-      final newTask =
-          await _repository.dislikeComment(_oldTask?.id, commentId, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.dislikeComment: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.dislikeComment(_oldTask?.id, commentId, userId)).fold(
+      (e) {
+        _logService.error("TaskBloc.dislikeComment: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the task is archived.
   Future<void> archive(String userId) async {
-    try {
-      final newTask = await _repository.archiveTask(_oldTask?.id, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.archive: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.archiveTask(_oldTask?.id, userId)).fold(
+      (e) {
+        _logService.error("TaskBloc.archive: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] the task is un-archived.
   Future<void> unarchive(String userId) async {
-    try {
-      final newTask = await _repository.unarchiveTask(_oldTask?.id, userId);
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBloc.unarchive: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.unarchiveTask(_oldTask?.id, userId)).fold(
+      (e) {
+        _logService.error("TaskBloc.unarchive: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 
   /// Tells [TaskRepository] a checklist's item is completed.
@@ -142,20 +149,23 @@ class TaskBloc extends Cubit<TaskState> {
     String itemId,
     bool complete,
   ) async {
-    try {
-      final newTask = await _repository.completeChecklist(
-        _oldTask?.id,
-        userId,
-        checklistId,
-        itemId,
-        complete,
-      );
-      _oldTask = newTask;
-      emit(TaskState.data(newTask));
-    } catch (e) {
-      _logService.error("TaskBlock.completeChecklist: ", e);
-      emit(TaskState.error(_oldTask));
-    }
+    (await _repository.completeChecklist(
+      _oldTask?.id,
+      userId,
+      checklistId,
+      itemId,
+      complete,
+    ))
+        .fold(
+      (e) {
+        _logService.error("TaskBlock.completeChecklist: ", e);
+        emit(TaskState.error(_oldTask));
+      },
+      (newTask) {
+        _oldTask = newTask;
+        emit(TaskState.data(newTask));
+      },
+    );
   }
 }
 

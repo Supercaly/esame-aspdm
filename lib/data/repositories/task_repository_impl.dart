@@ -1,3 +1,5 @@
+import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
@@ -8,85 +10,125 @@ class TaskRepositoryImpl extends TaskRepository {
   TaskRepositoryImpl(this._dataSource);
 
   @override
-  Future<Task> getTask(String id) async {
-    assert(id != null);
+  Future<Either<Failure, Task>> getTask(String id) async {
+    if (id == null) return Either.left(ServerFailure());
 
-    return (await _dataSource.getTask(id))?.toTask();
+    try {
+      return Either.right((await _dataSource.getTask(id))?.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> deleteComment(
+  Future<Either<Failure, Task>> deleteComment(
     String taskId,
     String commentId,
     String userId,
   ) async {
-    final updated = await _dataSource.deleteComment(taskId, commentId, userId);
-    if (updated == null) throw Exception("Error deleting comment $commentId");
-    return updated.toTask();
+    try {
+      final updated =
+          await _dataSource.deleteComment(taskId, commentId, userId);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> editComment(
+  Future<Either<Failure, Task>> editComment(
     String taskId,
     String commentId,
     String content,
     String userId,
   ) async {
-    final updated =
-        await _dataSource.patchComment(taskId, commentId, userId, content);
-    if (updated == null) throw Exception("Error updating comment $commentId");
-    return updated.toTask();
+    try {
+      final updated =
+          await _dataSource.patchComment(taskId, commentId, userId, content);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> addComment(String taskId, String content, String userId) async {
-    final updated = await _dataSource.postComment(taskId, userId, content);
-    if (updated == null) throw Exception("Error adding a comment!");
-    return updated.toTask();
+  Future<Either<Failure, Task>> addComment(
+      String taskId, String content, String userId) async {
+    try {
+      final updated = await _dataSource.postComment(taskId, userId, content);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> likeComment(
+  Future<Either<Failure, Task>> likeComment(
       String taskId, String commentId, String userId) async {
-    final updated = await _dataSource.likeComment(taskId, commentId, userId);
-    if (updated == null) throw Exception("Error liking comment $commentId");
-    return updated.toTask();
+    try {
+      final updated = await _dataSource.likeComment(taskId, commentId, userId);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> dislikeComment(
+  Future<Either<Failure, Task>> dislikeComment(
       String taskId, String commentId, String userId) async {
-    final updated = await _dataSource.dislikeComment(taskId, commentId, userId);
-    if (updated == null) throw Exception("Error disliking comment $commentId");
-    return updated.toTask();
+    try {
+      final updated =
+          await _dataSource.dislikeComment(taskId, commentId, userId);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> archiveTask(String taskId, String userId) async {
-    final updated = await _dataSource.archive(taskId, userId, true);
-    if (updated == null) throw Exception("Error un-archiving task $taskId");
-    return updated.toTask();
+  Future<Either<Failure, Task>> archiveTask(
+      String taskId, String userId) async {
+    try {
+      final updated = await _dataSource.archive(taskId, userId, true);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> unarchiveTask(String taskId, String userId) async {
-    final updated = await _dataSource.archive(taskId, userId, false);
-    if (updated == null) throw Exception("Error un-archiving task $taskId");
-    return updated.toTask();
+  Future<Either<Failure, Task>> unarchiveTask(
+      String taskId, String userId) async {
+    try {
+      final updated = await _dataSource.archive(taskId, userId, false);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 
   @override
-  Future<Task> completeChecklist(
+  Future<Either<Failure, Task>> completeChecklist(
     String taskId,
     String userId,
     String checklistId,
     String itemId,
     bool complete,
   ) async {
-    final updated =
-        await _dataSource.check(taskId, userId, checklistId, itemId, complete);
-    if (updated == null)
-      throw Exception("Error completing checklist item $itemId");
-    return updated.toTask();
+    try {
+      final updated = await _dataSource.check(
+          taskId, userId, checklistId, itemId, complete);
+      if (updated == null) return Either.left(ServerFailure());
+      return Either.right(updated.toTask());
+    } catch (e) {
+      return Either.left(ServerFailure());
+    }
   }
 }

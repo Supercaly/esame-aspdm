@@ -16,16 +16,15 @@ class HomeBloc extends Cubit<HomeState> {
   /// Tells [HomeBloc] to fetch new data from [HomeRepository].
   Future<void> fetch({bool showLoading = true}) async {
     if (showLoading) emit(HomeState.loading(_oldData));
-    try {
-      final newData = await _repository.getTasks();
-      if (newData != null)
-        _oldData = newData;
-      else
-        _oldData = [];
-      emit(HomeState.data(_oldData));
-    } catch (e) {
-      emit(HomeState.error(_oldData));
-    }
+    (await _repository.getTasks()).fold(
+      (_) {
+        emit(HomeState.error(_oldData));
+      },
+      (right) {
+        _oldData = right;
+        emit(HomeState.data(_oldData));
+      },
+    );
   }
 }
 

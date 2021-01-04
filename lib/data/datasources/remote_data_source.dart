@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:aspdm_project/data/models/label_model.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
-import 'package:aspdm_project/errors/failures.dart';
+import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';

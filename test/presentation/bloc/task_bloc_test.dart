@@ -1,3 +1,5 @@
+import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/presentation/bloc/task_bloc.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
@@ -32,19 +34,25 @@ void main() {
     blocTest("emits data on fetch success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.getTask(any)).thenAnswer((_) => Future.value(Task(
-                "mock_id",
-                "mock title",
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              )));
+          when(repository.getTask(any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.fetch();
         },
         expect: [
@@ -68,7 +76,8 @@ void main() {
       "emits error on fetch error",
       build: () => TaskBloc("mock_id", repository),
       act: (TaskBloc bloc) {
-        when(repository.getTask(any)).thenAnswer((_) => Future.error(Error()));
+        when(repository.getTask(any))
+            .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
         bloc.fetch();
       },
       expect: [
@@ -81,19 +90,25 @@ void main() {
       "don't emits loading when fetch has showLoading false",
       build: () => TaskBloc("mock_id", repository),
       act: (TaskBloc bloc) {
-        when(repository.getTask(any)).thenAnswer((_) => Future.value(Task(
-              "mock_id",
-              "mock title",
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-            )));
+        when(repository.getTask(any)).thenAnswer(
+          (_) => Future.value(
+            Either.right(
+              Task(
+                "mock_id",
+                "mock title",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+              ),
+            ),
+          ),
+        );
         bloc.fetch(showLoading: false);
       },
       expect: [
@@ -116,20 +131,25 @@ void main() {
     blocTest("emits data on comment delete success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.deleteComment(any, any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.deleteComment(any, any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.deleteComment("commentId", "userId");
         },
         expect: [
@@ -152,7 +172,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.deleteComment(any, any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.deleteComment("commentId", "userId");
         },
         expect: [
@@ -162,20 +182,25 @@ void main() {
     blocTest("emits data on comment edit success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.editComment(any, any, any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.editComment(any, any, any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.editComment("commentId", "newContent", "userId");
         },
         expect: [
@@ -198,7 +223,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.editComment(any, any, any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.editComment("commentId", "newContent", "userId");
         },
         expect: [
@@ -208,20 +233,25 @@ void main() {
     blocTest("emits data on comment like success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.likeComment(any, any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.likeComment(any, any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.likeComment("commentId", "userId");
         },
         expect: [
@@ -244,7 +274,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.likeComment(any, any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.likeComment("commentId", "userId");
         },
         expect: [
@@ -254,20 +284,25 @@ void main() {
     blocTest("emits data on comment dislike success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.dislikeComment(any, any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.dislikeComment(any, any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.dislikeComment("commentId", "userId");
         },
         expect: [
@@ -290,7 +325,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.dislikeComment(any, any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.dislikeComment("commentId", "userId");
         },
         expect: [
@@ -300,20 +335,25 @@ void main() {
     blocTest("emits data on add comment success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.addComment(any, any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.addComment(any, any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.addComment("content", "userId");
         },
         expect: [
@@ -336,7 +376,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.addComment(any, any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.addComment("content", "userId");
         },
         expect: [
@@ -346,20 +386,25 @@ void main() {
     blocTest("emits data on archive success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.archiveTask(any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.archiveTask(any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.archive("userId");
         },
         expect: [
@@ -382,7 +427,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.archiveTask(any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.archive("userId");
         },
         expect: [
@@ -392,20 +437,25 @@ void main() {
     blocTest("emits data on unarchive success",
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
-          when(repository.unarchiveTask(any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+          when(repository.unarchiveTask(any, any)).thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.unarchive("userId");
         },
         expect: [
@@ -428,7 +478,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.unarchiveTask(any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.unarchive("userId");
         },
         expect: [
@@ -439,19 +489,25 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
-              .thenAnswer((_) => Future.value(Task(
-                    "mock_id",
-                    "mock title",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                  )));
+              .thenAnswer(
+            (_) => Future.value(
+              Either.right(
+                Task(
+                  "mock_id",
+                  "mock title",
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                ),
+              ),
+            ),
+          );
           bloc.completeChecklist("userId", "checklistId", "itemId", true);
         },
         expect: [
@@ -474,7 +530,7 @@ void main() {
         build: () => TaskBloc("mock_id", repository),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
-              .thenAnswer((_) => Future.error(Error()));
+              .thenAnswer((_) => Future.value(Either.left(ServerFailure())));
           bloc.completeChecklist("userId", "checklistId", "itemId", true);
         },
         expect: [

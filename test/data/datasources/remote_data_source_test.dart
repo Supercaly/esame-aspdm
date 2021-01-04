@@ -6,7 +6,7 @@ import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
-import 'package:aspdm_project/errors/failures.dart';
+import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
