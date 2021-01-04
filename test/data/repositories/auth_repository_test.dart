@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/repositories/auth_repository_impl.dart';
@@ -36,8 +37,8 @@ void main() {
     ));
     final user = repository.lastSignedInUser;
 
-    expect(user, isNotNull);
-    expect(user, isA<User>());
+    expect(user.isRight(), isTrue);
+    expect((user as Right).value, isA<User>());
     verify(preferenceService.getLastSignedInUser()).called(1);
   });
 
@@ -50,26 +51,23 @@ void main() {
         ));
     final user = await repository.login("user@email.com", "1234");
 
-    expect(user, isNotNull);
-    expect(user, isA<User>());
+    expect(user.isRight(), isTrue);
+    expect((user as Right).value, isA<User>());
     verify(preferenceService.storeSignedInUser(any)).called(1);
   });
 
-  test("login throws an exception on wrong credential", () async {
+  test("login returns an error on wrong credential", () async {
     when(dataSource.authenticate(any, any)).thenAnswer((_) async => null);
-    try {
-      await repository.login("user@email.com", "1234");
-      fail("This should throw an exception!");
-    } catch (e) {
-      expect(e, isA<Exception>());
-    }
+    final res = await repository.login("user@email.com", "1234");
 
+    expect(res.isLeft(), isTrue);
     verifyNever(preferenceService.storeSignedInUser(any));
   });
 
   test("logout logs out the user", () async {
-    await repository.logout();
+    final res = await repository.logout();
 
     verify(preferenceService.storeSignedInUser(null)).called(1);
+    expect(res.isRight(), isTrue);
   });
 }

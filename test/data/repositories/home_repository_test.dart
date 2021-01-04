@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
@@ -63,22 +64,23 @@ void main() {
         ]);
     final res = await repository.getTasks();
 
-    expect(res, isNotNull);
-    expect(res, hasLength(2));
+    expect(res.isRight(), isTrue);
+    expect((res as Right).value, hasLength(2));
   });
 
   test("get tasks returns empty", () async {
     when(dataSource.getUnarchivedTasks()).thenAnswer((_) async => []);
     final res = await repository.getTasks();
 
-    expect(res, isNotNull);
-    expect(res, isEmpty);
+    expect(res.isRight(), isTrue);
+    expect((res as Right).value, isEmpty);
   });
 
   test("get tasks returns null", () async {
     when(dataSource.getUnarchivedTasks()).thenAnswer((_) async => null);
     final res = await repository.getTasks();
 
-    expect(res, isNull);
+    expect(res.isRight(), isTrue);
+    expect((res as Right).value, isEmpty);
   });
 }

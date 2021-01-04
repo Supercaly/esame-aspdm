@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
@@ -45,24 +46,21 @@ void main() {
           ));
       final res = await repository.getTask("id");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("get task returns null task", () async {
       when(dataSource.getTask(any)).thenAnswer((_) => null);
       final res = await repository.getTask("id");
 
-      expect(res, isNull);
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isNull);
     });
 
-    test("get task throws error when passing null id", () async {
-      try {
-        await repository.getTask(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
+    test("get task return error when passing null id", () async {
+      final res = await repository.getTask(null);
+      expect(res.isLeft(), isTrue);
     });
 
     test("complete checklist returns the updated task", () async {
@@ -93,25 +91,22 @@ void main() {
         true,
       );
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
-    test("complete checklist throws error", () async {
+    test("complete checklist return error", () async {
       when(dataSource.check(any, any, any, any, any))
           .thenAnswer((_) async => null);
-      try {
-        await repository.completeChecklist(
-          "taskId",
-          "userId",
-          "checklistId",
-          "itemId",
-          true,
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+
+      final res = await repository.completeChecklist(
+        "taskId",
+        "userId",
+        "checklistId",
+        "itemId",
+        true,
+      );
+      expect(res.isLeft(), isTrue);
     });
   });
 
@@ -138,21 +133,19 @@ void main() {
               ));
       final res = await repository.archiveTask("taskId", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("archive task throws error", () async {
       when(dataSource.archive(any, any, true)).thenAnswer((_) async => null);
-      try {
-        await repository.archiveTask(
-          "taskId",
-          "userId",
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+
+      final res = await repository.archiveTask(
+        "taskId",
+        "userId",
+      );
+
+      expect(res.isLeft(), isTrue);
     });
 
     test("unarchive task returns the updated task", () async {
@@ -177,21 +170,19 @@ void main() {
               ));
       final res = await repository.unarchiveTask("taskId", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("unarchive task throws error", () async {
       when(dataSource.archive(any, any, false)).thenAnswer((_) async => null);
-      try {
-        await repository.unarchiveTask(
-          "taskId",
-          "userId",
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+
+      final res = await repository.unarchiveTask(
+        "taskId",
+        "userId",
+      );
+
+      expect(res.isLeft(), isTrue);
     });
   });
 
@@ -219,19 +210,17 @@ void main() {
       final res =
           await repository.deleteComment("taskId", "commentId", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("delete comment throws error", () async {
       when(dataSource.deleteComment(any, any, any))
           .thenAnswer((_) async => null);
-      try {
-        await repository.deleteComment("taskId", "commentId", "userId");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final res =
+          await repository.deleteComment("taskId", "commentId", "userId");
+
+      expect(res.isLeft(), isTrue);
     });
 
     test("edit comment returns the updated task", () async {
@@ -257,20 +246,17 @@ void main() {
       final res = await repository.editComment(
           "taskId", "commentId", "content", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("edit comment throws error", () async {
       when(dataSource.patchComment(any, any, any, any))
           .thenAnswer((_) async => null);
-      try {
-        await repository.editComment(
-            "taskId", "commentId", "content", "userId");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final res = await repository.editComment(
+          "taskId", "commentId", "content", "userId");
+
+      expect(res.isLeft(), isTrue);
     });
 
     test("add comment returns the updated task", () async {
@@ -295,18 +281,15 @@ void main() {
               ));
       final res = await repository.addComment("taskId", "content", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("add comment throws error", () async {
       when(dataSource.postComment(any, any, any)).thenAnswer((_) async => null);
-      try {
-        await repository.addComment("taskId", "content", "userId");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final res = await repository.addComment("taskId", "content", "userId");
+
+      expect(res.isLeft(), isTrue);
     });
 
     test("like comment returns the updated task", () async {
@@ -331,18 +314,15 @@ void main() {
               ));
       final res = await repository.likeComment("taskId", "commentId", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("like comment throws error", () async {
       when(dataSource.likeComment(any, any, any)).thenAnswer((_) async => null);
-      try {
-        await repository.likeComment("taskId", "commentId", "userId");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final res = await repository.likeComment("taskId", "commentId", "userId");
+
+      expect(res.isLeft(), isTrue);
     });
 
     test("dislike comment returns the updated task", () async {
@@ -368,19 +348,17 @@ void main() {
       final res =
           await repository.dislikeComment("taskId", "commentId", "userId");
 
-      expect(res, isNotNull);
-      expect(res, isA<Task>());
+      expect(res.isRight(), isTrue);
+      expect((res as Right).value, isA<Task>());
     });
 
     test("dislike comment throws error", () async {
       when(dataSource.dislikeComment(any, any, any))
           .thenAnswer((_) async => null);
-      try {
-        await repository.dislikeComment("taskId", "commentId", "userId");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<Exception>());
-      }
+      final res =
+          await repository.dislikeComment("taskId", "commentId", "userId");
+
+      expect(res.isLeft(), isTrue);
     });
   });
 }
