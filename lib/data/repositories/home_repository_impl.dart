@@ -13,8 +13,9 @@ class HomeRepositoryImpl extends HomeRepository {
   Future<Either<Failure, List<Task>>> getTasks() async {
     try {
       return Either.right((await _dataSource.getUnarchivedTasks())
-          ?.map((e) => e.toTask())
-          ?.toList() ?? []);
+              ?.map((e) => e.toTask())
+              ?.toList() ??
+          []);
     } catch (e) {
       return Either.left(ServerFailure());
     }

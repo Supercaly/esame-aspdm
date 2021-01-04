@@ -71,32 +71,26 @@ void main() {
     test("map invokes the correct methods", () {
       bool leftCalled = false, rightCalled = false;
 
-      Either<String, int>.left("mock_value").map(
-        (left) {
-          leftCalled = true;
-          return left;
-        },
-        (right) {
-          leftCalled = true;
-          return right;
-        }
-      );
+      Either<String, int>.left("mock_value").map((left) {
+        leftCalled = true;
+        return left;
+      }, (right) {
+        leftCalled = true;
+        return right;
+      });
       expect(leftCalled, isTrue);
       expect(rightCalled, isFalse);
 
       leftCalled = false;
       rightCalled = false;
 
-      Either<String, int>.right(123).fold(
-        (left) {
-          leftCalled = true;
-          return left;
-        },
-        (right) {
-          rightCalled = true;
-          return right;
-        }
-      );
+      Either<String, int>.right(123).fold((left) {
+        leftCalled = true;
+        return left;
+      }, (right) {
+        rightCalled = true;
+        return right;
+      });
 
       expect(leftCalled, isFalse);
       expect(rightCalled, isTrue);

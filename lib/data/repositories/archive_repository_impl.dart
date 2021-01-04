@@ -13,8 +13,9 @@ class ArchiveRepositoryImpl extends ArchiveRepository {
   Future<Either<Failure, List<Task>>> getArchivedTasks() async {
     try {
       return Either.right((await _dataSource.getArchivedTasks())
-          ?.map((e) => e.toTask())
-          ?.toList() ?? []);
+              ?.map((e) => e.toTask())
+              ?.toList() ??
+          []);
     } catch (e) {
       return Either.left(ServerFailure());
     }

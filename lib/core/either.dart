@@ -21,7 +21,8 @@ abstract class Either<L, R> {
 
   /// Returns a new [Either] that as a left side value returned by
   /// [ifLeft] or a right side value returned by [ifRight].
-  Either<T, U> map<T, U>(T Function(L left) ifLeft, U Function(R right) ifRight);
+  Either<T, U> map<T, U>(
+      T Function(L left) ifLeft, U Function(R right) ifRight);
 
   /// Returns `true` if this is a [Left] side value.
   bool isLeft() => fold((l) => true, (r) => false);

@@ -27,7 +27,8 @@ void main() {
       "emits data on success",
       build: () => ArchiveBloc(repository),
       act: (ArchiveBloc bloc) {
-        when(repository.getArchivedTasks()).thenAnswer((_) => Future.value(Either.right([])));
+        when(repository.getArchivedTasks())
+            .thenAnswer((_) => Future.value(Either.right([])));
         bloc.fetch();
       },
       expect: [
@@ -54,7 +55,8 @@ void main() {
       "don't emits loading when fetch has showLoading false",
       build: () => ArchiveBloc(repository),
       act: (ArchiveBloc bloc) {
-        when(repository.getArchivedTasks()).thenAnswer((_) => Future.value(Either.right([])));
+        when(repository.getArchivedTasks())
+            .thenAnswer((_) => Future.value(Either.right([])));
         bloc.fetch(showLoading: false);
       },
       expect: [
