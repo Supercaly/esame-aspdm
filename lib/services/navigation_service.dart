@@ -24,6 +24,6 @@ class NavigationService {
   /// Returns the arguments of type [T] in the given [context].
   /// If the arguments can't be found `null` is returned instead.
   T arguments<T>(BuildContext context) {
-    return ModalRoute.of<T>(context)?.settings?.arguments;
+    return ModalRoute.of(context)?.settings?.arguments as T;
   }
 }
