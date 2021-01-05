@@ -23,8 +23,7 @@ class PreferenceService {
   Future<void> storeSignedInUser(User user) async {
     await _preferences.setString("user_id", user?.id?.value?.getOrNull());
     await _preferences.setString("user_name", user?.name?.value?.getOrNull());
-    await _preferences.setString(
-        "user_email", user?.email?.value?.getOrNull());
+    await _preferences.setString("user_email", user?.email?.value?.getOrNull());
     await _preferences.setInt("user_color", user?.profileColor?.value);
   }
 

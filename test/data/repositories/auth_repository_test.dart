@@ -53,7 +53,8 @@ void main() {
           "mock@email.com",
           null,
         ));
-    final user = await repository.login(EmailAddress("user@email.com"), Password("1234"));
+    final user = await repository.login(
+        EmailAddress("user@email.com"), Password("1234"));
 
     expect(user.isRight(), isTrue);
     expect((user as Right).value, isA<User>());
@@ -62,7 +63,8 @@ void main() {
 
   test("login returns an error on wrong credential", () async {
     when(dataSource.authenticate(any, any)).thenAnswer((_) async => null);
-    final res = await repository.login(EmailAddress("user@email.com"), Password("1234"));
+    final res = await repository.login(
+        EmailAddress("user@email.com"), Password("1234"));
 
     expect(res.isLeft(), isTrue);
     verifyNever(preferenceService.storeSignedInUser(any));

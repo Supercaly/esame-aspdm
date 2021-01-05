@@ -32,7 +32,8 @@ class AuthState extends ChangeNotifier {
   /// Logs in a new user with given [email] and [password].
   /// Returns `false` if the login fail with an error,
   /// `true` otherwise.
-  Future<Either<Failure, Unit>> login(EmailAddress email, Password password) async {
+  Future<Either<Failure, Unit>> login(
+      EmailAddress email, Password password) async {
     // Start loading
     _isLoading = true;
     notifyListeners();
