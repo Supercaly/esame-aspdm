@@ -5,6 +5,9 @@ import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/repositories/task_repository_impl.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
+import 'package:aspdm_project/domain/values/comment_content.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -29,7 +32,6 @@ void main() {
       when(dataSource.getTask(any)).thenAnswer((_) async => TaskModel(
             "mock_id_1",
             "title",
-            DateTime.parse("2020-12-01"),
             "description",
             null,
             UserModel(
@@ -43,8 +45,9 @@ void main() {
             null,
             null,
             false,
+            DateTime.parse("2020-12-01"),
           ));
-      final res = await repository.getTask("id");
+      final res = await repository.getTask(UniqueId("id"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -52,7 +55,7 @@ void main() {
 
     test("get task returns null task", () async {
       when(dataSource.getTask(any)).thenAnswer((_) => null);
-      final res = await repository.getTask("id");
+      final res = await repository.getTask(UniqueId("id"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isNull);
@@ -68,7 +71,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -82,13 +84,14 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
       final res = await repository.completeChecklist(
-        "taskId",
-        "userId",
-        "checklistId",
-        "itemId",
-        true,
+        UniqueId("taskId"),
+        UniqueId("userId"),
+        UniqueId("checklistId"),
+        UniqueId("itemId"),
+        Toggle(true),
       );
 
       expect(res.isRight(), isTrue);
@@ -100,11 +103,11 @@ void main() {
           .thenAnswer((_) async => null);
 
       final res = await repository.completeChecklist(
-        "taskId",
-        "userId",
-        "checklistId",
-        "itemId",
-        true,
+        UniqueId("taskId"),
+        UniqueId("userId"),
+        UniqueId("checklistId"),
+        UniqueId("itemId"),
+        Toggle(true),
       );
       expect(res.isLeft(), isTrue);
     });
@@ -116,7 +119,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -130,8 +132,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res = await repository.archiveTask("taskId", "userId");
+      final res =
+          await repository.archiveTask(UniqueId("taskId"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -141,8 +145,8 @@ void main() {
       when(dataSource.archive(any, any, true)).thenAnswer((_) async => null);
 
       final res = await repository.archiveTask(
-        "taskId",
-        "userId",
+        UniqueId("taskId"),
+        UniqueId("userId"),
       );
 
       expect(res.isLeft(), isTrue);
@@ -153,7 +157,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -167,8 +170,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res = await repository.unarchiveTask("taskId", "userId");
+      final res = await repository.unarchiveTask(
+          UniqueId("taskId"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -178,8 +183,8 @@ void main() {
       when(dataSource.archive(any, any, false)).thenAnswer((_) async => null);
 
       final res = await repository.unarchiveTask(
-        "taskId",
-        "userId",
+        UniqueId("taskId"),
+        UniqueId("userId"),
       );
 
       expect(res.isLeft(), isTrue);
@@ -192,7 +197,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -206,9 +210,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res =
-          await repository.deleteComment("taskId", "commentId", "userId");
+      final res = await repository.deleteComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -217,8 +222,8 @@ void main() {
     test("delete comment throws error", () async {
       when(dataSource.deleteComment(any, any, any))
           .thenAnswer((_) async => null);
-      final res =
-          await repository.deleteComment("taskId", "commentId", "userId");
+      final res = await repository.deleteComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
 
       expect(res.isLeft(), isTrue);
     });
@@ -228,7 +233,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -242,9 +246,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res = await repository.editComment(
-          "taskId", "commentId", "content", "userId");
+      final res = await repository.editComment(UniqueId("taskId"),
+          UniqueId("commentId"), CommentContent("content"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -253,8 +258,8 @@ void main() {
     test("edit comment throws error", () async {
       when(dataSource.patchComment(any, any, any, any))
           .thenAnswer((_) async => null);
-      final res = await repository.editComment(
-          "taskId", "commentId", "content", "userId");
+      final res = await repository.editComment(UniqueId("taskId"),
+          UniqueId("commentId"), CommentContent("content"), UniqueId("userId"));
 
       expect(res.isLeft(), isTrue);
     });
@@ -264,7 +269,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -278,8 +282,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res = await repository.addComment("taskId", "content", "userId");
+      final res = await repository.addComment(
+          UniqueId("taskId"), CommentContent("content"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -287,7 +293,8 @@ void main() {
 
     test("add comment throws error", () async {
       when(dataSource.postComment(any, any, any)).thenAnswer((_) async => null);
-      final res = await repository.addComment("taskId", "content", "userId");
+      final res = await repository.addComment(
+          UniqueId("taskId"), CommentContent("content"), UniqueId("userId"));
 
       expect(res.isLeft(), isTrue);
     });
@@ -297,7 +304,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -311,8 +317,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res = await repository.likeComment("taskId", "commentId", "userId");
+      final res = await repository.likeComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -320,7 +328,8 @@ void main() {
 
     test("like comment throws error", () async {
       when(dataSource.likeComment(any, any, any)).thenAnswer((_) async => null);
-      final res = await repository.likeComment("taskId", "commentId", "userId");
+      final res = await repository.likeComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
 
       expect(res.isLeft(), isTrue);
     });
@@ -330,7 +339,6 @@ void main() {
           .thenAnswer((_) async => TaskModel(
                 "mock_id_1",
                 "title",
-                DateTime.parse("2020-12-01"),
                 "description",
                 null,
                 UserModel(
@@ -344,9 +352,10 @@ void main() {
                 null,
                 null,
                 false,
+                DateTime.parse("2020-12-01"),
               ));
-      final res =
-          await repository.dislikeComment("taskId", "commentId", "userId");
+      final res = await repository.dislikeComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
 
       expect(res.isRight(), isTrue);
       expect((res as Right).value, isA<Task>());
@@ -355,8 +364,8 @@ void main() {
     test("dislike comment throws error", () async {
       when(dataSource.dislikeComment(any, any, any))
           .thenAnswer((_) async => null);
-      final res =
-          await repository.dislikeComment("taskId", "commentId", "userId");
+      final res = await repository.dislikeComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
 
       expect(res.isLeft(), isTrue);
     });

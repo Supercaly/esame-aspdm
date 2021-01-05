@@ -1,5 +1,6 @@
 import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/comment_content.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/ago.dart';
@@ -36,7 +37,7 @@ class CommentWidget extends StatefulWidget {
   final Comment comment;
 
   /// Callback called when the user edited the comment.
-  final void Function(String) onEdit;
+  final void Function(CommentContent) onEdit;
 
   /// Callback called when the user wants to delete this comment.
   final VoidCallback onDelete;
@@ -66,7 +67,8 @@ class _CommentWidgetState extends State<CommentWidget> {
     super.initState();
 
     _type = CommentWidgetType.normal;
-    _editingController = TextEditingController(text: widget.comment.content);
+    _editingController = TextEditingController(
+        text: widget.comment?.content?.value?.getOrNull());
   }
 
   @override
@@ -86,7 +88,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.comment?.author?.name ?? "",
+                  widget.comment?.author?.name?.value?.getOrNull() ?? "",
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 SizedBox(height: 10.0),
@@ -99,8 +101,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                             icon: Icon(FeatherIcons.send,
                                 color: Theme.of(context).accentColor),
                             onPressed: () {
-                              if (_editingController.text.length <= 500) {
-                                widget.onEdit?.call(_editingController.text);
+                              final content =
+                                  CommentContent(_editingController.text);
+                              if (content.value.isRight()) {
+                                widget.onEdit?.call(content);
                                 setState(() {
                                   _type = CommentWidgetType.normal;
                                 });
@@ -108,12 +112,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                             },
                           ),
                         ),
-                        maxLength: 500,
+                        maxLength: CommentContent.maxLength,
                         maxLines: 10,
                         minLines: 1,
                         textInputAction: TextInputAction.done,
                       )
-                    : Text(widget.comment?.content ?? ""),
+                    : Text(widget.comment?.content?.value
+                        ?.getOrElse((left) => "")),
                 SizedBox(height: 10.0),
                 Selector<AuthState, User>(
                   selector: (_, state) => state.currentUser,
@@ -125,7 +130,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                         LikeButton(
                           icon: FeatherIcons.thumbsUp,
                           value: widget.comment?.likes?.length ?? 0,
-                          selected: widget.comment.likes.contains(currentUser),
+                          selected:
+                              widget.comment?.likes?.contains(currentUser),
                           onPressed: () => widget.onLike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -135,7 +141,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                           icon: FeatherIcons.thumbsDown,
                           value: widget.comment?.dislikes?.length ?? 0,
                           selected:
-                              widget.comment.dislikes.contains(currentUser),
+                              widget.comment?.dislikes?.contains(currentUser),
                           onPressed: () => widget.onDislike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -245,7 +251,7 @@ class LikeButton extends StatelessWidget {
 /// Widget that lets the user add a new comment.
 class AddCommentWidget extends StatefulWidget {
   /// Callback called when the user finishes creating a new comment.
-  final void Function(String) onNewComment;
+  final void Function(CommentContent) onNewComment;
 
   AddCommentWidget({
     Key key,
@@ -283,17 +289,20 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
           icon: Icon(FeatherIcons.send),
           onPressed: (_sendEnabled)
               ? () {
-                  widget.onNewComment?.call(_controller.text);
-                  _controller.clear();
-                  setState(() {
-                    _sendEnabled = false;
-                  });
-                  FocusManager.instance.primaryFocus.unfocus();
+                  final content = CommentContent(_controller.text);
+                  if (content.value.isRight()) {
+                    widget.onNewComment?.call(content);
+                    _controller.clear();
+                    setState(() {
+                      _sendEnabled = false;
+                    });
+                    FocusManager.instance.primaryFocus.unfocus();
+                  }
                 }
               : null,
         ),
       ),
-      maxLength: 500,
+      maxLength: CommentContent.maxLength,
       minLines: 1,
       maxLines: 6,
       textInputAction: TextInputAction.done,

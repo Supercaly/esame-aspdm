@@ -1,10 +1,9 @@
 import 'dart:io';
+import 'package:aspdm_project/data/models/checklist_model.dart';
+import 'package:aspdm_project/data/models/comment_model.dart';
+import 'package:aspdm_project/data/models/label_model.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
-import 'package:aspdm_project/domain/entities/checklist.dart';
-import 'package:aspdm_project/domain/entities/comment.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/services/log_service.dart';
@@ -195,7 +194,7 @@ void main() {
           ],
         ),
       );
-      final res = (await source.getUsers()).map((e) => e.toUser());
+      final res = (await source.getUsers());
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -204,13 +203,13 @@ void main() {
         res,
         equals(
           [
-            User(
+            UserModel(
               "mock_id_1",
               "Mock User 1",
               "mock1@email.com",
               Color(0xFFFF0000),
             ),
-            User(
+            UserModel(
               "mock_id_2",
               "Mock User 2",
               "mock2@email.com",
@@ -241,9 +240,9 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toUser(),
+        res,
         equals(
-          User(
+          UserModel(
             "mock_id_1",
             "Mock User 1",
             "mock1@email.com",
@@ -273,9 +272,9 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toUser(),
+        res,
         equals(
-          User(
+          UserModel(
             "mock_id",
             "Mock User",
             "mock@email.com",
@@ -313,7 +312,7 @@ void main() {
           ],
         ),
       );
-      final res = (await source.getLabels()).map((e) => e.toLabel());
+      final res = await source.getLabels();
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -322,17 +321,17 @@ void main() {
         res,
         equals(
           [
-            Label(
+            LabelModel(
               "mock_id_1",
               Color(0xFFFF0000),
               "Label 1",
             ),
-            Label(
+            LabelModel(
               "mock_id_2",
               Color(0xFF00FF00),
               "Label 2",
             ),
-            Label(
+            LabelModel(
               "mock_id_3",
               Color(0xFF0000FF),
               "Label 3",
@@ -365,7 +364,7 @@ void main() {
           ],
         ),
       );
-      final res = (await source.getUnarchivedTasks()).map((e) => e.toTask());
+      final res = await source.getUnarchivedTasks();
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -374,12 +373,12 @@ void main() {
         res,
         equals(
           [
-            Task(
+            TaskModel(
               "mock_task_id",
               "Mock Title",
               null,
               null,
-              User(
+              UserModel(
                 "mock_id",
                 "Mock User",
                 "mock@email.com",
@@ -420,7 +419,7 @@ void main() {
           ],
         ),
       );
-      final res = (await source.getArchivedTasks()).map((e) => e.toTask());
+      final res = await source.getArchivedTasks();
 
       expect(res, isNotNull);
       expect(res, isNotEmpty);
@@ -429,12 +428,12 @@ void main() {
         res,
         equals(
           [
-            Task(
+            TaskModel(
               "mock_task_id",
               "Mock Title",
               null,
               null,
-              User(
+              UserModel(
                 "mock_id",
                 "Mock User",
                 "mock@email.com",
@@ -477,14 +476,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -548,12 +547,12 @@ void main() {
         ),
       );
       final res = await source.postTask(
-        TaskModel.fromTask(Task(
+        TaskModel(
           null,
           "Mock Title",
           "Mock Description",
           null,
-          User(
+          UserModel(
             "mock_id",
             "Mock User",
             "mock@email.com",
@@ -562,32 +561,32 @@ void main() {
           null,
           DateTime.parse("2021-01-03"),
           [
-            Checklist(
+            ChecklistModel(
               "mock_checklist_id",
               "Mock Checklist Title",
               [
-                ChecklistItem("mock_item_1", "item 1", false),
-                ChecklistItem("mock_item_2", "item 2", false),
-                ChecklistItem("mock_item_3", "item 3", false),
+                ChecklistItemModel("mock_item_1", "item 1", false),
+                ChecklistItemModel("mock_item_2", "item 2", false),
+                ChecklistItemModel("mock_item_3", "item 3", false),
               ],
             ),
           ],
           null,
           false,
           DateTime.parse("2020-12-22"),
-        )),
+        ),
       );
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             "Mock Description",
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -596,13 +595,13 @@ void main() {
             null,
             DateTime.parse("2021-01-03"),
             [
-              Checklist(
+              ChecklistModel(
                 "mock_checklist_id",
                 "Mock Checklist Title",
                 [
-                  ChecklistItem("mock_item_1", "item 1", false),
-                  ChecklistItem("mock_item_2", "item 2", false),
-                  ChecklistItem("mock_item_3", "item 3", false),
+                  ChecklistItemModel("mock_item_1", "item 1", false),
+                  ChecklistItemModel("mock_item_2", "item 2", false),
+                  ChecklistItemModel("mock_item_3", "item 3", false),
                 ],
               ),
             ],
@@ -616,12 +615,12 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.postTask(
-        TaskModel.fromTask(Task(
+        TaskModel(
           null,
           "Mock Title",
           "Mock Description",
           null,
-          User(
+          UserModel(
             "mock_id",
             "Mock User",
             "mock@email.com",
@@ -633,7 +632,7 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        )),
+        ),
       );
 
       expect(res2, isNull);
@@ -658,12 +657,12 @@ void main() {
         ),
       );
       final res = await source.patchTask(
-        TaskModel.fromTask(Task(
+        TaskModel(
           null,
           "Mock Title",
           "Mock Description",
           null,
-          User(
+          UserModel(
             "mock_id",
             "Mock User",
             "mock@email.com",
@@ -675,19 +674,19 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        )),
+        ),
       );
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             "Mock Description",
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -706,12 +705,12 @@ void main() {
       when(dio.patch(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.patchTask(
-        TaskModel.fromTask(Task(
+        TaskModel(
           null,
           "Mock Title",
           "Mock Description",
           null,
-          User(
+          UserModel(
             "mock_id",
             "Mock User",
             "mock@email.com",
@@ -723,7 +722,7 @@ void main() {
           null,
           false,
           DateTime.parse("2020-12-22"),
-        )),
+        ),
       );
 
       expect(res2, isNull);
@@ -768,14 +767,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -785,18 +784,19 @@ void main() {
             null,
             null,
             [
-              Comment(
-                  "mock_comment",
-                  "mock_content",
-                  User(
-                    "mock_id",
-                    "Mock User",
-                    "mock@email.com",
-                    Color(0xFFFF0000),
-                  ),
-                  [],
-                  [],
-                  DateTime.parse("2020-12-22"))
+              CommentModel(
+                "mock_comment",
+                "mock_content",
+                UserModel(
+                  "mock_id",
+                  "Mock User",
+                  "mock@email.com",
+                  Color(0xFFFF0000),
+                ),
+                [],
+                [],
+                DateTime.parse("2020-12-22"),
+              )
             ],
             false,
             DateTime.parse("2020-12-22"),
@@ -854,14 +854,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -871,18 +871,19 @@ void main() {
             null,
             null,
             [
-              Comment(
-                  "mock_comment",
-                  "mock_content",
-                  User(
-                    "mock_id",
-                    "Mock User",
-                    "mock@email.com",
-                    Color(0xFFFF0000),
-                  ),
-                  [],
-                  [],
-                  DateTime.parse("2020-12-22"))
+              CommentModel(
+                "mock_comment",
+                "mock_content",
+                UserModel(
+                  "mock_id",
+                  "Mock User",
+                  "mock@email.com",
+                  Color(0xFFFF0000),
+                ),
+                [],
+                [],
+                DateTime.parse("2020-12-22"),
+              )
             ],
             false,
             DateTime.parse("2020-12-22"),
@@ -941,14 +942,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -958,10 +959,10 @@ void main() {
             null,
             null,
             [
-              Comment(
+              CommentModel(
                   "mock_comment",
                   "mock_content",
-                  User(
+                  UserModel(
                     "mock_id",
                     "Mock User",
                     "mock@email.com",
@@ -1035,14 +1036,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -1052,17 +1053,17 @@ void main() {
             null,
             null,
             [
-              Comment(
+              CommentModel(
                   "mock_comment",
                   "mock_content",
-                  User(
+                  UserModel(
                     "mock_id",
                     "Mock User",
                     "mock@email.com",
                     Color(0xFFFF0000),
                   ),
                   [
-                    User(
+                    UserModel(
                       "mock_id",
                       "Mock User",
                       "mock@email.com",
@@ -1135,14 +1136,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -1152,10 +1153,10 @@ void main() {
             null,
             null,
             [
-              Comment(
+              CommentModel(
                   "mock_comment",
                   "mock_content",
-                  User(
+                  UserModel(
                     "mock_id",
                     "Mock User",
                     "mock@email.com",
@@ -1163,7 +1164,7 @@ void main() {
                   ),
                   [],
                   [
-                    User(
+                    UserModel(
                       "mock_id",
                       "Mock User",
                       "mock@email.com",
@@ -1215,14 +1216,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -1288,14 +1289,14 @@ void main() {
 
       expect(res, isNotNull);
       expect(
-        res.toTask(),
+        res,
         equals(
-          Task(
+          TaskModel(
             "mock_task_id",
             "Mock Title",
             null,
             null,
-            User(
+            UserModel(
               "mock_id",
               "Mock User",
               "mock@email.com",
@@ -1304,11 +1305,11 @@ void main() {
             null,
             null,
             [
-              Checklist(
+              ChecklistModel(
                 "mock_checklist_id",
                 "mock checklist title",
                 [
-                  ChecklistItem(
+                  ChecklistItemModel(
                     "mock_item_id",
                     "item 1",
                     true,

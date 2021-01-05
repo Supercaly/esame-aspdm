@@ -25,11 +25,11 @@ class UserInfoCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    user?.name ?? "",
+                    user?.name?.value?.getOrNull() ?? "",
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   Text(
-                    user?.email ?? "",
+                    user?.email?.value?.getOrNull() ?? "",
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                 ],

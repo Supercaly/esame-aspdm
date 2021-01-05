@@ -1,11 +1,14 @@
 import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/domain/entities/comment.dart';
+import 'package:aspdm_project/domain/values/comment_content.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'comment_model.g.dart';
 
 @JsonSerializable()
-class CommentModel {
+class CommentModel extends Equatable {
   @JsonKey(
     name: "_id",
     required: true,
@@ -50,8 +53,8 @@ class CommentModel {
   Map<String, dynamic> toJson() => _$CommentModelToJson(this);
 
   factory CommentModel.fromComment(Comment comment) => CommentModel(
-        comment.id,
-        comment.content,
+        comment.id.value.getOrNull(),
+        comment.content.value.getOrNull(),
         (comment.author == null) ? null : UserModel.fromUser(comment.author),
         comment.likes?.map((e) => UserModel.fromUser(e))?.toList(),
         comment.dislikes?.map((e) => UserModel.fromUser(e))?.toList(),
@@ -59,11 +62,21 @@ class CommentModel {
       );
 
   Comment toComment() => Comment(
-        id,
-        content,
+        UniqueId(id),
+        CommentContent(content),
         author?.toUser(),
         likes?.map((e) => e.toUser())?.toList(),
         dislikes?.map((e) => e.toUser())?.toList(),
         creationDate,
       );
+
+  @override
+  List<Object> get props => [
+        id,
+        content,
+        author,
+        likes,
+        dislikes,
+        creationDate,
+      ];
 }

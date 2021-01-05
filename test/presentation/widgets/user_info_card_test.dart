@@ -1,4 +1,7 @@
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_name.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +19,9 @@ void main() {
     state = MockAuthState();
 
     when(state.currentUser).thenReturn(User(
-      "mock_id",
-      "Mock User",
-      "mock.user@email.com",
+      UniqueId("mock_id"),
+      UserName("Mock User"),
+      EmailAddress("mock.user@email.com"),
       Colors.green,
     ));
   });

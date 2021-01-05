@@ -3,12 +3,17 @@ import 'package:aspdm_project/data/models/comment_model.dart';
 import 'package:aspdm_project/data/models/label_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
+import 'package:aspdm_project/domain/values/task_description.dart';
+import 'package:aspdm_project/domain/values/task_title.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'task_model.g.dart';
 
 @JsonSerializable()
-class TaskModel {
+class TaskModel extends Equatable {
   @JsonKey(
     name: "_id",
     required: true,
@@ -49,7 +54,6 @@ class TaskModel {
   TaskModel(
     this.id,
     this.title,
-    this.creationDate,
     this.description,
     this.labels,
     this.author,
@@ -58,6 +62,7 @@ class TaskModel {
     this.checklists,
     this.comments,
     this.archived,
+    this.creationDate,
   );
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
@@ -66,30 +71,45 @@ class TaskModel {
   Map<String, dynamic> toJson() => _$TaskModelToJson(this);
 
   factory TaskModel.fromTask(Task task) => TaskModel(
-        task.id,
-        task.title,
-        task.creationDate,
-        task.description,
+        task.id.value.getOrNull(),
+        task.title.value.getOrNull(),
+        task.description.value.getOrNull(),
         task.labels?.map((e) => LabelModel.fromLabel(e))?.toList(),
         (task.author == null) ? null : UserModel.fromUser(task.author),
         task.members?.map((e) => UserModel.fromUser(e))?.toList(),
         task.expireDate,
         task.checklists?.map((e) => ChecklistModel.fromChecklist(e))?.toList(),
         task.comments?.map((e) => CommentModel.fromComment(e))?.toList(),
-        task.archived,
+        task.archived.value.getOrElse((_) => false),
+        task.creationDate,
       );
 
   Task toTask() => Task(
-        id,
-        title,
-        description,
+        UniqueId(id),
+        TaskTitle(title),
+        TaskDescription(description),
         labels?.map((e) => e.toLabel())?.toList(),
         author?.toUser(),
         members?.map((e) => e.toUser())?.toList(),
         expireDate,
         checklists?.map((e) => e.toChecklist())?.toList(),
         comments?.map((e) => e.toComment())?.toList(),
-        archived,
+        Toggle(archived),
         creationDate,
       );
+
+  @override
+  List<Object> get props => [
+        id,
+        title,
+        description,
+        labels,
+        author,
+        members,
+        expireDate,
+        checklists,
+        comments,
+        archived,
+        creationDate,
+      ];
 }

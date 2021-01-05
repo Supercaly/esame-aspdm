@@ -2,6 +2,10 @@ import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/core/unit.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/password.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_name.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,34 +28,60 @@ void main() {
     expect(AuthState(repository).currentUser, isNull);
 
     when(repository.lastSignedInUser).thenReturn(
-      Either.right(User("mock_id", "Mock User", "mock.user@email.it", null)),
+      Either.right(User(
+        UniqueId("mock_id"),
+        UserName("Mock User"),
+        EmailAddress("mock.user@email.it"),
+        null,
+      )),
     );
     expect(
       AuthState(repository).currentUser,
-      equals(User("mock_id", "Mock User", "mock.user@email.it", null)),
+      equals(User(
+        UniqueId("mock_id"),
+        UserName("Mock User"),
+        EmailAddress("mock.user@email.it"),
+        null,
+      )),
     );
   });
 
   test("login with correct data logs the user", () async {
     when(repository.lastSignedInUser).thenReturn(Either.right(null));
-    when(repository.login(any, any)).thenAnswer((_) async =>
-        Either.right(User("mock_id", "Mock Name", "mock@email.com", null)));
+    when(repository.login(any, any)).thenAnswer((_) async => Either.right(User(
+          UniqueId("mock_id"),
+          UserName("Mock Name"),
+          EmailAddress("mock@email.com"),
+          null,
+        )));
 
     final authState = AuthState(repository);
-    final res = await authState.login("email", "password");
+    final res = await authState.login(
+      EmailAddress("test@email.com"),
+      Password("password"),
+    );
 
     expect(res, isA<Right>());
     expect((res as Right).value, isA<Unit>());
     expect(
       authState.currentUser,
-      equals(User("mock_id", "Mock Name", "mock@email.com", null)),
+      equals(User(
+        UniqueId("mock_id"),
+        UserName("Mock Name"),
+        EmailAddress("mock@email.com"),
+        null,
+      )),
     );
   });
 
   test("logout sets currentUser to null", () async {
     when(repository.lastSignedInUser).thenReturn(Either.right(null));
-    when(repository.lastSignedInUser).thenReturn(
-        Either.right(User("mock_id", "Mock Name", "mock@email.com", null)));
+    when(repository.lastSignedInUser).thenReturn(Either.right(User(
+      UniqueId("mock_id"),
+      UserName("Mock Name"),
+      EmailAddress("mock@email.com"),
+      null,
+    )));
     when(repository.logout()).thenAnswer((_) => null);
 
     final authState = AuthState(repository);

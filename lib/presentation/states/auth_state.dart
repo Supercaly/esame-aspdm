@@ -1,6 +1,8 @@
 import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/core/unit.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/password.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
@@ -30,7 +32,7 @@ class AuthState extends ChangeNotifier {
   /// Logs in a new user with given [email] and [password].
   /// Returns `false` if the login fail with an error,
   /// `true` otherwise.
-  Future<Either<Failure, Unit>> login(String email, String password) async {
+  Future<Either<Failure, Unit>> login(EmailAddress email, Password password) async {
     // Start loading
     _isLoading = true;
     notifyListeners();

@@ -3,6 +3,14 @@ import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/comment_content.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/item_text.dart';
+import 'package:aspdm_project/domain/values/task_description.dart';
+import 'package:aspdm_project/domain/values/task_title.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_name.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
 import 'package:aspdm_project/presentation/widgets/task_card.dart';
@@ -22,8 +30,8 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              "mock_id",
-              "mock title",
+              UniqueId("mock_id"),
+              TaskTitle("mock title"),
               null,
               null,
               null,
@@ -49,12 +57,12 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              "mock_id",
-              "mock title",
+              UniqueId("mock_id"),
+              TaskTitle("mock title"),
               null,
               [
-                Label("mock_id", Colors.red, "label"),
-                Label("mock_id", Colors.blue, "label"),
+                Label(UniqueId("mock_id"), Colors.red, "label"),
+                Label(UniqueId("mock_id"), Colors.blue, "label"),
               ],
               null,
               null,
@@ -80,52 +88,59 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              "mock_id",
-              "mock title",
-              "mock description",
+              UniqueId("mock_id"),
+              TaskTitle("mock title"),
+              TaskDescription("mock description"),
               [
-                Label("mock_id", Colors.red, "label"),
-                Label("mock_id", Colors.blue, "label"),
+                Label(UniqueId("mock_id"), Colors.red, "label"),
+                Label(UniqueId("mock_id"), Colors.blue, "label"),
               ],
               null,
               [
                 User(
-                  "mock_user",
-                  "Mock User",
-                  "mock.user@email.com",
+                  UniqueId("mock_user"),
+                  UserName("Mock User"),
+                  EmailAddress("mock.user@email.com"),
                   null,
                 )
               ],
               DateTime.now(),
               [
                 Checklist(
-                  "mock_id",
-                  "checklist1",
+                  UniqueId("mock_id"),
+                  ItemText("checklist1"),
                   [
-                    ChecklistItem("mock_id", "item", false),
-                    ChecklistItem("mock_id", "item", true),
-                    ChecklistItem("mock_id", "item", false),
-                    ChecklistItem("mock_id", "item", true),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(false)),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(true)),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(false)),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(true)),
                   ],
                 ),
                 Checklist(
-                  "mock_id",
-                  "checklist1",
+                  UniqueId("mock_id"),
+                  ItemText("checklist1"),
                   [
-                    ChecklistItem("mock_id", "item", false),
-                    ChecklistItem("mock_id", "item", true),
-                    ChecklistItem("mock_id", "item", false),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(false)),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(true)),
+                    ChecklistItem(
+                        UniqueId("mock_id"), ItemText("item"), Toggle(false)),
                   ],
                 ),
               ],
               [
                 Comment(
-                  "c1",
-                  "comment 1",
+                  UniqueId("c1"),
+                  CommentContent("comment 1"),
                   User(
-                    "mock_user",
-                    "Mock User",
-                    "mock.user@email.com",
+                    UniqueId("mock_user"),
+                    UserName("Mock User"),
+                    EmailAddress("mock.user@email.com"),
                     null,
                   ),
                   [],
@@ -133,12 +148,12 @@ void main() {
                   DateTime.now(),
                 ),
                 Comment(
-                  "c2",
-                  "comment 2",
+                  UniqueId("c2"),
+                  CommentContent("comment 2"),
                   User(
-                    "mock_user",
-                    "Mock User",
-                    "mock.user@email.com",
+                    UniqueId("mock_user"),
+                    UserName("Mock User"),
+                    EmailAddress("mock.user@email.com"),
                     null,
                   ),
                   [],
@@ -146,12 +161,12 @@ void main() {
                   DateTime.now(),
                 ),
                 Comment(
-                  "c3",
-                  "comment 3",
+                  UniqueId("c3"),
+                  CommentContent("comment 3"),
                   User(
-                    "mock_user",
-                    "Mock User",
-                    "mock.user@email.com",
+                    UniqueId("mock_user"),
+                    UserName("Mock User"),
+                    EmailAddress("mock.user@email.com"),
                     null,
                   ),
                   [],
@@ -159,7 +174,7 @@ void main() {
                   DateTime.now(),
                 ),
               ],
-              false,
+              Toggle(false),
               null,
             ),
           ),
@@ -190,8 +205,8 @@ void main() {
         home: Scaffold(
           body: TaskCard(
             task: Task(
-              "mock_id",
-              "mock title",
+              UniqueId("mock_id"),
+              TaskTitle("mock title"),
               null,
               null,
               null,
@@ -218,27 +233,6 @@ void main() {
   test("create task with null arguments throws an error", () {
     try {
       TaskCard(task: null);
-      fail("This should throw an error!");
-    } catch (e) {
-      expect(e, isA<AssertionError>());
-    }
-
-    try {
-      TaskCard(
-        task: Task(
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-        ),
-      );
       fail("This should throw an error!");
     } catch (e) {
       expect(e, isA<AssertionError>());

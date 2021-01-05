@@ -1,4 +1,5 @@
 import 'package:aspdm_project/domain/entities/label.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,7 +21,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: LabelWidget(
-            label: Label("mock_id", Colors.red, "mock_label"),
+            label: Label(UniqueId("mock_id"), Colors.red, "mock_label"),
             compact: true,
           ),
         ),
@@ -37,7 +38,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: LabelWidget(
-            label: Label("mock_id", Colors.red, "mock_label"),
+            label: Label(UniqueId("mock_id"), Colors.red, "mock_label"),
             compact: false,
           ),
         ),

@@ -5,6 +5,8 @@ import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/password.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -18,10 +20,14 @@ class AuthRepositoryImpl extends AuthRepository {
       Either.right(_preferenceService.getLastSignedInUser());
 
   @override
-  Future<Either<Failure, User>> login(String email, String password) async {
+  Future<Either<Failure, User>> login(
+      EmailAddress email, Password password) async {
     UserModel userModel;
     try {
-      userModel = await _dataSource.authenticate(email, password);
+      userModel = await _dataSource.authenticate(
+        email.value.getOrCrash(),
+        password.value.getOrCrash(),
+      );
     } catch (e) {
       return Either.left(ServerFailure());
     }

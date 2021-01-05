@@ -55,7 +55,9 @@ class _UserAvatarState extends State<UserAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    final userInitial = widget.user?.name?.substring(0, 1)?.toUpperCase() ?? "";
+    final userInitial =
+        widget.user?.name?.value?.getOrNull()?.substring(0, 1)?.toUpperCase() ??
+            "";
     return Container(
       width: widget.size,
       height: widget.size,

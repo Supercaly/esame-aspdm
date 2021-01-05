@@ -1,4 +1,5 @@
 import 'package:aspdm_project/domain/entities/checklist.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -11,7 +12,7 @@ class DisplayChecklist extends StatefulWidget {
   /// This method has the [ChecklistItem] and [bool] value.
   /// If this is `null` the widget will be un-modifiable by
   /// the current user.
-  final void Function(ChecklistItem, bool) onItemChange;
+  final void Function(ChecklistItem, Toggle) onItemChange;
 
   const DisplayChecklist({
     Key key,
@@ -50,7 +51,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
               Icon(FeatherIcons.checkCircle),
               SizedBox(width: 8.0),
               Text(
-                widget.checklist.title ?? "",
+                widget.checklist.title.value.getOrElse((_) => ""),
                 style: Theme.of(context).textTheme.headline6,
               ),
               Expanded(
@@ -82,13 +83,13 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                     .map((item) => Row(
                           children: [
                             Checkbox(
-                              value: item.complete,
+                              value: item.complete.value.getOrCrash(),
                               onChanged: (widget.onItemChange != null)
-                                  ? (value) =>
-                                      widget.onItemChange?.call(item, value)
+                                  ? (value) => widget.onItemChange
+                                      ?.call(item, Toggle(value))
                                   : null,
                             ),
-                            Text(item.item ?? "-"),
+                            Text(item.item.value.getOrElse((_) => "-")),
                           ],
                         ))
                     .toList(),
@@ -101,7 +102,8 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
 
   double _getChecklistProgress(List<ChecklistItem> items) {
     if (items == null || items.isEmpty) return 0.0;
-    final checkedItems = items.where((element) => element.complete);
+    final checkedItems =
+        items.where((element) => element.complete.value.getOrCrash());
     if (checkedItems.isEmpty) return 0.0;
     return checkedItems.length / items.length;
   }

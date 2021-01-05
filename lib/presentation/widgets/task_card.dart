@@ -20,12 +20,11 @@ class TaskCard extends StatelessWidget {
     Key key,
     this.task,
   })  : assert(task != null),
-        assert(task.title != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final hasDescription = task.description != null;
+    final hasDescription = task.description?.value?.getOrNull() != null;
     final hasChecklists = task.checklists != null && task.checklists.isNotEmpty;
     final hasMembers = task.members != null && task.members.isNotEmpty;
     final hasComments = task.comments != null && task.comments.isNotEmpty;
@@ -37,7 +36,7 @@ class TaskCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           locator<NavigationService>()
-              .navigateTo(Routes.task, arguments: task?.id);
+              .navigateTo(Routes.task, arguments: task.id);
         },
         child: Padding(
           padding: isLarge
@@ -61,7 +60,7 @@ class TaskCard extends StatelessWidget {
                   : SizedBox.shrink(),
               SizedBox(height: 10.0),
               Text(
-                task.title,
+                task.title.value.getOrElse((_) => ""),
                 style: Theme.of(context).textTheme.headline5,
               ),
               SizedBox(height: 10.0),
@@ -106,10 +105,10 @@ class TaskCard extends StatelessWidget {
   String _getChecklistCount() {
     int totalItems = 0;
     int checkedItems = 0;
-    task?.checklists?.forEach((c) {
+    task.checklists?.forEach((c) {
       c?.items?.forEach((i) {
         totalItems++;
-        if (i.complete) checkedItems++;
+        if (i.complete.value.getOrElse((_) => false)) checkedItems++;
       });
     });
     return "$checkedItems/$totalItems";

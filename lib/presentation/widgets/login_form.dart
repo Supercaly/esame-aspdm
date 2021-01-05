@@ -1,3 +1,5 @@
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/password.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +19,6 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  static const String _emailRegex =
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
   GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController _emailController;
   TextEditingController _passwordController;
@@ -49,12 +49,10 @@ class _LoginFormState extends State<LoginForm> {
               filled: true,
             ),
             keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (!RegExp(_emailRegex).hasMatch(value))
-                return "Invalid email!";
-              else
-                return null;
-            },
+            validator: (value) => EmailAddress(value).value.fold(
+                  (left) => "Invalid email!",
+                  (right) => null,
+                ),
             onEditingComplete: () => focusScope.nextFocus(),
             textInputAction: TextInputAction.next,
           ),
@@ -71,12 +69,10 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () => setState(() => _obscurePwd = !_obscurePwd)),
               filled: true,
             ),
-            validator: (value) {
-              if (value.isEmpty)
-                return "Password can't be empty!";
-              else
-                return null;
-            },
+            validator: (value) => Password(value).value.fold(
+                  (left) => "Password can't be empty!",
+                  (right) => null,
+                ),
             textInputAction: TextInputAction.done,
             onFieldSubmitted: (value) => focusScope.unfocus(),
           ),
@@ -91,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                     "and Password: ${_passwordController.text}");
                 (await context
                         .read<AuthState>()
-                        .login(_emailController.text, _passwordController.text))
+                        .login(EmailAddress(_emailController.text), Password(_passwordController.text)))
                     .fold(
                   (e) => ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Error logging in!")),

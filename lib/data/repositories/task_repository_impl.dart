@@ -3,6 +3,9 @@ import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
+import 'package:aspdm_project/domain/values/comment_content.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 
 class TaskRepositoryImpl extends TaskRepository {
   final RemoteDataSource _dataSource;
@@ -10,11 +13,12 @@ class TaskRepositoryImpl extends TaskRepository {
   TaskRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, Task>> getTask(String id) async {
+  Future<Either<Failure, Task>> getTask(UniqueId id) async {
     if (id == null) return Either.left(ServerFailure());
 
     try {
-      return Either.right((await _dataSource.getTask(id))?.toTask());
+      return Either.right(
+          (await _dataSource.getTask(id.value.getOrCrash()))?.toTask());
     } catch (e) {
       return Either.left(ServerFailure());
     }
@@ -22,13 +26,16 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> deleteComment(
-    String taskId,
-    String commentId,
-    String userId,
+    UniqueId taskId,
+    UniqueId commentId,
+    UniqueId userId,
   ) async {
     try {
-      final updated =
-          await _dataSource.deleteComment(taskId, commentId, userId);
+      final updated = await _dataSource.deleteComment(
+        taskId.value.getOrCrash(),
+        commentId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -38,14 +45,18 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> editComment(
-    String taskId,
-    String commentId,
-    String content,
-    String userId,
+    UniqueId taskId,
+    UniqueId commentId,
+    CommentContent content,
+    UniqueId userId,
   ) async {
     try {
-      final updated =
-          await _dataSource.patchComment(taskId, commentId, userId, content);
+      final updated = await _dataSource.patchComment(
+        taskId.value.getOrCrash(),
+        commentId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+        content.value.getOrCrash(),
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -55,9 +66,13 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> addComment(
-      String taskId, String content, String userId) async {
+      UniqueId taskId, CommentContent content, UniqueId userId) async {
     try {
-      final updated = await _dataSource.postComment(taskId, userId, content);
+      final updated = await _dataSource.postComment(
+        taskId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+        content.value.getOrCrash(),
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -67,9 +82,13 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> likeComment(
-      String taskId, String commentId, String userId) async {
+      UniqueId taskId, UniqueId commentId, UniqueId userId) async {
     try {
-      final updated = await _dataSource.likeComment(taskId, commentId, userId);
+      final updated = await _dataSource.likeComment(
+        taskId.value.getOrCrash(),
+        commentId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -79,10 +98,13 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> dislikeComment(
-      String taskId, String commentId, String userId) async {
+      UniqueId taskId, UniqueId commentId, UniqueId userId) async {
     try {
-      final updated =
-          await _dataSource.dislikeComment(taskId, commentId, userId);
+      final updated = await _dataSource.dislikeComment(
+        taskId.value.getOrCrash(),
+        commentId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -92,9 +114,13 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> archiveTask(
-      String taskId, String userId) async {
+      UniqueId taskId, UniqueId userId) async {
     try {
-      final updated = await _dataSource.archive(taskId, userId, true);
+      final updated = await _dataSource.archive(
+        taskId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+        true,
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -104,9 +130,13 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> unarchiveTask(
-      String taskId, String userId) async {
+      UniqueId taskId, UniqueId userId) async {
     try {
-      final updated = await _dataSource.archive(taskId, userId, false);
+      final updated = await _dataSource.archive(
+        taskId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+        false,
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {
@@ -116,15 +146,20 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> completeChecklist(
-    String taskId,
-    String userId,
-    String checklistId,
-    String itemId,
-    bool complete,
+    UniqueId taskId,
+    UniqueId userId,
+    UniqueId checklistId,
+    UniqueId itemId,
+    Toggle complete,
   ) async {
     try {
       final updated = await _dataSource.check(
-          taskId, userId, checklistId, itemId, complete);
+        taskId.value.getOrCrash(),
+        userId.value.getOrCrash(),
+        checklistId.value.getOrCrash(),
+        itemId.value.getOrCrash(),
+        complete.value.getOrCrash(),
+      );
       if (updated == null) return Either.left(ServerFailure());
       return Either.right(updated.toTask());
     } catch (e) {

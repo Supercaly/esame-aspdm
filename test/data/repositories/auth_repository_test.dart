@@ -4,6 +4,10 @@ import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/repositories/auth_repository_impl.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/password.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_name.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -30,9 +34,9 @@ void main() {
 
   test("get last signed in user returns a user", () {
     when(preferenceService.getLastSignedInUser()).thenReturn(User(
-      "mock_id",
-      "Mock User",
-      "mock@email.com",
+      UniqueId("mock_id"),
+      UserName("Mock User"),
+      EmailAddress("mock@email.com"),
       null,
     ));
     final user = repository.lastSignedInUser;
@@ -49,7 +53,7 @@ void main() {
           "mock@email.com",
           null,
         ));
-    final user = await repository.login("user@email.com", "1234");
+    final user = await repository.login(EmailAddress("user@email.com"), Password("1234"));
 
     expect(user.isRight(), isTrue);
     expect((user as Right).value, isA<User>());
@@ -58,7 +62,7 @@ void main() {
 
   test("login returns an error on wrong credential", () async {
     when(dataSource.authenticate(any, any)).thenAnswer((_) async => null);
-    final res = await repository.login("user@email.com", "1234");
+    final res = await repository.login(EmailAddress("user@email.com"), Password("1234"));
 
     expect(res.isLeft(), isTrue);
     verifyNever(preferenceService.storeSignedInUser(any));

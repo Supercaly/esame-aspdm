@@ -1,3 +1,4 @@
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/bloc/task_bloc.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/presentation/pages/desktop/task_info_page_content_desktop.dart';
@@ -21,7 +22,8 @@ import '../../locator.dart';
 class TaskInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final taskId = locator<NavigationService>().arguments(context);
+    final UniqueId taskId = locator<NavigationService>().arguments(context);
+    //final taskId = ModalRoute.of(context).settings.arguments;
     return BlocProvider<TaskBloc>(
       create: (context) => TaskBloc(taskId, locator<TaskRepository>())..fetch(),
       child: TaskInfoPageWidget(),
@@ -46,7 +48,7 @@ class TaskInfoPageWidget extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(state.data?.title ?? ""),
+              title: Text(state.data?.title?.value?.getOrNull() ?? ""),
               centerTitle: true,
               actions: canModify
                   ? [
@@ -55,14 +57,14 @@ class TaskInfoPageWidget extends StatelessWidget {
                         onPressed: () => print("Edit..."),
                         tooltip: "Edit",
                       ),
-                      if (!state.data.archived)
+                      if (!state.data.archived.value.getOrCrash())
                         IconButton(
                           icon: Icon(FeatherIcons.sunset),
                           onPressed: () =>
                               context.read<TaskBloc>().archive(currentUser.id),
                           tooltip: "Archive",
                         ),
-                      if (state.data.archived)
+                      if (state.data.archived.value.getOrCrash())
                         IconButton(
                           icon: Icon(FeatherIcons.sunrise),
                           tooltip: "Unarchive",
@@ -181,7 +183,7 @@ class DescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (task?.description != null)
+    if (task?.description?.value?.getOrNull() != null)
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -201,7 +203,7 @@ class DescriptionCard extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                task.description,
+                task.description.value.getOrCrash(),
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],

@@ -1,10 +1,14 @@
 import 'package:aspdm_project/domain/entities/checklist.dart';
+import 'package:aspdm_project/domain/values/item_text.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'checklist_model.g.dart';
 
 @JsonSerializable()
-class ChecklistModel {
+class ChecklistModel extends Equatable {
   @JsonKey(
     name: "_id",
     required: true,
@@ -24,22 +28,25 @@ class ChecklistModel {
   Map<String, dynamic> toJson() => _$ChecklistModelToJson(this);
 
   factory ChecklistModel.fromChecklist(Checklist checklist) => ChecklistModel(
-        checklist.id,
-        checklist.title,
+        checklist.id.value.getOrNull(),
+        checklist.title.value.getOrNull(),
         checklist.items
             ?.map((e) => ChecklistItemModel.fromChecklistItem(e))
             ?.toList(),
       );
 
   Checklist toChecklist() => Checklist(
-        id,
-        title,
+        UniqueId(id),
+        ItemText(title),
         items?.map((e) => e.toChecklistItem())?.toList(),
       );
+
+  @override
+  List<Object> get props => [id, title, items];
 }
 
 @JsonSerializable()
-class ChecklistItemModel {
+class ChecklistItemModel extends Equatable {
   @JsonKey(
     name: "_id",
     required: true,
@@ -60,7 +67,18 @@ class ChecklistItemModel {
   Map<String, dynamic> toJson() => _$ChecklistItemModelToJson(this);
 
   factory ChecklistItemModel.fromChecklistItem(ChecklistItem item) =>
-      ChecklistItemModel(item.id, item.item, item.complete);
+      ChecklistItemModel(
+        item.id.value.getOrNull(),
+        item.item.value.getOrNull(),
+        item.complete.value.getOrNull(),
+      );
 
-  ChecklistItem toChecklistItem() => ChecklistItem(id, item, complete);
+  ChecklistItem toChecklistItem() => ChecklistItem(
+        UniqueId(id),
+        ItemText(item),
+        Toggle(complete),
+      );
+
+  @override
+  List<Object> get props => [id, item, complete];
 }

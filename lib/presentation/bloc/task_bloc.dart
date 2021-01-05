@@ -1,3 +1,6 @@
+import 'package:aspdm_project/domain/values/comment_content.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
@@ -11,7 +14,7 @@ class TaskBloc extends Cubit<TaskState> {
   final LogService _logService;
 
   /// Id of the task that we want to display.
-  final String _taskId;
+  final UniqueId _taskId;
 
   /// Keep in memory the old data so it
   /// can be displayed even during loading
@@ -39,7 +42,7 @@ class TaskBloc extends Cubit<TaskState> {
 
   /// Tells [TaskRepository] the user wants to delete one of his
   /// comments under this task.
-  Future<void> deleteComment(String commentId, String userId) async {
+  Future<void> deleteComment(UniqueId commentId, UniqueId userId) async {
     (await _repository.deleteComment(_oldTask?.id, commentId, userId)).fold(
       (e) {
         _logService.error("TaskBloc.deleteComment: ", e);
@@ -55,9 +58,9 @@ class TaskBloc extends Cubit<TaskState> {
   /// Tells [TaskRepository] the user wants to edit one of his
   /// comments under this task.
   Future<void> editComment(
-    String commentId,
-    String newContent,
-    String userId,
+    UniqueId commentId,
+    CommentContent newContent,
+    UniqueId userId,
   ) async {
     (await _repository.editComment(_oldTask?.id, commentId, newContent, userId))
         .fold(
@@ -73,7 +76,7 @@ class TaskBloc extends Cubit<TaskState> {
   }
 
   /// Tells [TaskRepository] the user created a new comment under this task.
-  Future<void> addComment(String content, String userId) async {
+  Future<void> addComment(CommentContent content, UniqueId userId) async {
     (await _repository.addComment(_oldTask?.id, content, userId)).fold(
       (e) {
         _logService.error("TaskBloc.addComment: ", e);
@@ -87,7 +90,7 @@ class TaskBloc extends Cubit<TaskState> {
   }
 
   /// Tells [TaskRepository] the user likes a comment under this task.
-  Future<void> likeComment(String commentId, String userId) async {
+  Future<void> likeComment(UniqueId commentId, UniqueId userId) async {
     (await _repository.likeComment(_oldTask?.id, commentId, userId)).fold(
       (e) {
         _logService.error("TaskBloc.likeComment: ", e);
@@ -101,7 +104,7 @@ class TaskBloc extends Cubit<TaskState> {
   }
 
   /// Tells [TaskRepository] the user dislikes a comment under this task.
-  Future<void> dislikeComment(String commentId, String userId) async {
+  Future<void> dislikeComment(UniqueId commentId, UniqueId userId) async {
     (await _repository.dislikeComment(_oldTask?.id, commentId, userId)).fold(
       (e) {
         _logService.error("TaskBloc.dislikeComment: ", e);
@@ -115,7 +118,7 @@ class TaskBloc extends Cubit<TaskState> {
   }
 
   /// Tells [TaskRepository] the task is archived.
-  Future<void> archive(String userId) async {
+  Future<void> archive(UniqueId userId) async {
     (await _repository.archiveTask(_oldTask?.id, userId)).fold(
       (e) {
         _logService.error("TaskBloc.archive: ", e);
@@ -129,7 +132,7 @@ class TaskBloc extends Cubit<TaskState> {
   }
 
   /// Tells [TaskRepository] the task is un-archived.
-  Future<void> unarchive(String userId) async {
+  Future<void> unarchive(UniqueId userId) async {
     (await _repository.unarchiveTask(_oldTask?.id, userId)).fold(
       (e) {
         _logService.error("TaskBloc.unarchive: ", e);
@@ -144,10 +147,10 @@ class TaskBloc extends Cubit<TaskState> {
 
   /// Tells [TaskRepository] a checklist's item is completed.
   Future<void> completeChecklist(
-    String userId,
-    String checklistId,
-    String itemId,
-    bool complete,
+    UniqueId userId,
+    UniqueId checklistId,
+    UniqueId itemId,
+    Toggle complete,
   ) async {
     (await _repository.completeChecklist(
       _oldTask?.id,

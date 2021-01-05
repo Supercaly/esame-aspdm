@@ -1,4 +1,7 @@
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_name.dart';
 import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +14,8 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User("mock_id", "Mock User", "mock@email.com", Colors.red),
+            user: User(UniqueId("mock_id"), UserName("Mock User"),
+                EmailAddress("mock@email.com"), Colors.red),
             size: 48.0,
           ),
         ),
@@ -33,7 +37,12 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User("mock_id", "Mock User", "mock@email.com", Colors.blue),
+            user: User(
+              UniqueId("mock_id"),
+              UserName("Mock User"),
+              EmailAddress("mock@email.com"),
+              Colors.blue,
+            ),
             size: 48.0,
             rectangle: true,
           ),
@@ -86,7 +95,12 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             key: key,
-            user: User("mock_id", "Mock User", "mock@email.com", Colors.blue),
+            user: User(
+              UniqueId("mock_id"),
+              UserName("Mock User"),
+              EmailAddress("mock@email.com"),
+              Colors.blue,
+            ),
             size: 48.0,
           ),
         ),
@@ -102,8 +116,12 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             key: key,
-            user: User("mock_id_2", "New Mocked User", "mock2@email.com",
-                Colors.green),
+            user: User(
+              UniqueId("mock_id_2"),
+              UserName("New Mocked User"),
+              EmailAddress("mock2@email.com"),
+              Colors.green,
+            ),
             size: 48.0,
           ),
         ),

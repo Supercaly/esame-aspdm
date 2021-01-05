@@ -28,7 +28,6 @@ void main() {
           TaskModel(
             "mock_id_1",
             "title",
-            DateTime.parse("2020-12-01"),
             "description",
             null,
             UserModel(
@@ -42,11 +41,11 @@ void main() {
             null,
             null,
             false,
+            DateTime.parse("2020-12-01"),
           ),
           TaskModel(
             "mock_id_2",
             "title",
-            DateTime.parse("2020-12-01"),
             "description",
             null,
             UserModel(
@@ -60,6 +59,7 @@ void main() {
             null,
             null,
             false,
+            DateTime.parse("2020-12-01"),
           ),
         ]);
     final res = await repository.getArchivedTasks();
