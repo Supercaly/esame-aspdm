@@ -24,6 +24,12 @@ abstract class Either<L, R> {
   Either<T, U> map<T, U>(
       T Function(L left) ifLeft, U Function(R right) ifRight);
 
+  R getOrNull();
+
+  R getOrCrash();
+
+  R getOrElse(R Function(L left) orElse);
+
   /// Returns `true` if this is a [Left] side value.
   bool isLeft() => fold((l) => true, (r) => false);
 
@@ -51,6 +57,15 @@ class Left<L, R> extends Either<L, R> {
       Either<T, U>.left(ifLeft(_value));
 
   @override
+  R getOrNull() => null;
+
+  @override
+  R getOrCrash() => throw Exception("Trying to get invalid value!");
+
+  @override
+  R getOrElse(R Function(L left) orElse) => orElse(_value);
+
+  @override
   bool operator ==(Object other) =>
       other is Left && other._value == this._value;
 
@@ -73,6 +88,15 @@ class Right<L, R> extends Either<L, R> {
   @override
   Either<T, U> map<T, U>(T Function(L p1) ifLeft, U Function(R p1) ifRight) =>
       Either<T, U>.right(ifRight(_value));
+
+  @override
+  R getOrNull() => _value;
+
+  @override
+  R getOrCrash() => _value;
+
+  @override
+  R getOrElse(R Function(L left) orElse) => _value;
 
   @override
   bool operator ==(Object other) =>

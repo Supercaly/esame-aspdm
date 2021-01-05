@@ -1,3 +1,4 @@
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 /// that has a [color] and a [label].
 class Label extends Equatable {
   /// Id of the label.
-  final String id;
+  final UniqueId id;
 
   /// Color of the label.
   final Color color;

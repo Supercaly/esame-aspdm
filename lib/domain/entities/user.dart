@@ -1,16 +1,19 @@
+import 'package:aspdm_project/domain/values/email_address.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_name.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 /// Class representing a user using this app.
 class User extends Equatable {
   /// Unique user identifier.
-  final String id;
+  final UniqueId id;
 
   /// User's full name.
-  final String name;
+  final UserName name;
 
   /// User's email address.
-  final String email;
+  final EmailAddress email;
 
   final Color profileColor;
 

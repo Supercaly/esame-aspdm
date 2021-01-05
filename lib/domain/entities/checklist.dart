@@ -1,12 +1,15 @@
+import 'package:aspdm_project/domain/values/item_text.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 
 /// Class representing a checklist in a task.
 class Checklist extends Equatable {
   /// Id of the checklist
-  final String id;
+  final UniqueId id;
 
   /// Title of the checklist.
-  final String title;
+  final ItemText title;
 
   /// Items of the checklist.
   final List<ChecklistItem> items;
@@ -23,13 +26,13 @@ class Checklist extends Equatable {
 /// Class representing a single item of a checklist.
 class ChecklistItem extends Equatable {
   /// Id of the checklist item
-  final String id;
+  final UniqueId id;
 
   /// title of the item.
-  final String item;
+  final ItemText item;
 
   /// Whether the item is marked as completed or not.
-  final bool complete;
+  final Toggle complete;
 
   ChecklistItem(this.id, this.item, this.complete);
 

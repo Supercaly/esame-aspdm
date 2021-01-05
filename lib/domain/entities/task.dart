@@ -1,3 +1,7 @@
+import 'package:aspdm_project/domain/values/task_description.dart';
+import 'package:aspdm_project/domain/values/task_title.dart';
+import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'checklist.dart';
 import 'comment.dart';
@@ -7,16 +11,16 @@ import 'user.dart';
 /// Class representing a task.
 class Task extends Equatable {
   /// Unique identifier.
-  final String id;
+  final UniqueId id;
 
   /// Title of the task.
-  final String title;
+  final TaskTitle title;
 
   /// Date when the task was created.
   final DateTime creationDate;
 
   /// Description of the task.
-  final String description;
+  final TaskDescription description;
 
   /// [Label]s associated with the task.
   final List<Label> labels;
@@ -40,7 +44,7 @@ class Task extends Equatable {
 
   /// If `true` this task was archived,
   /// otherwise it's still accessible.
-  final bool archived;
+  final Toggle archived;
 
   Task(
     this.id,
