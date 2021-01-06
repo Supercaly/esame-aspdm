@@ -2,18 +2,28 @@ import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test("create id from correct value", () {
-    final id = UniqueId("mock_id");
+  group("UniqueId tests", () {
+    test("create id", () {
+      final u1 = UniqueId("Mock Id");
+      expect(u1.value.getOrCrash(), equals("Mock Id"));
 
-    expect(id.value.isRight(), isTrue);
-    expect(id.value.getOrNull(), equals("mock_id"));
-  });
+      try {
+        UniqueId(null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
 
-  test("create id from null throws an error", () {
-    try {
-      UniqueId(null);
-    } catch (e) {
-      expect(e, isA<AssertionError>());
-    }
+      try {
+        UniqueId("");
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
+
+    test("to string returns the correct representation", () {
+      expect(UniqueId("Mock Id").toString(), equals("UniqueId(Mock Id)"));
+    });
   });
 }

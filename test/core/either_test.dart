@@ -111,6 +111,63 @@ void main() {
       expect(ret2, isA<Either<double, String>>());
       expect((ret2 as Right).value, equals("mock_value"));
     });
+
+    test("get or null returns the correct value", () {
+      final e1 = Either.left(123);
+      expect(e1.getOrNull(), isNull);
+
+      final e2 = Either.right(123);
+      expect(e2.getOrNull(), equals(123));
+    });
+
+    test("get or else invokes the correct methods", () {
+      bool called = false;
+
+      final e1 = Either.left(123);
+      e1.getOrElse((left) {
+        called = true;
+        return 456;
+      });
+      expect(called, isTrue);
+
+      called = false;
+
+      final e2 = Either.right(123);
+      e2.getOrElse((left) {
+        called = true;
+        return 456;
+      });
+      expect(called, isFalse);
+    });
+
+    test("get or else returns the correct value", () {
+      final e1 = Either.left(123);
+      expect(e1.getOrElse((left) => 456), equals(456));
+
+      final e2 = Either.right(123);
+      expect(e2.getOrElse((left) => 456), equals(123));
+    });
+
+    test("get or crash returns the correct value", () {
+      final e1 = Either.right(123);
+      expect(e1.getOrNull(), equals(123));
+
+      try {
+        Either.left(123).getOrCrash();
+        expect(e1.getOrElse((left) => 456), equals(456));
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<Exception>());
+      }
+    });
+
+    test("to string returns the correct representation", () {
+      final e1 = Either.left(123);
+      expect(e1.toString(), equals("Left(123)"));
+
+      final e2 = Either.right(123);
+      expect(e2.toString(), equals("Right(123)"));
+    });
   });
 
   group("Left tests", () {
@@ -123,6 +180,11 @@ void main() {
 
     test("value returns the correct value", () {
       expect((Either.left("mock_value") as Left).value, equals("mock_value"));
+    });
+
+    test("hash code works correctly", () {
+      final e1 = Either.left(123);
+      expect(e1.hashCode, equals(123.hashCode));
     });
   });
 
@@ -137,6 +199,17 @@ void main() {
 
     test("value returns the correct value", () {
       expect((Either.right("mock_value") as Right).value, equals("mock_value"));
+    });
+
+    test("hash code works correctly", () {
+      final e1 = Either.right(123);
+      expect(e1.hashCode, equals(123.hashCode));
+    });
+  });
+
+  group("Unit tests", () {
+    test("to string returns the correct representation", () {
+      expect(const Unit().toString(), equals("Unit()"));
     });
   });
 }

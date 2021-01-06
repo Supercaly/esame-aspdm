@@ -1,6 +1,6 @@
 import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/domain/entities/comment.dart';
-import 'package:aspdm_project/domain/values/comment_content.dart';
+import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';

@@ -4,10 +4,8 @@ import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/repositories/auth_repository_impl.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/domain/values/email_address.dart';
-import 'package:aspdm_project/domain/values/password.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_name.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -63,6 +61,16 @@ void main() {
 
   test("login returns an error on wrong credential", () async {
     when(dataSource.authenticate(any, any)).thenAnswer((_) async => null);
+    final res = await repository.login(
+        EmailAddress("user@email.com"), Password("1234"));
+
+    expect(res.isLeft(), isTrue);
+    verifyNever(preferenceService.storeSignedInUser(any));
+  });
+
+  test("login returns an error on server failure", () async {
+    when(dataSource.authenticate(any, any))
+        .thenAnswer((_) async => throw Error());
     final res = await repository.login(
         EmailAddress("user@email.com"), Password("1234"));
 

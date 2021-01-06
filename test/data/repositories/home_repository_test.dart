@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
@@ -76,11 +77,12 @@ void main() {
     expect((res as Right).value, isEmpty);
   });
 
-  test("get tasks returns null", () async {
-    when(dataSource.getUnarchivedTasks()).thenAnswer((_) async => null);
+  test("get tasks returns error", () async {
+    when(dataSource.getUnarchivedTasks())
+        .thenAnswer((_) async => throw Error());
     final res = await repository.getTasks();
 
-    expect(res.isRight(), isTrue);
-    expect((res as Right).value, isEmpty);
+    expect(res.isLeft(), isTrue);
+    expect((res as Left).value, ServerFailure());
   });
 }

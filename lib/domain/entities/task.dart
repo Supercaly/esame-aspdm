@@ -1,6 +1,4 @@
-import 'package:aspdm_project/domain/values/task_description.dart';
-import 'package:aspdm_project/domain/values/task_title.dart';
-import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'checklist.dart';

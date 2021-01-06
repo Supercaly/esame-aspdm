@@ -1,5 +1,5 @@
 import 'package:aspdm_project/domain/entities/checklist.dart';
-import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 

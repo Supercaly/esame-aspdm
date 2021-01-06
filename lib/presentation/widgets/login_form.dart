@@ -1,5 +1,4 @@
-import 'package:aspdm_project/domain/values/email_address.dart';
-import 'package:aspdm_project/domain/values/password.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:flutter/material.dart';

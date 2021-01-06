@@ -1,5 +1,4 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/value_failure.dart';
 import 'package:aspdm_project/core/value_object.dart';
 
 /// Class representing an unique identifier used
@@ -11,9 +10,9 @@ class UniqueId extends ValueObject<String> {
   const UniqueId._(this.value);
 
   /// Creates a [UniqueId] from a [String] id.
-  /// If the id is `null` an [AssertionError] will be thrown.
+  /// If the id is `null` or empty an [AssertionError] will be thrown.
   factory UniqueId(String id) {
-    assert(id != null);
+    assert(id != null && id.isNotEmpty);
     return UniqueId._(Either.right(id));
   }
 

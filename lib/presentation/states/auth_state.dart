@@ -1,8 +1,6 @@
 import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/core/failures.dart';
-import 'package:aspdm_project/core/unit.dart';
-import 'package:aspdm_project/domain/values/email_address.dart';
-import 'package:aspdm_project/domain/values/password.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';

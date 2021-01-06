@@ -1,7 +1,6 @@
 import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/values/email_address.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_name.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';

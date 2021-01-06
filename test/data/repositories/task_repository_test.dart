@@ -5,8 +5,7 @@ import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/repositories/task_repository_impl.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
-import 'package:aspdm_project/domain/values/comment_content.dart';
-import 'package:aspdm_project/domain/values/toggle.dart';
+import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -61,9 +60,13 @@ void main() {
       expect((res as Right).value, isNull);
     });
 
-    test("get task return error when passing null id", () async {
+    test("get task return error", () async {
       final res = await repository.getTask(null);
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.getTask(any)).thenAnswer((_) => throw Error());
+      final res2 = await repository.getTask(UniqueId("mock_id"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("complete checklist returns the updated task", () async {
@@ -101,7 +104,6 @@ void main() {
     test("complete checklist return error", () async {
       when(dataSource.check(any, any, any, any, any))
           .thenAnswer((_) async => null);
-
       final res = await repository.completeChecklist(
         UniqueId("taskId"),
         UniqueId("userId"),
@@ -110,6 +112,18 @@ void main() {
         Toggle(true),
       );
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.check(any, any, any, any, any))
+          .thenAnswer((_) async => throw Error());
+
+      final res2 = await repository.completeChecklist(
+        UniqueId("taskId"),
+        UniqueId("userId"),
+        UniqueId("checklistId"),
+        UniqueId("itemId"),
+        Toggle(true),
+      );
+      expect(res2.isLeft(), isTrue);
     });
   });
 
@@ -141,15 +155,21 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("archive task throws error", () async {
+    test("archive task return error", () async {
       when(dataSource.archive(any, any, true)).thenAnswer((_) async => null);
-
       final res = await repository.archiveTask(
         UniqueId("taskId"),
         UniqueId("userId"),
       );
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.archive(any, any, true))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.archiveTask(
+        UniqueId("taskId"),
+        UniqueId("userId"),
+      );
+      expect(res2.isLeft(), isTrue);
     });
 
     test("unarchive task returns the updated task", () async {
@@ -179,15 +199,21 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("unarchive task throws error", () async {
+    test("unarchive task return error", () async {
       when(dataSource.archive(any, any, false)).thenAnswer((_) async => null);
-
       final res = await repository.unarchiveTask(
         UniqueId("taskId"),
         UniqueId("userId"),
       );
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.archive(any, any, false))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.unarchiveTask(
+        UniqueId("taskId"),
+        UniqueId("userId"),
+      );
+      expect(res2.isLeft(), isTrue);
     });
   });
 
@@ -219,13 +245,18 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("delete comment throws error", () async {
+    test("delete comment return error", () async {
       when(dataSource.deleteComment(any, any, any))
           .thenAnswer((_) async => null);
       final res = await repository.deleteComment(
           UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.deleteComment(any, any, any))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.deleteComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("edit comment returns the updated task", () async {
@@ -255,13 +286,18 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("edit comment throws error", () async {
+    test("edit comment return error", () async {
       when(dataSource.patchComment(any, any, any, any))
           .thenAnswer((_) async => null);
       final res = await repository.editComment(UniqueId("taskId"),
           UniqueId("commentId"), CommentContent("content"), UniqueId("userId"));
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.patchComment(any, any, any, any))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.editComment(UniqueId("taskId"),
+          UniqueId("commentId"), CommentContent("content"), UniqueId("userId"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("add comment returns the updated task", () async {
@@ -291,12 +327,17 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("add comment throws error", () async {
+    test("add comment return error", () async {
       when(dataSource.postComment(any, any, any)).thenAnswer((_) async => null);
       final res = await repository.addComment(
           UniqueId("taskId"), CommentContent("content"), UniqueId("userId"));
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.postComment(any, any, any))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.addComment(
+          UniqueId("taskId"), CommentContent("content"), UniqueId("userId"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("like comment returns the updated task", () async {
@@ -326,12 +367,17 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("like comment throws error", () async {
+    test("like comment return error", () async {
       when(dataSource.likeComment(any, any, any)).thenAnswer((_) async => null);
       final res = await repository.likeComment(
           UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.likeComment(any, any, any))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.likeComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("dislike comment returns the updated task", () async {
@@ -361,13 +407,18 @@ void main() {
       expect((res as Right).value, isA<Task>());
     });
 
-    test("dislike comment throws error", () async {
+    test("dislike comment return error", () async {
       when(dataSource.dislikeComment(any, any, any))
           .thenAnswer((_) async => null);
       final res = await repository.dislikeComment(
           UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
-
       expect(res.isLeft(), isTrue);
+
+      when(dataSource.dislikeComment(any, any, any))
+          .thenAnswer((_) async => throw Error());
+      final res2 = await repository.dislikeComment(
+          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+      expect(res2.isLeft(), isTrue);
     });
   });
 }

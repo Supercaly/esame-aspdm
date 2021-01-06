@@ -1,3 +1,14 @@
+/// Class representing a void return type.
+/// This class is used only in conjunction with
+/// [Either] or other functional classes to express
+/// a void return type since void can't be used.
+class Unit {
+  const Unit();
+
+  @override
+  String toString() => "Unit()";
+}
+
 /// A class that can be used to handle situations where one of
 /// two disjoint types may be assigned to a value or returned
 /// from a method, allowing for straightforward transformations
@@ -24,10 +35,14 @@ abstract class Either<L, R> {
   Either<T, U> map<T, U>(
       T Function(L left) ifLeft, U Function(R right) ifRight);
 
+  /// Returns the value if it's a right side value or null.
   R getOrNull();
 
+  /// Returns the value if it's a right side value or throws an exception.
   R getOrCrash();
 
+  /// Returns the value if it's a right side value or executes
+  /// an [orElse] callback retuning his value.
   R getOrElse(R Function(L left) orElse);
 
   /// Returns `true` if this is a [Left] side value.
