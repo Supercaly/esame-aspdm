@@ -72,9 +72,13 @@ void main() {
   test("get archived tasks returns empty", () async {
     when(dataSource.getArchivedTasks()).thenAnswer((_) async => []);
     final res = await repository.getArchivedTasks();
-
     expect(res.isRight(), isTrue);
     expect((res as Right).value, isEmpty);
+
+    when(dataSource.getArchivedTasks()).thenAnswer((_) async => null);
+    final res2 = await repository.getArchivedTasks();
+    expect(res2.isRight(), isTrue);
+    expect((res2 as Right).value, isEmpty);
   });
 
   test("get archived tasks returns error", () async {

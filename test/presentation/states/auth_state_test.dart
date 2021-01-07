@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
@@ -21,7 +22,7 @@ void main() {
   });
 
   test("create AuthState wih user", () {
-    when(repository.lastSignedInUser).thenReturn(Either.right(null));
+    when(repository.lastSignedInUser).thenReturn(Either.left(ServerFailure()));
     expect(AuthState(repository).currentUser, isNull);
 
     when(repository.lastSignedInUser).thenReturn(
@@ -41,6 +42,13 @@ void main() {
         null,
       )),
     );
+  });
+
+  test("is loading returns the correct value", () {
+    when(repository.lastSignedInUser).thenReturn(Either.left(ServerFailure()));
+    final state = AuthState(repository);
+
+    expect(state.isLoading, isFalse);
   });
 
   test("login with correct data logs the user", () async {
@@ -69,6 +77,21 @@ void main() {
         null,
       )),
     );
+  });
+
+  test("login with error return either with left side", () async {
+    when(repository.lastSignedInUser).thenReturn(Either.right(null));
+    when(repository.login(any, any))
+        .thenAnswer((_) async => Either.left(ServerFailure()));
+
+    final authState = AuthState(repository);
+    final res = await authState.login(
+      EmailAddress("test@email.com"),
+      Password("password"),
+    );
+
+    expect(res.isLeft(), isTrue);
+    expect(authState.currentUser, isNull);
   });
 
   test("logout sets currentUser to null", () async {

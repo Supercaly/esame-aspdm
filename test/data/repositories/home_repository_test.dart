@@ -72,9 +72,13 @@ void main() {
   test("get tasks returns empty", () async {
     when(dataSource.getUnarchivedTasks()).thenAnswer((_) async => []);
     final res = await repository.getTasks();
-
     expect(res.isRight(), isTrue);
     expect((res as Right).value, isEmpty);
+
+    when(dataSource.getUnarchivedTasks()).thenAnswer((_) async => null);
+    final res2 = await repository.getTasks();
+    expect(res2.isRight(), isTrue);
+    expect((res2 as Right).value, isEmpty);
   });
 
   test("get tasks returns error", () async {
