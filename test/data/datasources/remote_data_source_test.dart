@@ -5,7 +5,7 @@ import 'package:aspdm_project/data/models/label_model.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
-import 'package:aspdm_project/core/failures.dart';
+import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -39,32 +39,65 @@ void main() {
       verify(dio.close(force: anyNamed("force"))).called(1);
     });
 
+    test("get failure returns the correct server failure", () {
+      expect(
+        source.getFailure(DioError(
+          type: DioErrorType.RESPONSE,
+          response: Response(statusCode: 400, data: "error_msg"),
+        )),
+        equals(ServerFailure.badRequest("error_msg")),
+      );
+      expect(
+        source.getFailure(DioError(
+          type: DioErrorType.RESPONSE,
+          response: Response(statusCode: 500, data: "error_msg"),
+        )),
+        equals(ServerFailure.internalError("error_msg")),
+      );
+      expect(
+        source.getFailure(DioError(
+          type: DioErrorType.RESPONSE,
+          response: Response(statusCode: 404, data: "error_msg"),
+        )),
+        equals(ServerFailure.unexpectedError("Received status code: 404")),
+      );
+      expect(
+        source.getFailure(DioError(
+          type: DioErrorType.DEFAULT,
+          error: SocketException(""),
+        )),
+        equals(ServerFailure.noInternet()),
+      );
+      expect(
+        source.getFailure(DioError(
+          type: DioErrorType.DEFAULT,
+          error: FormatException("format_exception"),
+        )),
+        equals(ServerFailure.formatError("format_exception")),
+      );
+      expect(
+        source.getFailure(DioError(type: DioErrorType.CANCEL)),
+        equals(ServerFailure.unexpectedError("")),
+      );
+      expect(
+        source.getFailure(DioError(type: DioErrorType.CONNECT_TIMEOUT)),
+        equals(ServerFailure.unexpectedError("")),
+      );
+      expect(
+        source.getFailure(DioError(type: DioErrorType.SEND_TIMEOUT)),
+        equals(ServerFailure.unexpectedError("")),
+      );
+      expect(
+        source.getFailure(DioError(type: DioErrorType.RECEIVE_TIMEOUT)),
+        equals(ServerFailure.unexpectedError("")),
+      );
+    });
+
     test("get returns data", () async {
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res = await source.get("mock_get_url");
 
       expect(res, isA<Response<dynamic>>());
-    });
-
-    test("get handle errors", () async {
-      when(dio.get(any))
-          .thenThrow(DioError(response: Response(statusCode: 400)));
-      try {
-        await source.get("mock_get_url");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
-
-      when(dio.get(any)).thenThrow(DioError(error: SocketException("")));
-      try {
-        await source.get("mock_get_url");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
     });
 
     test("post returns data", () async {
@@ -75,28 +108,6 @@ void main() {
       expect(res, isA<Response<dynamic>>());
     });
 
-    test("post handle errors", () async {
-      when(dio.post(any, data: anyNamed("data")))
-          .thenThrow(DioError(response: Response(statusCode: 400)));
-      try {
-        await source.post("mock_post_url", {});
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
-
-      when(dio.post(any, data: anyNamed("data")))
-          .thenThrow(DioError(error: SocketException("")));
-      try {
-        await source.post("mock_post_url", {});
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
-    });
-
     test("patch returns data", () async {
       when(dio.patch(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
@@ -105,56 +116,12 @@ void main() {
       expect(res, isA<Response<dynamic>>());
     });
 
-    test("patch handle errors", () async {
-      when(dio.patch(any, data: anyNamed("data")))
-          .thenThrow(DioError(response: Response(statusCode: 400)));
-      try {
-        await source.patch("mock_patch_url", {});
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
-
-      when(dio.patch(any, data: anyNamed("data")))
-          .thenThrow(DioError(error: SocketException("")));
-      try {
-        await source.patch("mock_patch_url", {});
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
-    });
-
     test("delete returns data", () async {
       when(dio.delete(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res = await source.delete("mock_delete_url", {});
 
       expect(res, isA<Response<dynamic>>());
-    });
-
-    test("delete handle errors", () async {
-      when(dio.delete(any, data: anyNamed("data")))
-          .thenThrow(DioError(response: Response(statusCode: 400)));
-      try {
-        await source.delete("mock_delete_url", {});
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
-
-      when(dio.delete(any, data: anyNamed("data")))
-          .thenThrow(DioError(error: SocketException("")));
-      try {
-        await source.delete("mock_delete_url", {});
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-        verify(logService.error(any)).called(1);
-      }
     });
   });
 

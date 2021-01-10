@@ -1,9 +1,9 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/failures.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
 import 'package:aspdm_project/data/repositories/home_repository_impl.dart';
+import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/repositories/home_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -83,10 +83,10 @@ void main() {
 
   test("get tasks returns error", () async {
     when(dataSource.getUnarchivedTasks())
-        .thenAnswer((_) async => throw Error());
+        .thenAnswer((_) async => throw ServerFailure.unexpectedError(""));
     final res = await repository.getTasks();
 
     expect(res.isLeft(), isTrue);
-    expect((res as Left).value, ServerFailure());
+    expect((res as Left).value, ServerFailure.unexpectedError(""));
   });
 }

@@ -1,5 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/failures.dart';
+import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import '../entities/task.dart';

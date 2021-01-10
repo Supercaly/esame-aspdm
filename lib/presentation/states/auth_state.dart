@@ -1,5 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/failures.dart';
+import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/domain/entities/user.dart';

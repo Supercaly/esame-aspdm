@@ -1,7 +1,8 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/failures.dart';
-import 'package:aspdm_project/data/models/user_model.dart';
+import 'package:aspdm_project/domain/failures/failures.dart';
+import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/data/datasources/remote_data_source.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -20,20 +21,20 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, User>> login(
       EmailAddress email, Password password) async {
-    UserModel userModel;
-    try {
-      userModel = await _dataSource.authenticate(
-        email.value.getOrCrash(),
-        password.value.getOrCrash(),
-      );
-    } catch (e) {
-      return Either.left(ServerFailure());
-    }
-    if (userModel == null) return Either.left(InvalidUserFailure());
-
-    final user = userModel.toUser();
-    _preferenceService.storeSignedInUser(user);
-    return Either.right(user);
+    return MonadTask(
+      () => _dataSource
+          .authenticate(email.value.getOrCrash(), password.value.getOrCrash())
+          .then((userModel) {
+        if (userModel == null)
+          throw InvalidUserFailure(
+            email: email,
+            password: password,
+          );
+        final user = userModel.toUser();
+        _preferenceService.storeSignedInUser(user);
+        return user;
+      }),
+    ).attempt<Failure>((e) => ServerFailure.unexpectedError(e)).run();
   }
 
   @override

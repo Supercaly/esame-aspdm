@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:aspdm_project/data/models/label_model.dart';
 import 'package:aspdm_project/data/models/task_model.dart';
 import 'package:aspdm_project/data/models/user_model.dart';
-import 'package:aspdm_project/core/failures.dart';
+import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
@@ -346,6 +346,42 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
+  /// Returns the correct [ServerFailure] from the
+  /// given [DioError].
+  ///
+  /// The error is managed in this way:
+  /// - no internet if [SocketException]
+  /// - format error if [FormatException]
+  /// - bad request if statusCode 400
+  /// - internal error if statusCode 500
+  /// - unexpected error other errors
+  @visibleForTesting
+  ServerFailure getFailure(DioError e) {
+    switch (e.type) {
+      case DioErrorType.RESPONSE:
+        switch (e.response?.statusCode) {
+          case 400:
+            return ServerFailure.badRequest(e.response?.data);
+          case 500:
+            return ServerFailure.internalError(e.response?.data);
+          default:
+            return ServerFailure.unexpectedError(
+                "Received status code: ${e.response?.statusCode}");
+        }
+        break;
+      case DioErrorType.DEFAULT:
+        if (e.error != null && e.error is SocketException)
+          return ServerFailure.noInternet();
+        else if (e.error != null && e.error is FormatException)
+          return ServerFailure.formatError((e.error as FormatException).message);
+        return ServerFailure.unexpectedError(e.message);
+        break;
+      default:
+        return ServerFailure.unexpectedError(e.message);
+        break;
+    }
+  }
+
   /// Run a HTTP request with method GET to the given [url].
   /// Returns the JSON response or throws a [ServerFailure].
   @visibleForTesting
@@ -353,11 +389,9 @@ class RemoteDataSource {
     try {
       return await _dio.get(url);
     } on DioError catch (e) {
-      if (e.response != null && e.response.statusCode == 400)
-        _logService.error("DataSource get: Bad request: ${e.response.data}");
-      else if (e.error is SocketException)
-        _logService.error("DataSource get: No internet connection!");
-      throw ServerFailure();
+      final failure = getFailure(e);
+      _logService.error("DataSource get: $failure");
+      throw failure;
     }
   }
 
@@ -369,11 +403,9 @@ class RemoteDataSource {
     try {
       return await _dio.post(url, data: body);
     } on DioError catch (e) {
-      if (e.response != null && e.response.statusCode == 400)
-        _logService.error("DataSource post: Bad request: ${e.response.data}");
-      else if (e.error is SocketException)
-        _logService.error("DataSource post: No internet connection!");
-      throw ServerFailure();
+      final failure = getFailure(e);
+      _logService.error("DataSource post: $failure");
+      throw failure;
     }
   }
 
@@ -385,11 +417,9 @@ class RemoteDataSource {
     try {
       return await _dio.patch(url, data: body);
     } on DioError catch (e) {
-      if (e.response != null && e.response.statusCode == 400)
-        _logService.error("DataSource patch: Bad request: ${e.response.data}");
-      else if (e.error is SocketException)
-        _logService.error("DataSource patch: No internet connection!");
-      throw ServerFailure();
+      final failure = getFailure(e);
+      _logService.error("DataSource patch: $failure");
+      throw failure;
     }
   }
 
@@ -404,11 +434,9 @@ class RemoteDataSource {
     try {
       return await _dio.delete(url, data: body);
     } on DioError catch (e) {
-      if (e.response != null && e.response.statusCode == 400)
-        _logService.error("DataSource delete: Bad request: ${e.response.data}");
-      else if (e.error is SocketException)
-        _logService.error("DataSource delete: No internet connection!");
-      throw ServerFailure();
+      final failure = getFailure(e);
+      _logService.error("DataSource delete: $failure");
+      throw failure;
     }
   }
 }

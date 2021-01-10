@@ -53,7 +53,7 @@ void main() {
     });
 
     test("get task returns null task", () async {
-      when(dataSource.getTask(any)).thenAnswer((_) => null);
+      when(dataSource.getTask(any)).thenAnswer((_) async => null);
       final res = await repository.getTask(UniqueId("id"));
 
       expect(res.isRight(), isTrue);
@@ -64,7 +64,7 @@ void main() {
       final res = await repository.getTask(null);
       expect(res.isLeft(), isTrue);
 
-      when(dataSource.getTask(any)).thenAnswer((_) => throw Error());
+      when(dataSource.getTask(any)).thenAnswer((_) async => throw Error());
       final res2 = await repository.getTask(UniqueId("mock_id"));
       expect(res2.isLeft(), isTrue);
     });
