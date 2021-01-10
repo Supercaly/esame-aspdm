@@ -20,7 +20,8 @@ void main() {
       final t3 = MonadTask(() => Future.microtask(() {
             return num.parse("not_a_number");
           })).attempt<FormatException>((e) => FormatException());
-      final t4 = MonadTask(() => Future<num>.error(Error())).attempt<FormatException>((e) => FormatException());
+      final t4 = MonadTask(() => Future<num>.error(Error()))
+          .attempt<FormatException>((e) => FormatException());
 
       final res = await t1.run();
       expect(res, isA<Either<FormatException, num>>());

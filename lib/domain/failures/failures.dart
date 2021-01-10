@@ -14,4 +14,3 @@ class InvalidUserFailure extends Failure {
   @override
   String toString() => "InvalidUserFailure{email: $email, password: $password}";
 }
-

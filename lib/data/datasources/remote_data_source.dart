@@ -373,7 +373,8 @@ class RemoteDataSource {
         if (e.error != null && e.error is SocketException)
           return ServerFailure.noInternet();
         else if (e.error != null && e.error is FormatException)
-          return ServerFailure.formatError((e.error as FormatException).message);
+          return ServerFailure.formatError(
+              (e.error as FormatException).message);
         return ServerFailure.unexpectedError(e.message);
         break;
       default:

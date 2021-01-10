@@ -78,8 +78,8 @@ void main() {
       "emits error on fetch error",
       build: () => TaskBloc(UniqueId("mock_id"), repository),
       act: (TaskBloc bloc) {
-        when(repository.getTask(any))
-            .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+        when(repository.getTask(any)).thenAnswer((_) =>
+            Future.value(Either.left(ServerFailure.unexpectedError(""))));
         bloc.fetch();
       },
       expect: [
@@ -173,8 +173,8 @@ void main() {
     blocTest("emits error on comment delete error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.deleteComment(any, any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.deleteComment(any, any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.deleteComment(UniqueId("commentId"), UniqueId("userId"));
         },
         expect: [
@@ -225,8 +225,8 @@ void main() {
     blocTest("emits error on comment edit error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.editComment(any, any, any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.editComment(any, any, any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.editComment(UniqueId("commentId"), CommentContent("newContent"),
               UniqueId("userId"));
         },
@@ -277,8 +277,8 @@ void main() {
     blocTest("emits error on comment like error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.likeComment(any, any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.likeComment(any, any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.likeComment(UniqueId("commentId"), UniqueId("userId"));
         },
         expect: [
@@ -328,8 +328,8 @@ void main() {
     blocTest("emits error on comment dislike error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.dislikeComment(any, any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.dislikeComment(any, any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.dislikeComment(UniqueId("commentId"), UniqueId("userId"));
         },
         expect: [
@@ -379,8 +379,8 @@ void main() {
     blocTest("emits error on add comment error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.addComment(any, any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.addComment(any, any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.addComment(CommentContent("content"), UniqueId("userId"));
         },
         expect: [
@@ -430,8 +430,8 @@ void main() {
     blocTest("emits error on archive error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.archiveTask(any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.archiveTask(any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.archive(UniqueId("userId"));
         },
         expect: [
@@ -481,8 +481,8 @@ void main() {
     blocTest("emits error on unarchive error",
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
-          when(repository.unarchiveTask(any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository.unarchiveTask(any, any)).thenAnswer((_) =>
+              Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.unarchive(UniqueId("userId"));
         },
         expect: [
@@ -535,7 +535,8 @@ void main() {
         build: () => TaskBloc(UniqueId("mock_id"), repository),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
-              .thenAnswer((_) => Future.value(Either.left(ServerFailure.unexpectedError(""))));
+              .thenAnswer((_) =>
+                  Future.value(Either.left(ServerFailure.unexpectedError(""))));
           bloc.completeChecklist(UniqueId("userId"), UniqueId("checklistId"),
               UniqueId("itemId"), Toggle(true));
         },

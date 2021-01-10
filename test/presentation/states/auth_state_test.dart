@@ -22,7 +22,8 @@ void main() {
   });
 
   test("create AuthState wih user", () {
-    when(repository.lastSignedInUser).thenReturn(Either.left(ServerFailure.unexpectedError("")));
+    when(repository.lastSignedInUser)
+        .thenReturn(Either.left(ServerFailure.unexpectedError("")));
     expect(AuthState(repository).currentUser, isNull);
 
     when(repository.lastSignedInUser).thenReturn(
@@ -45,7 +46,8 @@ void main() {
   });
 
   test("is loading returns the correct value", () {
-    when(repository.lastSignedInUser).thenReturn(Either.left(ServerFailure.unexpectedError("")));
+    when(repository.lastSignedInUser)
+        .thenReturn(Either.left(ServerFailure.unexpectedError("")));
     final state = AuthState(repository);
 
     expect(state.isLoading, isFalse);
@@ -81,8 +83,8 @@ void main() {
 
   test("login with error return either with left side", () async {
     when(repository.lastSignedInUser).thenReturn(Either.right(null));
-    when(repository.login(any, any))
-        .thenAnswer((_) async => Either.left(ServerFailure.unexpectedError("")));
+    when(repository.login(any, any)).thenAnswer(
+        (_) async => Either.left(ServerFailure.unexpectedError("")));
 
     final authState = AuthState(repository);
     final res = await authState.login(
