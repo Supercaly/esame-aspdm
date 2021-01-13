@@ -1,4 +1,6 @@
-import 'package:aspdm_project/model/user.dart';
+import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,9 +42,9 @@ void main() {
       user,
       equals(
         User(
-          "mock_id",
-          "mock user",
-          "mock.user@email.com",
+          UniqueId("mock_id"),
+          UserName("mock user"),
+          EmailAddress("mock.user@email.com"),
           Colors.red,
         ),
       ),
@@ -95,8 +97,12 @@ void main() {
     User user = service.getLastSignedInUser();
     expect(user, isNull);
 
-    await service.storeSignedInUser(
-        User("mock_id", "mock user", "mock.user@email.com", Colors.yellow));
+    await service.storeSignedInUser(User(
+      UniqueId("mock_id"),
+      UserName("mock user"),
+      EmailAddress("mock.user@email.com"),
+      Colors.yellow,
+    ));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));
     expect(mockPreferences.getString("user_name"), equals("mock user"));

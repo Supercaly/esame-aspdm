@@ -1,4 +1,6 @@
-import 'package:aspdm_project/model/user.dart';
+import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +20,9 @@ class PreferenceService {
 
   /// Store the currently logged in [User].
   Future<void> storeSignedInUser(User user) async {
-    await _preferences.setString("user_id", user?.id);
-    await _preferences.setString("user_name", user?.name);
-    await _preferences.setString("user_email", user?.email);
+    await _preferences.setString("user_id", user?.id?.value?.getOrNull());
+    await _preferences.setString("user_name", user?.name?.value?.getOrNull());
+    await _preferences.setString("user_email", user?.email?.value?.getOrNull());
     await _preferences.setInt("user_color", user?.profileColor?.value);
   }
 
@@ -28,14 +30,16 @@ class PreferenceService {
   /// during the last login.
   /// If there's no user stored `null` will be returned instead.
   User getLastSignedInUser() {
-    final id = _preferences.getString("user_id");
-    if (id == null) return null;
-    final colorValue = _preferences.getInt("user_color");
-    return User(
-      id,
-      _preferences.getString("user_name"),
-      _preferences.getString("user_email"),
-      colorValue != null ? Color(colorValue) : null,
-    );
+    try {
+      final colorValue = _preferences.getInt("user_color");
+      return User(
+        UniqueId(_preferences.getString("user_id")),
+        UserName(_preferences.getString("user_name")),
+        EmailAddress(_preferences.getString("user_email")),
+        colorValue != null ? Color(colorValue) : null,
+      );
+    } catch (e) {
+      return null;
+    }
   }
 }
