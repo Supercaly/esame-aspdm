@@ -1,4 +1,4 @@
-import 'package:aspdm_project/presentation/bloc/home_bloc.dart';
+import 'package:aspdm_project/application/bloc/home_bloc.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';

@@ -1,5 +1,5 @@
 import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

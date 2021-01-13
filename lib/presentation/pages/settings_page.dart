@@ -3,7 +3,7 @@ import 'package:aspdm_project/presentation/routes.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';
 import 'package:aspdm_project/presentation/widgets/settings_widget.dart';
 import 'package:aspdm_project/presentation/widgets/user_info_card.dart';

@@ -1,7 +1,7 @@
-import 'package:aspdm_project/data/models/checklist_model.dart';
-import 'package:aspdm_project/data/models/comment_model.dart';
-import 'package:aspdm_project/data/models/label_model.dart';
-import 'package:aspdm_project/data/models/user_model.dart';
+import 'package:aspdm_project/infrastructure/models/checklist_model.dart';
+import 'package:aspdm_project/infrastructure/models/comment_model.dart';
+import 'package:aspdm_project/infrastructure/models/label_model.dart';
+import 'package:aspdm_project/infrastructure/models/user_model.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';

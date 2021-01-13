@@ -1,8 +1,8 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/data/datasources/remote_data_source.dart';
-import 'package:aspdm_project/data/models/task_model.dart';
-import 'package:aspdm_project/data/models/user_model.dart';
-import 'package:aspdm_project/data/repositories/task_repository_impl.dart';
+import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
+import 'package:aspdm_project/infrastructure/models/task_model.dart';
+import 'package:aspdm_project/infrastructure/models/user_model.dart';
+import 'package:aspdm_project/infrastructure/repositories/task_repository_impl.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';

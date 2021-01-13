@@ -5,7 +5,7 @@ import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/services/log_service.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';

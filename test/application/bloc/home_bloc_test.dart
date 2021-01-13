@@ -1,5 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/presentation/bloc/home_bloc.dart';
+import 'package:aspdm_project/application/bloc/home_bloc.dart';
 import 'package:aspdm_project/domain/repositories/home_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';

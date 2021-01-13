@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:aspdm_project/data/models/checklist_model.dart';
-import 'package:aspdm_project/data/models/comment_model.dart';
-import 'package:aspdm_project/data/models/label_model.dart';
-import 'package:aspdm_project/data/models/task_model.dart';
-import 'package:aspdm_project/data/models/user_model.dart';
-import 'package:aspdm_project/data/datasources/remote_data_source.dart';
+import 'package:aspdm_project/infrastructure/models/checklist_model.dart';
+import 'package:aspdm_project/infrastructure/models/comment_model.dart';
+import 'package:aspdm_project/infrastructure/models/label_model.dart';
+import 'package:aspdm_project/infrastructure/models/task_model.dart';
+import 'package:aspdm_project/infrastructure/models/user_model.dart';
+import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:dio/dio.dart';
