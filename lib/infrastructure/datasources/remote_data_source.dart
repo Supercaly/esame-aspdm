@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:aspdm_project/data/models/label_model.dart';
-import 'package:aspdm_project/data/models/task_model.dart';
-import 'package:aspdm_project/data/models/user_model.dart';
+import 'package:aspdm_project/infrastructure/models/label_model.dart';
+import 'package:aspdm_project/infrastructure/models/task_model.dart';
+import 'package:aspdm_project/infrastructure/models/user_model.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/services/log_service.dart';

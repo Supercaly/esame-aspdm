@@ -4,7 +4,7 @@ import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/repositories/home_repository.dart';
-import 'package:aspdm_project/data/datasources/remote_data_source.dart';
+import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
 
 class HomeRepositoryImpl extends HomeRepository {
   final RemoteDataSource _dataSource;

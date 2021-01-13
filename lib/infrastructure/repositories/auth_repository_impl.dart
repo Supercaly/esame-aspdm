@@ -4,7 +4,7 @@ import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/data/datasources/remote_data_source.dart';
+import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 

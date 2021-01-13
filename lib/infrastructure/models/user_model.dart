@@ -1,5 +1,5 @@
 import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/data/color_parser.dart';
+import 'package:aspdm_project/infrastructure/color_parser.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:equatable/equatable.dart';
