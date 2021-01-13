@@ -1,3 +1,4 @@
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/locator.dart';
@@ -7,7 +8,6 @@ import 'package:aspdm_project/presentation/pages/main_page.dart';
 import 'package:aspdm_project/presentation/pages/new_task_page.dart';
 import 'package:aspdm_project/presentation/pages/task_info_page.dart';
 import 'package:aspdm_project/presentation/routes.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
 import 'package:aspdm_project/presentation/theme.dart';
 import 'package:aspdm_project/presentation/widgets/stream_listener.dart';
 import 'package:aspdm_project/services/connectivity_service.dart';

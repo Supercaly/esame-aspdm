@@ -1,8 +1,8 @@
+import 'package:aspdm_project/application/bloc/task_bloc.dart';
 import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/presentation/bloc/task_bloc.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/services/log_service.dart';

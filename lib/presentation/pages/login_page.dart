@@ -1,6 +1,6 @@
 import 'package:aspdm_project/presentation/pages/desktop/login_page_content_desktop.dart';
 import 'package:aspdm_project/presentation/pages/mobile/login_page_content_mobile.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';

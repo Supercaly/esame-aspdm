@@ -1,12 +1,12 @@
 import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/presentation/bloc/task_bloc.dart';
+import 'package:aspdm_project/application/bloc/task_bloc.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/presentation/pages/desktop/task_info_page_content_desktop.dart';
 import 'package:aspdm_project/presentation/pages/mobile/task_info_page_content_mobile.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/comment_widget.dart';
 import 'package:aspdm_project/presentation/widgets/expiration_badge.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';

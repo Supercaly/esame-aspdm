@@ -1,10 +1,10 @@
 import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/presentation/states/auth_state.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/theme.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:flutter/material.dart';
 import '../task_info_page.dart';
-import 'package:aspdm_project/presentation/bloc/task_bloc.dart';
+import 'package:aspdm_project/application/bloc/task_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

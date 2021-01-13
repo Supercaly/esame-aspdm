@@ -1,4 +1,4 @@
-import 'package:aspdm_project/presentation/bloc/archive_bloc.dart';
+import 'package:aspdm_project/application/bloc/archive_bloc.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/domain/repositories/archive_repository.dart';
 import 'package:aspdm_project/services/log_service.dart';
