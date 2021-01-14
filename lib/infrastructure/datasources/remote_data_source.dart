@@ -51,7 +51,8 @@ class RemoteDataSource {
   /// Returns a [UserModel] with given [userId].
   /// This method throw [ServerFailure] if some connection error happens.
   Future<UserModel> getUser(String userId) async {
-    assert(userId != null);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
 
     final res = await get("/user/$userId");
     if (res.data != null)
@@ -124,7 +125,8 @@ class RemoteDataSource {
   /// Returns a [TaskModel] with given [taskId].
   /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> getTask(String taskId) async {
-    assert(taskId != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
 
     final res = await get("/task/$taskId");
     if (res.data != null)
@@ -137,9 +139,12 @@ class RemoteDataSource {
   /// This method will return the updated [TaskModel].
   /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> archive(String taskId, String userId, bool archive) async {
-    assert(taskId != null);
-    assert(userId != null);
-    assert(archive != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
+    if (archive == null)
+      throw ServerFailure.invalidArgument("archive", received: archive);
 
     final res = await post("/task/archive", {
       "task": taskId,
@@ -155,7 +160,8 @@ class RemoteDataSource {
   /// Creates a new task from a given [TaskModel].
   /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> postTask(TaskModel newTask) async {
-    assert(newTask != null);
+    if (newTask == null)
+      throw ServerFailure.invalidArgument("newTask", received: newTask);
 
     final jsonTask = newTask.toJson();
     final res = await post("/task", {
@@ -179,7 +185,8 @@ class RemoteDataSource {
   /// Updates an existing task from a given [TaskModel].
   /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> patchTask(TaskModel newTask) async {
-    assert(newTask != null);
+    if (newTask == null)
+      throw ServerFailure.invalidArgument("newTask", received: newTask);
 
     final res = await patch("/task", newTask.toJson());
     if (res.data != null)
@@ -199,9 +206,12 @@ class RemoteDataSource {
   /// This method throw [ServerFailure] if some connection error happens.
   Future<TaskModel> postComment(
       String taskId, String userId, String content) async {
-    assert(taskId != null);
-    assert(userId != null);
-    assert(content != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
+    if (content == null)
+      throw ServerFailure.invalidArgument("content", received: content);
 
     final res = await post("/comment", {
       "task": taskId,
@@ -224,9 +234,12 @@ class RemoteDataSource {
     String commentId,
     String userId,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (commentId == null)
+      throw ServerFailure.invalidArgument("commentId", received: commentId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
 
     final res = await delete("/comment", {
       "task": taskId,
@@ -248,10 +261,14 @@ class RemoteDataSource {
     String userId,
     String newContent,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
-    assert(newContent != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (commentId == null)
+      throw ServerFailure.invalidArgument("commentId", received: commentId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
+    if (newContent == null)
+      throw ServerFailure.invalidArgument("newContent", received: newContent);
 
     final res = await patch("/comment", {
       "task": taskId,
@@ -273,9 +290,12 @@ class RemoteDataSource {
     String commentId,
     String userId,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (commentId == null)
+      throw ServerFailure.invalidArgument("commentId", received: commentId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
 
     final res = await post("/comment/like", {
       "task": taskId,
@@ -296,9 +316,12 @@ class RemoteDataSource {
     String commentId,
     String userId,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (commentId == null)
+      throw ServerFailure.invalidArgument("commentId", received: commentId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
 
     final res = await post("/comment/dislike", {
       "task": taskId,
@@ -321,11 +344,16 @@ class RemoteDataSource {
     String itemId,
     bool checked,
   ) async {
-    assert(taskId != null);
-    assert(userId != null);
-    assert(checklistId != null);
-    assert(itemId != null);
-    assert(checked != null);
+    if (taskId == null)
+      throw ServerFailure.invalidArgument("taskId", received: taskId);
+    if (userId == null)
+      throw ServerFailure.invalidArgument("userId", received: userId);
+    if (checklistId == null)
+      throw ServerFailure.invalidArgument("checklistId", received: checklistId);
+    if (itemId == null)
+      throw ServerFailure.invalidArgument("itemId", received: itemId);
+    if (checked == null)
+      throw ServerFailure.invalidArgument("checked", received: checked);
 
     final res = await post("/task/check", {
       "task": taskId,

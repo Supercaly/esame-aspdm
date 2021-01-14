@@ -1309,7 +1309,7 @@ void main() {
         await source.getUser(null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1318,7 +1318,7 @@ void main() {
         await source.getTask(null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1327,21 +1327,21 @@ void main() {
         await source.archive(null, "userId", true);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.archive("taskId", null, true);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.archive("taskId", "userId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1350,7 +1350,7 @@ void main() {
         await source.postTask(null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1359,7 +1359,7 @@ void main() {
         await source.patchTask(null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1368,21 +1368,21 @@ void main() {
         await source.postComment(null, "userId", "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.postComment("taskId", null, "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.postComment("taskId", "userId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1391,21 +1391,21 @@ void main() {
         await source.deleteComment(null, "commentId", "userId");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.deleteComment("taskId", null, "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.deleteComment("taskId", "commentId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1414,28 +1414,28 @@ void main() {
         await source.patchComment(null, "commentId", "userId", "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.patchComment("taskId", null, "userId", "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.patchComment("taskId", "commentId", null, "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.patchComment("taskId", "commentId", "userId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1444,21 +1444,21 @@ void main() {
         await source.likeComment(null, "commentId", "userId");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.likeComment("taskId", null, "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.likeComment("taskId", "commentId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1467,21 +1467,21 @@ void main() {
         await source.dislikeComment(null, "commentId", "userId");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.dislikeComment("taskId", null, "content");
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.dislikeComment("taskId", "commentId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
 
@@ -1490,35 +1490,35 @@ void main() {
         await source.check(null, "userId", "checklistId", "itemId", true);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.check("taskId", null, "checklistId", "itemId", true);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.check("taskId", "userId", null, "itemId", true);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.check("taskId", "userId", "checklistId", null, true);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
 
       try {
         await source.check("taskId", "userId", "checklistId", "itemId", null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<AssertionError>());
+        expect(e, isA<ServerFailure>());
       }
     });
   });
