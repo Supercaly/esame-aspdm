@@ -21,20 +21,16 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, User>> login(
       EmailAddress email, Password password) async {
-    return MonadTask(
-      () => _dataSource
-          .authenticate(email.value.getOrCrash(), password.value.getOrCrash())
-          .then((userModel) {
-        if (userModel == null)
-          throw InvalidUserFailure(
-            email: email,
-            password: password,
-          );
-        final user = userModel.toUser();
-        _preferenceService.storeSignedInUser(user);
-        return user;
-      }),
-    ).attempt<Failure>((e) => ServerFailure.unexpectedError(e)).run();
+    final result =
+        await MonadTask(() => _dataSource.authenticate(email, password))
+            .map((value) => value.toUser())
+            .attempt((e) => ServerFailure.unexpectedError(e))
+            .run();
+
+    if (result.isRight())
+      await _preferenceService.storeSignedInUser(result.getOrNull());
+
+    return result;
   }
 
   @override

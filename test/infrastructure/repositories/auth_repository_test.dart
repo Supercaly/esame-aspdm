@@ -1,4 +1,6 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/domain/failures/failures.dart';
+import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
 import 'package:aspdm_project/infrastructure/models/user_model.dart';
 import 'package:aspdm_project/infrastructure/repositories/auth_repository_impl.dart';
@@ -40,37 +42,46 @@ void main() {
     final user = repository.lastSignedInUser;
 
     expect(user.isRight(), isTrue);
-    expect((user as Right).value, isA<User>());
+    expect(user.getOrNull(), isNotNull);
+    expect(user.getOrNull(), isA<User>());
     verify(preferenceService.getLastSignedInUser()).called(1);
   });
 
   test("login returns the logged in user", () async {
-    when(dataSource.authenticate(any, any)).thenAnswer((_) async => UserModel(
-          "mock_id",
-          "Mock User",
-          "mock@email.com",
-          null,
-        ));
+    when(dataSource.authenticate(any, any))
+        .thenAnswer((_) async => Either.right(UserModel(
+              "mock_id",
+              "Mock User",
+              "mock@email.com",
+              null,
+            )));
     final user = await repository.login(
         EmailAddress("user@email.com"), Password("1234"));
 
     expect(user.isRight(), isTrue);
-    expect((user as Right).value, isA<User>());
+    expect(user.getOrNull(), isNotNull);
+    expect(user.getOrNull(), isA<User>());
     verify(preferenceService.storeSignedInUser(any)).called(1);
   });
 
   test("login returns an error on wrong credential", () async {
-    when(dataSource.authenticate(any, any)).thenAnswer((_) async => null);
+    when(dataSource.authenticate(any, any)).thenAnswer((r) async => Either.left(
+          InvalidUserFailure(
+            email: EmailAddress("user@email.com"),
+            password: Password("1234"),
+          ),
+        ));
     final res = await repository.login(
         EmailAddress("user@email.com"), Password("1234"));
 
     expect(res.isLeft(), isTrue);
+    expect((res as Left).value, isA<InvalidUserFailure>());
     verifyNever(preferenceService.storeSignedInUser(any));
   });
 
   test("login returns an error on server failure", () async {
-    when(dataSource.authenticate(any, any))
-        .thenAnswer((_) async => throw Error());
+    when(dataSource.authenticate(any, any)).thenAnswer(
+        (_) async => Either.left(ServerFailure.unexpectedError("")));
     final res = await repository.login(
         EmailAddress("user@email.com"), Password("1234"));
 

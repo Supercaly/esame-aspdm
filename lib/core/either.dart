@@ -30,10 +30,13 @@ abstract class Either<L, R> {
   /// and returns the result.
   B fold<B>(B Function(L left) ifLeft, B Function(R right) ifRight);
 
-  /// Returns a new [Either] that as a left side value returned by
-  /// [ifLeft] or a right side value returned by [ifRight].
-  Either<T, U> map<T, U>(
-      T Function(L left) ifLeft, U Function(R right) ifRight);
+  /// Returns a new [Either] that has the same left value or
+  /// the result of [f] as right value.
+  Either<L, R2> map<R2>(R2 Function(R right) f);
+
+  /// Returns a new [Either] that has the same left value or
+  /// the result of [f] as right value.
+  Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f);
 
   /// Returns the value if it's a right side value or null.
   R getOrNull();
@@ -68,8 +71,11 @@ class Left<L, R> extends Either<L, R> {
       ifLeft(_value);
 
   @override
-  Either<T, U> map<T, U>(T Function(L p1) ifLeft, U Function(R p1) ifRight) =>
-      Either<T, U>.left(ifLeft(_value));
+  Either<L, R2> map<R2>(R2 Function(R right) f) => Either<L, R2>.left(_value);
+
+  @override
+  Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f) =>
+      Either<L, R2>.left(_value);
 
   @override
   R getOrNull() => null;
@@ -101,8 +107,11 @@ class Right<L, R> extends Either<L, R> {
       ifRight(_value);
 
   @override
-  Either<T, U> map<T, U>(T Function(L p1) ifLeft, U Function(R p1) ifRight) =>
-      Either<T, U>.right(ifRight(_value));
+  Either<L, R2> map<R2>(R2 Function(R right) f) =>
+      Either<L, R2>.right(f(_value));
+
+  @override
+  Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f) => f(_value);
 
   @override
   R getOrNull() => _value;

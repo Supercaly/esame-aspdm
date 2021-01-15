@@ -21,6 +21,9 @@ abstract class ServerFailure extends Failure {
   factory ServerFailure.formatError(String message) =>
       _ServerFailureFormatError(message);
 
+  factory ServerFailure.invalidArgument(String arg, {dynamic received}) =>
+      _ServerFailureInvalidArgument(arg, received);
+
   /// Returns [R] after calling the callback from
   /// the correct type.
   R when<R>({
@@ -29,6 +32,7 @@ abstract class ServerFailure extends Failure {
     R badRequest(dynamic msg),
     R internalError(dynamic msg),
     R formatError(),
+    R invalidArgument(String arg, dynamic received),
   });
 }
 
@@ -51,6 +55,7 @@ class _ServerFailureUnexpectedError implements ServerFailure {
     R Function(dynamic msg) badRequest,
     R Function(dynamic msg) internalError,
     R Function() formatError,
+    R invalidArgument(String arg, dynamic received),
   }) =>
       unexpectedError?.call(message);
 
@@ -75,6 +80,7 @@ class _ServerFailureNoInternet implements ServerFailure {
     R Function(dynamic msg) badRequest,
     R Function(dynamic msg) internalError,
     R Function() formatError,
+    R invalidArgument(String arg, dynamic received),
   }) =>
       noInternet?.call();
 
@@ -102,6 +108,7 @@ class _ServerFailureBadRequest implements ServerFailure {
     R Function(dynamic msg) badRequest,
     R Function(dynamic msg) internalError,
     R Function() formatError,
+    R invalidArgument(String arg, dynamic received),
   }) =>
       badRequest?.call(data);
 
@@ -129,6 +136,7 @@ class _ServerFailureInternalError implements ServerFailure {
     R Function(dynamic msg) badRequest,
     R Function(dynamic msg) internalError,
     R Function() formatError,
+    R invalidArgument(String arg, dynamic received),
   }) =>
       internalError?.call(data);
 
@@ -155,9 +163,42 @@ class _ServerFailureFormatError implements ServerFailure {
     R Function(dynamic msg) badRequest,
     R Function(dynamic msg) internalError,
     R Function() formatError,
+    R invalidArgument(String arg, dynamic received),
   }) =>
       formatError?.call();
 
   @override
   String toString() => "ServerFailure: format error: $message";
+}
+
+class _ServerFailureInvalidArgument implements ServerFailure {
+  final String argument;
+  final dynamic received;
+
+  _ServerFailureInvalidArgument(this.argument, this.received);
+
+  @override
+  R when<R>({
+    R Function(String msg) unexpectedError,
+    R Function() noInternet,
+    R Function(dynamic msg) badRequest,
+    R Function(dynamic msg) internalError,
+    R Function() formatError,
+    R Function(String arg, dynamic received) invalidArgument,
+  }) =>
+      invalidArgument?.call(argument, received);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is _ServerFailureInvalidArgument &&
+          argument == other.argument &&
+          received == other.received);
+
+  @override
+  int get hashCode => super.hashCode;
+
+  @override
+  String toString() =>
+      "ServerFailure: invalid argument `$argument`${received != null ? ", received: $received" : ""}";
 }

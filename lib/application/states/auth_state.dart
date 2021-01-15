@@ -37,18 +37,18 @@ class AuthState extends ChangeNotifier {
     notifyListeners();
 
     // Log in the user with credentials.
-    return (await _repository.login(email, password)).map(
+    return (await _repository.login(email, password)).fold(
       (left) {
         locator<LogService>().error("AuthState.login: ", left);
         _isLoading = false;
         notifyListeners();
-        return left;
+        return Either<Failure, Unit>.left(left);
       },
       (right) {
         _currentUser = right;
         _isLoading = false;
         notifyListeners();
-        return const Unit();
+        return Either<Failure, Unit>.right(const Unit());
       },
     );
   }
