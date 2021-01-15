@@ -13,9 +13,9 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<Either<Failure, List<Task>>> getTasks() {
-    return MonadTask(() => _dataSource.getUnarchivedTasks().then((value) =>
-            value?.map((e) => e.toTask())?.toList() ?? List<Task>.empty()))
-        .attempt<Failure>((e) => ServerFailure.unexpectedError(e))
+    return MonadTask(() => _dataSource.getUnarchivedTasks())
+        .map((value) => value.map((e) => e.toTask()).toList())
+        .attempt((e) => ServerFailure.unexpectedError(e))
         .run();
   }
 }

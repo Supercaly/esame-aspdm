@@ -1,4 +1,10 @@
 import 'dart:io';
+import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/domain/failures/failures.dart';
+import 'package:aspdm_project/domain/failures/task_failure.dart';
+import 'package:aspdm_project/domain/values/task_values.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/infrastructure/models/label_model.dart';
 import 'package:aspdm_project/infrastructure/models/task_model.dart';
 import 'package:aspdm_project/infrastructure/models/user_model.dart';
@@ -36,42 +42,57 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
-  /// Returns a list of all [UserModel]s.
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<List<UserModel>> getUsers() async {
+  /// Returns a [Either] with a [Failure] or a list of all [UserModel]s.
+  Future<Either<Failure, List<UserModel>>> getUsers() async {
     final res = await get("/users");
-    if (res.data != null)
-      return (res.data as List<dynamic>)
+    return res.flatMap((right) {
+      if (right.data == null) return Either.right(List<UserModel>.empty());
+      return Either.right((right.data as List<dynamic>)
           .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    else
-      return null;
+          .toList());
+    });
   }
 
-  /// Returns a [UserModel] with given [userId].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<UserModel> getUser(String userId) async {
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
+  /// Returns a [Either] with a [Failure] or a [UserModel] with given [userId].
+  Future<Either<Failure, UserModel>> getUser(UniqueId userId) async {
+    assert(userId != null);
 
-    final res = await get("/user/$userId");
-    if (res.data != null)
-      return UserModel.fromJson(res.data);
-    else
-      return null;
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
+
+    final res = await get("/user/${userId.value.getOrCrash()}");
+    return res.flatMap((right) {
+      // TODO: put real failure here
+      if (right.data == null)
+        return Either.left(
+            ServerFailure.unexpectedError("Failure not implemented"));
+      return Either.right(
+          UserModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Authenticate a user with given [email] and [password].
-  /// If the credentials are valid the corresponding [UserModel] is returned,
-  /// otherwise null is returned.
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<UserModel> authenticate(String email, String password) async {
+  /// Returns a [Either] with a [InvalidUserFailure] or the corresponding [UserModel]
+  /// if the credentials are correct.
+  Future<Either<Failure, UserModel>> authenticate(
+    EmailAddress email,
+    Password password,
+  ) async {
+    assert(email != null);
+    assert(password != null);
+
     final res = await post("/authenticate", {
-      "email": email,
-      "password": password,
+      "email": email.value.getOrCrash(),
+      "password": password.value.getOrCrash(),
     });
-    if (res.data != null) return UserModel.fromJson(res.data);
-    return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(
+            InvalidUserFailure(email: email, password: password));
+      return Either.right(
+          UserModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /*
@@ -80,16 +101,15 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
-  /// Returns a list of all [LabelModel]s.
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<List<LabelModel>> getLabels() async {
+  /// Returns a [Either] with a [Failure] or a list of all [LabelModel]s.
+  Future<Either<Failure, List<LabelModel>>> getLabels() async {
     final res = await get("/labels");
-    if (res.data != null)
-      return (res.data as List<dynamic>)
+    return res.flatMap((right) {
+      if (right.data == null) return Either.right(List<LabelModel>.empty());
+      return Either.right((right.data as List<dynamic>)
           .map((e) => LabelModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    else
-      return null;
+          .toList());
+    });
   }
 
   /*
@@ -98,70 +118,88 @@ class RemoteDataSource {
    * ----------------------------------------
    */
 
-  /// Returns a list of all [TaskModel]s that are not archived.
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<List<TaskModel>> getUnarchivedTasks() async {
+  /// Returns a [Either] with a [Failure] or a list of all [TaskModel]s
+  /// that are not archived.
+  Future<Either<Failure, List<TaskModel>>> getUnarchivedTasks() async {
     final res = await get("/list");
-    if (res.data != null)
-      return (res.data as List<dynamic>)
+    return res.flatMap((right) {
+      if (right.data == null) return Either.right(List<TaskModel>.empty());
+      return Either.right((right.data as List<dynamic>)
           .map((e) => TaskModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    else
-      return null;
+          .toList());
+    });
   }
 
-  /// Returns a list of all [TaskModel]s that are archived.
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<List<TaskModel>> getArchivedTasks() async {
+  /// Returns a [Either] with a [Failure] or a list of all [TaskModel]s
+  /// that are archived.
+  Future<Either<Failure, List<TaskModel>>> getArchivedTasks() async {
     final res = await get("/list/archived");
-    if (res.data != null)
-      return (res.data as List<dynamic>)
+    return res.flatMap((right) {
+      if (right.data == null) return Either.right(List<TaskModel>.empty());
+      return Either.right((right.data as List<dynamic>)
           .map((e) => TaskModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    else
-      return null;
+          .toList());
+    });
   }
 
-  /// Returns a [TaskModel] with given [taskId].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> getTask(String taskId) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
+  /// Returns a [Either] with a [Failure] or a [TaskModel] with given [taskId].
+  Future<Either<Failure, TaskModel>> getTask(UniqueId taskId) async {
+    assert(taskId != null);
 
-    final res = await get("/task/$taskId");
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+
+    final res = await get("/task/${taskId.value.getOrCrash()}");
+    return res.flatMap((right) {
+      if (right.data == null) return Either.right(null);
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Archive/Unarchive a [TaskModel] with given [taskId].
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> archive(String taskId, String userId, bool archive) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
-    if (archive == null)
-      throw ServerFailure.invalidArgument("archive", received: archive);
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> archive(
+    UniqueId taskId,
+    UniqueId userId,
+    Toggle archive,
+  ) async {
+    assert(taskId != null);
+    assert(userId != null);
+    assert(archive != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
+    if (archive.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("archive", received: archive));
 
     final res = await post("/task/archive", {
-      "task": taskId,
-      "user": userId,
-      "archive": archive,
+      "task": taskId.value.getOrCrash(),
+      "user": userId.value.getOrCrash(),
+      "archive": archive.value.getOrCrash(),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(archive.value.getOrCrash()
+            ? TaskFailure.archiveFailure(taskId)
+            : TaskFailure.unarchiveFailure(taskId));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Creates a new task from a given [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> postTask(TaskModel newTask) async {
+  /// Returns a [Either] with a [Failure] or the new [TaskModel].
+  Future<Either<Failure, TaskModel>> postTask(TaskModel newTask) async {
     if (newTask == null)
-      throw ServerFailure.invalidArgument("newTask", received: newTask);
+      return Either.left(
+          ServerFailure.invalidArgument("newTask", received: newTask));
 
     final jsonTask = newTask.toJson();
     final res = await post("/task", {
@@ -176,23 +214,32 @@ class RemoteDataSource {
             "items": e.items?.map((i) => i.item),
           }),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      // TODO: put real failure here
+      if (right.data == null)
+        return Either.left(
+            ServerFailure.unexpectedError("Failure not implemented"));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Updates an existing task from a given [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> patchTask(TaskModel newTask) async {
+  /// Returns a [Either] with a [Failure] or the new [TaskModel].
+  Future<Either<Failure, TaskModel>> patchTask(TaskModel newTask) async {
     if (newTask == null)
-      throw ServerFailure.invalidArgument("newTask", received: newTask);
+      return Either.left(
+          ServerFailure.invalidArgument("newTask", received: newTask));
 
     final res = await patch("/task", newTask.toJson());
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      // TODO: put real failure here
+      if (right.data == null)
+        return Either.left(
+            ServerFailure.unexpectedError("Failure not implemented"));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /*
@@ -202,170 +249,227 @@ class RemoteDataSource {
    */
 
   /// Adds a new comment under a [TaskModel] with given [taskId].
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> postComment(
-      String taskId, String userId, String content) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
-    if (content == null)
-      throw ServerFailure.invalidArgument("content", received: content);
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> postComment(
+    UniqueId taskId,
+    UniqueId userId,
+    CommentContent content,
+  ) async {
+    assert(taskId != null);
+    assert(userId != null);
+    assert(content != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
+    if (content.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("content", received: content));
 
     final res = await post("/comment", {
-      "task": taskId,
+      "task": taskId.value.getOrCrash(),
       "comment": {
-        "author": userId,
-        "content": content,
+        "author": userId.value.getOrCrash(),
+        "content": content.value.getOrCrash(),
       },
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(TaskFailure.newCommentFailure());
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Deletes a comment under a [TaskModel] with given [taskId].
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> deleteComment(
-    String taskId,
-    String commentId,
-    String userId,
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> deleteComment(
+    UniqueId taskId,
+    UniqueId commentId,
+    UniqueId userId,
   ) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (commentId == null)
-      throw ServerFailure.invalidArgument("commentId", received: commentId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (commentId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("commentId", received: commentId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
 
     final res = await delete("/comment", {
-      "task": taskId,
-      "user": userId,
-      "comment": commentId,
+      "task": taskId.value.getOrCrash(),
+      "user": userId.value.getOrCrash(),
+      "comment": commentId.value.getOrCrash(),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(TaskFailure.deleteCommentFailure(commentId));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Updates a comment under a [TaskModel] with given [taskId].
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> patchComment(
-    String taskId,
-    String commentId,
-    String userId,
-    String newContent,
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> patchComment(
+    UniqueId taskId,
+    UniqueId commentId,
+    UniqueId userId,
+    CommentContent newContent,
   ) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (commentId == null)
-      throw ServerFailure.invalidArgument("commentId", received: commentId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
-    if (newContent == null)
-      throw ServerFailure.invalidArgument("newContent", received: newContent);
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+    assert(newContent != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (commentId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("commentId", received: commentId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
+    if (newContent.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("newContent", received: newContent));
 
     final res = await patch("/comment", {
-      "task": taskId,
-      "user": userId,
-      "comment": commentId,
-      "content": newContent,
+      "task": taskId.value.getOrCrash(),
+      "user": userId.value.getOrCrash(),
+      "comment": commentId.value.getOrCrash(),
+      "content": newContent.value.getOrCrash(),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(TaskFailure.editCommentFailure(commentId));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Likes a comment under a [TaskModel] with given [taskId].
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> likeComment(
-    String taskId,
-    String commentId,
-    String userId,
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> likeComment(
+    UniqueId taskId,
+    UniqueId commentId,
+    UniqueId userId,
   ) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (commentId == null)
-      throw ServerFailure.invalidArgument("commentId", received: commentId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (commentId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("commentId", received: commentId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
 
     final res = await post("/comment/like", {
-      "task": taskId,
-      "user": userId,
-      "comment": commentId,
+      "task": taskId.value.getOrCrash(),
+      "user": userId.value.getOrCrash(),
+      "comment": commentId.value.getOrCrash(),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(TaskFailure.likeFailure(commentId));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Dislikes a comment under a [TaskModel] with given [taskId].
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> dislikeComment(
-    String taskId,
-    String commentId,
-    String userId,
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> dislikeComment(
+    UniqueId taskId,
+    UniqueId commentId,
+    UniqueId userId,
   ) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (commentId == null)
-      throw ServerFailure.invalidArgument("commentId", received: commentId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
+    assert(taskId != null);
+    assert(commentId != null);
+    assert(userId != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (commentId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("commentId", received: commentId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
 
     final res = await post("/comment/dislike", {
-      "task": taskId,
-      "user": userId,
-      "comment": commentId,
+      "task": taskId.value.getOrCrash(),
+      "user": userId.value.getOrCrash(),
+      "comment": commentId.value.getOrCrash(),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(TaskFailure.dislikeFailure(commentId));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /// Mark a checklist's item of a [TaskModel] with given [taskId] as complete.
-  /// This method will return the updated [TaskModel].
-  /// This method throw [ServerFailure] if some connection error happens.
-  Future<TaskModel> check(
-    String taskId,
-    String userId,
-    String checklistId,
-    String itemId,
-    bool checked,
+  /// Returns a [Either] with a [Failure] or the updated [TaskModel].
+  Future<Either<Failure, TaskModel>> check(
+    UniqueId taskId,
+    UniqueId userId,
+    UniqueId checklistId,
+    UniqueId itemId,
+    Toggle checked,
   ) async {
-    if (taskId == null)
-      throw ServerFailure.invalidArgument("taskId", received: taskId);
-    if (userId == null)
-      throw ServerFailure.invalidArgument("userId", received: userId);
-    if (checklistId == null)
-      throw ServerFailure.invalidArgument("checklistId", received: checklistId);
-    if (itemId == null)
-      throw ServerFailure.invalidArgument("itemId", received: itemId);
-    if (checked == null)
-      throw ServerFailure.invalidArgument("checked", received: checked);
+    assert(taskId != null);
+    assert(userId != null);
+    assert(checklistId != null);
+    assert(itemId != null);
+    assert(checked != null);
+
+    if (taskId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("taskId", received: taskId));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
+    if (checklistId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("checklistId", received: checklistId));
+    if (itemId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("itemId", received: itemId));
+    if (checked.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("checked", received: checked));
 
     final res = await post("/task/check", {
-      "task": taskId,
-      "user": userId,
-      "checklist": checklistId,
-      "item": itemId,
-      "checked": checked,
+      "task": taskId.value.getOrCrash(),
+      "user": userId.value.getOrCrash(),
+      "checklist": checklistId.value.getOrCrash(),
+      "item": itemId.value.getOrCrash(),
+      "checked": checked.value.getOrCrash(),
     });
-    if (res.data != null)
-      return TaskModel.fromJson(res.data as Map<String, dynamic>);
-    else
-      return null;
+    return res.flatMap((right) {
+      if (right.data == null)
+        return Either.left(TaskFailure.itemCompleteFailure(itemId));
+      return Either.right(
+          TaskModel.fromJson(right.data as Map<String, dynamic>));
+    });
   }
 
   /*
@@ -414,58 +518,60 @@ class RemoteDataSource {
   /// Run a HTTP request with method GET to the given [url].
   /// Returns the JSON response or throws a [ServerFailure].
   @visibleForTesting
-  Future<Response<dynamic>> get(String url) async {
+  Future<Either<Failure, Response<dynamic>>> get(String url) async {
     try {
-      return await _dio.get(url);
+      return Either.right(await _dio.get(url));
     } on DioError catch (e) {
       final failure = getFailure(e);
       _logService.error("DataSource get: $failure");
-      throw failure;
+      return Either.left(failure);
     }
   }
 
   /// Run a HTTP request with method POST to the given [url] with
   /// given [body] parameters.
-  /// Returns the JSON response or throws a [ServerFailure].
+  /// Returns the JSON response or throws a [Failure].
   @visibleForTesting
-  Future<Response<dynamic>> post(String url, Map<String, dynamic> body) async {
+  Future<Either<Failure, Response<dynamic>>> post(
+      String url, Map<String, dynamic> body) async {
     try {
-      return await _dio.post(url, data: body);
+      return Either.right(await _dio.post(url, data: body));
     } on DioError catch (e) {
       final failure = getFailure(e);
       _logService.error("DataSource post: $failure");
-      throw failure;
+      return Either.left(failure);
     }
   }
 
   /// Run a HTTP request with method PATCH to the given [url] with
   /// given [body] parameters.
-  /// Returns the JSON response or throws a [ServerFailure].
+  /// Returns the JSON response or throws a [Failure].
   @visibleForTesting
-  Future<Response<dynamic>> patch(String url, Map<String, dynamic> body) async {
+  Future<Either<Failure, Response<dynamic>>> patch(
+      String url, Map<String, dynamic> body) async {
     try {
-      return await _dio.patch(url, data: body);
+      return Either.right(await _dio.patch(url, data: body));
     } on DioError catch (e) {
       final failure = getFailure(e);
       _logService.error("DataSource patch: $failure");
-      throw failure;
+      return Either.left(failure);
     }
   }
 
   /// Run a HTTP request with method DELETE to the given [url] with
   /// given [body] parameters.
-  /// Returns the JSON response or throws a [ServerFailure].
+  /// Returns the JSON response or throws a [Failure].
   @visibleForTesting
-  Future<Response<dynamic>> delete(
+  Future<Either<Failure, Response<dynamic>>> delete(
     String url,
     Map<String, dynamic> body,
   ) async {
     try {
-      return await _dio.delete(url, data: body);
+      return Either.right(await _dio.delete(url, data: body));
     } on DioError catch (e) {
       final failure = getFailure(e);
       _logService.error("DataSource delete: $failure");
-      throw failure;
+      return Either.left(failure);
     }
   }
 }

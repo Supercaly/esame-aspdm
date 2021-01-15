@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:aspdm_project/domain/values/task_values.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/infrastructure/models/checklist_model.dart';
 import 'package:aspdm_project/infrastructure/models/comment_model.dart';
 import 'package:aspdm_project/infrastructure/models/label_model.dart';
@@ -96,32 +99,44 @@ void main() {
     test("get returns data", () async {
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res = await source.get("mock_get_url");
+      expect(res.isRight(), isTrue);
 
-      expect(res, isA<Response<dynamic>>());
+      when(dio.get(any)).thenThrow(DioError());
+      final res2 = await source.get("mock_get_url");
+      expect(res2.isLeft(), isTrue);
     });
 
     test("post returns data", () async {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res = await source.post("mock_post_url", {});
+      expect(res.isRight(), isTrue);
 
-      expect(res, isA<Response<dynamic>>());
+      when(dio.post(any, data: anyNamed("data"))).thenThrow(DioError());
+      final res2 = await source.post("mock_post_url", {});
+      expect(res2.isLeft(), isTrue);
     });
 
     test("patch returns data", () async {
       when(dio.patch(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res = await source.patch("mock_patch_url", {});
+      expect(res.isRight(), isTrue);
 
-      expect(res, isA<Response<dynamic>>());
+      when(dio.patch(any, data: anyNamed("data"))).thenThrow(DioError());
+      final res2 = await source.patch("mock_patch_url", {});
+      expect(res2.isLeft(), isTrue);
     });
 
     test("delete returns data", () async {
       when(dio.delete(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res = await source.delete("mock_delete_url", {});
+      expect(res.isRight(), isTrue);
 
-      expect(res, isA<Response<dynamic>>());
+      when(dio.delete(any, data: anyNamed("data"))).thenThrow(DioError());
+      final res2 = await source.delete("mock_delete_url", {});
+      expect(res2.isLeft(), isTrue);
     });
   });
 
@@ -162,12 +177,12 @@ void main() {
         ),
       );
       final res = (await source.getUsers());
-
-      expect(res, isNotNull);
-      expect(res, isNotEmpty);
-      expect(res, hasLength(2));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
+      expect(res.getOrNull(), isNotEmpty);
+      expect(res.getOrNull(), hasLength(2));
       expect(
-        res,
+        res.getOrNull(),
         equals(
           [
             UserModel(
@@ -188,8 +203,8 @@ void main() {
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res2 = await source.getUsers();
-
-      expect(res2, isNull);
+      expect(res2.isRight(), isTrue);
+      expect(res2.getOrNull(), isEmpty);
     });
 
     test("get user works correctly", () async {
@@ -203,11 +218,11 @@ void main() {
           },
         ),
       );
-      final res = await source.getUser("mock_id_1");
-
-      expect(res, isNotNull);
+      final res = await source.getUser(UniqueId("mock_id_1"));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           UserModel(
             "mock_id_1",
@@ -219,9 +234,8 @@ void main() {
       );
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
-      final res2 = await source.getUser("mock_id_1");
-
-      expect(res2, isNull);
+      final res2 = await source.getUser(UniqueId("mock_id_1"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("authentication works correctly", () async {
@@ -235,11 +249,12 @@ void main() {
           },
         ),
       );
-      final res = await source.authenticate("mock@email.com", "mock_password");
-
-      expect(res, isNotNull);
+      final res = await source.authenticate(
+          EmailAddress("mock@email.com"), Password("mock_password"));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           UserModel(
             "mock_id",
@@ -252,9 +267,9 @@ void main() {
 
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
-      final res2 = await source.authenticate("mock@email.com", "mock_password");
-
-      expect(res2, isNull);
+      final res2 = await source.authenticate(
+          EmailAddress("mock@email.com"), Password("mock_password"));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("get labels works correctly", () async {
@@ -280,12 +295,12 @@ void main() {
         ),
       );
       final res = await source.getLabels();
-
-      expect(res, isNotNull);
-      expect(res, isNotEmpty);
-      expect(res, hasLength(3));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
+      expect(res.getOrNull(), isNotEmpty);
+      expect(res.getOrNull(), hasLength(3));
       expect(
-        res,
+        res.getOrNull(),
         equals(
           [
             LabelModel(
@@ -309,8 +324,8 @@ void main() {
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res2 = await source.getLabels();
-
-      expect(res2, isNull);
+      expect(res2.isRight(), isTrue);
+      expect(res2.getOrNull(), isEmpty);
     });
 
     test("list un-archived tasks works correctly", () async {
@@ -332,12 +347,12 @@ void main() {
         ),
       );
       final res = await source.getUnarchivedTasks();
-
-      expect(res, isNotNull);
-      expect(res, isNotEmpty);
-      expect(res, hasLength(1));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
+      expect(res.getOrNull(), isNotEmpty);
+      expect(res.getOrNull(), hasLength(1));
       expect(
-        res,
+        res.getOrNull(),
         equals(
           [
             TaskModel(
@@ -364,8 +379,8 @@ void main() {
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res2 = await source.getUnarchivedTasks();
-
-      expect(res2, isNull);
+      expect(res2.isRight(), isTrue);
+      expect(res2.getOrNull(), isEmpty);
     });
 
     test("list archived tasks works correctly", () async {
@@ -387,12 +402,12 @@ void main() {
         ),
       );
       final res = await source.getArchivedTasks();
-
-      expect(res, isNotNull);
-      expect(res, isNotEmpty);
-      expect(res, hasLength(1));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
+      expect(res.getOrNull(), isNotEmpty);
+      expect(res.getOrNull(), hasLength(1));
       expect(
-        res,
+        res.getOrNull(),
         equals(
           [
             TaskModel(
@@ -419,8 +434,8 @@ void main() {
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
       final res2 = await source.getArchivedTasks();
-
-      expect(res2, isNull);
+      expect(res2.isRight(), isTrue);
+      expect(res2.getOrNull(), isEmpty);
     });
 
     test("get tasks works correctly", () async {
@@ -439,11 +454,11 @@ void main() {
           },
         ),
       );
-      final res = await source.getTask("mock_task_id");
-
-      expect(res, isNotNull);
+      final res = await source.getTask(UniqueId("mock_task_id"));
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -467,9 +482,9 @@ void main() {
       );
 
       when(dio.get(any)).thenAnswer((_) async => Response(data: null));
-      final res2 = await source.getTask("mock_task_id");
-
-      expect(res2, isNull);
+      final res2 = await source.getTask(UniqueId("mock_task_id"));
+      expect(res2.isRight(), isTrue);
+      expect(res2.getOrNull(), isNull);
     });
 
     test("post task works correctly", () async {
@@ -543,10 +558,10 @@ void main() {
           DateTime.parse("2020-12-22"),
         ),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -601,8 +616,7 @@ void main() {
           DateTime.parse("2020-12-22"),
         ),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("patch task works correctly", () async {
@@ -643,10 +657,10 @@ void main() {
           DateTime.parse("2020-12-22"),
         ),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -691,8 +705,7 @@ void main() {
           DateTime.parse("2020-12-22"),
         ),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("post comment works correctly", () async {
@@ -727,14 +740,14 @@ void main() {
         ),
       );
       final res = await source.postComment(
-        "mock_task_id",
-        "mock_user_id",
-        "mock_content",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_user_id"),
+        CommentContent("mock_content"),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -774,12 +787,11 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.postComment(
-        "mock_task_id",
-        "mock_user_id",
-        "mock_content",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_user_id"),
+        CommentContent("mock_content"),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("delete comment works correctly", () async {
@@ -814,14 +826,14 @@ void main() {
         ),
       );
       final res = await source.deleteComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -861,12 +873,11 @@ void main() {
       when(dio.delete(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.deleteComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("patch comment works correctly", () async {
@@ -901,15 +912,15 @@ void main() {
         ),
       );
       final res = await source.patchComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
-        "mock_content",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
+        CommentContent("mock_content"),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -948,13 +959,12 @@ void main() {
       when(dio.patch(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.patchComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
-        "mock_content",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
+        CommentContent("mock_content"),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("like comment works correctly", () async {
@@ -996,14 +1006,14 @@ void main() {
         ),
       );
       final res = await source.likeComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -1049,12 +1059,11 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.likeComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("dislike comment works correctly", () async {
@@ -1096,14 +1105,14 @@ void main() {
         ),
       );
       final res = await source.dislikeComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -1149,12 +1158,11 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.dislikeComment(
-        "mock_task_id",
-        "mock_comment_id",
-        "mock_user_id",
+        UniqueId("mock_task_id"),
+        UniqueId("mock_comment_id"),
+        UniqueId("mock_user_id"),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("archive works correctly", () async {
@@ -1176,14 +1184,13 @@ void main() {
         ),
       );
       final res = await source.archive(
-        "mock_task_id",
-        "mock_user_id",
-        true,
+        UniqueId("mock_task_id"),
+        UniqueId("mock_user_id"),
+        Toggle(true),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -1209,12 +1216,11 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.archive(
-        "mock_task_id",
-        "mock_user_id",
-        true,
+        UniqueId("mock_task_id"),
+        UniqueId("mock_user_id"),
+        Toggle(true),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("check works correctly", () async {
@@ -1247,16 +1253,16 @@ void main() {
         ),
       );
       final res = await source.check(
-        "mock_task_id",
-        "mock_user_id",
-        "mock_checklist__id",
-        "mock_item_id",
-        true,
+        UniqueId("mock_task_id"),
+        UniqueId("mock_user_id"),
+        UniqueId("mock_checklist__id"),
+        UniqueId("mock_item_id"),
+        Toggle(true),
       );
-
-      expect(res, isNotNull);
+      expect(res.isRight(), isTrue);
+      expect(res.getOrNull(), isNotNull);
       expect(
-        res,
+        res.getOrNull(),
         equals(
           TaskModel(
             "mock_task_id",
@@ -1294,14 +1300,13 @@ void main() {
       when(dio.post(any, data: anyNamed("data")))
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.check(
-        "mock_task_id",
-        "mock_user_id",
-        "mock_checklist__id",
-        "mock_item__id",
-        true,
+        UniqueId("mock_task_id"),
+        UniqueId("mock_user_id"),
+        UniqueId("mock_checklist__id"),
+        UniqueId("mock_item__id"),
+        Toggle(true),
       );
-
-      expect(res2, isNull);
+      expect(res2.isLeft(), isTrue);
     });
 
     test("get user throws an error with null parameters", () async {
@@ -1309,7 +1314,7 @@ void main() {
         await source.getUser(null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
@@ -1318,207 +1323,218 @@ void main() {
         await source.getTask(null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("archive throws an error with null parameters", () async {
       try {
-        await source.archive(null, "userId", true);
+        await source.archive(null, UniqueId("userId"), Toggle(true));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.archive("taskId", null, true);
+        await source.archive(UniqueId("taskId"), null, Toggle(true));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.archive("taskId", "userId", null);
+        await source.archive(UniqueId("taskId"), UniqueId("userId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("post task throws an error with null parameters", () async {
-      try {
-        await source.postTask(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-      }
+      final res = await source.postTask(null);
+      expect(res.isLeft(), isTrue);
     });
 
     test("patch task throws an error with null parameters", () async {
-      try {
-        await source.patchTask(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<ServerFailure>());
-      }
+      final res = await source.patchTask(null);
+      expect(res.isLeft(), isTrue);
     });
 
     test("post comment throws an error with null parameters", () async {
       try {
-        await source.postComment(null, "userId", "content");
+        await source.postComment(
+            null, UniqueId("userId"), CommentContent("content"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.postComment("taskId", null, "content");
+        await source.postComment(
+            UniqueId("taskId"), null, CommentContent("content"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.postComment("taskId", "userId", null);
+        await source.postComment(UniqueId("taskId"), UniqueId("userId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("delete comment throws an error with null parameters", () async {
       try {
-        await source.deleteComment(null, "commentId", "userId");
+        await source.deleteComment(
+            null, UniqueId("commentId"), UniqueId("userId"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.deleteComment("taskId", null, "content");
+        await source.deleteComment(
+            UniqueId("taskId"), null, UniqueId("userId"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.deleteComment("taskId", "commentId", null);
+        await source.deleteComment(
+            UniqueId("taskId"), UniqueId("commentId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("patch comment throws an error with null parameters", () async {
       try {
-        await source.patchComment(null, "commentId", "userId", "content");
+        await source.patchComment(null, UniqueId("commentId"),
+            UniqueId("userId"), CommentContent("content"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.patchComment("taskId", null, "userId", "content");
+        await source.patchComment(UniqueId("taskId"), null, UniqueId("userId"),
+            CommentContent("content"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.patchComment("taskId", "commentId", null, "content");
+        await source.patchComment(UniqueId("taskId"), UniqueId("commentId"),
+            null, CommentContent("content"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.patchComment("taskId", "commentId", "userId", null);
+        await source.patchComment(UniqueId("taskId"), UniqueId("commentId"),
+            UniqueId("userId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("like comment throws an error with null parameters", () async {
       try {
-        await source.likeComment(null, "commentId", "userId");
+        await source.likeComment(
+            null, UniqueId("commentId"), UniqueId("userId"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.likeComment("taskId", null, "content");
+        await source.likeComment(UniqueId("taskId"), null, UniqueId("userId"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.likeComment("taskId", "commentId", null);
+        await source.likeComment(
+            UniqueId("taskId"), UniqueId("commentId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("dislike comment throws an error with null parameters", () async {
       try {
-        await source.dislikeComment(null, "commentId", "userId");
+        await source.dislikeComment(
+            null, UniqueId("commentId"), UniqueId("userId"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.dislikeComment("taskId", null, "content");
+        await source.dislikeComment(
+            UniqueId("taskId"), null, UniqueId("userId"));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.dislikeComment("taskId", "commentId", null);
+        await source.dislikeComment(
+            UniqueId("taskId"), UniqueId("commentId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
 
     test("check throws an error with null parameters", () async {
       try {
-        await source.check(null, "userId", "checklistId", "itemId", true);
+        await source.check(null, UniqueId("userId"), UniqueId("checklistId"),
+            UniqueId("itemId"), Toggle(true));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.check("taskId", null, "checklistId", "itemId", true);
+        await source.check(UniqueId("taskId"), null, UniqueId("checklistId"),
+            UniqueId("itemId"), Toggle(true));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.check("taskId", "userId", null, "itemId", true);
+        await source.check(UniqueId("taskId"), UniqueId("userId"), null,
+            UniqueId("itemId"), Toggle(true));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.check("taskId", "userId", "checklistId", null, true);
+        await source.check(UniqueId("taskId"), UniqueId("userId"),
+            UniqueId("checklistId"), null, Toggle(true));
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
 
       try {
-        await source.check("taskId", "userId", "checklistId", "itemId", null);
+        await source.check(UniqueId("taskId"), UniqueId("userId"),
+            UniqueId("checklistId"), UniqueId("itemId"), null);
         fail("This should throw an exception!");
       } catch (e) {
-        expect(e, isA<ServerFailure>());
+        expect(e, isA<AssertionError>());
       }
     });
   });

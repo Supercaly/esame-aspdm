@@ -25,7 +25,7 @@ void main() {
   });
 
   test("get archived tasks returns some data", () async {
-    when(dataSource.getArchivedTasks()).thenAnswer((_) async => [
+    when(dataSource.getArchivedTasks()).thenAnswer((_) async => Either.right([
           TaskModel(
             "mock_id_1",
             "title",
@@ -62,31 +62,31 @@ void main() {
             false,
             DateTime.parse("2020-12-01"),
           ),
-        ]);
+        ]));
     final res = await repository.getArchivedTasks();
 
     expect(res.isRight(), isTrue);
-    expect((res as Right).value, hasLength(2));
+    expect(res.getOrNull(), isNotNull);
+    expect(res.getOrNull(), hasLength(2));
   });
 
   test("get archived tasks returns empty", () async {
-    when(dataSource.getArchivedTasks()).thenAnswer((_) async => []);
+    when(dataSource.getArchivedTasks())
+        .thenAnswer((_) async => Either.right([]));
     final res = await repository.getArchivedTasks();
     expect(res.isRight(), isTrue);
-    expect((res as Right).value, isEmpty);
-
-    when(dataSource.getArchivedTasks()).thenAnswer((_) async => null);
-    final res2 = await repository.getArchivedTasks();
-    print(res2);
-    expect(res2.isRight(), isTrue);
-    expect((res2 as Right).value, isEmpty);
+    expect(res.getOrNull(), isNotNull);
+    expect(res.getOrNull(), isEmpty);
   });
 
   test("get archived tasks returns error", () async {
-    when(dataSource.getArchivedTasks()).thenAnswer((_) async => throw Error());
+    when(dataSource.getArchivedTasks()).thenAnswer(
+        (_) async => Either.left(ServerFailure.unexpectedError("")));
     final res = await repository.getArchivedTasks();
-
     expect(res.isLeft(), isTrue);
-    expect((res as Left).value, isA<ServerFailure>());
+
+    when(dataSource.getArchivedTasks()).thenAnswer((_) async => throw Error());
+    final res2 = await repository.getArchivedTasks();
+    expect(res2.isLeft(), isTrue);
   });
 }
