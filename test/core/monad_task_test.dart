@@ -1,43 +1,71 @@
 import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/core/monad_task.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// Mock [Exception] used to verify error propagation inside attempt.
+class MockException extends Equatable implements Exception {
+  /// true if the value is generated inside the [Either], false
+  /// if it's passed inside the attempt.
+  final bool passed;
+
+  MockException(this.passed);
+
+  @override
+  List<Object> get props => [passed];
+}
 
 void main() {
   group("MonadTask tests", () {
     test("run returns the future", () {
-      final t1 = MonadTask(() => Future.value(123));
-      expect(t1.run(), isA<Future<int>>());
-      expectLater(t1.run(), completion(123));
+      final t1 = MonadTask<MockException, num>(
+        () => Future.value(Either.right(123)),
+      );
+      expect(t1.run(), isA<Future<Either<MockException, num>>>());
+      expectLater(t1.run(), completion(Either.right(123)));
+    });
+
+    test("map returns a new monad task", () {
+      final t1 =
+          MonadTask<MockException, num>(() => Future.value(Either.right(123)));
+      expect(
+        t1.map((value) => "$value").run(),
+        completion(Either.right("123")),
+      );
+
+      final t2 = MonadTask<MockException, num>(
+        () => Future.value(Either.left(MockException(true))),
+      );
+      expect(
+        t2.map((value) => "$value").run(),
+        completion(Either.left(MockException(true))),
+      );
     });
 
     test("attempt return the correct either", () async {
-      final t1 = MonadTask(() => Future.microtask(() {
-            return num.parse("not_a_number");
-          })).attempt<FormatException>((e) => FormatException());
-      final t2 = MonadTask(() => Future.microtask(() {
-            return num.parse("123");
-          })).attempt<FormatException>((e) => FormatException());
-      final t3 = MonadTask(() => Future.microtask(() {
-            return num.parse("not_a_number");
-          })).attempt<FormatException>((e) => FormatException());
-      final t4 = MonadTask(() => Future<num>.error(Error()))
-          .attempt<FormatException>((e) => FormatException());
+      final t1 = MonadTask<MockException, num>(
+        () => Future.microtask(() => Either.right(num.parse("123"))),
+      );
+      expect(
+        t1.attempt((err) => MockException(false)).run(),
+        completion(Either.right(123)),
+      );
 
-      final res = await t1.run();
-      expect(res, isA<Either<FormatException, num>>());
-      expect(res.isLeft(), isTrue);
+      final t2 = MonadTask<MockException, num>(
+        () => Future.microtask(() => Either.left(MockException(true))),
+      );
+      expect(
+        t2.attempt((err) => MockException(false)).run(),
+        completion(Either.left(MockException(true))),
+      );
 
-      final res2 = await t2.run();
-      expect(res2, isA<Either<FormatException, num>>());
-      expect(res2.isRight(), isTrue);
-
-      final res3 = await t3.run();
-      expect(res3, isA<Either<FormatException, num>>());
-      expect(res3.isLeft(), isTrue);
-
-      final res4 = await t4.run();
-      expect(res4, isA<Either<FormatException, num>>());
-      expect(res4.isLeft(), isTrue);
+      final t3 = MonadTask<MockException, num>(
+        () => Future.microtask(() => Either.right(num.parse("not_a_number"))),
+      );
+      expect(
+        t3.attempt((err) => MockException(false)).run(),
+        completion(Either.left(MockException(false))),
+      );
     });
   });
 }

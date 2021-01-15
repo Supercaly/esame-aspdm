@@ -30,12 +30,12 @@ abstract class Either<L, R> {
   /// and returns the result.
   B fold<B>(B Function(L left) ifLeft, B Function(R right) ifRight);
 
-  /// Returns a new [Either] that as a left side value returned by
-  /// [ifLeft] or a right side value returned by [ifRight].
+  /// Returns a new [Either] that has the same left value or
+  /// the result of [f] as right value.
   Either<L, R2> map<R2>(R2 Function(R right) f);
 
-  /// Returns a new [Either<] that as a left side value returned by
-  /// [ifLeft] or a right side value returned by [ifRight].
+  /// Returns a new [Either] that has the same left value or
+  /// the result of [f] as right value.
   Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f);
 
   /// Returns the value if it's a right side value or null.
