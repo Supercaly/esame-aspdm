@@ -36,6 +36,7 @@ class TaskDescription extends ValueObject<String> {
   /// Creates a [TaskDescription] from an input [String] that has
   /// at most [maxLength] characters.
   factory TaskDescription(String input) {
+    // TODO: This can be empty or null
     if (input != null && (input.isEmpty || input.length > maxLength))
       return TaskDescription._(Either.left(ValueFailure(input)));
     return TaskDescription._(Either.right(input));
