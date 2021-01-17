@@ -1,6 +1,7 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewTaskFormWidget extends StatefulWidget {
@@ -42,7 +43,7 @@ class _NewTaskFormWidgetState extends State<NewTaskFormWidget> {
                 controller: _titleController,
                 style: Theme.of(context).textTheme.headline6,
                 maxLength: TaskTitle.maxLength,
-                maxLengthEnforced: true,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 decoration: InputDecoration(
                   hintText: "Title...",
                   border: InputBorder.none,
@@ -67,7 +68,7 @@ class _NewTaskFormWidgetState extends State<NewTaskFormWidget> {
                 controller: _descriptionController,
                 style: Theme.of(context).textTheme.bodyText2,
                 maxLength: TaskDescription.maxLength,
-                maxLengthEnforced: true,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 maxLines: null,
                 minLines: 3,
                 decoration: InputDecoration(
