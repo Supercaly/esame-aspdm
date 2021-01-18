@@ -79,7 +79,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         buildWhen: (p, c) =>
                             p.taskPrimitive.expireDate != c.taskPrimitive.expireDate,
                         builder: (context, state) => ListTile(
-                          // TODO: Add a trailing icon that removes the previously selected date
+                          // TODO(#38): Add a trailing icon that removes the previously selected date
                           leading: Icon(FeatherIcons.calendar),
                           title: (state.taskPrimitive.expireDate != null)
                               ? Text(DateFormat("dd MMM y HH:mm")
