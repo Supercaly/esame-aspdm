@@ -1,7 +1,9 @@
+import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:provider/provider.dart';
 
 /// Widget that displays a single [Checklist].
 class DisplayChecklist extends StatefulWidget {
@@ -109,6 +111,70 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
   }
 }
 
+class EditChecklist extends StatelessWidget {
+  final Checklist checklist;
+
+  const EditChecklist({Key key, this.checklist}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(FeatherIcons.checkCircle),
+              SizedBox(width: 16.0),
+              Expanded(
+                child: Text(
+                  checklist.title.value.getOrNull() ?? "",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () =>
+                    context.read<TaskFormBloc>().removeChecklist(checklist),
+              ),
+            ]),
+            SizedBox(height: 8.0),
+            Column(
+              children: checklist.items
+                  .map((e) => CheckboxFormItemWidget(
+                      item: e.item.value.getOrNull() ?? ""))
+                  .toList(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CheckboxFormItemWidget extends StatelessWidget {
+  final String item;
+
+  CheckboxFormItemWidget({Key key, this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Checkbox(
+          value: false,
+          onChanged: null,
+        ),
+        SizedBox(width: 8.0),
+        Expanded(child: Text(item)),
+      ],
+    );
+  }
+}
+
+// TODO: This is unused
 /// Extension class over [Iterable].
 extension MapIndexed<E> on Iterable<E> {
   /// Implements a function that maps every element to
