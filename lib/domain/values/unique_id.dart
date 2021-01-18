@@ -3,6 +3,7 @@ import 'package:aspdm_project/core/value_object.dart';
 
 /// Class representing an unique identifier used
 /// by the entities in the app.
+// TODO(#34): Add empty method to UniqueId
 class UniqueId extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
