@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskFormBloc extends Cubit<TaskFormState> {
-  // TODO: Introduce a TaskPrimitive instead of straight Task
+  // TODO(#32): Introduce a TaskPrimitive instead of straight Task
   TaskFormBloc(Task oldTask)
       : super(TaskFormState.initial(oldTask ?? Task.empty()));
 
