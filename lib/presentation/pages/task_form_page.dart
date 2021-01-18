@@ -15,8 +15,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
-// TODO(#33): Rename to TaskFormPage and change route
-class NewTaskPage extends StatelessWidget {
+class TaskFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

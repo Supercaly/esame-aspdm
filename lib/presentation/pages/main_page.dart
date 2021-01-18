@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
   void _navigateTo(int newIdx) {
     // Navigate to NewTaskPage
     if (newIdx == 1) {
-      locator<NavigationService>().navigateTo(Routes.newTask);
+      locator<NavigationService>().navigateTo(Routes.taskForm);
     } else
       setState(() => _currentIdx = newIdx);
   }

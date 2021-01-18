@@ -5,7 +5,7 @@ import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/pages/archive_page.dart';
 import 'package:aspdm_project/presentation/pages/login_page.dart';
 import 'package:aspdm_project/presentation/pages/main_page.dart';
-import 'package:aspdm_project/presentation/pages/new_task_page.dart';
+import 'package:aspdm_project/presentation/pages/task_form_page.dart';
 import 'package:aspdm_project/presentation/pages/task_info_page.dart';
 import 'package:aspdm_project/presentation/routes.dart';
 import 'package:aspdm_project/presentation/theme.dart';
@@ -31,7 +31,7 @@ class AppWidget extends StatelessWidget {
         darkTheme: darkTheme,
         navigatorKey: locator<NavigationService>().navigationKey,
         routes: {
-          Routes.newTask: (_) => NewTaskPage(),
+          Routes.taskForm: (_) => TaskFormPage(),
           Routes.login: (_) => LoginPage(),
           Routes.archive: (_) => ArchivePage(),
           Routes.task: (_) => TaskInfoPage(),
