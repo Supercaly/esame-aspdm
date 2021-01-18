@@ -173,18 +173,3 @@ class CheckboxFormItemWidget extends StatelessWidget {
     );
   }
 }
-
-// TODO: This is unused
-/// Extension class over [Iterable].
-extension MapIndexed<E> on Iterable<E> {
-  /// Implements a function that maps every element to
-  /// another type using a [transform] function that has
-  /// the current element and his index.
-  Iterable<R> mapIndexed<R>(R transform(int idx, E e)) sync* {
-    int currentIdx = 0;
-    for (final element in this) {
-      yield transform(currentIdx, element);
-      currentIdx++;
-    }
-  }
-}
