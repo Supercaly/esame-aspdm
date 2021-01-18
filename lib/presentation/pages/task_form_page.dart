@@ -19,7 +19,11 @@ class TaskFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // TODO: Pass the task obtained from NavigationService.arguments
+      // TODO(#35): Pass the task obtained from arguments to TaskFormBloc
+      // Obtain a Task from the NavigationService arguments and pass
+      // it to the bloc so he can use it.
+      //
+      // Note: After #27 this should return a Maybe<Task>.
       create: (context) => TaskFormBloc(null),
       child: TaskFormPageScaffold(),
     );
@@ -38,7 +42,10 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // TODO: Change title from new to edit if it's editing the task
+        // TODO: Change page title depending on mode
+        // change the title of task form page depending on the editing
+        // mode: display "New Task" if we are creating a new task,
+        // "Edit Task" if we are editing an old one.
         title: Text("New Task"),
         centerTitle: true,
         leading: IconButton(
@@ -70,25 +77,25 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                     children: [
                       BlocBuilder<TaskFormBloc, TaskFormState>(
                         buildWhen: (p, c) =>
-                            p.task.expireDate != c.task.expireDate,
+                            p.taskPrimitive.expireDate != c.taskPrimitive.expireDate,
                         builder: (context, state) => ListTile(
-                          // TODO: Add trailing icon button to delete the selected date
+                          // TODO: Add a trailing icon that removes the previously selected date
                           leading: Icon(FeatherIcons.calendar),
-                          title: (state.task.expireDate != null)
+                          title: (state.taskPrimitive.expireDate != null)
                               ? Text(DateFormat("dd MMM y HH:mm")
-                                  .format(state.task.expireDate))
+                                  .format(state.taskPrimitive.expireDate))
                               : Text("Expiration Date..."),
                           onTap: () async {
-                            // TODO: Replace with date-time picker
+                            // TODO: Replace date picker with date-time picker
                             final pickedDate = await showDatePicker(
                               context: context,
                               initialDate:
-                                  state.task.expireDate ?? DateTime.now(),
+                                  state.taskPrimitive.expireDate ?? DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2030),
                             );
                             if (pickedDate != null &&
-                                pickedDate != state.task.expireDate)
+                                pickedDate != state.taskPrimitive.expireDate)
                               context
                                   .read<TaskFormBloc>()
                                   .dateChanged(pickedDate);
@@ -96,14 +103,14 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         ),
                       ),
                       BlocBuilder<TaskFormBloc, TaskFormState>(
-                        buildWhen: (p, c) => p.task.members != c.task.members,
+                        buildWhen: (p, c) => p.taskPrimitive.members != c.taskPrimitive.members,
                         builder: (context, state) => ListTile(
                           leading: Icon(FeatherIcons.users),
-                          title: (state.task.members != null)
+                          title: (state.taskPrimitive.members != null)
                               ? Wrap(
                                   spacing: 8.0,
                                   runSpacing: 4.0,
-                                  children: state.task.members
+                                  children: state.taskPrimitive.members
                                       .map((e) => UserAvatar(
                                             user: e,
                                             size: 32.0,
@@ -125,11 +132,11 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       BlocBuilder<TaskFormBloc, TaskFormState>(
                         builder: (context, state) => ListTile(
                           leading: Icon(FeatherIcons.tag),
-                          title: (state.task.labels != null)
+                          title: (state.taskPrimitive.labels != null)
                               ? Wrap(
                                   spacing: 8.0,
                                   runSpacing: 4.0,
-                                  children: state.task.labels
+                                  children: state.taskPrimitive.labels
                                       .map((e) => LabelWidget(label: e))
                                       .toList(),
                                 )
@@ -157,9 +164,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                   ),
                 ),
                 BlocBuilder<TaskFormBloc, TaskFormState>(
-                  buildWhen: (p, s) => p.task.checklists != s.task.checklists,
+                  buildWhen: (p, s) => p.taskPrimitive.checklists != s.taskPrimitive.checklists,
                   builder: (context, state) => Column(
-                    children: state.task.checklists
+                    children: state.taskPrimitive.checklists
                         .map((e) => EditChecklist(checklist: e))
                         .toList(),
                   ),
