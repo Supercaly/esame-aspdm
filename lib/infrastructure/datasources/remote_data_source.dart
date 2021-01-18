@@ -232,6 +232,7 @@ class RemoteDataSource {
       return Either.left(
           ServerFailure.invalidArgument("newTask", received: newTask));
 
+    // TODO(#37): Fix wrong PATCH task parameters
     final res = await patch("/task", newTask.toJson());
     return res.flatMap((right) {
       // TODO: put real failure here
