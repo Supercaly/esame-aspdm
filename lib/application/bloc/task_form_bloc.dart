@@ -113,7 +113,7 @@ class TaskFormState extends Equatable {
 extension ListX<E> on List<E> {
   List<E> addImmutable(E element) {
     if (this.isEmpty) return List.of([element]);
-    List<E> result = List<E>();
+    List<E> result = List<E>.empty();
     result.addAll(this);
     result.add(element);
     return result;
@@ -121,7 +121,7 @@ extension ListX<E> on List<E> {
 
   List<E> removeImmutable(E element) {
     if (this.isEmpty) return List.empty();
-    List<E> result = List<E>();
+    List<E> result = List<E>.empty();
     result.addAll(this);
     result.remove(element);
     return result;
