@@ -1,8 +1,8 @@
-import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 
@@ -13,7 +13,7 @@ class TaskPrimitive {
   final DateTime expireDate;
   final List<Label> labels;
   final List<User> members;
-  final List<Checklist> checklists;
+  final List<ChecklistPrimitive> checklists;
   final User author;
 
   TaskPrimitive({
@@ -27,16 +27,13 @@ class TaskPrimitive {
     @required this.author,
   });
 
-  // TODO: Implement those
-  Task toTask() => null;
-
   TaskPrimitive copyWith({
     TaskTitle title,
     TaskDescription description,
     DateTime expireDate,
     List<Label> labels,
     List<User> members,
-    List<Checklist> checklists,
+    List<ChecklistPrimitive> checklists,
   }) =>
       TaskPrimitive(
         id: id,
@@ -56,7 +53,7 @@ class TaskPrimitive {
         expireDate: null,
         labels: List<Label>.empty(),
         members: List<User>.empty(),
-        checklists: List<Checklist>.empty(),
+        checklists: List<ChecklistPrimitive>.empty(),
         author: null,
       );
 
@@ -67,7 +64,13 @@ class TaskPrimitive {
         expireDate: task.expireDate,
         labels: task.labels ?? List<Label>.empty(),
         members: task.members ?? List<User>.empty(),
-        checklists: task.checklists ?? List<Checklist>.empty(),
+        checklists: task.checklists
+                ?.map((e) => ChecklistPrimitive.fromChecklist(e))
+                ?.toList() ??
+            List<ChecklistPrimitive>.empty(),
         author: task.author,
       );
+
+  // TODO: Implement those
+  Task toTask() => null;
 }

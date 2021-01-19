@@ -1,9 +1,8 @@
-import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,15 +15,21 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 
   void titleChanged(String value) {
     print("EditTaskBloc.titleChanged: $value");
-    emit(state.copyWith(
-        taskPrimitive: state.taskPrimitive.copyWith(title: TaskTitle(value))));
+    emit(
+      state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(
+          title: TaskTitle(value),
+        ),
+      ),
+    );
   }
 
   void descriptionChanged(String value) {
     print("EditTaskBloc.descriptionChanged: $value");
     emit(state.copyWith(
-      taskPrimitive:
-          state.taskPrimitive.copyWith(description: TaskDescription(value)),
+      taskPrimitive: state.taskPrimitive.copyWith(
+        description: TaskDescription(value),
+      ),
     ));
   }
 
@@ -32,8 +37,11 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     print("TaskFormBloc.dateChanged: $value");
     print(state.taskPrimitive.expireDate);
     print(state.taskPrimitive.copyWith(expireDate: value).expireDate);
-    emit(state.copyWith(
-        taskPrimitive: state.taskPrimitive.copyWith(expireDate: value)));
+    emit(
+      state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(expireDate: value),
+      ),
+    );
   }
 
   void membersChanged(List<User> value) {
@@ -48,37 +56,18 @@ class TaskFormBloc extends Cubit<TaskFormState> {
         taskPrimitive: state.taskPrimitive.copyWith(labels: value)));
   }
 
-  int idx = 0;
-  void addChecklist() {
-    print("TaskFormBloc.addChecklist: ${state.taskPrimitive.checklists}");
+  void addChecklist(ChecklistPrimitive value) {
+    print("TaskFormBloc.addChecklist: $value");
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
-          checklists: state.taskPrimitive.checklists.addImmutable(
-            Checklist(UniqueId("INVALID_ID"), ItemText("Checklist ${++idx}"), [
-              ChecklistItem(
-                UniqueId("INVALID_ID"),
-                ItemText("item"),
-                Toggle(false),
-              ),
-              ChecklistItem(
-                UniqueId("INVALID_ID"),
-                ItemText("item"),
-                Toggle(false),
-              ),
-              ChecklistItem(
-                UniqueId("INVALID_ID"),
-                ItemText("item"),
-                Toggle(false),
-              ),
-            ]),
-          ),
+          checklists: state.taskPrimitive.checklists.addImmutable(value),
         ),
       ),
     );
   }
 
-  void removeChecklist(Checklist value) {
+  void removeChecklist(ChecklistPrimitive value) {
     print("TaskFormBloc.removeChecklist: $value");
     emit(
       state.copyWith(
@@ -122,7 +111,7 @@ class TaskFormState extends Equatable {
 extension ListX<E> on List<E> {
   List<E> addImmutable(E element) {
     if (this.isEmpty) return List.of([element]);
-    List<E> result = List<E>.empty();
+    List<E> result = List<E>.empty(growable: true);
     result.addAll(this);
     result.add(element);
     return result;
@@ -130,7 +119,7 @@ extension ListX<E> on List<E> {
 
   List<E> removeImmutable(E element) {
     if (this.isEmpty) return List.empty();
-    List<E> result = List<E>.empty();
+    List<E> result = List<E>.empty(growable: true);
     result.addAll(this);
     result.remove(element);
     return result;

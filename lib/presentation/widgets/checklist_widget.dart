@@ -1,6 +1,7 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
+import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
@@ -112,7 +113,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
 }
 
 class EditChecklist extends StatelessWidget {
-  final Checklist checklist;
+  final ChecklistPrimitive checklist;
 
   const EditChecklist({Key key, this.checklist}) : super(key: key);
 
@@ -144,7 +145,7 @@ class EditChecklist extends StatelessWidget {
             Column(
               children: checklist.items
                   .map((e) => CheckboxFormItemWidget(
-                      item: e.item.value.getOrNull() ?? ""))
+                      item: e.value.getOrNull() ?? ""))
                   .toList(),
             )
           ],

@@ -4,6 +4,7 @@ import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
 import 'package:aspdm_project/presentation/widgets/new_task_form_widget.dart';
@@ -159,7 +160,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         leading: Icon(FeatherIcons.checkCircle),
                         title: Text("Add checklist..."),
                         onTap: () {
-                          context.read<TaskFormBloc>().addChecklist();
+                          context.read<TaskFormBloc>().addChecklist(ChecklistPrimitive.empty());
                         },
                       )
                     ],
