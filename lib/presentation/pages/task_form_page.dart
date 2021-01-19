@@ -1,10 +1,10 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
@@ -148,16 +148,14 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                       .toList(),
                                 )
                               : Text("Labels..."),
-                          onTap: () {
+                          onTap: () async {
                             // TODO(#44): Implement label picker dialog
-                            context.read<TaskFormBloc>().labelsChanged([
-                              Label(UniqueId("label 1"), Colors.yellow,
-                                  "label 1"),
-                              Label(
-                                  UniqueId("label 2"), Colors.green, "label 1"),
-                              Label(
-                                  UniqueId("label 3"), Colors.blue, "label 1"),
-                            ]);
+                            final selectedLabels =
+                                await showLabelPicker(context);
+                            if (selectedLabels != null)
+                              context
+                                  .read<TaskFormBloc>()
+                                  .labelsChanged(selectedLabels);
                           },
                         ),
                       ),
