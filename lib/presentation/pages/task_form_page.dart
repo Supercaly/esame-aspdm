@@ -149,7 +149,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                 )
                               : Text("Labels..."),
                           onTap: () {
-                            // TODO: Implement label picker dialog
+                            // TODO(#44): Implement label picker dialog
                             context.read<TaskFormBloc>().labelsChanged([
                               Label(UniqueId("label 1"), Colors.yellow,
                                   "label 1"),
