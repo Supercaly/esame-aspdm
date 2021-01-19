@@ -22,6 +22,11 @@ void main() {
       }
     });
 
+    test("create empty id", () {
+      final u1 = UniqueId.empty();
+      expect(u1.value.isLeft(), isTrue);
+    });
+
     test("to string returns the correct representation", () {
       expect(UniqueId("Mock Id").toString(), equals("UniqueId(Mock Id)"));
     });
