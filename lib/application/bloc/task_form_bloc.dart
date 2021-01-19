@@ -90,18 +90,22 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 class TaskFormState extends Equatable {
   final TaskPrimitive taskPrimitive;
   final bool isSaving;
+  final bool isInitial;
 
-  TaskFormState._(this.taskPrimitive, this.isSaving);
+  TaskFormState._(this.taskPrimitive, this.isSaving, this.isInitial);
 
   factory TaskFormState.initial(TaskPrimitive primitive) =>
-      TaskFormState._(primitive, false);
+      TaskFormState._(primitive, false, true);
 
   TaskFormState copyWith({TaskPrimitive taskPrimitive, bool isSaving}) =>
       TaskFormState._(
-          taskPrimitive ?? this.taskPrimitive, isSaving ?? this.isSaving);
+        taskPrimitive ?? this.taskPrimitive,
+        isSaving ?? this.isSaving,
+        false,
+      );
 
   @override
-  List<Object> get props => [taskPrimitive, isSaving];
+  List<Object> get props => [taskPrimitive, isSaving, isInitial];
 
   @override
   String toString() => taskPrimitive.toString();
