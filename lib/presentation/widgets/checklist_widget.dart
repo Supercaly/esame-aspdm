@@ -144,8 +144,8 @@ class EditChecklist extends StatelessWidget {
             SizedBox(height: 8.0),
             Column(
               children: checklist.items
-                  .map((e) => CheckboxFormItemWidget(
-                      item: e.value.getOrNull() ?? ""))
+                  .map((e) =>
+                      CheckboxFormItemWidget(item: e.value.getOrNull() ?? ""))
                   .toList(),
             )
           ],

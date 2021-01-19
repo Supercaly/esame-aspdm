@@ -160,7 +160,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         leading: Icon(FeatherIcons.checkCircle),
                         title: Text("Add checklist..."),
                         onTap: () {
-                          context.read<TaskFormBloc>().addChecklist(ChecklistPrimitive.empty());
+                          context
+                              .read<TaskFormBloc>()
+                              .addChecklist(ChecklistPrimitive.empty());
                         },
                       )
                     ],
