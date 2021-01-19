@@ -7,7 +7,7 @@ import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
-import 'package:aspdm_project/presentation/widgets/new_task_form_widget.dart';
+import 'package:aspdm_project/presentation/widgets/task_form_input_widget.dart';
 import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
@@ -72,7 +72,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
             key: _formKey,
             child: ListView(
               children: [
-                NewTaskFormWidget(),
+                TaskFormInputWidget(),
                 Card(
                   child: Column(
                     children: [

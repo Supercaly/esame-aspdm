@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NewTaskFormWidget extends StatelessWidget {
-  NewTaskFormWidget({Key key}) : super(key: key);
+class TaskFormInputWidget extends StatelessWidget {
+  TaskFormInputWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
