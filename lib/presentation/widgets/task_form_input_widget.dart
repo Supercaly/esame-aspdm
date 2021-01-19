@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// Widget that displays an input form where the user
+/// can insert a title and a description.
+/// This Widget is used only inside [TaskFormPage].
 class TaskFormInputWidget extends StatelessWidget {
-  TaskFormInputWidget({Key key}) : super(key: key);
+  const TaskFormInputWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
