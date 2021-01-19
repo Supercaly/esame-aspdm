@@ -77,7 +77,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                     children: [
                       BlocBuilder<TaskFormBloc, TaskFormState>(
                         buildWhen: (p, c) =>
-                            p.taskPrimitive.expireDate != c.taskPrimitive.expireDate,
+                            p.taskPrimitive.expireDate !=
+                            c.taskPrimitive.expireDate,
                         builder: (context, state) => ListTile(
                           // TODO(#38): Add a trailing icon that removes the previously selected date
                           leading: Icon(FeatherIcons.calendar),
@@ -89,8 +90,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                             // TODO(#39): Replace date picker with date-time picker
                             final pickedDate = await showDatePicker(
                               context: context,
-                              initialDate:
-                                  state.taskPrimitive.expireDate ?? DateTime.now(),
+                              initialDate: state.taskPrimitive.expireDate ??
+                                  DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2030),
                             );
@@ -103,7 +104,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         ),
                       ),
                       BlocBuilder<TaskFormBloc, TaskFormState>(
-                        buildWhen: (p, c) => p.taskPrimitive.members != c.taskPrimitive.members,
+                        buildWhen: (p, c) =>
+                            p.taskPrimitive.members != c.taskPrimitive.members,
                         builder: (context, state) => ListTile(
                           leading: Icon(FeatherIcons.users),
                           title: (state.taskPrimitive.members != null)
@@ -164,7 +166,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                   ),
                 ),
                 BlocBuilder<TaskFormBloc, TaskFormState>(
-                  buildWhen: (p, s) => p.taskPrimitive.checklists != s.taskPrimitive.checklists,
+                  buildWhen: (p, s) =>
+                      p.taskPrimitive.checklists != s.taskPrimitive.checklists,
                   builder: (context, state) => Column(
                     children: state.taskPrimitive.checklists
                         .map((e) => EditChecklist(checklist: e))

@@ -4,50 +4,57 @@ import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskFormBloc extends Cubit<TaskFormState> {
-  // TODO(#32): Introduce a TaskPrimitive instead of straight Task
   TaskFormBloc(Task oldTask)
-      : super(TaskFormState.initial(oldTask ?? Task.empty()));
+      : super(TaskFormState.initial((oldTask != null)
+            ? TaskPrimitive.fromTask(oldTask)
+            : TaskPrimitive.empty()));
 
   void titleChanged(String value) {
     print("EditTaskBloc.titleChanged: $value");
-    emit(state.copyWith(task: state.task.copyWith(title: TaskTitle(value))));
+    emit(state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(title: TaskTitle(value))));
   }
 
   void descriptionChanged(String value) {
     print("EditTaskBloc.descriptionChanged: $value");
     emit(state.copyWith(
-      task: state.task.copyWith(description: TaskDescription(value)),
+      taskPrimitive:
+          state.taskPrimitive.copyWith(description: TaskDescription(value)),
     ));
   }
 
   void dateChanged(DateTime value) {
     print("TaskFormBloc.dateChanged: $value");
-    print(state.task.expireDate);
-    print(state.task.copyWith(expireDate: value).expireDate);
-    emit(state.copyWith(task: state.task.copyWith(expireDate: value)));
+    print(state.taskPrimitive.expireDate);
+    print(state.taskPrimitive.copyWith(expireDate: value).expireDate);
+    emit(state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(expireDate: value)));
   }
 
   void membersChanged(List<User> value) {
     print("TaskFormBloc.membersChanged: $value");
-    emit(state.copyWith(task: state.task.copyWith(members: value)));
+    emit(state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(members: value)));
   }
 
   void labelsChanged(List<Label> value) {
     print("TaskFormBloc.labelsChanged: $value");
-    emit(state.copyWith(task: state.task.copyWith(labels: value)));
+    emit(state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(labels: value)));
   }
 
   int idx = 0;
   void addChecklist() {
-    print("TaskFormBloc.addChecklist: ${state.task.checklists}");
+    print("TaskFormBloc.addChecklist: ${state.taskPrimitive.checklists}");
     emit(
       state.copyWith(
-        task: state.task.copyWith(
-          checklists: state.task.checklists.addImmutable(
+        taskPrimitive: state.taskPrimitive.copyWith(
+          checklists: state.taskPrimitive.checklists.addImmutable(
             Checklist(UniqueId("INVALID_ID"), ItemText("Checklist ${++idx}"), [
               ChecklistItem(
                 UniqueId("INVALID_ID"),
@@ -75,8 +82,8 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     print("TaskFormBloc.removeChecklist: $value");
     emit(
       state.copyWith(
-        task: state.task.copyWith(
-          checklists: state.task.checklists.removeImmutable(value),
+        taskPrimitive: state.taskPrimitive.copyWith(
+          checklists: state.taskPrimitive.checklists.removeImmutable(value),
         ),
       ),
     );
@@ -84,7 +91,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 
   Future<void> saveTask() async {
     print("EditTaskBloc.saveTask: Saving task...");
-    print("EditTaskBloc.saveTask: ${state.task}");
+    print("EditTaskBloc.saveTask: ${state.taskPrimitive}");
     emit(state.copyWith(isSaving: true));
     await Future.delayed(Duration(seconds: 5));
     emit(state.copyWith(isSaving: false));
@@ -92,21 +99,23 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 }
 
 class TaskFormState extends Equatable {
-  final Task task;
+  final TaskPrimitive taskPrimitive;
   final bool isSaving;
 
-  TaskFormState._(this.task, this.isSaving);
+  TaskFormState._(this.taskPrimitive, this.isSaving);
 
-  factory TaskFormState.initial(Task task) => TaskFormState._(task, false);
+  factory TaskFormState.initial(TaskPrimitive primitive) =>
+      TaskFormState._(primitive, false);
 
-  TaskFormState copyWith({Task task, bool isSaving}) =>
-      TaskFormState._(task ?? this.task, isSaving ?? this.isSaving);
+  TaskFormState copyWith({TaskPrimitive taskPrimitive, bool isSaving}) =>
+      TaskFormState._(
+          taskPrimitive ?? this.taskPrimitive, isSaving ?? this.isSaving);
 
   @override
-  List<Object> get props => [task, isSaving];
+  List<Object> get props => [taskPrimitive, isSaving];
 
   @override
-  String toString() => task.toString();
+  String toString() => taskPrimitive.toString();
 }
 
 // TODO: Optimize all this list shenanigans.
