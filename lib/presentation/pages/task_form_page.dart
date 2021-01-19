@@ -1,6 +1,7 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
@@ -109,7 +110,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                             p.taskPrimitive.members != c.taskPrimitive.members,
                         builder: (context, state) => ListTile(
                           leading: Icon(FeatherIcons.users),
-                          title: (state.taskPrimitive.members != null)
+                          title: (state.taskPrimitive.members != null &&
+                                  state.taskPrimitive.members.isNotEmpty)
                               ? Wrap(
                                   spacing: 8.0,
                                   runSpacing: 4.0,
@@ -121,6 +123,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                       .toList())
                               : Text("Members..."),
                           onTap: () {
+                            // TODO: Implement user picker dialog
                             context.read<TaskFormBloc>().membersChanged([
                               User(UniqueId("user1"), UserName("Jonny"),
                                   EmailAddress("aa@bb.com"), Colors.red),
@@ -135,7 +138,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       BlocBuilder<TaskFormBloc, TaskFormState>(
                         builder: (context, state) => ListTile(
                           leading: Icon(FeatherIcons.tag),
-                          title: (state.taskPrimitive.labels != null)
+                          title: (state.taskPrimitive.labels != null &&
+                                  state.taskPrimitive.labels.isNotEmpty)
                               ? Wrap(
                                   spacing: 8.0,
                                   runSpacing: 4.0,
@@ -145,6 +149,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                 )
                               : Text("Labels..."),
                           onTap: () {
+                            // TODO: Implement label picker dialog
                             context.read<TaskFormBloc>().labelsChanged([
                               Label(UniqueId("label 1"), Colors.yellow,
                                   "label 1"),
@@ -160,9 +165,17 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         leading: Icon(FeatherIcons.checkCircle),
                         title: Text("Add checklist..."),
                         onTap: () {
+                          // TODO: Implement new checklist dialog
                           context
                               .read<TaskFormBloc>()
-                              .addChecklist(ChecklistPrimitive.empty());
+                              .addChecklist(ChecklistPrimitive(
+                                title: ItemText("Checklist"),
+                                items: [
+                                  ItemText("item 1"),
+                                  ItemText("item 2"),
+                                  ItemText("item 3"),
+                                ],
+                              ));
                         },
                       )
                     ],
