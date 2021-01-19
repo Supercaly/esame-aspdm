@@ -19,6 +19,11 @@ void main() {
       expect(u4.value.isLeft(), isTrue);
     });
 
+    test("create empty task title", () {
+      final u1 = TaskTitle.empty();
+      expect(u1.value.isLeft(), isTrue);
+    });
+
     test("to string returns the correct representation", () {
       expect(
           TaskTitle("Mock Title").toString(), equals("TaskTitle(Mock Title)"));
@@ -41,7 +46,13 @@ void main() {
       expect(u3.value.isLeft(), isTrue);
 
       final u4 = TaskDescription("");
-      expect(u4.value.isLeft(), isTrue);
+      expect(u4.value.isRight(), isTrue);
+    });
+
+    test("create empty task description", () {
+      final u1 = TaskDescription.empty();
+      expect(u1.value.isRight(), isTrue);
+      expect(u1.value.getOrCrash(), isEmpty);
     });
 
     test("to string returns the correct representation", () {

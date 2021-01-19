@@ -58,50 +58,6 @@ class Task extends Equatable {
     this.creationDate,
   );
 
-  factory Task.empty() => Task(
-        UniqueId("INVALID_ID"),
-        TaskTitle(null),
-        TaskDescription(null),
-        null,
-        null,
-        null,
-        null,
-        List.empty(),
-        null,
-        null,
-        null,
-      );
-
-  /// Returns a new [Task] from this one, but
-  /// with some different fields.
-  // TODO: Fix bug with null parameters
-  // This will be fixed when TaskPrimitive is in place
-  Task copyWith({
-    TaskTitle title,
-    TaskDescription description,
-    List<Label> labels,
-    User author,
-    List<User> members,
-    DateTime expireDate,
-    List<Checklist> checklists,
-    List<Comment> comments,
-    Toggle archived,
-    DateTime creationDate,
-  }) =>
-      Task(
-        this.id,
-        title ?? this.title,
-        description ?? this.description,
-        labels ?? this.labels,
-        author ?? this.author,
-        members ?? this.members,
-        expireDate ?? this.expireDate,
-        checklists ?? this.checklists,
-        comments ?? this.comments,
-        archived ?? this.archived,
-        creationDate ?? this.creationDate,
-      );
-
   @override
   List<Object> get props => [
         id,

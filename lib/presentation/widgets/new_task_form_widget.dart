@@ -38,7 +38,8 @@ class _NewTaskFormWidgetState extends State<NewTaskFormWidget> {
           children: [
             // TODO: Builder is maybe irrelevant
             BlocBuilder<TaskFormBloc, TaskFormState>(
-              buildWhen: (p, c) => p.task.title != c.task.title,
+              buildWhen: (p, c) =>
+                  p.taskPrimitive.title != c.taskPrimitive.title,
               builder: (context, state) => TextFormField(
                 controller: _titleController,
                 style: Theme.of(context).textTheme.headline6,
@@ -55,12 +56,17 @@ class _NewTaskFormWidgetState extends State<NewTaskFormWidget> {
                 ),
                 onChanged: (value) =>
                     context.read<TaskFormBloc>().titleChanged(value),
-                validator: (value) =>
-                    context.read<TaskFormBloc>().state.task.title.value.fold(
-                          // TODO: Add maybeMap to ValueFailure like reso did.
-                          (left) => "Invalid",
-                          (_) => null,
-                        ),
+                validator: (value) => context
+                    .read<TaskFormBloc>()
+                    .state
+                    .taskPrimitive
+                    .title
+                    .value
+                    .fold(
+                      // TODO: Add maybeMap to ValueFailure like reso did.
+                      (left) => "Invalid",
+                      (_) => null,
+                    ),
               ),
             ),
             BlocBuilder<TaskFormBloc, TaskFormState>(
@@ -84,7 +90,7 @@ class _NewTaskFormWidgetState extends State<NewTaskFormWidget> {
                 validator: (value) => context
                     .read<TaskFormBloc>()
                     .state
-                    .task
+                    .taskPrimitive
                     .description
                     .value
                     .fold((left) => "invalid", (_) => null),
