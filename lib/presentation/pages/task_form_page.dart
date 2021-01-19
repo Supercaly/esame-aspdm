@@ -123,7 +123,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                       .toList())
                               : Text("Members..."),
                           onTap: () {
-                            // TODO: Implement user picker dialog
+                            // TODO(#43): Implement user picker dialog
                             context.read<TaskFormBloc>().membersChanged([
                               User(UniqueId("user1"), UserName("Jonny"),
                                   EmailAddress("aa@bb.com"), Colors.red),
