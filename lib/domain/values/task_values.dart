@@ -19,6 +19,11 @@ class TaskTitle extends ValueObject<String> {
     return TaskTitle._(Either.right(input));
   }
 
+  /// Creates a [TaskTitle] with empty content.
+  /// NOTE: The new [TaskTitle] will have value that is the left
+  /// side of the Either (it's invalid).
+  factory TaskTitle.empty() => TaskTitle._(Either.left(ValueFailure(null)));
+
   @override
   String toString() =>
       "TaskTitle(${value.fold((left) => left, (right) => right)})";
@@ -36,11 +41,13 @@ class TaskDescription extends ValueObject<String> {
   /// Creates a [TaskDescription] from an input [String] that has
   /// at most [maxLength] characters.
   factory TaskDescription(String input) {
-    // TODO: This can be empty or null
-    if (input != null && (input.isEmpty || input.length > maxLength))
+    if (input != null && input.length > maxLength)
       return TaskDescription._(Either.left(ValueFailure(input)));
     return TaskDescription._(Either.right(input));
   }
+
+  /// Creates a [TaskDescription] with empty content.
+  factory TaskDescription.empty() => TaskDescription._(Either.right(""));
 
   @override
   String toString() =>
