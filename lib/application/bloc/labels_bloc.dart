@@ -1,44 +1,21 @@
 import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:aspdm_project/domain/repositories/label_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LabelsBloc extends Cubit<LabelsState> {
-  LabelsBloc() : super(LabelsState.loading());
+  LabelRepository _repository;
+
+  LabelsBloc(this._repository) : super(LabelsState.loading());
 
   Future<void> fetch() async {
     emit(LabelsState.loading());
-    await Future.delayed(Duration(seconds: 2));
-    // emit(LabelsState.error());
-    emit(LabelsState.data([
-      Label(UniqueId("label1"), Colors.green, "label1"),
-      Label(UniqueId("label2"), Colors.yellow, "label2"),
-      Label(UniqueId("label3"), Colors.red, "label3"),
-      Label(UniqueId("label4"), Colors.blue, "label4"),
-      Label(UniqueId("label5"), Colors.deepOrange, "label5"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-      Label(UniqueId("label6"), Colors.cyan, "label6"),
-    ]));
+    (await _repository.getLabels()).fold(
+      (left) => emit(LabelsState.error()),
+      (right) => emit(
+        LabelsState.data(right),
+      ),
+    );
   }
 }
 

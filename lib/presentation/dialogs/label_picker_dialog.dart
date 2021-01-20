@@ -1,5 +1,6 @@
 import 'package:aspdm_project/application/bloc/labels_bloc.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
+import 'package:aspdm_project/domain/repositories/label_repository.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
       insetPadding: const EdgeInsets.all(40.0),
       title: Text("Select Labels"),
       content: BlocProvider<LabelsBloc>(
-        create: (context) => LabelsBloc()..fetch(),
+        create: (context) => LabelsBloc(locator<LabelRepository>())..fetch(),
         child: BlocBuilder<LabelsBloc, LabelsState>(
           builder: (context, state) {
             Widget contentWidget;
