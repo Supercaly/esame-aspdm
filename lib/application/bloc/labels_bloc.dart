@@ -10,12 +10,23 @@ class LabelsBloc extends Cubit<LabelsState> {
   Future<void> fetch() async {
     emit(LabelsState.loading());
     await Future.delayed(Duration(seconds: 2));
+    // emit(LabelsState.error());
     emit(LabelsState.data([
       Label(UniqueId("label1"), Colors.green, "label1"),
       Label(UniqueId("label2"), Colors.yellow, "label2"),
       Label(UniqueId("label3"), Colors.red, "label3"),
       Label(UniqueId("label4"), Colors.blue, "label4"),
       Label(UniqueId("label5"), Colors.deepOrange, "label5"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
       Label(UniqueId("label6"), Colors.cyan, "label6"),
       Label(UniqueId("label6"), Colors.cyan, "label6"),
       Label(UniqueId("label6"), Colors.cyan, "label6"),
@@ -34,11 +45,14 @@ class LabelsBloc extends Cubit<LabelsState> {
 class LabelsState extends Equatable {
   final List<Label> labels;
   final bool isLoading;
+  final bool hasError;
 
-  LabelsState._(this.labels, this.isLoading);
+  LabelsState._(this.labels, this.isLoading, this.hasError);
 
-  factory LabelsState.loading() => LabelsState._([], true);
-  factory LabelsState.data(List<Label> data) => LabelsState._(data, false);
+  factory LabelsState.loading() => LabelsState._([], true, false);
+  factory LabelsState.error() => LabelsState._([], false, true);
+  factory LabelsState.data(List<Label> data) =>
+      LabelsState._(data, false, false);
 
   @override
   List<Object> get props => [labels, isLoading];
