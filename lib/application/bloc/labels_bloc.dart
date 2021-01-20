@@ -11,9 +11,22 @@ class LabelsBloc extends Cubit<LabelsState> {
     emit(LabelsState.loading());
     await Future.delayed(Duration(seconds: 2));
     emit(LabelsState.data([
-      Label(UniqueId("label1"), Colors.blue, "label1"),
+      Label(UniqueId("label1"), Colors.green, "label1"),
       Label(UniqueId("label2"), Colors.yellow, "label2"),
       Label(UniqueId("label3"), Colors.red, "label3"),
+      Label(UniqueId("label4"), Colors.blue, "label4"),
+      Label(UniqueId("label5"), Colors.deepOrange, "label5"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
+      Label(UniqueId("label6"), Colors.cyan, "label6"),
     ]));
   }
 }
