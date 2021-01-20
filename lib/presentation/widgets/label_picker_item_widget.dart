@@ -18,7 +18,9 @@ class LabelPickerItemWidget extends StatelessWidget {
     this.label,
     this.selected = false,
     this.onSelected,
-  }) : super(key: key);
+  })  : assert(label != null),
+        assert(selected != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,31 +28,34 @@ class LabelPickerItemWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Container(
         width: double.maxFinite,
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
+        child: Material(
           color: label.color,
           borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: InkWell(
-          onTap: () => onSelected?.call(!selected),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  label.label,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.white),
-                ),
+          child: InkWell(
+            onTap: () => onSelected?.call(!selected),
+            borderRadius: BorderRadius.circular(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      label.label,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                  selected
+                      ? Icon(
+                          FeatherIcons.check,
+                          color: Colors.white,
+                        )
+                      : Container(width: 24.0, height: 24.0),
+                ],
               ),
-              selected
-                  ? Icon(
-                      FeatherIcons.check,
-                      color: Colors.white,
-                    )
-                  : Container(width: 24.0, height: 24.0),
-            ],
+            ),
           ),
         ),
       ),
