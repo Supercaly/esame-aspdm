@@ -126,7 +126,6 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                       .toList())
                               : Text("Members..."),
                           onTap: () async {
-                            // TODO(#43): Implement user picker dialog
                             List<User> selectedMembers;
                             if (Responsive.isSmall(context))
                               selectedMembers = await showMembersPickerSheet(
