@@ -5,9 +5,12 @@ import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
+import 'package:aspdm_project/presentation/sheets/label_picker_sheet.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
+import 'package:aspdm_project/presentation/widgets/responsive.dart';
 import 'package:aspdm_project/presentation/widgets/task_form_input_widget.dart';
 import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
@@ -148,16 +151,19 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                       .toList(),
                                 )
                               : Text("Labels..."),
-                          onTap: () {
+                          onTap: () async {
                             // TODO(#44): Implement label picker dialog
-                            context.read<TaskFormBloc>().labelsChanged([
-                              Label(UniqueId("label 1"), Colors.yellow,
-                                  "label 1"),
-                              Label(
-                                  UniqueId("label 2"), Colors.green, "label 1"),
-                              Label(
-                                  UniqueId("label 3"), Colors.blue, "label 1"),
-                            ]);
+                            List<Label> selectedLabels;
+                            if (Responsive.isSmall(context))
+                              selectedLabels = await showLabelPickerSheet(
+                                  context, state.taskPrimitive.labels);
+                            else
+                              selectedLabels = await showLabelPickerDialog(
+                                  context, state.taskPrimitive.labels);
+                            if (selectedLabels != null)
+                              context
+                                  .read<TaskFormBloc>()
+                                  .labelsChanged(selectedLabels);
                           },
                         ),
                       ),
