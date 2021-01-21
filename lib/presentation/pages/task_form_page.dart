@@ -152,7 +152,6 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                 )
                               : Text("Labels..."),
                           onTap: () async {
-                            // TODO(#44): Implement label picker dialog
                             List<Label> selectedLabels;
                             if (Responsive.isSmall(context))
                               selectedLabels = await showLabelPickerSheet(
