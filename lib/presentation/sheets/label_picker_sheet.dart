@@ -2,6 +2,7 @@ import 'package:aspdm_project/application/bloc/labels_bloc.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/repositories/label_repository.dart';
 import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart';
+import 'package:aspdm_project/presentation/widgets/sheet_notch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
@@ -33,8 +34,7 @@ class LabelPickerSheet extends StatefulWidget {
   _LabelPickerSheetState createState() => _LabelPickerSheetState();
 }
 
-class _LabelPickerSheetState extends State<LabelPickerSheet>
-    with TickerProviderStateMixin {
+class _LabelPickerSheetState extends State<LabelPickerSheet> {
   Set<Label> _selected;
 
   @override
@@ -50,7 +50,12 @@ class _LabelPickerSheetState extends State<LabelPickerSheet>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        left: 24.0,
+        bottom: 24.0,
+        right: 24.0,
+      ),
       child: BlocProvider<LabelsBloc>(
         create: (context) => LabelsBloc(locator<LabelRepository>())..fetch(),
         child: BlocBuilder<LabelsBloc, LabelsState>(
@@ -60,7 +65,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet>
             if (state.isLoading)
               contentWidget = Center(child: CircularProgressIndicator());
             else if (state.hasError)
-              contentWidget = Center(child: Text("No Label to display!"));
+              contentWidget = Center(child: Text("No label to display!"));
             else
               contentWidget = CustomScrollView(
                 slivers: [
@@ -87,8 +92,10 @@ class _LabelPickerSheetState extends State<LabelPickerSheet>
 
             return Column(
               children: [
+                SheetNotch(),
+                SizedBox(height: 8.0),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
