@@ -1,13 +1,11 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/sheets/label_picker_sheet.dart';
+import 'package:aspdm_project/presentation/sheets/user_picker_sheet.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';
@@ -125,16 +123,16 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                           ))
                                       .toList())
                               : Text("Members..."),
-                          onTap: () {
+                          onTap: () async {
                             // TODO(#43): Implement user picker dialog
-                            context.read<TaskFormBloc>().membersChanged([
-                              User(UniqueId("user1"), UserName("Jonny"),
-                                  EmailAddress("aa@bb.com"), Colors.red),
-                              User(UniqueId("user2"), UserName("Lucas"),
-                                  EmailAddress("bb@bb.com"), Colors.green),
-                              User(UniqueId("user3"), UserName("Michael"),
-                                  EmailAddress("cc@bb.com"), Colors.blue),
-                            ]);
+                            final selectedMembers = await showUserPickerSheet(
+                              context,
+                              state.taskPrimitive.members,
+                            );
+                            if (selectedMembers != null)
+                              context
+                                  .read<TaskFormBloc>()
+                                  .membersChanged(selectedMembers);
                           },
                         ),
                       ),
@@ -155,10 +153,14 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                             List<Label> selectedLabels;
                             if (Responsive.isSmall(context))
                               selectedLabels = await showLabelPickerSheet(
-                                  context, state.taskPrimitive.labels);
+                                context,
+                                state.taskPrimitive.labels,
+                              );
                             else
                               selectedLabels = await showLabelPickerDialog(
-                                  context, state.taskPrimitive.labels);
+                                context,
+                                state.taskPrimitive.labels,
+                              );
                             if (selectedLabels != null)
                               context
                                   .read<TaskFormBloc>()

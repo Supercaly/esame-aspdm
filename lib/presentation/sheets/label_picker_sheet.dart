@@ -33,8 +33,7 @@ class LabelPickerSheet extends StatefulWidget {
   _LabelPickerSheetState createState() => _LabelPickerSheetState();
 }
 
-class _LabelPickerSheetState extends State<LabelPickerSheet>
-    with TickerProviderStateMixin {
+class _LabelPickerSheetState extends State<LabelPickerSheet> {
   Set<Label> _selected;
 
   @override
@@ -88,7 +87,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet>
             return Column(
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
