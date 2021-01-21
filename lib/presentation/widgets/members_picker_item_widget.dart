@@ -28,11 +28,12 @@ class MembersPickerItemWidget extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: () => onSelected?.call(!selected),
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 24.0,
             vertical: 8.0,
           ),
+          width: double.maxFinite,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

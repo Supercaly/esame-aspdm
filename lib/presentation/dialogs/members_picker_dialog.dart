@@ -1,55 +1,56 @@
-import 'package:aspdm_project/application/bloc/labels_bloc.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/repositories/label_repository.dart';
+import 'package:aspdm_project/application/bloc/members_bloc.dart';
+import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/repositories/members_repository.dart';
 import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart';
+import 'package:aspdm_project/presentation/widgets/members_picker_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 
-/// Display a dialog that picks the labels.
-/// Passing an existing [List] of [labels] to mark them as already selected.
-/// Returns a [List] of all the selected [Label]s.
-Future<List<Label>> showLabelPickerDialog(
-    BuildContext context, List<Label> labels) {
+/// Display a dialog that picks the members.
+/// Passing an existing [List] of [members] to mark them as already selected.
+/// Returns a [List] of all the selected [User]s.
+Future<List<User>> showMembersPickerDialog(
+    BuildContext context, List<User> members) {
   return showDialog(
     context: context,
-    builder: (context) => LabelPickerDialog(labels: labels),
+    builder: (context) => MembersPickerDialog(members: members),
   );
 }
 
-/// Widget that display a dialog that picks labels
-class LabelPickerDialog extends StatefulWidget {
-  final List<Label> labels;
+/// Widget that display a dialog that picks members
+class MembersPickerDialog extends StatefulWidget {
+  final List<User> members;
 
-  LabelPickerDialog({Key key, this.labels}) : super(key: key);
+  MembersPickerDialog({Key key, this.members}) : super(key: key);
 
   @override
-  _LabelPickerDialogState createState() => _LabelPickerDialogState();
+  _MembersPickerDialogState createState() => _MembersPickerDialogState();
 }
 
-class _LabelPickerDialogState extends State<LabelPickerDialog>
+class _MembersPickerDialogState extends State<MembersPickerDialog>
     with TickerProviderStateMixin {
-  Set<Label> _selected;
+  Set<User> _selected;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.labels != null && widget.labels.isNotEmpty)
-      _selected = Set<Label>.from(widget.labels);
+    if (widget.members != null && widget.members.isNotEmpty)
+      _selected = Set<User>.from(widget.members);
     else
-      _selected = Set<Label>.identity();
+      _selected = Set<User>.identity();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       insetPadding: const EdgeInsets.all(40.0),
-      title: Text("Select Labels"),
-      content: BlocProvider<LabelsBloc>(
-        create: (context) => LabelsBloc(locator<LabelRepository>())..fetch(),
-        child: BlocBuilder<LabelsBloc, LabelsState>(
+      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+      title: Text("Select Members"),
+      content: BlocProvider<MembersBloc>(
+        create: (context) => MembersBloc(locator<MembersRepository>())..fetch(),
+        child: BlocBuilder<MembersBloc, MembersState>(
           builder: (context, state) {
             Widget contentWidget;
 
@@ -70,7 +71,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
                   maxWidth: 300.0,
                 ),
                 child: Center(
-                  child: Text("No label to display!"),
+                  child: Text("No member to display!"),
                 ),
               );
             else
@@ -78,12 +79,11 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 800.0),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: state.labels
+                    children: state.members
                         .map(
-                          (e) => LabelPickerItemWidget(
-                            label: e,
+                          (e) => MembersPickerItemWidget(
+                            member: e,
                             selected: _selected.contains(e),
                             onSelected: (selected) => setState(() {
                               if (selected)

@@ -61,7 +61,7 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
             if (state.isLoading)
               contentWidget = Center(child: CircularProgressIndicator());
             else if (state.hasError)
-              contentWidget = Center(child: Text("No Label to display!"));
+              contentWidget = Center(child: Text("No member to display!"));
             else
               contentWidget = CustomScrollView(
                 slivers: [
