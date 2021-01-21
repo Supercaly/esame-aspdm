@@ -5,7 +5,7 @@ import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/sheets/label_picker_sheet.dart';
-import 'package:aspdm_project/presentation/sheets/user_picker_sheet.dart';
+import 'package:aspdm_project/presentation/sheets/members_picker_sheet.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';
@@ -125,7 +125,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                               : Text("Members..."),
                           onTap: () async {
                             // TODO(#43): Implement user picker dialog
-                            final selectedMembers = await showUserPickerSheet(
+                            final selectedMembers =
+                                await showMembersPickerSheet(
                               context,
                               state.taskPrimitive.members,
                             );

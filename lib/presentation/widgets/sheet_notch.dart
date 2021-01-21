@@ -9,9 +9,7 @@ class SheetNotch extends StatelessWidget {
       width: 48.0,
       height: 6.0,
       decoration: BoxDecoration(
-        color: Color(0xFFE5E5E5),
-        borderRadius: BorderRadius.circular(24.0)
-      ),
+          color: Color(0xFFE5E5E5), borderRadius: BorderRadius.circular(24.0)),
     );
   }
 }
