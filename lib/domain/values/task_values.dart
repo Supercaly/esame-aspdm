@@ -56,6 +56,7 @@ class TaskDescription extends ValueObject<String> {
 
 /// Class representing a valid item text.
 class ItemText extends ValueObject<String> {
+  // TODO: Extend the max length of an ItemText
   static const int maxLength = 20;
 
   @override

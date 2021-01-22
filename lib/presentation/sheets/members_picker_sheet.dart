@@ -50,7 +50,7 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
     return Padding(
       padding: const EdgeInsets.only(
         top: 16.0,
-        bottom: 24.0,
+        bottom: 0.0,
       ),
       child: BlocProvider<MembersBloc>(
         create: (context) => MembersBloc(locator<MembersRepository>())..fetch(),
