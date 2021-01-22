@@ -7,11 +7,12 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   accentColor: EasyColors.secondary,
   accentColorBrightness: Brightness.dark,
   scaffoldBackgroundColor: EasyColors.background,
-  buttonTheme: ButtonThemeData(
-    buttonColor: EasyColors.secondary,
-    textTheme: ButtonTextTheme.primary,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: EasyColors.secondary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
     ),
   ),
   cardTheme: CardTheme(
@@ -26,11 +27,12 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
 final ThemeData darkTheme = ThemeData.dark().copyWith(
   accentColor: EasyColors.secondary,
   accentColorBrightness: Brightness.dark,
-  buttonTheme: ButtonThemeData(
-    buttonColor: EasyColors.secondary,
-    textTheme: ButtonTextTheme.primary,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: EasyColors.secondary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
     ),
   ),
   cardTheme: CardTheme(

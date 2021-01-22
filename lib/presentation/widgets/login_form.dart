@@ -76,8 +76,10 @@ class _LoginFormState extends State<LoginForm> {
             onFieldSubmitted: (value) => focusScope.unfocus(),
           ),
           SizedBox(height: 8.0),
-          RaisedButton(
-            padding: const EdgeInsets.symmetric(horizontal: 82.0),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 82.0),
+            ),
             child: Text("Log In"),
             onPressed: () async {
               if (_formKey.currentState.validate()) {

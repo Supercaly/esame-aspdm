@@ -14,7 +14,8 @@ void main() {
           data: MediaQueryData(size: Size(500.0, 1000.0)),
           child: Scaffold(
             body: Builder(builder: (context) {
-              return RaisedButton(
+              return ElevatedButton(
+                  child: Text(""),
                   key: buttonKey,
                   onPressed: () {
                     final isSmall = Responsive.isSmall(context);
@@ -44,7 +45,8 @@ void main() {
           data: MediaQueryData(size: Size(800.0, 1000.0)),
           child: Scaffold(
             body: Builder(builder: (context) {
-              return RaisedButton(
+              return ElevatedButton(
+                  child: Text(""),
                   key: buttonKey,
                   onPressed: () {
                     final isSmall = Responsive.isSmall(context);
@@ -72,7 +74,8 @@ void main() {
           data: MediaQueryData(size: Size(1400.0, 1000.0)),
           child: Scaffold(
             body: Builder(builder: (context) {
-              return RaisedButton(
+              return ElevatedButton(
+                  child: Text(""),
                   key: buttonKey,
                   onPressed: () {
                     final isSmall = Responsive.isSmall(context);

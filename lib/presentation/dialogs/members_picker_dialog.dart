@@ -106,7 +106,7 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
         ),
       ),
       actions: [
-        FlatButton(
+        TextButton(
           child: Text("Done"),
           onPressed: () {
             locator<NavigationService>().pop(

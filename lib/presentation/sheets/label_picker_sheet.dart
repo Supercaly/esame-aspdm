@@ -102,7 +102,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
                       "Select Labels",
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         locator<NavigationService>().pop(
                           result: _selected.toList(growable: false),

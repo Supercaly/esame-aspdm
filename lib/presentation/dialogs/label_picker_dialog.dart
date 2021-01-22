@@ -106,7 +106,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
         ),
       ),
       actions: [
-        FlatButton(
+        TextButton(
           child: Text("Done"),
           onPressed: () {
             locator<NavigationService>().pop(
