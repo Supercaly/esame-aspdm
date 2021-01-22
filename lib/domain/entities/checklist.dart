@@ -8,7 +8,7 @@ class Checklist extends Equatable {
   final UniqueId id;
 
   /// Title of the checklist.
-  // TODO: Create a ChecklistTitle value object
+  // TODO(#48): Create a ChecklistTitle value object
   final ItemText title;
 
   /// Items of the checklist.
