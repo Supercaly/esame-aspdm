@@ -128,4 +128,20 @@ extension ListX<E> on List<E> {
     result.remove(element);
     return result;
   }
+
+  List<E> removeAtImmutable(int index) {
+    if (this.isEmpty) return List.empty();
+    List<E> result = List<E>.empty(growable: true);
+    result.addAll(this);
+    result.removeAt(index);
+    return result;
+  }
+
+  List<E> updatedImmutable(int index, E element) {
+    if (this.isEmpty) return List.empty();
+    List<E> result = List<E>.empty(growable: true);
+    result.addAll(this);
+    result[index] = element;
+    return result;
+  }
 }
