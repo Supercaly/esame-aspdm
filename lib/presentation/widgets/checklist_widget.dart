@@ -1,10 +1,10 @@
-import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:provider/provider.dart';
+
+// TODO: Write test for checklist_widget file
 
 /// Widget that displays a single [Checklist].
 class DisplayChecklist extends StatefulWidget {
@@ -112,65 +112,71 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
   }
 }
 
+/// Widget that displays a single [ChecklistPrimitive].
+/// This widget is used in the [TaskFormPage] during the
+/// creation or edit of a task.
 class EditChecklist extends StatelessWidget {
-  final ChecklistPrimitive checklist;
+  /// The [ChecklistPrimitive] to display.
+  final ChecklistPrimitive primitive;
 
-  const EditChecklist({Key key, this.checklist}) : super(key: key);
+  /// Callback called when the user taps on the card.
+  final VoidCallback onTap;
+
+  /// Callback called when the user taps on the remove button.
+  final VoidCallback onRemove;
+
+  const EditChecklist({
+    Key key,
+    this.primitive,
+    this.onTap,
+    this.onRemove,
+  })  : assert(primitive != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Icon(FeatherIcons.checkCircle),
-              SizedBox(width: 16.0),
-              Expanded(
-                child: Text(
-                  checklist.title.value.getOrNull() ?? "",
-                  style: Theme.of(context).textTheme.headline6,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                Icon(FeatherIcons.checkCircle),
+                SizedBox(width: 16.0),
+                Expanded(
+                  child: Text(
+                    primitive.title.value.getOrNull() ?? "",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () =>
-                    context.read<TaskFormBloc>().removeChecklist(checklist),
-              ),
-            ]),
-            SizedBox(height: 8.0),
-            Column(
-              children: checklist.items
-                  .map((e) =>
-                      CheckboxFormItemWidget(item: e.value.getOrNull() ?? ""))
-                  .toList(),
-            )
-          ],
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: onRemove,
+                ),
+              ]),
+              SizedBox(height: 8.0),
+              Column(
+                children: primitive.items
+                    .map((e) => Row(
+                          children: [
+                            Checkbox(
+                              value: false,
+                              onChanged: null,
+                            ),
+                            SizedBox(width: 8.0),
+                            Expanded(child: Text(e.value.getOrNull() ?? "")),
+                          ],
+                        ))
+                    .toList(),
+              )
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class CheckboxFormItemWidget extends StatelessWidget {
-  final String item;
-
-  CheckboxFormItemWidget({Key key, this.item}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-          value: false,
-          onChanged: null,
-        ),
-        SizedBox(width: 8.0),
-        Expanded(child: Text(item)),
-      ],
     );
   }
 }
