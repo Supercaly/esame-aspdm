@@ -41,7 +41,7 @@ class ChecklistFormState extends Equatable {
   final ItemText title;
   final List<ItemText> items;
   final bool isSave;
-  
+
   @visibleForTesting
   ChecklistFormState(this.title, this.items, this.isSave);
 
