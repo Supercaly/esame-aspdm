@@ -1,11 +1,12 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/dialogs/checklist_form_dialog.dart';
 import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
 import 'package:aspdm_project/presentation/dialogs/members_picker_dialog.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
+import 'package:aspdm_project/presentation/pages/checklist_form_page.dart';
 import 'package:aspdm_project/presentation/sheets/label_picker_sheet.dart';
 import 'package:aspdm_project/presentation/sheets/members_picker_sheet.dart';
 import 'package:aspdm_project/presentation/widgets/checklist_widget.dart';
@@ -179,18 +180,23 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       ListTile(
                         leading: Icon(FeatherIcons.checkCircle),
                         title: Text("Add checklist..."),
-                        onTap: () {
+                        onTap: () async {
                           // TODO(#45): Implement new checklist dialog
-                          context
-                              .read<TaskFormBloc>()
-                              .addChecklist(ChecklistPrimitive(
-                                title: ItemText("Checklist"),
-                                items: [
-                                  ItemText("item 1"),
-                                  ItemText("item 2"),
-                                  ItemText("item 3"),
-                                ],
-                              ));
+                          ChecklistPrimitive newChecklist;
+                          if (Responsive.isSmall(context))
+                            newChecklist = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChecklistFormPage(),
+                              ),
+                            );
+                          else
+                            newChecklist =
+                                await showChecklistFormDialog(context, null);
+                          if (newChecklist != null)
+                            context
+                                .read<TaskFormBloc>()
+                                .addChecklist(newChecklist);
                         },
                       )
                     ],
@@ -201,7 +207,31 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       p.taskPrimitive.checklists != s.taskPrimitive.checklists,
                   builder: (context, state) => Column(
                     children: state.taskPrimitive.checklists
-                        .map((e) => EditChecklist(checklist: e))
+                        .map((e) => EditChecklist(
+                              primitive: e,
+                              onTap: () async {
+                                ChecklistPrimitive editedChecklist;
+                                if (Responsive.isSmall(context))
+                                  editedChecklist = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChecklistFormPage(
+                                        primitive: e,
+                                      ),
+                                    ),
+                                  );
+                                else
+                                  editedChecklist =
+                                      await showChecklistFormDialog(context, e);
+                                if (editedChecklist != null)
+                                  context
+                                      .read<TaskFormBloc>()
+                                      .editChecklist(e, editedChecklist);
+                              },
+                              onRemove: () => context
+                                  .read<TaskFormBloc>()
+                                  .removeChecklist(e),
+                            ))
                         .toList(),
                   ),
                 ),

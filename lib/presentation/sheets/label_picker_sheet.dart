@@ -53,7 +53,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
       padding: const EdgeInsets.only(
         top: 16.0,
         left: 24.0,
-        bottom: 24.0,
+        bottom: 0.0,
         right: 24.0,
       ),
       child: BlocProvider<LabelsBloc>(

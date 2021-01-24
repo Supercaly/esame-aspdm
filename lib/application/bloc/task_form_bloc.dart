@@ -78,6 +78,18 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     );
   }
 
+  void editChecklist(ChecklistPrimitive old, ChecklistPrimitive value) {
+    print("TaskFormBloc.editChecklist: $old, $value");
+    emit(
+      state.copyWith(
+        taskPrimitive: state.taskPrimitive.copyWith(
+          checklists:
+              state.taskPrimitive.checklists.updateImmutable(old, value),
+        ),
+      ),
+    );
+  }
+
   Future<void> saveTask() async {
     print("EditTaskBloc.saveTask: Saving task...");
     print("EditTaskBloc.saveTask: ${state.taskPrimitive}");
@@ -126,6 +138,31 @@ extension ListX<E> on List<E> {
     List<E> result = List<E>.empty(growable: true);
     result.addAll(this);
     result.remove(element);
+    return result;
+  }
+
+  List<E> removeAtImmutable(int index) {
+    if (this.isEmpty) return List.empty();
+    List<E> result = List<E>.empty(growable: true);
+    result.addAll(this);
+    result.removeAt(index);
+    return result;
+  }
+
+  List<E> updatedImmutable(int index, E element) {
+    if (this.isEmpty) return List.empty();
+    List<E> result = List<E>.empty(growable: true);
+    result.addAll(this);
+    result[index] = element;
+    return result;
+  }
+
+  List<E> updateImmutable(E old, E element) {
+    if (this.isEmpty) return List.empty();
+    List<E> result = List<E>.empty(growable: true);
+    result.addAll(this);
+    final idx = result.indexOf(old);
+    if (idx >= 0) result[idx] = element;
     return result;
   }
 }
