@@ -41,6 +41,90 @@ void main() {
   });
 
   group("ValueFailure tests", () {
+    test("maybeMap return from the correct value", () {
+      expect(
+        ValueFailure.empty(null).maybeMap(
+          empty: (_) => "empty",
+          orElse: () => null,
+        ),
+        equals("empty"),
+      );
+      expect(
+        ValueFailure.tooLong(123).maybeMap(
+          tooLong: (_) => "too long",
+          orElse: () => null,
+        ),
+        equals("too long"),
+      );
+      expect(
+        ValueFailure.invalidEmail(456).maybeMap(
+          invalidEmail: (_) => "invalid email",
+          orElse: () => null,
+        ),
+        equals("invalid email"),
+      );
+      expect(
+        ValueFailure.invalidPassword(789).maybeMap(
+          invalidPassword: (_) => "invalid password",
+          orElse: () => null,
+        ),
+        equals("invalid password"),
+      );
+      expect(
+        ValueFailure.invalidId(null).maybeMap(
+          invalidId: (_) => "invalid id",
+          orElse: () => null,
+        ),
+        equals("invalid id"),
+      );
+      expect(
+        ValueFailure.unknown(0).maybeMap(
+          unknown: (_) => "unknown",
+          orElse: () => null,
+        ),
+        equals("unknown"),
+      );
+    });
+
+    test("maybeMap return from default", () {
+      expect(
+        ValueFailure.empty(null).maybeMap(
+          orElse: () => "default",
+        ),
+        equals("default"),
+      );
+      expect(
+        ValueFailure.tooLong(123).maybeMap(
+          orElse: () => "default",
+        ),
+        equals("default"),
+      );
+      expect(
+        ValueFailure.invalidEmail(456).maybeMap(
+          orElse: () => "default",
+        ),
+        equals("default"),
+      );
+      expect(
+        ValueFailure.invalidPassword(789).maybeMap(
+          orElse: () => "default",
+        ),
+        equals("default"),
+      );
+      expect(
+        ValueFailure.invalidId(null).maybeMap(
+          orElse: () => "default",
+        ),
+        equals("default"),
+      );
+      expect(
+        ValueFailure.unknown(0).maybeMap(
+          orElse: () => "default",
+        ),
+        equals("default"),
+      );
+    });
+
     test("equality works correctly", () {
       final obj1 = ValueFailure.empty(null);
       final obj2 = ValueFailure.tooLong(123);
