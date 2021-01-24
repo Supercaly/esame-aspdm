@@ -9,7 +9,7 @@ class Checklist extends Equatable {
 
   /// Title of the checklist.
   // TODO(#48): Create a ChecklistTitle value object
-  final ItemText title;
+  final ChecklistTitle title;
 
   /// Items of the checklist.
   final List<ChecklistItem> items;

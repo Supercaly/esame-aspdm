@@ -90,6 +90,31 @@ void main() {
     });
   });
 
+  group("ChecklistTitle tests", () {
+    test("create checklist title", () {
+      final u1 = ChecklistTitle("Mock Title");
+      expect(u1.value.getOrCrash(), equals("Mock Title"));
+
+      final longLine = StringBuffer();
+      for (var i = 0; i < 50; i++) longLine.write("a");
+      final u2 = ChecklistTitle(longLine.toString());
+      expect(u2.value.isLeft(), isTrue);
+
+      final u3 = ChecklistTitle(null);
+      expect(u3.value.isLeft(), isTrue);
+
+      final u4 = ChecklistTitle("");
+      expect(u4.value.isLeft(), isTrue);
+    });
+
+    test("to string returns the correct representation", () {
+      expect(ChecklistTitle("Mock Title").toString(),
+          equals("ChecklistTitle(Mock Title)"));
+      expect(ChecklistTitle(null).toString(),
+          equals("ChecklistTitle(Failure{null})"));
+    });
+  });
+
   group("CommentContent tests", () {
     test("create comment content", () {
       final u1 = CommentContent("Mock Content");

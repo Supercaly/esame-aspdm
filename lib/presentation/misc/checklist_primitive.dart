@@ -2,14 +2,13 @@ import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 
 class ChecklistPrimitive {
-  final ItemText title;
+  final ChecklistTitle title;
   final List<ItemText> items;
 
   ChecklistPrimitive({this.title, this.items});
 
   factory ChecklistPrimitive.empty() => ChecklistPrimitive(
-        // TODO: Replace with empty constructor
-        title: ItemText(""),
+        title: ChecklistTitle(""),
         items: List<ItemText>.empty(),
       );
 

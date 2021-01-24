@@ -12,7 +12,7 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
 
   /// Called when the title of the checklist changes.
   void titleChanged(String value) {
-    emit(state.copyWith(title: ItemText(value)));
+    emit(state.copyWith(title: ChecklistTitle(value)));
   }
 
   /// Called when a new checklist's item is added.
@@ -38,7 +38,7 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
 
 /// Class representing the state passed by a [ChecklistFormBloc].
 class ChecklistFormState extends Equatable {
-  final ItemText title;
+  final ChecklistTitle title;
   final List<ItemText> items;
   final bool isSave;
 
@@ -47,13 +47,13 @@ class ChecklistFormState extends Equatable {
 
   factory ChecklistFormState.initial(ChecklistPrimitive value) =>
       ChecklistFormState(
-        value?.title ?? ItemText("Checklist"),
+        value?.title ?? ChecklistTitle("Checklist"),
         value?.items ?? [],
         false,
       );
 
   ChecklistFormState copyWith(
-          {ItemText title, List<ItemText> items, bool isSave}) =>
+          {ChecklistTitle title, List<ItemText> items, bool isSave}) =>
       ChecklistFormState(
         title ?? this.title,
         items ?? this.items,

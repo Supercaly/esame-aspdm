@@ -14,7 +14,7 @@ class ChecklistFormTitleWidget extends StatelessWidget {
       builder: (context, state) => TextFormField(
         initialValue: state.title.value.getOrNull() ?? "",
         keyboardType: TextInputType.text,
-        maxLength: ItemText.maxLength,
+        maxLength: ChecklistTitle.maxLength,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         style: Theme.of(context).textTheme.headline6,
         decoration: InputDecoration(

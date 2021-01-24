@@ -36,7 +36,7 @@ class ChecklistModel extends Equatable {
 
   Checklist toChecklist() => Checklist(
         UniqueId(id),
-        ItemText(title),
+        ChecklistTitle(title),
         items?.map((e) => e.toChecklistItem())?.toList(),
       );
 

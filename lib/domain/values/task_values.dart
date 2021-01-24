@@ -54,6 +54,28 @@ class TaskDescription extends ValueObject<String> {
       "TaskDescription(${value.fold((left) => left, (right) => right)})";
 }
 
+/// Class representing a valid checklist title.
+class ChecklistTitle extends ValueObject<String> {
+  static const int maxLength = 30;
+
+  final Either<ValueFailure<String>, String> value;
+
+  const ChecklistTitle._(this.value);
+
+  /// Creates a [ChecklistTitle] from an input [String] that has
+  /// at most [maxLength] characters.
+  /// The input can't be null, empty or longer than [maxLength].
+  factory ChecklistTitle(String input) {
+    if (input == null || input.isEmpty || input.length > maxLength)
+      return ChecklistTitle._(Either.left(ValueFailure(input)));
+    return ChecklistTitle._(Either.right(input));
+  }
+
+  @override
+  String toString() =>
+      "ChecklistTitle(${value.fold((left) => left, (right) => right)})";
+}
+
 /// Class representing a valid item text.
 class ItemText extends ValueObject<String> {
   // TODO(#49): Extend the max length of an ItemText

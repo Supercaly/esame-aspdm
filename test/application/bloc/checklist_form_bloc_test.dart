@@ -12,7 +12,7 @@ void main() {
       expect: [],
       verify: (ChecklistFormBloc cubit) => expect(
         cubit.state,
-        ChecklistFormState(ItemText("Checklist"), [], false),
+        ChecklistFormState(ChecklistTitle("Checklist"), [], false),
       ),
     );
 
@@ -20,7 +20,7 @@ void main() {
       "emits nothing when created with initial value",
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
-          title: ItemText("Mock Title"),
+          title: ChecklistTitle("Mock Title"),
           items: [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
@@ -31,7 +31,7 @@ void main() {
       verify: (ChecklistFormBloc cubit) => expect(
         cubit.state,
         ChecklistFormState(
-          ItemText("Mock Title"),
+          ChecklistTitle("Mock Title"),
           [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
@@ -47,7 +47,7 @@ void main() {
       act: (ChecklistFormBloc cubit) => cubit.titleChanged("Mock Title"),
       expect: [
         ChecklistFormState(
-          ItemText("Mock Title"),
+          ChecklistTitle("Mock Title"),
           [],
           false,
         ),
@@ -58,7 +58,7 @@ void main() {
       "emits on item added",
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
-          title: ItemText("Mock Title"),
+          title: ChecklistTitle("Mock Title"),
           items: [
             ItemText("Mock Item 1"),
           ],
@@ -69,7 +69,7 @@ void main() {
       },
       expect: [
         ChecklistFormState(
-          ItemText("Mock Title"),
+          ChecklistTitle("Mock Title"),
           [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
@@ -83,7 +83,7 @@ void main() {
       "emits on item removed",
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
-          title: ItemText("Mock Title"),
+          title: ChecklistTitle("Mock Title"),
           items: [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
@@ -96,7 +96,7 @@ void main() {
       },
       expect: [
         ChecklistFormState(
-          ItemText("Mock Title"),
+          ChecklistTitle("Mock Title"),
           [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 3"),
@@ -110,7 +110,7 @@ void main() {
       "emits on item removed",
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
-          title: ItemText("Mock Title"),
+          title: ChecklistTitle("Mock Title"),
           items: [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
@@ -123,7 +123,7 @@ void main() {
       },
       expect: [
         ChecklistFormState(
-          ItemText("Mock Title"),
+          ChecklistTitle("Mock Title"),
           [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2 (Edited)"),
@@ -138,7 +138,7 @@ void main() {
       "emits on save",
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
-          title: ItemText("Mock Title"),
+          title: ChecklistTitle("Mock Title"),
           items: [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
@@ -151,7 +151,7 @@ void main() {
       },
       expect: [
         ChecklistFormState(
-          ItemText("Mock Title"),
+          ChecklistTitle("Mock Title"),
           [
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),

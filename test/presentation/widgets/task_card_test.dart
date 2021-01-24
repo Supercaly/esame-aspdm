@@ -103,7 +103,7 @@ void main() {
               [
                 Checklist(
                   UniqueId("mock_id"),
-                  ItemText("checklist1"),
+                  ChecklistTitle("checklist1"),
                   [
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(false)),
@@ -117,7 +117,7 @@ void main() {
                 ),
                 Checklist(
                   UniqueId("mock_id"),
-                  ItemText("checklist1"),
+                  ChecklistTitle("checklist1"),
                   [
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(false)),
