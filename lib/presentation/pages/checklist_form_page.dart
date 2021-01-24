@@ -1,68 +1,65 @@
 import 'package:aspdm_project/application/bloc/checklist_form_bloc.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
+import 'package:aspdm_project/presentation/widgets/checklist_form_item_widget.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 
-class ChecklistFormPage extends StatefulWidget {
-  @override
-  _ChecklistFormPageState createState() => _ChecklistFormPageState();
-}
-
-class _ChecklistFormPageState extends State<ChecklistFormPage> {
+/// Widget that displays a page that lets the user create or edit a given
+/// [ChecklistPrimitive].
+/// This page will be pushed with a MaterialPageRoot by the parent and not
+/// by a normal named route like the other pages. This is done to reduce
+/// the named routes since this page is only the mobile version of this screen.
+///
+/// see:
+///   * [showChecklistFormDialog]
+class ChecklistFormPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _itemController;
+  final ChecklistPrimitive primitive;
 
-  @override
-  void initState() {
-    super.initState();
-    _itemController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _itemController.dispose();
-    super.dispose();
-  }
+  ChecklistFormPage({Key key, this.primitive}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
+    return BlocProvider<ChecklistFormBloc>(
+      create: (context) => ChecklistFormBloc(initialValue: primitive),
+      child: BlocListener<ChecklistFormBloc, ChecklistFormState>(
+        listenWhen: (_, c) => c.isSave,
+        listener: (context, state) => locator<NavigationService>().pop(
+          result: ChecklistPrimitive(title: state.title, items: state.items),
         ),
-        title: SizedBox.shrink(),
-        actions: [
-          TextButton(
-            child: Text("Done"),
-            onPressed: () {
-              if (_formKey.currentState.validate())
-                context.read<ChecklistFormBloc>().save();
-            },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: SizedBox.shrink(),
+            actions: [
+              Builder(
+                builder: (context) => TextButton(
+                  child: Text("Done"),
+                  onPressed: () {
+                    if (_formKey.currentState.validate())
+                      context.read<ChecklistFormBloc>().save();
+                  },
+                ),
+              ),
+            ],
+            backgroundColor: Colors.white,
+            iconTheme:
+                Theme.of(context).iconTheme.copyWith(color: Colors.black),
           ),
-        ],
-        backgroundColor: Colors.white,
-        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 8.0,
-        ),
-        child: Form(
-          key: _formKey,
-          child: BlocProvider<ChecklistFormBloc>(
-            create: (context) => ChecklistFormBloc(),
-            child: BlocListener<ChecklistFormBloc, ChecklistFormState>(
-              listenWhen: (_, c) => c.isSave,
-              listener: (context, state) =>
-                  locator<NavigationService>().pop(result: state.primitive),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            child: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   Row(
@@ -70,29 +67,7 @@ class _ChecklistFormPageState extends State<ChecklistFormPage> {
                     children: [
                       Icon(FeatherIcons.checkCircle),
                       SizedBox(width: 16.0),
-                      Expanded(
-                        child:
-                            BlocBuilder<ChecklistFormBloc, ChecklistFormState>(
-                          buildWhen: (_, __) => false,
-                          builder: (context, state) => TextFormField(
-                            initialValue: state.title,
-                            keyboardType: TextInputType.text,
-                            maxLength: ItemText.maxLength,
-                            maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                            style: Theme.of(context).textTheme.headline6,
-                            decoration: InputDecoration(
-                              counterText: "",
-                            ),
-                            onChanged: (value) => context
-                                .read<ChecklistFormBloc>()
-                                .titleChanged(value),
-                            validator: (value) => ItemText(value).value.fold(
-                                  (left) => "Invalid",
-                                  (_) => null,
-                                ),
-                          ),
-                        ),
-                      ),
+                      Expanded(child: ChecklistFormTitleWidget()),
                     ],
                   ),
                   SizedBox(height: 8.0),
@@ -100,7 +75,7 @@ class _ChecklistFormPageState extends State<ChecklistFormPage> {
                     buildWhen: (p, c) => p.items.length != c.items.length,
                     builder: (context, state) => Column(
                       children: state.items
-                          .mapIndexed((idx, e) => ChecklistSheetItem(
+                          .mapIndexed((idx, e) => ChecklistFormItem(
                                 key: ValueKey(e),
                                 item: e,
                                 index: idx,
@@ -108,84 +83,13 @@ class _ChecklistFormPageState extends State<ChecklistFormPage> {
                           .toList(),
                     ),
                   ),
-                  BlocBuilder<ChecklistFormBloc, ChecklistFormState>(
-                    buildWhen: (_, __) => false,
-                    builder: (context, state) => Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: TextFormField(
-                        controller: _itemController,
-                        decoration: InputDecoration(
-                          hintText: "Add item...",
-                          counterText: "",
-                        ),
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        maxLength: ItemText.maxLength,
-                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                        minLines: 1,
-                        maxLines: 6,
-                        onFieldSubmitted: (value) {
-                          final newItem = ItemText(value);
-                          if (newItem.value.isRight()) {
-                            context.read<ChecklistFormBloc>().addItem(newItem);
-                            _itemController.clear();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
+                  ChecklistFormNewItemWidget(),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class ChecklistSheetItem extends StatelessWidget {
-  final ItemText item;
-  final int index;
-
-  ChecklistSheetItem({
-    Key key,
-    this.item,
-    this.index,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(width: 8.0),
-        Checkbox(value: false, onChanged: (_) {}),
-        SizedBox(width: 16.0),
-        Expanded(
-          child: TextFormField(
-            maxLength: ItemText.maxLength,
-            maxLengthEnforcement: MaxLengthEnforcement.enforced,
-            minLines: 1,
-            maxLines: 6,
-            initialValue: item.value.getOrNull() ?? "",
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            onChanged: (value) => context
-                .read<ChecklistFormBloc>()
-                .editItem(index, ItemText(value)),
-            validator: (value) => ItemText(value).value.fold(
-                  (left) => "Invalid",
-                  (_) => null,
-                ),
-          ),
-        ),
-        IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              context.read<ChecklistFormBloc>().removeItem(index);
-            })
-      ],
     );
   }
 }
