@@ -20,8 +20,7 @@ void main() {
       "user_email": null,
       "user_color": null,
     });
-    mockPreferences = await SharedPreferences.getInstance();
-    service = PreferenceService.private(mockPreferences);
+    service = PreferenceService();
     await service.init();
 
     User user = service.getLastSignedInUser();
@@ -33,8 +32,7 @@ void main() {
       "user_email": "mock.user@email.com",
       "user_color": 0xFFFF0000,
     });
-    mockPreferences = await SharedPreferences.getInstance();
-    service = PreferenceService.private(mockPreferences);
+    service = PreferenceService();
     await service.init();
 
     user = service.getLastSignedInUser();
@@ -59,7 +57,7 @@ void main() {
       "user_color": null,
     });
     mockPreferences = await SharedPreferences.getInstance();
-    service = PreferenceService.private(mockPreferences);
+    service = PreferenceService();
     await service.init();
 
     expect(mockPreferences.getString("user_id"), isNull);
@@ -86,7 +84,7 @@ void main() {
       "user_color": null,
     });
     mockPreferences = await SharedPreferences.getInstance();
-    service = PreferenceService.private(mockPreferences);
+    service = PreferenceService();
     await service.init();
 
     expect(mockPreferences.getString("user_id"), isNull);

@@ -21,7 +21,7 @@ void main() {
 
     test("to string returns the correct representation", () {
       expect(UserName("Mock User").toString(), equals("UserName(Mock User)"));
-      expect(UserName(null).toString(), equals("UserName(Failure{null})"));
+      expect(UserName(null).toString(), equals("UserName(ValueFailureEmpty{null})"));
     });
   });
 
@@ -41,7 +41,7 @@ void main() {
       expect(EmailAddress("mock.email@test.com").toString(),
           equals("EmailAddress(mock.email@test.com)"));
       expect(
-          EmailAddress(null).toString(), equals("EmailAddress(Failure{null})"));
+          EmailAddress(null).toString(), equals("EmailAddress(ValueFailureInvalidEmail{null})"));
     });
   });
 
@@ -60,7 +60,7 @@ void main() {
     test("to string returns the correct representation", () {
       expect(Password("mock_password").toString(),
           equals("Password(mock_password)"));
-      expect(Password(null).toString(), equals("Password(Failure{null})"));
+      expect(Password(null).toString(), equals("Password(ValueFailureInvalidPassword{null})"));
     });
   });
 }

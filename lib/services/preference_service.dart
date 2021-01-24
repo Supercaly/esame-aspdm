@@ -1,7 +1,6 @@
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,9 +9,6 @@ class PreferenceService {
   SharedPreferences _preferences;
 
   PreferenceService();
-
-  @visibleForTesting
-  PreferenceService.private(this._preferences);
 
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
@@ -30,16 +26,14 @@ class PreferenceService {
   /// during the last login.
   /// If there's no user stored `null` will be returned instead.
   User getLastSignedInUser() {
-    try {
-      final colorValue = _preferences.getInt("user_color");
-      return User(
-        UniqueId(_preferences.getString("user_id")),
-        UserName(_preferences.getString("user_name")),
-        EmailAddress(_preferences.getString("user_email")),
-        colorValue != null ? Color(colorValue) : null,
-      );
-    } catch (e) {
-      return null;
-    }
+    final colorValue = _preferences.getInt("user_color");
+    final id = UniqueId(_preferences.getString("user_id"));
+    if (id.value.isLeft()) return null;
+    return User(
+      id,
+      UserName(_preferences.getString("user_name")),
+      EmailAddress(_preferences.getString("user_email")),
+      colorValue != null ? Color(colorValue) : null,
+    );
   }
 }
