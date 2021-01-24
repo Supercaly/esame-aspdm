@@ -181,7 +181,6 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         leading: Icon(FeatherIcons.checkCircle),
                         title: Text("Add checklist..."),
                         onTap: () async {
-                          // TODO(#45): Implement new checklist dialog
                           ChecklistPrimitive newChecklist;
                           if (Responsive.isSmall(context))
                             newChecklist = await Navigator.push(
