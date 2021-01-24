@@ -72,7 +72,7 @@ void main() {
       expect(u1.value.getOrCrash(), equals("Mock Item Title"));
 
       final longLine = StringBuffer();
-      for (var i = 0; i < 50; i++) longLine.write("a");
+      for (var i = 0; i < 600; i++) longLine.write("a");
       final u2 = ItemText(longLine.toString());
       expect(u2.value.isLeft(), isTrue);
 
