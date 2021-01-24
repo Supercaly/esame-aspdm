@@ -49,7 +49,10 @@ class _LoginFormState extends State<LoginForm> {
             ),
             keyboardType: TextInputType.emailAddress,
             validator: (value) => EmailAddress(value).value.fold(
-                  (left) => "Invalid email!",
+                  (left) => left.maybeMap(
+                    invalidEmail: (_) => "Email is not valid!",
+                    orElse: () => null,
+                  ),
                   (right) => null,
                 ),
             onEditingComplete: () => focusScope.nextFocus(),
@@ -69,7 +72,10 @@ class _LoginFormState extends State<LoginForm> {
               filled: true,
             ),
             validator: (value) => Password(value).value.fold(
-                  (left) => "Password can't be empty!",
+                  (left) => left.maybeMap(
+                    invalidPassword: (_) => "Password can't be empty!",
+                    orElse: () => null,
+                  ),
                   (right) => null,
                 ),
             textInputAction: TextInputAction.done,

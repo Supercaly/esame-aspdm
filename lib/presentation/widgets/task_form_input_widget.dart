@@ -43,7 +43,12 @@ class TaskFormInputWidget extends StatelessWidget {
                     .value
                     .fold(
                       // TODO(#25): Add maybeMap to ValueFailure like reso did.
-                      (left) => "Invalid",
+                      (left) => left.maybeMap(
+                        empty: (_) => "Title can't be empty!",
+                        tooLong: (_) =>
+                            "Title can't be longer than ${TaskTitle.maxLength}!",
+                        orElse: () => null,
+                      ),
                       (_) => null,
                     ),
               ),
@@ -73,7 +78,14 @@ class TaskFormInputWidget extends StatelessWidget {
                     .taskPrimitive
                     .description
                     .value
-                    .fold((left) => "invalid", (_) => null),
+                    .fold(
+                      (left) => left.maybeMap(
+                        tooLong: (_) =>
+                            "Description can't be longer than ${TaskDescription.maxLength}!",
+                        orElse: () => null,
+                      ),
+                      (_) => null,
+                    ),
               ),
             ),
           ],

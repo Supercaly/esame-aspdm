@@ -22,8 +22,13 @@ class ChecklistFormTitleWidget extends StatelessWidget {
         ),
         onChanged: (value) =>
             context.read<ChecklistFormBloc>().titleChanged(value),
-        validator: (value) => ItemText(value).value.fold(
-              (left) => "Invalid",
+        validator: (value) => ChecklistTitle(value).value.fold(
+              (left) => left.maybeMap(
+                empty: (_) => "Title can't be empty!",
+                tooLong: (_) =>
+                    "Title can't be longer than ${ChecklistTitle.maxLength}!",
+                orElse: () => null,
+              ),
               (_) => null,
             ),
       ),
@@ -126,7 +131,12 @@ class ChecklistFormItem extends StatelessWidget {
                   .read<ChecklistFormBloc>()
                   .editItem(index, ItemText(value)),
               validator: (value) => ItemText(value).value.fold(
-                    (left) => "Invalid",
+                    (left) => left.maybeMap(
+                      empty: (_) => "Item can't be empty!",
+                      tooLong: (_) =>
+                          "Item can't be longer than ${ChecklistTitle.maxLength}!",
+                      orElse: () => null,
+                    ),
                     (_) => null,
                   ),
             ),

@@ -127,8 +127,10 @@ void main() {
           equals("ChecklistTitle(ValueFailureEmpty{null})"));
       final longLine = StringBuffer();
       for (var i = 0; i < 50; i++) longLine.write("a");
-      expect(ChecklistTitle(longLine.toString()).toString(),
-          equals("ChecklistTitle(ValueFailureTooLong{${longLine.toString()}})"));
+      expect(
+          ChecklistTitle(longLine.toString()).toString(),
+          equals(
+              "ChecklistTitle(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 
@@ -156,8 +158,10 @@ void main() {
           equals("CommentContent(ValueFailureEmpty{null})"));
       final longLine = StringBuffer();
       for (var i = 0; i < 600; i++) longLine.write("a");
-      expect(CommentContent(longLine.toString()).toString(),
-          equals("CommentContent(ValueFailureTooLong{${longLine.toString()}})"));
+      expect(
+          CommentContent(longLine.toString()).toString(),
+          equals(
+              "CommentContent(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 

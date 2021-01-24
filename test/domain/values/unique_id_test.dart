@@ -21,7 +21,8 @@ void main() {
 
     test("to string returns the correct representation", () {
       expect(UniqueId("Mock Id").toString(), equals("UniqueId(Mock Id)"));
-      expect(UniqueId(null).toString(), equals("UniqueId(ValueFailureInvalidId{null})"));
+      expect(UniqueId(null).toString(),
+          equals("UniqueId(ValueFailureInvalidId{null})"));
     });
   });
 }

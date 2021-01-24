@@ -112,7 +112,7 @@ void main() {
 
       expect(formKey.currentState.validate(), isFalse);
       await tester.pumpAndSettle();
-      expect(find.text("Invalid"), findsOneWidget);
+      expect(find.text("Title can't be empty!"), findsOneWidget);
 
       when(bloc.state).thenReturn(
         bloc.state.copyWith(
@@ -125,7 +125,7 @@ void main() {
       expect(find.text("Mock Title"), findsOneWidget);
       expect(formKey.currentState.validate(), isTrue);
       await tester.pumpAndSettle();
-      expect(find.text("Invalid"), findsNothing);
+      expect(find.text("Title can't be empty!"), findsNothing);
     });
   });
 }
