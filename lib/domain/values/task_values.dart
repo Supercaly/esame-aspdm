@@ -14,15 +14,18 @@ class TaskTitle extends ValueObject<String> {
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
   factory TaskTitle(String input) {
-    if (input == null || input.isEmpty || input.length > maxLength)
-      return TaskTitle._(Either.left(ValueFailure(input)));
+    if (input == null || input.isEmpty)
+      return TaskTitle._(Either.left(ValueFailure.empty(input)));
+    if (input.length > maxLength)
+      return TaskTitle._(Either.left(ValueFailure.tooLong(input)));
     return TaskTitle._(Either.right(input));
   }
 
   /// Creates a [TaskTitle] with empty content.
   /// NOTE: The new [TaskTitle] will have value that is the left
   /// side of the Either (it's invalid).
-  factory TaskTitle.empty() => TaskTitle._(Either.left(ValueFailure(null)));
+  factory TaskTitle.empty() =>
+      TaskTitle._(Either.left(ValueFailure.empty(null)));
 
   @override
   String toString() =>
@@ -42,7 +45,7 @@ class TaskDescription extends ValueObject<String> {
   /// at most [maxLength] characters.
   factory TaskDescription(String input) {
     if (input != null && input.length > maxLength)
-      return TaskDescription._(Either.left(ValueFailure(input)));
+      return TaskDescription._(Either.left(ValueFailure.tooLong(input)));
     return TaskDescription._(Either.right(input));
   }
 
@@ -66,8 +69,10 @@ class ChecklistTitle extends ValueObject<String> {
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
   factory ChecklistTitle(String input) {
-    if (input == null || input.isEmpty || input.length > maxLength)
-      return ChecklistTitle._(Either.left(ValueFailure(input)));
+    if (input == null || input.isEmpty)
+      return ChecklistTitle._(Either.left(ValueFailure.empty(input)));
+    if (input.length > maxLength)
+      return ChecklistTitle._(Either.left(ValueFailure.tooLong(input)));
     return ChecklistTitle._(Either.right(input));
   }
 
@@ -90,8 +95,10 @@ class ItemText extends ValueObject<String> {
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
   factory ItemText(String input) {
-    if (input == null || input.isEmpty || input.length > maxLength)
-      return ItemText._(Either.left(ValueFailure(input)));
+    if (input == null || input.isEmpty)
+      return ItemText._(Either.left(ValueFailure.empty(input)));
+    if (input.length > maxLength)
+      return ItemText._(Either.left(ValueFailure.tooLong(input)));
     return ItemText._(Either.right(input));
   }
 
@@ -113,8 +120,10 @@ class CommentContent extends ValueObject<String> {
   /// The content can't be null, empty or more long than
   /// [maxLength].
   factory CommentContent(String content) {
-    if (content == null || content.isEmpty || content.length > maxLength)
-      return CommentContent._(Either.left(ValueFailure(content)));
+    if (content == null || content.isEmpty)
+      return CommentContent._(Either.left(ValueFailure.empty(content)));
+    if (content.length > maxLength)
+      return CommentContent._(Either.left(ValueFailure.tooLong(content)));
     return CommentContent._(Either.right(content));
   }
 

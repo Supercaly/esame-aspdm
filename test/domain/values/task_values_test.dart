@@ -27,7 +27,12 @@ void main() {
     test("to string returns the correct representation", () {
       expect(
           TaskTitle("Mock Title").toString(), equals("TaskTitle(Mock Title)"));
-      expect(TaskTitle(null).toString(), equals("TaskTitle(Failure{null})"));
+      expect(TaskTitle(null).toString(),
+          equals("TaskTitle(ValueFailureEmpty{null})"));
+      final longLine = StringBuffer();
+      for (var i = 0; i < 50; i++) longLine.write("a");
+      expect(TaskTitle(longLine.toString()).toString(),
+          equals("TaskTitle(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 
@@ -61,8 +66,10 @@ void main() {
 
       final longLine = StringBuffer();
       for (var i = 0; i < 1500; i++) longLine.write("a");
-      expect(TaskDescription(longLine.toString()).toString(),
-          equals("TaskDescription(Failure{${longLine.toString()}})"));
+      expect(
+          TaskDescription(longLine.toString()).toString(),
+          equals(
+              "TaskDescription(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 
@@ -86,7 +93,13 @@ void main() {
     test("to string returns the correct representation", () {
       expect(ItemText("Mock Item Title").toString(),
           equals("ItemText(Mock Item Title)"));
-      expect(ItemText(null).toString(), equals("ItemText(Failure{null})"));
+      expect(ItemText(null).toString(),
+          equals("ItemText(ValueFailureEmpty{null})"));
+
+      final longLine = StringBuffer();
+      for (var i = 0; i < 600; i++) longLine.write("a");
+      expect(ItemText(longLine.toString()).toString(),
+          equals("ItemText(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 
@@ -111,7 +124,13 @@ void main() {
       expect(ChecklistTitle("Mock Title").toString(),
           equals("ChecklistTitle(Mock Title)"));
       expect(ChecklistTitle(null).toString(),
-          equals("ChecklistTitle(Failure{null})"));
+          equals("ChecklistTitle(ValueFailureEmpty{null})"));
+      final longLine = StringBuffer();
+      for (var i = 0; i < 50; i++) longLine.write("a");
+      expect(
+          ChecklistTitle(longLine.toString()).toString(),
+          equals(
+              "ChecklistTitle(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 
@@ -136,7 +155,13 @@ void main() {
       expect(CommentContent("Mock Content").toString(),
           equals("CommentContent(Mock Content)"));
       expect(CommentContent(null).toString(),
-          equals("CommentContent(Failure{null})"));
+          equals("CommentContent(ValueFailureEmpty{null})"));
+      final longLine = StringBuffer();
+      for (var i = 0; i < 600; i++) longLine.write("a");
+      expect(
+          CommentContent(longLine.toString()).toString(),
+          equals(
+              "CommentContent(ValueFailureTooLong{${longLine.toString()}})"));
     });
   });
 
@@ -155,6 +180,7 @@ void main() {
     test("to string returns the correct representation", () {
       expect(Toggle(true).toString(), equals("Toggle(true)"));
       expect(Toggle(false).toString(), equals("Toggle(false)"));
+      expect(Toggle(null).toString(), equals("Toggle(false)"));
     });
   });
 }

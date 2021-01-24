@@ -14,8 +14,10 @@ class UserName extends ValueObject<String> {
   /// at most [maxLength] characters.
   /// If the input is null [AssertionError] will be thrown.
   factory UserName(String input) {
-    if (input == null || input.isEmpty || input.length > maxLength)
-      return UserName._(Either.left(ValueFailure(input)));
+    if (input == null || input.isEmpty)
+      return UserName._(Either.left(ValueFailure.empty(input)));
+    if (input.length > maxLength)
+      return UserName._(Either.left(ValueFailure.tooLong(input)));
     return UserName._(Either.right(input));
   }
 
@@ -39,7 +41,7 @@ class EmailAddress extends ValueObject<String> {
   /// of type [ValueFailure].
   factory EmailAddress(String email) {
     if (email == null || !RegExp(_emailRegex).hasMatch(email))
-      return EmailAddress._(Either.left(ValueFailure(email)));
+      return EmailAddress._(Either.left(ValueFailure.invalidEmail(email)));
     else
       return EmailAddress._(Either.right(email));
   }
@@ -61,7 +63,7 @@ class Password extends ValueObject<String> {
   /// The password can't be null or empty.
   factory Password(String pwd) {
     if (pwd == null || pwd.isEmpty)
-      return Password._(Either.left(ValueFailure(pwd)));
+      return Password._(Either.left(ValueFailure.invalidPassword(pwd)));
     else
       return Password._(Either.right(pwd));
   }

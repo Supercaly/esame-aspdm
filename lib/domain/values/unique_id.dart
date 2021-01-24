@@ -15,14 +15,16 @@ class UniqueId extends ValueObject<String> {
     // TODO(#42): Create an invalid UniqueId when the provided id is empty
     // It's better to create an invalid UniqueId that to throw an AssertionError.
     if (id != null && id.isNotEmpty) return UniqueId._(Either.right(id));
-    return UniqueId._(Either.left(ValueFailure(id)));
+    return UniqueId._(Either.left(ValueFailure.invalidId(id)));
   }
 
   /// Creates an empty [UniqueId].
   /// NOTE: The new [UniqueId] will have a value that is the left side
   /// of the Either (it's invalid).
-  factory UniqueId.empty() => UniqueId._(Either.left(ValueFailure("EMPTY_ID")));
+  factory UniqueId.empty() =>
+      UniqueId._(Either.left(ValueFailure.invalidId("EMPTY_ID")));
 
   @override
-  String toString() => "UniqueId(${value.getOrNull()})";
+  String toString() =>
+      "UniqueId(${value.fold((left) => left, (right) => right)})";
 }

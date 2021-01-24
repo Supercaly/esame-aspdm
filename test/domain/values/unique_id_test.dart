@@ -7,19 +7,11 @@ void main() {
       final u1 = UniqueId("Mock Id");
       expect(u1.value.getOrCrash(), equals("Mock Id"));
 
-      try {
-        UniqueId(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
+      final u2 = UniqueId(null);
+      expect(u2.value.isLeft(), isTrue);
 
-      try {
-        UniqueId("");
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
+      final u3 = UniqueId("");
+      expect(u3.value.isLeft(), isTrue);
     });
 
     test("create empty id", () {
@@ -29,6 +21,8 @@ void main() {
 
     test("to string returns the correct representation", () {
       expect(UniqueId("Mock Id").toString(), equals("UniqueId(Mock Id)"));
+      expect(UniqueId(null).toString(),
+          equals("UniqueId(ValueFailureInvalidId{null})"));
     });
   });
 }
