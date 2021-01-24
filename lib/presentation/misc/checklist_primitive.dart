@@ -22,4 +22,7 @@ class ChecklistPrimitive {
 
   // TODO: Implement this
   Checklist toChecklist() => null;
+
+  @override
+  String toString() => "ChecklistPrimitive{title: $title, items: $items}";
 }

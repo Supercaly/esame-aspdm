@@ -2,6 +2,7 @@ import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/dialogs/checklist_form_dialog.dart';
 import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
 import 'package:aspdm_project/presentation/dialogs/members_picker_dialog.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
@@ -182,13 +183,16 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         onTap: () async {
                           // TODO(#45): Implement new checklist dialog
                           ChecklistPrimitive newChecklist;
-                          //newChecklist = await showChecklistSheet(context);
-                          newChecklist = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChecklistFormPage(),
-                            ),
-                          );
+                          if (Responsive.isSmall(context))
+                            newChecklist = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChecklistFormPage(),
+                              ),
+                            );
+                          else
+                            newChecklist =
+                                await showChecklistFormDialog(context, null);
                           if (newChecklist != null)
                             context
                                 .read<TaskFormBloc>()
@@ -203,7 +207,27 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       p.taskPrimitive.checklists != s.taskPrimitive.checklists,
                   builder: (context, state) => Column(
                     children: state.taskPrimitive.checklists
-                        .map((e) => EditChecklist(checklist: e))
+                        .map((e) => EditChecklist(
+                              primitive: e,
+                              onTap: () async {
+                                ChecklistPrimitive editedChecklist;
+                                if (Responsive.isSmall(context))
+                                  editedChecklist = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChecklistFormPage(
+                                        primitive: e,
+                                      ),
+                                    ),
+                                  );
+                                else
+                                  editedChecklist =
+                                      await showChecklistFormDialog(context, e);
+                              },
+                              onRemove: () => context
+                                  .read<TaskFormBloc>()
+                                  .removeChecklist(e),
+                            ))
                         .toList(),
                   ),
                 ),
