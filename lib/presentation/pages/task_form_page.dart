@@ -223,6 +223,10 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                 else
                                   editedChecklist =
                                       await showChecklistFormDialog(context, e);
+                                if (editedChecklist != null)
+                                  context
+                                      .read<TaskFormBloc>()
+                                      .editChecklist(e, editedChecklist);
                               },
                               onRemove: () => context
                                   .read<TaskFormBloc>()
