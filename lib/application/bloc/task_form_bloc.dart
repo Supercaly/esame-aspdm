@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
@@ -8,10 +9,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskFormBloc extends Cubit<TaskFormState> {
-  TaskFormBloc(Task oldTask)
-      : super(TaskFormState.initial((oldTask != null)
-            ? TaskPrimitive.fromTask(oldTask)
-            : TaskPrimitive.empty()));
+  TaskFormBloc(Maybe<Task> oldTask)
+      : super(TaskFormState.initial(oldTask.fold(
+          () => TaskPrimitive.empty(),
+          (task) => TaskPrimitive.fromTask(task),
+        )));
 
   void titleChanged(String value) {
     print("EditTaskBloc.titleChanged: $value");

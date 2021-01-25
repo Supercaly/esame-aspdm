@@ -1,5 +1,7 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
+import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/dialogs/checklist_form_dialog.dart';
@@ -24,13 +26,17 @@ import 'package:loading_overlay/loading_overlay.dart';
 class TaskFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Task task = locator<NavigationService>().arguments(context);
+    final maybeTask =
+        (task != null) ? Maybe<Task>.just(task) : Maybe<Task>.nothing();
+
     return BlocProvider(
       // TODO(#35): Pass the task obtained from arguments to TaskFormBloc
       // Obtain a Task from the NavigationService arguments and pass
       // it to the bloc so he can use it.
       //
       // Note: After #27 this should return a Maybe<Task>.
-      create: (context) => TaskFormBloc(null),
+      create: (context) => TaskFormBloc(maybeTask),
       child: TaskFormPageScaffold(),
     );
   }
