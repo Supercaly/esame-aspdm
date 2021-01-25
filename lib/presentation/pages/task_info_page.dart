@@ -23,16 +23,11 @@ import '../../locator.dart';
 class TaskInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final UniqueId taskId = locator<NavigationService>().arguments(context);
-    final maybeId = taskId != null
-        ? Maybe<UniqueId>.just(taskId)
-        : Maybe<UniqueId>.nothing();
+    final Maybe<UniqueId> taskId =
+        locator<NavigationService>().arguments(context);
 
     return BlocProvider<TaskBloc>(
-      create: (context) => TaskBloc(
-        maybeId,
-        locator<TaskRepository>(),
-      )..fetch(),
+      create: (context) => TaskBloc(taskId, locator<TaskRepository>())..fetch(),
       child: TaskInfoPageWidget(),
     );
   }

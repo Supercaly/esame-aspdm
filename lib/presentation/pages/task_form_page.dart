@@ -26,9 +26,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 class TaskFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Task task = locator<NavigationService>().arguments(context);
-    final maybeTask =
-        (task != null) ? Maybe<Task>.just(task) : Maybe<Task>.nothing();
+    final Maybe<Task> task = locator<NavigationService>().arguments(context);
 
     return BlocProvider(
       // TODO(#35): Pass the task obtained from arguments to TaskFormBloc
@@ -36,7 +34,7 @@ class TaskFormPage extends StatelessWidget {
       // it to the bloc so he can use it.
       //
       // Note: After #27 this should return a Maybe<Task>.
-      create: (context) => TaskFormBloc(maybeTask),
+      create: (context) => TaskFormBloc(task),
       child: TaskFormPageScaffold(),
     );
   }
