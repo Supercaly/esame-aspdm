@@ -83,7 +83,6 @@ class ChecklistTitle extends ValueObject<String> {
 
 /// Class representing a valid item text.
 class ItemText extends ValueObject<String> {
-  // TODO(#49): Extend the max length of an ItemText
   static const int maxLength = 500;
 
   @override
