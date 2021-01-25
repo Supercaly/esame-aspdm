@@ -32,8 +32,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        HomeState.loading([]),
-        HomeState.data([]),
+        HomeState([], false, true),
+        HomeState([], false, false),
       ],
     );
 
@@ -46,8 +46,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        HomeState.loading([]),
-        HomeState.error([]),
+        HomeState([], false, true),
+        HomeState([], true, false),
       ],
     );
 
@@ -60,7 +60,7 @@ void main() {
         bloc.fetch(showLoading: false);
       },
       expect: [
-        HomeState.data([]),
+        HomeState([], false, false),
       ],
     );
   });

@@ -32,8 +32,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        ArchiveState.loading([]),
-        ArchiveState.data([]),
+        ArchiveState([], false, true),
+        ArchiveState([], false, false),
       ],
     );
 
@@ -46,8 +46,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        ArchiveState.loading([]),
-        ArchiveState.error([]),
+        ArchiveState([], false, true),
+        ArchiveState([], true, false),
       ],
     );
 
@@ -60,7 +60,7 @@ void main() {
         bloc.fetch(showLoading: false);
       },
       expect: [
-        ArchiveState.data([]),
+        ArchiveState([], false, false),
       ],
     );
   });
