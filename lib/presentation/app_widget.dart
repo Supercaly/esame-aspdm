@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/states/auth_state.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/locator.dart';
@@ -55,11 +56,11 @@ class RootWidget extends StatelessWidget {
           );
       },
       stream: locator<ConnectivityService>().onConnectionStateChange,
-      child: Selector<AuthState, User>(
+      child: Selector<AuthState, Maybe<User>>(
         selector: (_, state) => state.currentUser,
         builder: (_, value, __) {
           locator<LogService>().logBuild("Root $value");
-          if (value != null)
+          if (value.isJust())
             return MainPage();
           else
             return LoginPage();

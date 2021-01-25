@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/failures/task_failure.dart';
 import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
@@ -52,7 +53,7 @@ void main() {
           ),
         ),
       );
-      final res = await repository.getTask(UniqueId("id"));
+      final res = await repository.getTask(Maybe.just(UniqueId("id")));
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -61,19 +62,19 @@ void main() {
 
     test("get task returns null task", () async {
       when(dataSource.getTask(any)).thenAnswer((_) async => Either.right(null));
-      final res = await repository.getTask(UniqueId("id"));
+      final res = await repository.getTask(Maybe.just(UniqueId("id")));
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNull);
     });
 
     test("get task return error", () async {
-      final res = await repository.getTask(null);
+      final res = await repository.getTask(Maybe.nothing());
       expect(res.isLeft(), isTrue);
 
       when(dataSource.getTask(any)).thenAnswer(
           (_) async => Either.left(ServerFailure.unexpectedError("")));
-      final res2 = await repository.getTask(UniqueId("mock_id"));
+      final res2 = await repository.getTask(Maybe.just(UniqueId("mock_id")));
       expect(res2.isLeft(), isTrue);
     });
 
@@ -101,8 +102,8 @@ void main() {
         ),
       );
       final res = await repository.completeChecklist(
-        UniqueId("taskId"),
-        UniqueId("userId"),
+        Maybe.just(UniqueId("taskId")),
+        Maybe.just(UniqueId("userId")),
         UniqueId("checklistId"),
         UniqueId("itemId"),
         Toggle(true),
@@ -117,8 +118,8 @@ void main() {
       when(dataSource.check(any, any, any, any, any)).thenAnswer((_) async =>
           Either.left(TaskFailure.itemCompleteFailure(UniqueId("itemId"))));
       final res = await repository.completeChecklist(
-        UniqueId("taskId"),
-        UniqueId("userId"),
+        Maybe.just(UniqueId("taskId")),
+        Maybe.just(UniqueId("userId")),
         UniqueId("checklistId"),
         UniqueId("itemId"),
         Toggle(true),
@@ -151,8 +152,10 @@ void main() {
           ),
         ),
       );
-      final res =
-          await repository.archiveTask(UniqueId("taskId"), UniqueId("userId"));
+      final res = await repository.archiveTask(
+        Maybe.just(UniqueId("taskId")),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -163,8 +166,8 @@ void main() {
       when(dataSource.archive(any, any, Toggle(true))).thenAnswer((_) async =>
           Either.left(TaskFailure.archiveFailure(UniqueId("taskId"))));
       final res = await repository.archiveTask(
-        UniqueId("taskId"),
-        UniqueId("userId"),
+        Maybe.just(UniqueId("taskId")),
+        Maybe.just(UniqueId("userId")),
       );
       expect(res.isLeft(), isTrue);
     });
@@ -193,7 +196,9 @@ void main() {
         ),
       );
       final res = await repository.unarchiveTask(
-          UniqueId("taskId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -204,8 +209,8 @@ void main() {
       when(dataSource.archive(any, any, Toggle(false))).thenAnswer((_) async =>
           Either.left(TaskFailure.unarchiveFailure(UniqueId("taskId"))));
       final res = await repository.unarchiveTask(
-        UniqueId("taskId"),
-        UniqueId("userId"),
+        Maybe.just(UniqueId("taskId")),
+        Maybe.just(UniqueId("userId")),
       );
       expect(res.isLeft(), isTrue);
     });
@@ -236,7 +241,10 @@ void main() {
         ),
       );
       final res = await repository.deleteComment(
-          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -247,7 +255,10 @@ void main() {
       when(dataSource.deleteComment(any, any, any)).thenAnswer((_) async =>
           Either.left(TaskFailure.deleteCommentFailure(UniqueId("commentId"))));
       final res = await repository.deleteComment(
-          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        Maybe.just(UniqueId("userId")),
+      );
       expect(res.isLeft(), isTrue);
     });
 
@@ -274,8 +285,12 @@ void main() {
           ),
         ),
       );
-      final res = await repository.editComment(UniqueId("taskId"),
-          UniqueId("commentId"), CommentContent("content"), UniqueId("userId"));
+      final res = await repository.editComment(
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        CommentContent("content"),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -285,8 +300,12 @@ void main() {
     test("edit comment return error", () async {
       when(dataSource.patchComment(any, any, any, any)).thenAnswer((_) async =>
           Either.left(TaskFailure.editCommentFailure(UniqueId("commentId"))));
-      final res = await repository.editComment(UniqueId("taskId"),
-          UniqueId("commentId"), CommentContent("content"), UniqueId("userId"));
+      final res = await repository.editComment(
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        CommentContent("content"),
+        Maybe.just(UniqueId("userId")),
+      );
       expect(res.isLeft(), isTrue);
     });
 
@@ -314,7 +333,10 @@ void main() {
         ),
       );
       final res = await repository.addComment(
-          UniqueId("taskId"), CommentContent("content"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        CommentContent("content"),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -325,7 +347,10 @@ void main() {
       when(dataSource.postComment(any, any, any)).thenAnswer(
           (_) async => Either.left(TaskFailure.newCommentFailure()));
       final res = await repository.addComment(
-          UniqueId("taskId"), CommentContent("content"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        CommentContent("content"),
+        Maybe.just(UniqueId("userId")),
+      );
       expect(res.isLeft(), isTrue);
     });
 
@@ -353,7 +378,10 @@ void main() {
         ),
       );
       final res = await repository.likeComment(
-          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -364,7 +392,10 @@ void main() {
       when(dataSource.likeComment(any, any, any)).thenAnswer((_) async =>
           Either.left(TaskFailure.likeFailure(UniqueId("commentId"))));
       final res = await repository.likeComment(
-          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        Maybe.just(UniqueId("userId")),
+      );
       expect(res.isLeft(), isTrue);
     });
 
@@ -392,7 +423,10 @@ void main() {
         ),
       );
       final res = await repository.dislikeComment(
-          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        Maybe.just(UniqueId("userId")),
+      );
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -403,7 +437,10 @@ void main() {
       when(dataSource.dislikeComment(any, any, any)).thenAnswer((_) async =>
           Either.left(TaskFailure.dislikeFailure(UniqueId("commentId"))));
       final res = await repository.dislikeComment(
-          UniqueId("taskId"), UniqueId("commentId"), UniqueId("userId"));
+        Maybe.just(UniqueId("taskId")),
+        UniqueId("commentId"),
+        Maybe.just(UniqueId("userId")),
+      );
       expect(res.isLeft(), isTrue);
     });
   });

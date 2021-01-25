@@ -1,5 +1,6 @@
 import 'package:aspdm_project/application/bloc/task_bloc.dart';
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
@@ -29,12 +30,12 @@ void main() {
 
     blocTest(
       "emits nothing when created",
-      build: () => TaskBloc(UniqueId("mock_id"), repository),
+      build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
       expect: [],
     );
 
     blocTest("emits data on fetch success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.getTask(any)).thenAnswer(
             (_) => Future.value(
@@ -76,7 +77,7 @@ void main() {
 
     blocTest(
       "emits error on fetch error",
-      build: () => TaskBloc(UniqueId("mock_id"), repository),
+      build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
       act: (TaskBloc bloc) {
         when(repository.getTask(any)).thenAnswer((_) =>
             Future.value(Either.left(ServerFailure.unexpectedError(""))));
@@ -90,7 +91,7 @@ void main() {
 
     blocTest(
       "don't emits loading when fetch has showLoading false",
-      build: () => TaskBloc(UniqueId("mock_id"), repository),
+      build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
       act: (TaskBloc bloc) {
         when(repository.getTask(any)).thenAnswer(
           (_) => Future.value(
@@ -131,7 +132,7 @@ void main() {
     );
 
     blocTest("emits data on comment delete success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.deleteComment(any, any, any)).thenAnswer(
             (_) => Future.value(
@@ -152,7 +153,10 @@ void main() {
               ),
             ),
           );
-          bloc.deleteComment(UniqueId("commentId"), UniqueId("userId"));
+          bloc.deleteComment(
+            UniqueId("commentId"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.data(Task(
@@ -171,18 +175,21 @@ void main() {
         ]);
 
     blocTest("emits error on comment delete error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.deleteComment(any, any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.deleteComment(UniqueId("commentId"), UniqueId("userId"));
+          bloc.deleteComment(
+            UniqueId("commentId"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on comment edit success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.editComment(any, any, any, any)).thenAnswer(
             (_) => Future.value(
@@ -203,8 +210,11 @@ void main() {
               ),
             ),
           );
-          bloc.editComment(UniqueId("commentId"), CommentContent("newContent"),
-              UniqueId("userId"));
+          bloc.editComment(
+            UniqueId("commentId"),
+            CommentContent("newContent"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.data(Task(
@@ -223,19 +233,22 @@ void main() {
         ]);
 
     blocTest("emits error on comment edit error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.editComment(any, any, any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.editComment(UniqueId("commentId"), CommentContent("newContent"),
-              UniqueId("userId"));
+          bloc.editComment(
+            UniqueId("commentId"),
+            CommentContent("newContent"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on comment like success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.likeComment(any, any, any)).thenAnswer(
             (_) => Future.value(
@@ -256,7 +269,10 @@ void main() {
               ),
             ),
           );
-          bloc.likeComment(UniqueId("commentId"), UniqueId("userId"));
+          bloc.likeComment(
+            UniqueId("commentId"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.data(Task(
@@ -275,18 +291,21 @@ void main() {
         ]);
 
     blocTest("emits error on comment like error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.likeComment(any, any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.likeComment(UniqueId("commentId"), UniqueId("userId"));
+          bloc.likeComment(
+            UniqueId("commentId"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on comment dislike success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.dislikeComment(any, any, any)).thenAnswer(
             (_) => Future.value(
@@ -307,7 +326,10 @@ void main() {
               ),
             ),
           );
-          bloc.dislikeComment(UniqueId("commentId"), UniqueId("userId"));
+          bloc.dislikeComment(
+            UniqueId("commentId"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.data(Task(
@@ -326,18 +348,21 @@ void main() {
         ]);
 
     blocTest("emits error on comment dislike error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.dislikeComment(any, any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.dislikeComment(UniqueId("commentId"), UniqueId("userId"));
+          bloc.dislikeComment(
+            UniqueId("commentId"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on add comment success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.addComment(any, any, any)).thenAnswer(
             (_) => Future.value(
@@ -358,7 +383,8 @@ void main() {
               ),
             ),
           );
-          bloc.addComment(CommentContent("content"), UniqueId("userId"));
+          bloc.addComment(
+              CommentContent("content"), Maybe.just(UniqueId("userId")));
         },
         expect: [
           TaskState.data(Task(
@@ -377,18 +403,21 @@ void main() {
         ]);
 
     blocTest("emits error on add comment error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.addComment(any, any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.addComment(CommentContent("content"), UniqueId("userId"));
+          bloc.addComment(
+            CommentContent("content"),
+            Maybe.just(UniqueId("userId")),
+          );
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on archive success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.archiveTask(any, any)).thenAnswer(
             (_) => Future.value(
@@ -409,7 +438,7 @@ void main() {
               ),
             ),
           );
-          bloc.archive(UniqueId("userId"));
+          bloc.archive(Maybe.just(UniqueId("userId")));
         },
         expect: [
           TaskState.data(Task(
@@ -428,18 +457,18 @@ void main() {
         ]);
 
     blocTest("emits error on archive error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.archiveTask(any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.archive(UniqueId("userId"));
+          bloc.archive(Maybe.just(UniqueId("userId")));
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on unarchive success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.unarchiveTask(any, any)).thenAnswer(
             (_) => Future.value(
@@ -460,7 +489,7 @@ void main() {
               ),
             ),
           );
-          bloc.unarchive(UniqueId("userId"));
+          bloc.unarchive(Maybe.just(UniqueId("userId")));
         },
         expect: [
           TaskState.data(Task(
@@ -479,18 +508,18 @@ void main() {
         ]);
 
     blocTest("emits error on unarchive error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.unarchiveTask(any, any)).thenAnswer((_) =>
               Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.unarchive(UniqueId("userId"));
+          bloc.unarchive(Maybe.just(UniqueId("userId")));
         },
         expect: [
           TaskState.error(null),
         ]);
 
     blocTest("emits data on complete checklist success",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
               .thenAnswer(
@@ -512,8 +541,12 @@ void main() {
               ),
             ),
           );
-          bloc.completeChecklist(UniqueId("userId"), UniqueId("checklistId"),
-              UniqueId("itemId"), Toggle(true));
+          bloc.completeChecklist(
+            Maybe.just(UniqueId("userId")),
+            UniqueId("checklistId"),
+            UniqueId("itemId"),
+            Toggle(true),
+          );
         },
         expect: [
           TaskState.data(Task(
@@ -532,13 +565,17 @@ void main() {
         ]);
 
     blocTest("emits error on complete checklist error",
-        build: () => TaskBloc(UniqueId("mock_id"), repository),
+        build: () => TaskBloc(Maybe.just(UniqueId("mock_id")), repository),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
               .thenAnswer((_) =>
                   Future.value(Either.left(ServerFailure.unexpectedError(""))));
-          bloc.completeChecklist(UniqueId("userId"), UniqueId("checklistId"),
-              UniqueId("itemId"), Toggle(true));
+          bloc.completeChecklist(
+            Maybe.just(UniqueId("userId")),
+            UniqueId("checklistId"),
+            UniqueId("itemId"),
+            Toggle(true),
+          );
         },
         expect: [
           TaskState.error(null),

@@ -1,3 +1,5 @@
+import 'package:aspdm_project/core/maybe.dart';
+
 /// Class representing a void return type.
 /// This class is used only in conjunction with
 /// [Either] or other functional classes to express
@@ -53,6 +55,12 @@ abstract class Either<L, R> {
 
   /// Returns `true` if this is a [Right] side value.
   bool isRight() => fold((l) => false, (r) => true);
+
+  /// Returns a [Maybe] from the right side value.
+  Maybe<R> toMaybe() => fold(
+        (left) => Maybe<R>.nothing(),
+        (right) => Maybe<R>.just(right),
+      );
 
   @override
   String toString() => fold((l) => "Left($l)", (r) => "Right($r)");

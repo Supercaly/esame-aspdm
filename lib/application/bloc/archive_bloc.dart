@@ -40,6 +40,7 @@ class ArchiveState extends Equatable {
   /// List of archived tasks.
   final List<Task> data;
 
+  // TODO(#53) Refactor to use copyWith pattern
   /// Constructor for the data.
   const ArchiveState.data(this.data)
       : isLoading = false,

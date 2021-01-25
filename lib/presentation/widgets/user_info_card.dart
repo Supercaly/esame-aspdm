@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
@@ -7,7 +8,7 @@ import 'package:provider/provider.dart';
 class UserInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Selector<AuthState, User>(
+    return Selector<AuthState, Maybe<User>>(
       selector: (_, state) => state.currentUser,
       builder: (context, user, _) => Card(
         child: Padding(
@@ -17,7 +18,7 @@ class UserInfoCard extends StatelessWidget {
               UserAvatar(
                 size: 56.0,
                 rectangle: true,
-                user: user,
+                user: user.getOrNull(),
               ),
               SizedBox(width: 24.0),
               Column(
@@ -25,11 +26,11 @@ class UserInfoCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    user?.name?.value?.getOrNull() ?? "",
+                    user.getOrNull()?.name?.value?.getOrNull() ?? "",
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   Text(
-                    user?.email?.value?.getOrNull() ?? "",
+                    user.getOrNull()?.email?.value?.getOrNull() ?? "",
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                 ],

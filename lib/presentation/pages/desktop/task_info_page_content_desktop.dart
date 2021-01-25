@@ -50,7 +50,7 @@ class TaskInfoPageContentDesktop extends StatelessWidget {
                                           context
                                               .read<AuthState>()
                                               .currentUser
-                                              .id,
+                                              .map((u) => u.id),
                                           checklist.id,
                                           item.id,
                                           value,

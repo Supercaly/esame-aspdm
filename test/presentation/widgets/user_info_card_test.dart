@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -17,12 +18,12 @@ void main() {
   setUpAll(() {
     state = MockAuthState();
 
-    when(state.currentUser).thenReturn(User(
+    when(state.currentUser).thenReturn(Maybe.just(User(
       UniqueId("mock_id"),
       UserName("Mock User"),
       EmailAddress("mock.user@email.com"),
       Colors.green,
-    ));
+    )));
   });
 
   tearDownAll(() {

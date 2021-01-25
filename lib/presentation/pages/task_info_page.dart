@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/application/bloc/task_bloc.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
@@ -22,8 +23,9 @@ import '../../locator.dart';
 class TaskInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final UniqueId taskId = locator<NavigationService>().arguments(context);
-    //final taskId = ModalRoute.of(context).settings.arguments;
+    final Maybe<UniqueId> taskId =
+        locator<NavigationService>().arguments(context);
+
     return BlocProvider<TaskBloc>(
       create: (context) => TaskBloc(taskId, locator<TaskRepository>())..fetch(),
       child: TaskInfoPageWidget(),
@@ -43,8 +45,9 @@ class TaskInfoPageWidget extends StatelessWidget {
               SnackBar(content: Text("Unknown error occurred!")),
             ),
         builder: (context, state) {
-          final canModify = (currentUser == state.data?.author) ||
-              (state.data?.members?.any((e) => currentUser == e) ?? false);
+          final canModify = (currentUser.getOrNull() == state.data?.author) ||
+              (state.data?.members?.any((e) => currentUser.getOrNull() == e) ??
+                  false);
 
           return Scaffold(
             appBar: AppBar(
@@ -54,14 +57,16 @@ class TaskInfoPageWidget extends StatelessWidget {
                   ? [
                       IconButton(
                         icon: Icon(FeatherIcons.edit),
+                        // TODO: Connect edit button to TaskFormPage
                         onPressed: () => print("Edit..."),
                         tooltip: "Edit",
                       ),
                       if (!state.data.archived.value.getOrCrash())
                         IconButton(
                           icon: Icon(FeatherIcons.sunset),
-                          onPressed: () =>
-                              context.read<TaskBloc>().archive(currentUser.id),
+                          onPressed: () => context
+                              .read<TaskBloc>()
+                              .archive(currentUser.map((u) => u.id)),
                           tooltip: "Archive",
                         ),
                       if (state.data.archived.value.getOrCrash())
@@ -70,7 +75,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                           tooltip: "Unarchive",
                           onPressed: () => context
                               .read<TaskBloc>()
-                              .unarchive(currentUser.id),
+                              .unarchive(currentUser.map((u) => u.id)),
                         ),
                     ]
                   : null,
@@ -241,7 +246,7 @@ class CommentsCard extends StatelessWidget {
             AddCommentWidget(
               onNewComment: (content) => context.read<TaskBloc>().addComment(
                     content,
-                    context.read<AuthState>().currentUser.id,
+                    context.read<AuthState>().currentUser.map((u) => u.id),
                   ),
             ),
             if (task?.comments != null && task.comments.isNotEmpty)
@@ -254,22 +259,34 @@ class CommentsCard extends StatelessWidget {
                         comment: comment,
                         onDelete: () => context.read<TaskBloc>().deleteComment(
                               comment.id,
-                              context.read<AuthState>().currentUser.id,
+                              context
+                                  .read<AuthState>()
+                                  .currentUser
+                                  .map((u) => u.id),
                             ),
                         onEdit: (content) =>
                             context.read<TaskBloc>().editComment(
                                   comment.id,
                                   content,
-                                  context.read<AuthState>().currentUser.id,
+                                  context
+                                      .read<AuthState>()
+                                      .currentUser
+                                      .map((u) => u.id),
                                 ),
                         onLike: () => context.read<TaskBloc>().likeComment(
                               comment.id,
-                              context.read<AuthState>().currentUser.id,
+                              context
+                                  .read<AuthState>()
+                                  .currentUser
+                                  .map((u) => u.id),
                             ),
                         onDislike: () =>
                             context.read<TaskBloc>().dislikeComment(
                                   comment.id,
-                                  context.read<AuthState>().currentUser.id,
+                                  context
+                                      .read<AuthState>()
+                                      .currentUser
+                                      .map((u) => u.id),
                                 ),
                       ),
                     )

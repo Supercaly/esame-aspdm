@@ -39,6 +39,7 @@ class HomeState extends Equatable {
   /// List of tasks to display.
   final List<Task> data;
 
+  // TODO(#53) Refactor to use copyWith pattern
   /// Constructor for the data.
   const HomeState.data(this.data)
       : isLoading = false,

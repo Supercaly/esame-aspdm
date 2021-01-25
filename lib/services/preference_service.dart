@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -15,25 +16,39 @@ class PreferenceService {
   }
 
   /// Store the currently logged in [User].
-  Future<void> storeSignedInUser(User user) async {
-    await _preferences.setString("user_id", user?.id?.value?.getOrNull());
-    await _preferences.setString("user_name", user?.name?.value?.getOrNull());
-    await _preferences.setString("user_email", user?.email?.value?.getOrNull());
-    await _preferences.setInt("user_color", user?.profileColor?.value);
+  Future<void> storeSignedInUser(Maybe<User> user) async {
+    if (user.isNothing()) {
+      await _preferences.remove("user_id");
+      await _preferences.remove("user_name");
+      await _preferences.remove("user_email");
+      await _preferences.remove("user_color");
+    } else {
+      final User value = user.getOrNull();
+      await _preferences.setString("user_id", value?.id?.value?.getOrNull());
+      await _preferences.setString(
+        "user_name",
+        value?.name?.value?.getOrNull(),
+      );
+      await _preferences.setString(
+        "user_email",
+        value?.email?.value?.getOrNull(),
+      );
+      await _preferences.setInt("user_color", value?.profileColor?.value);
+    }
   }
 
   /// Returns an instance of [User] stored using [storeSignedInUser]
   /// during the last login.
   /// If there's no user stored `null` will be returned instead.
-  User getLastSignedInUser() {
+  Maybe<User> getLastSignedInUser() {
     final colorValue = _preferences.getInt("user_color");
     final id = UniqueId(_preferences.getString("user_id"));
-    if (id.value.isLeft()) return null;
-    return User(
+    if (id.value.isLeft()) return Maybe<User>.nothing();
+    return Maybe.just(User(
       id,
       UserName(_preferences.getString("user_name")),
       EmailAddress(_preferences.getString("user_email")),
       colorValue != null ? Color(colorValue) : null,
-    );
+    ));
   }
 }
