@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -23,8 +24,8 @@ void main() {
     service = PreferenceService();
     await service.init();
 
-    User user = service.getLastSignedInUser();
-    expect(user, isNull);
+    Maybe<User> user = service.getLastSignedInUser();
+    expect(user.isNothing(), isTrue);
 
     SharedPreferences.setMockInitialValues({
       "user_id": "mock_id",
@@ -36,8 +37,9 @@ void main() {
     await service.init();
 
     user = service.getLastSignedInUser();
+    expect(user.isJust(), isTrue);
     expect(
-      user,
+      user.getOrNull(),
       equals(
         User(
           UniqueId("mock_id"),
@@ -65,10 +67,10 @@ void main() {
     expect(mockPreferences.getString("user_email"), isNull);
     expect(mockPreferences.getInt("user_color"), isNull);
 
-    User user = service.getLastSignedInUser();
-    expect(user, isNull);
+    Maybe<User> user = service.getLastSignedInUser();
+    expect(user.isNothing(), isTrue);
 
-    await service.storeSignedInUser(null);
+    await service.storeSignedInUser(Maybe.nothing());
 
     expect(mockPreferences.getString("user_id"), isNull);
     expect(mockPreferences.getString("user_name"), isNull);
@@ -92,15 +94,15 @@ void main() {
     expect(mockPreferences.getString("user_email"), isNull);
     expect(mockPreferences.getInt("user_color"), isNull);
 
-    User user = service.getLastSignedInUser();
-    expect(user, isNull);
+    Maybe<User> user = service.getLastSignedInUser();
+    expect(user.isNothing(), isTrue);
 
-    await service.storeSignedInUser(User(
+    await service.storeSignedInUser(Maybe.just(User(
       UniqueId("mock_id"),
       UserName("mock user"),
       EmailAddress("mock.user@email.com"),
       Colors.yellow,
-    ));
+    )));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));
     expect(mockPreferences.getString("user_name"), equals("mock user"));

@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
@@ -33,15 +34,15 @@ void main() {
   });
 
   test("get last signed in user returns a user", () {
-    when(preferenceService.getLastSignedInUser()).thenReturn(User(
+    when(preferenceService.getLastSignedInUser()).thenReturn(Maybe.just(User(
       UniqueId("mock_id"),
       UserName("Mock User"),
       EmailAddress("mock@email.com"),
       null,
-    ));
+    )));
     final user = repository.lastSignedInUser;
 
-    expect(user.isRight(), isTrue);
+    expect(user.isJust(), isTrue);
     expect(user.getOrNull(), isNotNull);
     expect(user.getOrNull(), isA<User>());
     verify(preferenceService.getLastSignedInUser()).called(1);
@@ -92,7 +93,7 @@ void main() {
   test("logout logs out the user", () async {
     final res = await repository.logout();
 
-    verify(preferenceService.storeSignedInUser(null)).called(1);
+    verify(preferenceService.storeSignedInUser(any)).called(1);
     expect(res.isRight(), isTrue);
   });
 }

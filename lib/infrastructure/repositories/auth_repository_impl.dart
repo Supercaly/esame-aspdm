@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
@@ -15,8 +16,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._dataSource, this._preferenceService);
 
   @override
-  Either<Failure, User> get lastSignedInUser =>
-      Either.right(_preferenceService.getLastSignedInUser());
+  Maybe<User> get lastSignedInUser => _preferenceService.getLastSignedInUser();
 
   @override
   Future<Either<Failure, User>> login(
@@ -28,14 +28,14 @@ class AuthRepositoryImpl extends AuthRepository {
             .run();
 
     if (result.isRight())
-      await _preferenceService.storeSignedInUser(result.getOrNull());
+      await _preferenceService.storeSignedInUser(result.toMaybe());
 
     return result;
   }
 
   @override
   Future<Either<Failure, Unit>> logout() async {
-    await _preferenceService.storeSignedInUser(null);
+    await _preferenceService.storeSignedInUser(Maybe.nothing());
     return Either.right(const Unit());
   }
 }
