@@ -42,7 +42,6 @@ class TaskFormInputWidget extends StatelessWidget {
                     .title
                     .value
                     .fold(
-                      // TODO(#25): Add maybeMap to ValueFailure like reso did.
                       (left) => left.maybeMap(
                         empty: (_) => "Title can't be empty!",
                         tooLong: (_) =>
