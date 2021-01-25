@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
@@ -15,9 +16,9 @@ class TaskRepositoryImpl extends TaskRepository {
   TaskRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, Task>> getTask(UniqueId id) async {
-    if (id == null) return Either.left(TaskFailure.invalidId());
-    return MonadTask(() => _dataSource.getTask(id))
+  Future<Either<Failure, Task>> getTask(Maybe<UniqueId> id) async {
+    if (id.isNothing()) return Either.left(TaskFailure.invalidId());
+    return MonadTask(() => _dataSource.getTask(id.getOrNull()))
         .map((value) => value?.toTask())
         .attempt((e) => ServerFailure.unexpectedError(e))
         .run();
@@ -25,85 +26,124 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Either<Failure, Task>> deleteComment(
-    UniqueId taskId,
+    Maybe<UniqueId> taskId,
     UniqueId commentId,
-    UniqueId userId,
+    Maybe<UniqueId> userId,
   ) =>
-      MonadTask(() => _dataSource.deleteComment(taskId, commentId, userId))
+      MonadTask(() => _dataSource.deleteComment(
+                taskId.getOrNull(),
+                commentId,
+                userId.getOrNull(),
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
   Future<Either<Failure, Task>> editComment(
-    UniqueId taskId,
+    Maybe<UniqueId> taskId,
     UniqueId commentId,
     CommentContent content,
-    UniqueId userId,
+    Maybe<UniqueId> userId,
   ) =>
-      MonadTask(() =>
-              _dataSource.patchComment(taskId, commentId, userId, content))
+      MonadTask(() => _dataSource.patchComment(
+                taskId.getOrNull(),
+                commentId,
+                userId.getOrNull(),
+                content,
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
   Future<Either<Failure, Task>> addComment(
-          UniqueId taskId, CommentContent content, UniqueId userId) =>
-      MonadTask(() => _dataSource.postComment(taskId, userId, content))
+    Maybe<UniqueId> taskId,
+    CommentContent content,
+    Maybe<UniqueId> userId,
+  ) =>
+      MonadTask(() => _dataSource.postComment(
+                taskId.getOrNull(),
+                userId.getOrNull(),
+                content,
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
   Future<Either<Failure, Task>> likeComment(
-    UniqueId taskId,
+    Maybe<UniqueId> taskId,
     UniqueId commentId,
-    UniqueId userId,
+    Maybe<UniqueId> userId,
   ) =>
-      MonadTask(() => _dataSource.likeComment(taskId, commentId, userId))
+      MonadTask(() => _dataSource.likeComment(
+                taskId.getOrNull(),
+                commentId,
+                userId.getOrNull(),
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
   Future<Either<Failure, Task>> dislikeComment(
-    UniqueId taskId,
+    Maybe<UniqueId> taskId,
     UniqueId commentId,
-    UniqueId userId,
+    Maybe<UniqueId> userId,
   ) =>
-      MonadTask(() => _dataSource.dislikeComment(taskId, commentId, userId))
+      MonadTask(() => _dataSource.dislikeComment(
+                taskId.getOrNull(),
+                commentId,
+                userId.getOrNull(),
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
-  Future<Either<Failure, Task>> archiveTask(UniqueId taskId, UniqueId userId) =>
-      MonadTask(() => _dataSource.archive(taskId, userId, Toggle(true)))
+  Future<Either<Failure, Task>> archiveTask(
+    Maybe<UniqueId> taskId,
+    Maybe<UniqueId> userId,
+  ) =>
+      MonadTask(() => _dataSource.archive(
+                taskId.getOrNull(),
+                userId.getOrNull(),
+                Toggle(true),
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
   Future<Either<Failure, Task>> unarchiveTask(
-    UniqueId taskId,
-    UniqueId userId,
+    Maybe<UniqueId> taskId,
+    Maybe<UniqueId> userId,
   ) =>
-      MonadTask(() => _dataSource.archive(taskId, userId, Toggle(false)))
+      MonadTask(() => _dataSource.archive(
+                taskId.getOrNull(),
+                userId.getOrNull(),
+                Toggle(false),
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
   @override
   Future<Either<Failure, Task>> completeChecklist(
-    UniqueId taskId,
-    UniqueId userId,
+    Maybe<UniqueId> taskId,
+    Maybe<UniqueId> userId,
     UniqueId checklistId,
     UniqueId itemId,
     Toggle complete,
   ) =>
-      MonadTask(() =>
-              _dataSource.check(taskId, userId, checklistId, itemId, complete))
+      MonadTask(() => _dataSource.check(
+                taskId.getOrNull(),
+                userId.getOrNull(),
+                checklistId,
+                itemId,
+                complete,
+              ))
           .map((value) => value.toTask())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();

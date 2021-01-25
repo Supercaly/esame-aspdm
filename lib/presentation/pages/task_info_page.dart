@@ -23,9 +23,15 @@ class TaskInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UniqueId taskId = locator<NavigationService>().arguments(context);
-    //final taskId = ModalRoute.of(context).settings.arguments;
+    final maybeId = taskId != null
+        ? Maybe<UniqueId>.just(taskId)
+        : Maybe<UniqueId>.nothing();
+
     return BlocProvider<TaskBloc>(
-      create: (context) => TaskBloc(taskId, locator<TaskRepository>())..fetch(),
+      create: (context) => TaskBloc(
+        maybeId,
+        locator<TaskRepository>(),
+      )..fetch(),
       child: TaskInfoPageWidget(),
     );
   }
