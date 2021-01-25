@@ -45,6 +45,7 @@ class ChecklistFormState extends Equatable {
   @visibleForTesting
   ChecklistFormState(this.title, this.items, this.isSave);
 
+  /// Constructor for the initial state.
   factory ChecklistFormState.initial(ChecklistPrimitive value) =>
       ChecklistFormState(
         value?.title ?? ChecklistTitle("Checklist"),
@@ -52,8 +53,12 @@ class ChecklistFormState extends Equatable {
         false,
       );
 
-  ChecklistFormState copyWith(
-          {ChecklistTitle title, List<ItemText> items, bool isSave}) =>
+  /// Returns a copy of [MembersState] with some field changed.
+  ChecklistFormState copyWith({
+    ChecklistTitle title,
+    List<ItemText> items,
+    bool isSave,
+  }) =>
       ChecklistFormState(
         title ?? this.title,
         items ?? this.items,
@@ -64,6 +69,7 @@ class ChecklistFormState extends Equatable {
   List<Object> get props => [title, items, isSave];
 
   @override
-  String toString() =>
-      "ChecklistFormState{title: $title, items: $items, isSave: $isSave}";
+  String toString() => "ChecklistFormState{title: $title, "
+      "items: $items, "
+      "isSave: $isSave}";
 }

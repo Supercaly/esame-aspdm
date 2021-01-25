@@ -1,28 +1,24 @@
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/archive_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Cubit class used to manage the state of the archived tasks page.
 class ArchiveBloc extends Cubit<ArchiveState> {
   final ArchiveRepository _repository;
 
-  /// Keep in memory the old data so they can be
-  /// displayed even during loading or error.
-  List<Task> _oldData = [];
-
-  ArchiveBloc(this._repository) : super(const ArchiveState.loading([]));
+  ArchiveBloc(this._repository) : super(ArchiveState.initial());
 
   /// Tells [ArchiveBloc] to fetch the data from [ArchiveRepository].
   Future<void> fetch({bool showLoading = true}) async {
-    if (showLoading) emit(ArchiveState.loading(_oldData));
+    if (showLoading) emit(state.copyWith(isLoading: true, hasError: false));
     (await _repository.getArchivedTasks()).fold(
       (_) {
-        emit(ArchiveState.error(_oldData));
+        emit(state.copyWith(hasError: true, isLoading: false));
       },
       (right) {
-        _oldData = right;
-        emit(ArchiveState.data(_oldData));
+        emit(state.copyWith(data: right, hasError: false, isLoading: false));
       },
     );
   }
@@ -40,21 +36,24 @@ class ArchiveState extends Equatable {
   /// List of archived tasks.
   final List<Task> data;
 
+  @visibleForTesting
+  const ArchiveState(this.data, this.hasError, this.isLoading);
+
+  /// Constructor for the initial state.
+  factory ArchiveState.initial() => ArchiveState([], false, true);
+
   // TODO(#53) Refactor to use copyWith pattern
-  /// Constructor for the data.
-  const ArchiveState.data(this.data)
-      : isLoading = false,
-        hasError = false;
-
-  /// Constructor for loading.
-  const ArchiveState.loading(this.data)
-      : isLoading = true,
-        hasError = false;
-
-  /// Constructor for an error.
-  const ArchiveState.error(this.data)
-      : isLoading = false,
-        hasError = true;
+  /// Returns a copy of [ArchiveState] with some field changed.
+  ArchiveState copyWith({
+    List<Task> data,
+    bool hasError,
+    bool isLoading,
+  }) =>
+      ArchiveState(
+        data ?? this.data,
+        hasError ?? this.hasError,
+        isLoading ?? this.isLoading,
+      );
 
   @override
   String toString() => "HomeState {isLoading: $isLoading, "

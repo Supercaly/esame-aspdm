@@ -32,8 +32,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        MembersState.loading(),
-        MembersState.data([]),
+        MembersState([], true, false),
+        MembersState([], false, false),
       ],
     );
 
@@ -46,8 +46,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        MembersState.loading(),
-        MembersState.error(),
+        MembersState([], true, false),
+        MembersState([], false, true),
       ],
     );
   });

@@ -32,8 +32,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        LabelsState.loading(),
-        LabelsState.data([]),
+        LabelsState([], true, false),
+        LabelsState([], false, false),
       ],
     );
 
@@ -46,8 +46,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        LabelsState.loading(),
-        LabelsState.error(),
+        LabelsState([], true, false),
+        LabelsState([], false, true),
       ],
     );
   });
