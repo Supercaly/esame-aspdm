@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -149,6 +150,17 @@ void main() {
       } catch (e) {
         expect(e, isA<Exception>());
       }
+    });
+
+    test("to maybe returns correctly", () {
+      final v1 = Either.right(123);
+      expect(v1.toMaybe(), isA<Maybe<int>>());
+      expect(v1.toMaybe().isJust(), isTrue);
+      expect(v1.toMaybe().getOrNull(), equals(123));
+
+      final v2 = Either<Error, int>.left(Error());
+      expect(v2.toMaybe(), isA<Maybe<int>>());
+      expect(v2.toMaybe().isNothing(), isTrue);
     });
 
     test("to string returns the correct representation", () {
