@@ -29,9 +29,6 @@ class TaskFormPage extends StatelessWidget {
     final Maybe<Task> task = locator<NavigationService>().arguments(context);
 
     return BlocProvider(
-      // TODO(#35): Pass the task obtained from arguments to TaskFormBloc
-      // Obtain a Task from the NavigationService arguments and pass
-      // it to the bloc so he can use it.
       //
       // Note: After #27 this should return a Maybe<Task>.
       create: (context) => TaskFormBloc(task),
