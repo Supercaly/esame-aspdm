@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
 import 'package:aspdm_project/locator.dart';
@@ -11,18 +12,15 @@ import 'package:flutter/material.dart';
 /// Class containing the authentication state.
 class AuthState extends ChangeNotifier {
   AuthRepository _repository;
-  User _currentUser;
+  Maybe<User> _currentUser;
   bool _isLoading;
 
   AuthState(this._repository)
-      : _currentUser = _repository.lastSignedInUser.fold(
-          (_) => null,
-          (right) => right,
-        ),
+      : _currentUser = _repository.lastSignedInUser,
         _isLoading = false;
 
   /// Returns the current logged in [User]
-  User get currentUser => _currentUser;
+  Maybe<User> get currentUser => _currentUser;
 
   /// Returns true if the login is in progress.
   bool get isLoading => _isLoading;
@@ -40,12 +38,13 @@ class AuthState extends ChangeNotifier {
     return (await _repository.login(email, password)).fold(
       (left) {
         locator<LogService>().error("AuthState.login: ", left);
+        _currentUser = Maybe.nothing();
         _isLoading = false;
         notifyListeners();
         return Either<Failure, Unit>.left(left);
       },
       (right) {
-        _currentUser = right;
+        _currentUser = Maybe.just(right);
         _isLoading = false;
         notifyListeners();
         return Either<Failure, Unit>.right(const Unit());
@@ -58,7 +57,7 @@ class AuthState extends ChangeNotifier {
   Future<Either<Failure, Unit>> logout() async {
     locator<LogService>().info("Sign Out user!");
     await _repository.logout();
-    _currentUser = null;
+    _currentUser = Maybe.nothing();
     notifyListeners();
     return Either.right(const Unit());
   }

@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
@@ -120,7 +121,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     : Text(widget.comment?.content?.value
                         ?.getOrElse((left) => "")),
                 SizedBox(height: 10.0),
-                Selector<AuthState, User>(
+                Selector<AuthState, Maybe<User>>(
                   selector: (_, state) => state.currentUser,
                   builder: (context, currentUser, _) => Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
@@ -130,8 +131,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                         LikeButton(
                           icon: FeatherIcons.thumbsUp,
                           value: widget.comment?.likes?.length ?? 0,
-                          selected:
-                              widget.comment?.likes?.contains(currentUser),
+                          selected: widget.comment?.likes
+                              ?.contains(currentUser.getOrNull()),
                           onPressed: () => widget.onLike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -140,8 +141,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                         LikeButton(
                           icon: FeatherIcons.thumbsDown,
                           value: widget.comment?.dislikes?.length ?? 0,
-                          selected:
-                              widget.comment?.dislikes?.contains(currentUser),
+                          selected: widget.comment?.dislikes
+                              ?.contains(currentUser.getOrNull()),
                           onPressed: () => widget.onDislike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -154,10 +155,10 @@ class _CommentWidgetState extends State<CommentWidget> {
             ),
           ),
           if (_type == CommentWidgetType.normal)
-            Selector<AuthState, User>(
+            Selector<AuthState, Maybe<User>>(
               selector: (_, state) => state.currentUser,
               builder: (context, currentUser, _) =>
-                  (currentUser == widget.comment.author)
+                  (currentUser.getOrNull() == widget.comment.author)
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: PopupMenuButton<CommentWidgetAction>(

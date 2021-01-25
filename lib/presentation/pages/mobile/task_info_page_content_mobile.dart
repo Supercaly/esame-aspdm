@@ -31,7 +31,10 @@ class TaskInfoPageContentMobile extends StatelessWidget {
                     onItemChange: canModify
                         ? (item, value) =>
                             context.read<TaskBloc>().completeChecklist(
-                                  context.read<AuthState>().currentUser.id,
+                                  context
+                                      .read<AuthState>()
+                                      .currentUser
+                                      .map((u) => u.id),
                                   checklist.id,
                                   item.id,
                                   value,

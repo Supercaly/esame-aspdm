@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/failures/server_failure.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
@@ -22,12 +23,11 @@ void main() {
   });
 
   test("create AuthState wih user", () {
-    when(repository.lastSignedInUser)
-        .thenReturn(Either.left(ServerFailure.unexpectedError("")));
-    expect(AuthState(repository).currentUser, isNull);
+    when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
+    expect(AuthState(repository).currentUser.isNothing(), isTrue);
 
     when(repository.lastSignedInUser).thenReturn(
-      Either.right(User(
+      Maybe.just(User(
         UniqueId("mock_id"),
         UserName("Mock User"),
         EmailAddress("mock.user@email.it"),
@@ -35,7 +35,7 @@ void main() {
       )),
     );
     expect(
-      AuthState(repository).currentUser,
+      AuthState(repository).currentUser.getOrNull(),
       equals(User(
         UniqueId("mock_id"),
         UserName("Mock User"),
@@ -46,15 +46,14 @@ void main() {
   });
 
   test("is loading returns the correct value", () {
-    when(repository.lastSignedInUser)
-        .thenReturn(Either.left(ServerFailure.unexpectedError("")));
+    when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
     final state = AuthState(repository);
 
     expect(state.isLoading, isFalse);
   });
 
   test("login with correct data logs the user", () async {
-    when(repository.lastSignedInUser).thenReturn(Either.right(null));
+    when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
     when(repository.login(any, any)).thenAnswer((_) async => Either.right(User(
           UniqueId("mock_id"),
           UserName("Mock Name"),
@@ -71,7 +70,7 @@ void main() {
     expect(res, isA<Right>());
     expect((res as Right).value, isA<Unit>());
     expect(
-      authState.currentUser,
+      authState.currentUser.getOrNull(),
       equals(User(
         UniqueId("mock_id"),
         UserName("Mock Name"),
@@ -82,7 +81,7 @@ void main() {
   });
 
   test("login with error return either with left side", () async {
-    when(repository.lastSignedInUser).thenReturn(Either.right(null));
+    when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
     when(repository.login(any, any)).thenAnswer(
         (_) async => Either.left(ServerFailure.unexpectedError("")));
 
@@ -93,12 +92,11 @@ void main() {
     );
 
     expect(res.isLeft(), isTrue);
-    expect(authState.currentUser, isNull);
+    expect(authState.currentUser.isNothing(), isTrue);
   });
 
   test("logout sets currentUser to null", () async {
-    when(repository.lastSignedInUser).thenReturn(Either.right(null));
-    when(repository.lastSignedInUser).thenReturn(Either.right(User(
+    when(repository.lastSignedInUser).thenReturn(Maybe.just(User(
       UniqueId("mock_id"),
       UserName("Mock Name"),
       EmailAddress("mock@email.com"),
@@ -108,8 +106,8 @@ void main() {
 
     final authState = AuthState(repository);
 
-    expect(authState.currentUser, isNotNull);
+    expect(authState.currentUser.isJust(), isTrue);
     await authState.logout();
-    expect(authState.currentUser, isNull);
+    expect(authState.currentUser.isNothing(), isTrue);
   });
 }
