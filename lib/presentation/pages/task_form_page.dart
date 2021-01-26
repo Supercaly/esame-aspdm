@@ -87,7 +87,8 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                         builder: (context, state) => ListTile(
                           // TODO(#38): Add a trailing icon that removes the previously selected date
                           leading: Icon(FeatherIcons.calendar),
-                          title: (state.taskPrimitive.expireDate.getOrNull() != null)
+                          title: (state.taskPrimitive.expireDate.getOrNull() !=
+                                  null)
                               ? Text(DateFormat("dd MMM y HH:mm").format(
                                   state.taskPrimitive.expireDate.getOrNull()))
                               : Text("Expiration Date..."),
@@ -95,8 +96,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                             // TODO(#39): Replace date picker with date-time picker
                             final pickedDate = await showDatePicker(
                               context: context,
-                              initialDate: state.taskPrimitive.expireDate.getOrNull() ??
-                                  DateTime.now(),
+                              initialDate:
+                                  state.taskPrimitive.expireDate.getOrNull() ??
+                                      DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2030),
                             );

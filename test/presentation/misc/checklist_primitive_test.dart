@@ -28,7 +28,6 @@ void main() {
       expect(c2.items, equals(c1.items));
       expect(c3.title, equals(c1.title));
       expect(c3.items, equals([ItemText("item 1")]));
-
     });
 
     test("from checklist creates a primitive correctly", () {

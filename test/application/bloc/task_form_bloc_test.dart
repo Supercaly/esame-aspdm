@@ -205,7 +205,7 @@ void main() {
           TaskPrimitive.empty().copyWith(
             checklists: [
               ChecklistPrimitive(
-                title: ChecklistTitle("Checklist 1"),
+                title: "Checklist 1",
                 items: [ItemText("item 1")],
               ),
               ChecklistPrimitive.empty(),
@@ -259,11 +259,11 @@ void main() {
       )),
       act: (TaskFormBloc cubit) {
         cubit.removeChecklist(ChecklistPrimitive(
-          title: ChecklistTitle("Checklist 1"),
+          title: "Checklist 1",
           items: [ItemText("item 1")],
         ));
         cubit.removeChecklist(ChecklistPrimitive(
-          title: ChecklistTitle("Checklist 2"),
+          title: "Checklist 2",
           items: [ItemText("item 1")],
         ));
       },
@@ -272,7 +272,7 @@ void main() {
           TaskPrimitive.empty().copyWith(
             checklists: [
               ChecklistPrimitive(
-                title: ChecklistTitle("Checklist 2"),
+                title: "Checklist 2",
                 items: [ItemText("item 1")],
               ),
             ],
@@ -333,11 +333,11 @@ void main() {
       act: (TaskFormBloc cubit) {
         cubit.editChecklist(
             ChecklistPrimitive(
-              title: ChecklistTitle("Checklist 1"),
+              title: "Checklist 1",
               items: [ItemText("item 1")],
             ),
             ChecklistPrimitive(
-              title: ChecklistTitle("Checklist 1 (edited)"),
+              title: "Checklist 1 (edited)",
               items: [
                 ItemText("item 1"),
                 ItemText("item 2"),
@@ -349,14 +349,14 @@ void main() {
           TaskPrimitive.empty().copyWith(
             checklists: [
               ChecklistPrimitive(
-                title: ChecklistTitle("Checklist 1 (edited)"),
+                title: "Checklist 1 (edited)",
                 items: [
                   ItemText("item 1"),
                   ItemText("item 2"),
                 ],
               ),
               ChecklistPrimitive(
-                title: ChecklistTitle("Checklist 2"),
+                title: "Checklist 2",
                 items: [ItemText("item 1")],
               ),
             ],
