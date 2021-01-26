@@ -3,10 +3,11 @@ import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 
-class TaskPrimitive {
+class TaskPrimitive extends Equatable {
   final UniqueId id;
   final TaskTitle title;
   final TaskDescription description;
@@ -73,4 +74,22 @@ class TaskPrimitive {
 
   // TODO: Implement those
   Task toTask() => null;
+
+  @override
+  List<Object> get props => [
+        id,
+        title,
+        description,
+        expireDate,
+        labels,
+        members,
+        checklists,
+        author,
+      ];
+
+  @override
+  String toString() => "TaskPrimitive{id: $id, title: $title, "
+      "description: $description, expireDate: $expireDate, "
+      "labels: $labels, members: $members, "
+      "checklists: $checklists, author: $author}";
 }

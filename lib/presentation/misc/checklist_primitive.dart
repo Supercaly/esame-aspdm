@@ -1,7 +1,8 @@
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
+import 'package:equatable/equatable.dart';
 
-class ChecklistPrimitive {
+class ChecklistPrimitive extends Equatable {
   final ChecklistTitle title;
   final List<ItemText> items;
 
@@ -21,6 +22,9 @@ class ChecklistPrimitive {
 
   // TODO: Implement this
   Checklist toChecklist() => null;
+
+  @override
+  List<Object> get props => [title, items];
 
   @override
   String toString() => "ChecklistPrimitive{title: $title, items: $items}";
