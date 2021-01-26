@@ -51,7 +51,12 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
         // change the title of task form page depending on the editing
         // mode: display "New Task" if we are creating a new task,
         // "Edit Task" if we are editing an old one.
-        title: Text("New Task"),
+        title: BlocBuilder<TaskFormBloc, TaskFormState>(
+          buildWhen: (p, c) => p.mode != c.mode,
+          builder: (context, state) => Text(
+            (state.mode == TaskFormMode.creating) ? "New Task" : "Edit Task",
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.close),
