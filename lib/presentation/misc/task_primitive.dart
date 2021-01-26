@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
@@ -11,7 +12,7 @@ class TaskPrimitive extends Equatable {
   final UniqueId id;
   final TaskTitle title;
   final TaskDescription description;
-  final DateTime expireDate;
+  final Maybe<DateTime> expireDate;
   final List<Label> labels;
   final List<User> members;
   final List<ChecklistPrimitive> checklists;
@@ -31,7 +32,7 @@ class TaskPrimitive extends Equatable {
   TaskPrimitive copyWith({
     TaskTitle title,
     TaskDescription description,
-    DateTime expireDate,
+    Maybe<DateTime> expireDate,
     List<Label> labels,
     List<User> members,
     List<ChecklistPrimitive> checklists,
@@ -51,7 +52,7 @@ class TaskPrimitive extends Equatable {
         id: UniqueId.empty(),
         title: TaskTitle.empty(),
         description: TaskDescription.empty(),
-        expireDate: null,
+        expireDate: Maybe.nothing(),
         labels: List<Label>.empty(),
         members: List<User>.empty(),
         checklists: List<ChecklistPrimitive>.empty(),
@@ -62,7 +63,9 @@ class TaskPrimitive extends Equatable {
         id: task.id,
         title: task.title,
         description: task.description,
-        expireDate: task.expireDate,
+        expireDate: (task.expireDate != null)
+            ? Maybe.just(task.expireDate)
+            : Maybe.nothing(),
         labels: task.labels ?? List<Label>.empty(),
         members: task.members ?? List<User>.empty(),
         checklists: task.checklists
