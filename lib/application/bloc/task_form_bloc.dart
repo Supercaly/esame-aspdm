@@ -107,6 +107,16 @@ class TaskFormBloc extends Cubit<TaskFormState> {
   }
 }
 
+/// Enum representing all the possible modes
+/// of the task form page
+enum TaskFormMode {
+  /// The page is creating a new task
+  creating,
+
+  /// The page is editing an existing task
+  editing,
+}
+
 /// Class with the state of the [TaskFormBloc].
 class TaskFormState extends Equatable {
   final TaskPrimitive taskPrimitive;
