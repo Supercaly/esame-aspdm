@@ -71,14 +71,17 @@ class ChecklistFormPage extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0),
                   BlocBuilder<ChecklistFormBloc, ChecklistFormState>(
-                    buildWhen: (p, c) => p.items.length != c.items.length,
+                    buildWhen: (p, c) =>
+                        p.primitive.items.length != c.primitive.items.length,
                     builder: (context, state) => Column(
-                      children: state.items
-                          .mapIndexed((idx, e) => ChecklistFormItem(
-                                key: ValueKey(e),
-                                item: e,
-                                index: idx,
-                              ))
+                      children: state.primitive.items
+                          .map(
+                            (e) => ChecklistFormItem(
+                              // TODO: Fix duplicate ValueKey error when checklist item has same text
+                              key: ValueKey(e),
+                              item: e,
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -90,11 +93,5 @@ class ChecklistFormPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-extension IterableX<E> on Iterable<E> {
-  Iterable<T> mapIndexed<T>(T Function(int index, E element) f) sync* {
-    for (int i = 0; i < this.length; i++) yield f(i, this.elementAt(i));
   }
 }

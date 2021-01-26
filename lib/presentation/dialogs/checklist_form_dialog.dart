@@ -6,7 +6,6 @@ import 'package:aspdm_project/presentation/widgets/checklist_form_item_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/presentation/pages/checklist_form_page.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 /// Display a dialog that picks the labels.
@@ -65,14 +64,18 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
                   child: Column(
                     children: [
                       BlocBuilder<ChecklistFormBloc, ChecklistFormState>(
-                        buildWhen: (p, c) => p.items.length != c.items.length,
+                        buildWhen: (p, c) =>
+                            p.primitive.items.length !=
+                            c.primitive.items.length,
                         builder: (context, state) => Column(
-                          children: state.items
-                              .mapIndexed((idx, e) => ChecklistFormItem(
-                                    key: ValueKey("${idx}_$e"),
-                                    item: e,
-                                    index: idx,
-                                  ))
+                          children: state.primitive.items
+                              .map(
+                                (e) => ChecklistFormItem(
+                                  // TODO: Fix duplicate ValueKey error when checklist item has same text
+                                  key: ValueKey(e),
+                                  item: e,
+                                ),
+                              )
                               .toList(),
                         ),
                       ),
