@@ -5,6 +5,7 @@ import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/presentation/pages/desktop/task_info_page_content_desktop.dart';
 import 'package:aspdm_project/presentation/pages/mobile/task_info_page_content_mobile.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
+import 'package:aspdm_project/presentation/routes.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
@@ -62,7 +63,11 @@ class TaskInfoPageWidget extends StatelessWidget {
                       IconButton(
                         icon: Icon(FeatherIcons.edit),
                         // TODO(#55): Connect edit button to TaskFormPage
-                        onPressed: () => print("Edit..."),
+                        onPressed: () =>
+                            locator<NavigationService>().navigateTo(
+                          Routes.taskForm,
+                          arguments: state.data,
+                        ),
                         tooltip: "Edit",
                       ),
                       if (!state.data.archived.value.getOrCrash())
