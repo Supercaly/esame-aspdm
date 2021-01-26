@@ -18,7 +18,7 @@ class ChecklistPrimitive extends Equatable {
         items: List<ItemText>.empty(),
       );
 
-  /// Creates a copy if a [ChecklistPrimitive] with some changed fields.
+  /// Creates a copy of a [ChecklistPrimitive] with some changed fields.
   ChecklistPrimitive copyWith({String title, List<ItemText> items}) =>
       ChecklistPrimitive(
         title: title ?? this.title,

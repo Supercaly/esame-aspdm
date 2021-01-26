@@ -8,16 +8,19 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 
+/// Class representing a primitive task used
+/// during the creation or editing of a task.
 class TaskPrimitive extends Equatable {
   final UniqueId id;
-  final TaskTitle title;
-  final TaskDescription description;
+  final String title;
+  final String description;
   final Maybe<DateTime> expireDate;
   final List<Label> labels;
   final List<User> members;
   final List<ChecklistPrimitive> checklists;
   final User author;
 
+  /// Creates a [TaskPrimitive].
   TaskPrimitive({
     @required this.id,
     @required this.title,
@@ -29,9 +32,11 @@ class TaskPrimitive extends Equatable {
     @required this.author,
   });
 
+  /// Creates a copy of a [TaskPrimitive] with some
+  /// changed fields.
   TaskPrimitive copyWith({
-    TaskTitle title,
-    TaskDescription description,
+    String title,
+    String description,
     Maybe<DateTime> expireDate,
     List<Label> labels,
     List<User> members,
@@ -48,10 +53,11 @@ class TaskPrimitive extends Equatable {
         author: author,
       );
 
+  /// Creates an empty [TaskPrimitive].
   factory TaskPrimitive.empty() => TaskPrimitive(
         id: UniqueId.empty(),
-        title: TaskTitle.empty(),
-        description: TaskDescription.empty(),
+        title: null,
+        description: null,
         expireDate: Maybe.nothing(),
         labels: List<Label>.empty(),
         members: List<User>.empty(),
@@ -59,10 +65,11 @@ class TaskPrimitive extends Equatable {
         author: null,
       );
 
+  /// Creates a [TaskPrimitive] form a [Task].
   factory TaskPrimitive.fromTask(Task task) => TaskPrimitive(
         id: task.id,
-        title: task.title,
-        description: task.description,
+        title: task.title.value.getOrNull(),
+        description: task.description.value.getOrNull(),
         expireDate: (task.expireDate != null)
             ? Maybe.just(task.expireDate)
             : Maybe.nothing(),
@@ -75,8 +82,20 @@ class TaskPrimitive extends Equatable {
         author: task.author,
       );
 
-  // TODO: Implement those
-  Task toTask() => null;
+  /// Returns a [Task].
+  Task toTask() => Task(
+        id,
+        TaskTitle(title),
+        TaskDescription(description),
+        labels,
+        author,
+        members,
+        expireDate.getOrNull(),
+        checklists?.map((e) => e.toChecklist())?.toList(),
+        null,
+        null,
+        null,
+      );
 
   @override
   List<Object> get props => [
