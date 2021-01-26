@@ -6,17 +6,20 @@ import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// Cubit class used to manage the state of the task form page.
 class TaskFormBloc extends Cubit<TaskFormState> {
+  /// Creates a [TaskFormBloc] form the old [Task].
   TaskFormBloc(Maybe<Task> oldTask)
       : super(TaskFormState.initial(oldTask.fold(
           () => TaskPrimitive.empty(),
           (task) => TaskPrimitive.fromTask(task),
         )));
 
+  /// Tells the [TaskFormBloc] that the title is changed.
   void titleChanged(String value) {
-    print("EditTaskBloc.titleChanged: $value");
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
@@ -26,8 +29,8 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     );
   }
 
+  /// Tells the [TaskFormBloc] that the description is changed.
   void descriptionChanged(String value) {
-    print("EditTaskBloc.descriptionChanged: $value");
     emit(state.copyWith(
       taskPrimitive: state.taskPrimitive.copyWith(
         description: TaskDescription(value),
@@ -35,10 +38,8 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     ));
   }
 
-  void dateChanged(DateTime value) {
-    print("TaskFormBloc.dateChanged: $value");
-    print(state.taskPrimitive.expireDate);
-    print(state.taskPrimitive.copyWith(expireDate: value).expireDate);
+  /// Tells the [TaskFormBloc] that the expire date is changed.
+  void dateChanged(Maybe<DateTime> value) {
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(expireDate: value),
@@ -46,20 +47,21 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     );
   }
 
+  /// Tells the [TaskFormBloc] that the members list is changed.
   void membersChanged(List<User> value) {
-    print("TaskFormBloc.membersChanged: $value");
     emit(state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(members: value)));
   }
 
+  /// Tells the [TaskFormBloc] that the labels list is changed.
   void labelsChanged(List<Label> value) {
-    print("TaskFormBloc.labelsChanged: $value");
     emit(state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(labels: value)));
   }
 
+  /// Tells the [TaskFormBloc] that the a new [ChecklistPrimitive] is added
+  /// to the checklists list.
   void addChecklist(ChecklistPrimitive value) {
-    print("TaskFormBloc.addChecklist: $value");
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
@@ -69,8 +71,9 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     );
   }
 
+  /// Tells the [TaskFormBloc] that the given [ChecklistPrimitive] is removed
+  /// from the checklists list.
   void removeChecklist(ChecklistPrimitive value) {
-    print("TaskFormBloc.removeChecklist: $value");
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
@@ -80,8 +83,9 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     );
   }
 
+  /// Tells the [TaskFormBloc] that the old [ChecklistPrimitive] is changed
+  /// in the checklists list.
   void editChecklist(ChecklistPrimitive old, ChecklistPrimitive value) {
-    print("TaskFormBloc.editChecklist: $old, $value");
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
@@ -92,7 +96,10 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     );
   }
 
+  /// Tells the [TaskFormBloc] to save the changes made to the [Task]
+  /// or to create a new one.
   Future<void> saveTask() async {
+    // TODO: Implement save/update mechanic
     print("EditTaskBloc.saveTask: Saving task...");
     print("EditTaskBloc.saveTask: ${state.taskPrimitive}");
     emit(state.copyWith(isSaving: true));
@@ -101,18 +108,20 @@ class TaskFormBloc extends Cubit<TaskFormState> {
   }
 }
 
+/// Class with the state of the [TaskFormBloc].
 class TaskFormState extends Equatable {
   final TaskPrimitive taskPrimitive;
   final bool isSaving;
   final bool isInitial;
 
-  TaskFormState._(this.taskPrimitive, this.isSaving, this.isInitial);
+  @visibleForTesting
+  TaskFormState(this.taskPrimitive, this.isSaving, this.isInitial);
 
   factory TaskFormState.initial(TaskPrimitive primitive) =>
-      TaskFormState._(primitive, false, true);
+      TaskFormState(primitive, false, true);
 
   TaskFormState copyWith({TaskPrimitive taskPrimitive, bool isSaving}) =>
-      TaskFormState._(
+      TaskFormState(
         taskPrimitive ?? this.taskPrimitive,
         isSaving ?? this.isSaving,
         false,
