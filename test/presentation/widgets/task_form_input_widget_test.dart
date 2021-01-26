@@ -1,8 +1,8 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:aspdm_project/presentation/widgets/task_form_input_widget.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ void main() {
   group("TaskFormInputWidget tests", () {
     testWidgets("create with null initial data", (tester) async {
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(TaskPrimitive.empty()));
+      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -48,8 +48,7 @@ void main() {
         null,
       );
       final bloc = MockTaskFormBloc();
-      when(bloc.state)
-          .thenReturn(TaskFormState.initial(TaskPrimitive.fromTask(task)));
+      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.just(task)));
 
       await tester.pumpWidget(
         MaterialApp(
@@ -68,7 +67,7 @@ void main() {
 
     testWidgets("edit fields changes calls bloc", (tester) async {
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(TaskPrimitive.empty()));
+      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -95,7 +94,7 @@ void main() {
     testWidgets("validate fields ", (tester) async {
       final formKey = GlobalKey<FormState>();
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(TaskPrimitive.empty()));
+      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

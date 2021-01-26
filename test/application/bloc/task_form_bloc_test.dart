@@ -29,7 +29,7 @@ void main() {
         TaskFormState(
           TaskPrimitive.empty().copyWith(title: "new title"),
           false,
-          false,
+          TaskFormMode.creating,
         ),
       ],
     );
@@ -44,7 +44,7 @@ void main() {
             description: "new description",
           ),
           false,
-          false,
+          TaskFormMode.creating,
         ),
       ],
     );
@@ -62,14 +62,14 @@ void main() {
             expireDate: Maybe.just(DateTime.fromMillisecondsSinceEpoch(0)),
           ),
           false,
-          false,
+          TaskFormMode.creating,
         ),
         TaskFormState(
           TaskPrimitive.empty().copyWith(
             expireDate: Maybe.nothing(),
           ),
           false,
-          false,
+          TaskFormMode.creating,
         ),
       ],
     );
@@ -113,12 +113,12 @@ void main() {
             ],
           ),
           false,
-          false,
+          TaskFormMode.creating,
         ),
         TaskFormState(
           TaskPrimitive.empty().copyWith(members: []),
           false,
-          false,
+          TaskFormMode.creating,
         ),
       ],
     );
@@ -158,12 +158,12 @@ void main() {
             ],
           ),
           false,
-          false,
+          TaskFormMode.creating,
         ),
         TaskFormState(
           TaskPrimitive.empty().copyWith(labels: []),
           false,
-          false,
+          TaskFormMode.creating,
         ),
       ],
     );
@@ -213,7 +213,7 @@ void main() {
             ],
           ),
           false,
-          false,
+          TaskFormMode.editing,
         ),
       ],
     );
@@ -280,7 +280,7 @@ void main() {
             ],
           ),
           false,
-          false,
+          TaskFormMode.editing,
         ),
         TaskFormState(
           TaskPrimitive.empty().copyWith(
@@ -288,7 +288,7 @@ void main() {
             checklists: [],
           ),
           false,
-          false,
+          TaskFormMode.editing,
         ),
       ],
     );
@@ -366,7 +366,7 @@ void main() {
             ],
           ),
           false,
-          false,
+          TaskFormMode.editing,
         ),
       ],
     );
@@ -380,12 +380,12 @@ void main() {
         TaskFormState(
           TaskPrimitive.empty(),
           true,
-          false,
+          TaskFormMode.creating,
         ),
         TaskFormState(
           TaskPrimitive.empty(),
           false,
-          false,
+          TaskFormMode.creating,
         ),
       ],
     );

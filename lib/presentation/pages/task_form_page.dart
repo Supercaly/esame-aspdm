@@ -67,7 +67,6 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
         ],
       ),
       body: BlocBuilder<TaskFormBloc, TaskFormState>(
-        // TODO: Build only when save changes
         buildWhen: (p, c) => p.isSaving != c.isSaving,
         builder: (context, state) => LoadingOverlay(
           color: Colors.black45,

@@ -11,11 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Cubit class used to manage the state of the task form page.
 class TaskFormBloc extends Cubit<TaskFormState> {
   /// Creates a [TaskFormBloc] form the old [Task].
-  TaskFormBloc(Maybe<Task> oldTask)
-      : super(TaskFormState.initial(oldTask.fold(
-          () => TaskPrimitive.empty(),
-          (task) => TaskPrimitive.fromTask(task),
-        )));
+  TaskFormBloc(Maybe<Task> oldTask) : super(TaskFormState.initial(oldTask));
 
   /// Tells the [TaskFormBloc] that the title is changed.
   void titleChanged(String value) {
@@ -121,26 +117,37 @@ enum TaskFormMode {
 class TaskFormState extends Equatable {
   final TaskPrimitive taskPrimitive;
   final bool isSaving;
-  final bool isInitial;
+  final TaskFormMode mode;
 
   @visibleForTesting
-  TaskFormState(this.taskPrimitive, this.isSaving, this.isInitial);
+  TaskFormState(this.taskPrimitive, this.isSaving, this.mode);
 
-  factory TaskFormState.initial(TaskPrimitive primitive) =>
-      TaskFormState(primitive, false, true);
+  factory TaskFormState.initial(Maybe<Task> task) => task.fold(
+        () => TaskFormState(
+          TaskPrimitive.empty(),
+          false,
+          TaskFormMode.creating,
+        ),
+        (task) => TaskFormState(
+          TaskPrimitive.fromTask(task),
+          false,
+          TaskFormMode.editing,
+        ),
+      );
 
   TaskFormState copyWith({TaskPrimitive taskPrimitive, bool isSaving}) =>
       TaskFormState(
         taskPrimitive ?? this.taskPrimitive,
         isSaving ?? this.isSaving,
-        false,
+        this.mode,
       );
 
   @override
-  List<Object> get props => [taskPrimitive, isSaving, isInitial];
+  List<Object> get props => [taskPrimitive, isSaving, mode];
 
   @override
-  String toString() => taskPrimitive.toString();
+  String toString() => "TaskFormState{taskPrimitive: $taskPrimitive, "
+      "isSaving: $isSaving, mode: $mode}";
 }
 
 // TODO: Optimize all this list shenanigans.
