@@ -149,7 +149,7 @@ class EditChecklist extends StatelessWidget {
                 SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
-                    primitive.title.value.getOrNull() ?? "",
+                    primitive.title ?? "",
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),

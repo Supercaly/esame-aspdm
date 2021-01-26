@@ -12,22 +12,40 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
 
   /// Called when the title of the checklist changes.
   void titleChanged(String value) {
-    emit(state.copyWith(title: ChecklistTitle(value)));
+    emit(state.copyWith(primitive: state.primitive.copyWith(title: value)));
   }
 
   /// Called when a new checklist's item is added.
   void addItem(ItemText value) {
-    emit(state.copyWith(items: state.items.addImmutable(value)));
+    emit(
+      state.copyWith(
+        primitive: state.primitive.copyWith(
+          items: state.primitive.items.addImmutable(value),
+        ),
+      ),
+    );
   }
 
   /// Called when a new checklist's item is removed.
-  void removeItem(int index) {
-    emit(state.copyWith(items: state.items.removeAtImmutable(index)));
+  void removeItem(ItemText value) {
+    emit(
+      state.copyWith(
+        primitive: state.primitive.copyWith(
+          items: state.primitive.items.removeImmutable(value),
+        ),
+      ),
+    );
   }
 
   /// Called when a new checklist's item is edited.
-  void editItem(int index, ItemText value) {
-    emit(state.copyWith(items: state.items.updatedImmutable(index, value)));
+  void editItem(ItemText old, ItemText value) {
+    emit(
+      state.copyWith(
+        primitive: state.primitive.copyWith(
+          items: state.primitive.items.updateImmutable(old, value),
+        ),
+      ),
+    );
   }
 
   /// Called when the user wants to save the changes to the checklist.
@@ -38,38 +56,33 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
 
 /// Class representing the state passed by a [ChecklistFormBloc].
 class ChecklistFormState extends Equatable {
-  final ChecklistTitle title;
-  final List<ItemText> items;
+  final ChecklistPrimitive primitive;
   final bool isSave;
 
   @visibleForTesting
-  ChecklistFormState(this.title, this.items, this.isSave);
+  ChecklistFormState(this.primitive, this.isSave);
 
   /// Constructor for the initial state.
   factory ChecklistFormState.initial(ChecklistPrimitive value) =>
       ChecklistFormState(
-        value?.title ?? ChecklistTitle("Checklist"),
-        value?.items ?? [],
+        value ?? ChecklistPrimitive(title: "Checklist", items: []),
         false,
       );
 
   /// Returns a copy of [MembersState] with some field changed.
   ChecklistFormState copyWith({
-    ChecklistTitle title,
-    List<ItemText> items,
+    ChecklistPrimitive primitive,
     bool isSave,
   }) =>
       ChecklistFormState(
-        title ?? this.title,
-        items ?? this.items,
+        primitive ?? this.primitive,
         isSave ?? this.isSave,
       );
 
   @override
-  List<Object> get props => [title, items, isSave];
+  List<Object> get props => [primitive, isSave];
 
   @override
-  String toString() => "ChecklistFormState{title: $title, "
-      "items: $items, "
-      "isSave: $isSave}";
+  String toString() =>
+      "ChecklistFormState{primitive: $primitive, isSave: $isSave}";
 }

@@ -12,7 +12,7 @@ class ChecklistFormTitleWidget extends StatelessWidget {
     return BlocBuilder<ChecklistFormBloc, ChecklistFormState>(
       buildWhen: (_, __) => false,
       builder: (context, state) => TextFormField(
-        initialValue: state.title.value.getOrNull() ?? "",
+        initialValue: state.primitive.title ?? "",
         keyboardType: TextInputType.text,
         maxLength: ChecklistTitle.maxLength,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -97,15 +97,28 @@ class _ChecklistFormNewItemWidgetState
 /// Widget that display a single item of a checklist letting the user
 /// edit or remove it. The item is automatically changed or removed
 /// from the [ChecklistFormBloc].
-class ChecklistFormItem extends StatelessWidget {
+class ChecklistFormItem extends StatefulWidget {
   final ItemText item;
-  final int index;
 
   ChecklistFormItem({
     Key key,
     this.item,
-    this.index,
   }) : super(key: key);
+
+  @override
+  _ChecklistFormItemState createState() => _ChecklistFormItemState();
+}
+
+class _ChecklistFormItemState extends State<ChecklistFormItem> {
+  TextEditingController _controller;
+  ItemText _old;
+
+  @override
+  void initState() {
+    super.initState();
+    _old = widget.item;
+    _controller = TextEditingController(text: widget.item.value.getOrNull());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,17 +132,20 @@ class ChecklistFormItem extends StatelessWidget {
           SizedBox(width: 16.0),
           Expanded(
             child: TextFormField(
+              controller: _controller,
               maxLength: ItemText.maxLength,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               minLines: 1,
               maxLines: 6,
-              initialValue: item.value.getOrNull() ?? "",
               decoration: InputDecoration(counterText: ""),
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
-              onChanged: (value) => context
-                  .read<ChecklistFormBloc>()
-                  .editItem(index, ItemText(value)),
+              onChanged: (value) {
+                context
+                    .read<ChecklistFormBloc>()
+                    .editItem(_old, ItemText(value));
+                _old = ItemText(value);
+              },
               validator: (value) => ItemText(value).value.fold(
                     (left) => left.maybeMap(
                       empty: (_) => "Item can't be empty!",
@@ -144,7 +160,7 @@ class ChecklistFormItem extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                context.read<ChecklistFormBloc>().removeItem(index);
+                context.read<ChecklistFormBloc>().removeItem(widget.item);
               })
         ],
       ),

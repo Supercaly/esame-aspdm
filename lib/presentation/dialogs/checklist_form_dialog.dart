@@ -42,9 +42,8 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
       create: (context) => ChecklistFormBloc(initialValue: widget.primitive),
       child: BlocListener<ChecklistFormBloc, ChecklistFormState>(
         listenWhen: (_, c) => c.isSave,
-        listener: (context, state) => locator<NavigationService>().pop(
-          result: ChecklistPrimitive(title: state.title, items: state.items),
-        ),
+        listener: (context, state) =>
+            locator<NavigationService>().pop(result: state.primitive),
         child: Form(
           key: _formKey,
           child: AlertDialog(

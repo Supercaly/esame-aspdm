@@ -28,9 +28,8 @@ class ChecklistFormPage extends StatelessWidget {
       create: (context) => ChecklistFormBloc(initialValue: primitive),
       child: BlocListener<ChecklistFormBloc, ChecklistFormState>(
         listenWhen: (_, c) => c.isSave,
-        listener: (context, state) => locator<NavigationService>().pop(
-          result: ChecklistPrimitive(title: state.title, items: state.items),
-        ),
+        listener: (context, state) =>
+            locator<NavigationService>().pop(result: state.primitive),
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
