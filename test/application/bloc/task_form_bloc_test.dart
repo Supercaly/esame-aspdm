@@ -27,7 +27,7 @@ void main() {
       act: (TaskFormBloc cubit) => cubit.titleChanged("new title"),
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(title: TaskTitle("new title")),
+          TaskPrimitive.empty().copyWith(title: "new title"),
           false,
           false,
         ),
@@ -41,7 +41,7 @@ void main() {
       expect: [
         TaskFormState(
           TaskPrimitive.empty().copyWith(
-            description: TaskDescription("new description"),
+            description: "new description",
           ),
           false,
           false,
@@ -203,6 +203,7 @@ void main() {
       expect: [
         TaskFormState(
           TaskPrimitive.empty().copyWith(
+            description: "",
             checklists: [
               ChecklistPrimitive(
                 title: "Checklist 1",
@@ -270,6 +271,7 @@ void main() {
       expect: [
         TaskFormState(
           TaskPrimitive.empty().copyWith(
+            description: "",
             checklists: [
               ChecklistPrimitive(
                 title: "Checklist 2",
@@ -282,6 +284,7 @@ void main() {
         ),
         TaskFormState(
           TaskPrimitive.empty().copyWith(
+            description: "",
             checklists: [],
           ),
           false,
@@ -347,6 +350,7 @@ void main() {
       expect: [
         TaskFormState(
           TaskPrimitive.empty().copyWith(
+            description: "",
             checklists: [
               ChecklistPrimitive(
                 title: "Checklist 1 (edited)",

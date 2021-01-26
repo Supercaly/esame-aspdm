@@ -20,7 +20,7 @@ class TaskFormInputWidget extends StatelessWidget {
             BlocBuilder<TaskFormBloc, TaskFormState>(
               buildWhen: (_, c) => c.isInitial,
               builder: (context, state) => TextFormField(
-                initialValue: state.taskPrimitive.title.value.getOrNull(),
+                initialValue: state.taskPrimitive.title,
                 style: Theme.of(context).textTheme.headline6,
                 maxLength: TaskTitle.maxLength,
                 maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -35,13 +35,7 @@ class TaskFormInputWidget extends StatelessWidget {
                 ),
                 onChanged: (value) =>
                     context.read<TaskFormBloc>().titleChanged(value),
-                validator: (_) => context
-                    .read<TaskFormBloc>()
-                    .state
-                    .taskPrimitive
-                    .title
-                    .value
-                    .fold(
+                validator: (value) => TaskTitle(value).value.fold(
                       (left) => left.maybeMap(
                         empty: (_) => "Title can't be empty!",
                         tooLong: (_) =>
@@ -55,7 +49,7 @@ class TaskFormInputWidget extends StatelessWidget {
             BlocBuilder<TaskFormBloc, TaskFormState>(
               buildWhen: (_, c) => c.isInitial,
               builder: (context, state) => TextFormField(
-                initialValue: state.taskPrimitive.description.value.getOrNull(),
+                initialValue: state.taskPrimitive.description,
                 style: Theme.of(context).textTheme.bodyText2,
                 maxLength: TaskDescription.maxLength,
                 maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -71,13 +65,7 @@ class TaskFormInputWidget extends StatelessWidget {
                 ),
                 onChanged: (value) =>
                     context.read<TaskFormBloc>().descriptionChanged(value),
-                validator: (_) => context
-                    .read<TaskFormBloc>()
-                    .state
-                    .taskPrimitive
-                    .description
-                    .value
-                    .fold(
+                validator: (value) => TaskDescription(value).value.fold(
                       (left) => left.maybeMap(
                         tooLong: (_) =>
                             "Description can't be longer than ${TaskDescription.maxLength}!",

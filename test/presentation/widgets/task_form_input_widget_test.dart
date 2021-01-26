@@ -117,7 +117,7 @@ void main() {
       when(bloc.state).thenReturn(
         bloc.state.copyWith(
           taskPrimitive: bloc.state.taskPrimitive.copyWith(
-            title: TaskTitle("Mock Title"),
+            title: "Mock Title",
           ),
         ),
       );

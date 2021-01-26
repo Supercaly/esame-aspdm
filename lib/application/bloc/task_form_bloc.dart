@@ -2,7 +2,6 @@ import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:equatable/equatable.dart';
@@ -23,7 +22,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
-          title: TaskTitle(value),
+          title: value,
         ),
       ),
     );
@@ -33,7 +32,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
   void descriptionChanged(String value) {
     emit(state.copyWith(
       taskPrimitive: state.taskPrimitive.copyWith(
-        description: TaskDescription(value),
+        description: value,
       ),
     ));
   }
