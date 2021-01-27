@@ -25,6 +25,8 @@ import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
 
+import '../theme.dart';
+
 class TaskFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -102,176 +104,201 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
         builder: (context, state) => LoadingOverlay(
           color: Colors.black45,
           isLoading: state.isSaving,
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                TaskFormInputWidget(),
-                Card(
-                  child: Column(
+          child: Center(
+            child: Theme(
+              data: Responsive.isLarge(context)
+                  ? Theme.of(context).brightness == Brightness.light
+                      ? lightThemeDesktop
+                      : darkThemeDesktop
+                  : Theme.of(context),
+              child: Container(
+                width: Responsive.isLarge(context) ? 500 : double.maxFinite,
+                padding: Responsive.isLarge(context)
+                    ? const EdgeInsets.only(top: 24.0)
+                    : null,
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
                     children: [
-                      BlocBuilder<TaskFormBloc, TaskFormState>(
-                        buildWhen: (p, c) =>
-                            p.taskPrimitive.expireDate !=
-                            c.taskPrimitive.expireDate,
-                        builder: (context, state) => ListTile(
-                          leading: Icon(FeatherIcons.calendar),
-                          title: (state.taskPrimitive.expireDate.getOrNull() !=
-                                  null)
-                              ? Text(DateFormat("dd MMM y HH:mm").format(
-                                  state.taskPrimitive.expireDate.getOrNull()))
-                              : Text("Expiration Date..."),
-                          trailing: IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () => context
-                                .read<TaskFormBloc>()
-                                .dateChanged(Maybe.nothing()),
-                          ),
-                          onTap: () async {
-                            // TODO(#39): Replace date picker with date-time picker
-                            final pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate:
-                                  state.taskPrimitive.expireDate.getOrNull() ??
-                                      DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2030),
-                            );
-                            if (pickedDate != null &&
-                                pickedDate !=
-                                    state.taskPrimitive.expireDate.getOrNull())
-                              context
-                                  .read<TaskFormBloc>()
-                                  .dateChanged(Maybe.just(pickedDate));
-                          },
-                        ),
-                      ),
-                      BlocBuilder<TaskFormBloc, TaskFormState>(
-                        buildWhen: (p, c) =>
-                            p.taskPrimitive.members != c.taskPrimitive.members,
-                        builder: (context, state) => ListTile(
-                          leading: Icon(FeatherIcons.users),
-                          title: (state.taskPrimitive.members != null &&
-                                  state.taskPrimitive.members.isNotEmpty)
-                              ? Wrap(
-                                  spacing: 8.0,
-                                  runSpacing: 4.0,
-                                  children: state.taskPrimitive.members
-                                      .map((e) => UserAvatar(
-                                            user: e,
-                                            size: 32.0,
-                                          ))
-                                      .toList())
-                              : Text("Members..."),
-                          onTap: () async {
-                            List<User> selectedMembers;
-                            if (Responsive.isSmall(context))
-                              selectedMembers = await showMembersPickerSheet(
-                                context,
-                                state.taskPrimitive.members,
-                              );
-                            else
-                              selectedMembers = await showMembersPickerDialog(
-                                context,
-                                state.taskPrimitive.members,
-                              );
-                            if (selectedMembers != null)
-                              context
-                                  .read<TaskFormBloc>()
-                                  .membersChanged(selectedMembers);
-                          },
-                        ),
-                      ),
-                      BlocBuilder<TaskFormBloc, TaskFormState>(
-                        builder: (context, state) => ListTile(
-                          leading: Icon(FeatherIcons.tag),
-                          title: (state.taskPrimitive.labels != null &&
-                                  state.taskPrimitive.labels.isNotEmpty)
-                              ? Wrap(
-                                  spacing: 8.0,
-                                  runSpacing: 4.0,
-                                  children: state.taskPrimitive.labels
-                                      .map((e) => LabelWidget(label: e))
-                                      .toList(),
-                                )
-                              : Text("Labels..."),
-                          onTap: () async {
-                            List<Label> selectedLabels;
-                            if (Responsive.isSmall(context))
-                              selectedLabels = await showLabelPickerSheet(
-                                context,
-                                state.taskPrimitive.labels,
-                              );
-                            else
-                              selectedLabels = await showLabelPickerDialog(
-                                context,
-                                state.taskPrimitive.labels,
-                              );
-                            if (selectedLabels != null)
-                              context
-                                  .read<TaskFormBloc>()
-                                  .labelsChanged(selectedLabels);
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(FeatherIcons.checkCircle),
-                        title: Text("Add checklist..."),
-                        onTap: () async {
-                          ChecklistPrimitive newChecklist;
-                          if (Responsive.isSmall(context))
-                            newChecklist = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChecklistFormPage(),
+                      TaskFormInputWidget(),
+                      Card(
+                        child: Column(
+                          children: [
+                            BlocBuilder<TaskFormBloc, TaskFormState>(
+                              buildWhen: (p, c) =>
+                                  p.taskPrimitive.expireDate !=
+                                  c.taskPrimitive.expireDate,
+                              builder: (context, state) => ListTile(
+                                leading: Icon(FeatherIcons.calendar),
+                                title: (state.taskPrimitive.expireDate
+                                            .getOrNull() !=
+                                        null)
+                                    ? Text(DateFormat("dd MMM y HH:mm").format(
+                                        state.taskPrimitive.expireDate
+                                            .getOrNull()))
+                                    : Text("Expiration Date..."),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.close),
+                                  onPressed: () => context
+                                      .read<TaskFormBloc>()
+                                      .dateChanged(Maybe.nothing()),
+                                ),
+                                onTap: () async {
+                                  // TODO(#39): Replace date picker with date-time picker
+                                  final pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: state.taskPrimitive.expireDate
+                                            .getOrNull() ??
+                                        DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2030),
+                                  );
+                                  if (pickedDate != null &&
+                                      pickedDate !=
+                                          state.taskPrimitive.expireDate
+                                              .getOrNull())
+                                    context
+                                        .read<TaskFormBloc>()
+                                        .dateChanged(Maybe.just(pickedDate));
+                                },
                               ),
-                            );
-                          else
-                            newChecklist =
-                                await showChecklistFormDialog(context, null);
-                          if (newChecklist != null)
-                            context
-                                .read<TaskFormBloc>()
-                                .addChecklist(newChecklist);
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                BlocBuilder<TaskFormBloc, TaskFormState>(
-                  buildWhen: (p, s) =>
-                      p.taskPrimitive.checklists != s.taskPrimitive.checklists,
-                  builder: (context, state) => Column(
-                    children: state.taskPrimitive.checklists
-                        .map((e) => EditChecklist(
-                              primitive: e,
+                            ),
+                            BlocBuilder<TaskFormBloc, TaskFormState>(
+                              buildWhen: (p, c) =>
+                                  p.taskPrimitive.members !=
+                                  c.taskPrimitive.members,
+                              builder: (context, state) => ListTile(
+                                leading: Icon(FeatherIcons.users),
+                                title: (state.taskPrimitive.members != null &&
+                                        state.taskPrimitive.members.isNotEmpty)
+                                    ? Wrap(
+                                        spacing: 8.0,
+                                        runSpacing: 4.0,
+                                        children: state.taskPrimitive.members
+                                            .map((e) => UserAvatar(
+                                                  user: e,
+                                                  size: 32.0,
+                                                ))
+                                            .toList())
+                                    : Text("Members..."),
+                                onTap: () async {
+                                  List<User> selectedMembers;
+                                  if (Responsive.isSmall(context))
+                                    selectedMembers =
+                                        await showMembersPickerSheet(
+                                      context,
+                                      state.taskPrimitive.members,
+                                    );
+                                  else
+                                    selectedMembers =
+                                        await showMembersPickerDialog(
+                                      context,
+                                      state.taskPrimitive.members,
+                                    );
+                                  if (selectedMembers != null)
+                                    context
+                                        .read<TaskFormBloc>()
+                                        .membersChanged(selectedMembers);
+                                },
+                              ),
+                            ),
+                            BlocBuilder<TaskFormBloc, TaskFormState>(
+                              builder: (context, state) => ListTile(
+                                leading: Icon(FeatherIcons.tag),
+                                title: (state.taskPrimitive.labels != null &&
+                                        state.taskPrimitive.labels.isNotEmpty)
+                                    ? Wrap(
+                                        spacing: 8.0,
+                                        runSpacing: 4.0,
+                                        children: state.taskPrimitive.labels
+                                            .map((e) => LabelWidget(label: e))
+                                            .toList(),
+                                      )
+                                    : Text("Labels..."),
+                                onTap: () async {
+                                  List<Label> selectedLabels;
+                                  if (Responsive.isSmall(context))
+                                    selectedLabels = await showLabelPickerSheet(
+                                      context,
+                                      state.taskPrimitive.labels,
+                                    );
+                                  else
+                                    selectedLabels =
+                                        await showLabelPickerDialog(
+                                      context,
+                                      state.taskPrimitive.labels,
+                                    );
+                                  if (selectedLabels != null)
+                                    context
+                                        .read<TaskFormBloc>()
+                                        .labelsChanged(selectedLabels);
+                                },
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(FeatherIcons.checkCircle),
+                              title: Text("Add checklist..."),
                               onTap: () async {
-                                ChecklistPrimitive editedChecklist;
+                                ChecklistPrimitive newChecklist;
                                 if (Responsive.isSmall(context))
-                                  editedChecklist = await Navigator.push(
+                                  newChecklist = await Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ChecklistFormPage(
-                                        primitive: e,
-                                      ),
+                                      builder: (context) => ChecklistFormPage(),
                                     ),
                                   );
                                 else
-                                  editedChecklist =
-                                      await showChecklistFormDialog(context, e);
-                                if (editedChecklist != null)
+                                  newChecklist = await showChecklistFormDialog(
+                                      context, null);
+                                if (newChecklist != null)
                                   context
                                       .read<TaskFormBloc>()
-                                      .editChecklist(e, editedChecklist);
+                                      .addChecklist(newChecklist);
                               },
-                              onRemove: () => context
-                                  .read<TaskFormBloc>()
-                                  .removeChecklist(e),
-                            ))
-                        .toList(),
+                            )
+                          ],
+                        ),
+                      ),
+                      BlocBuilder<TaskFormBloc, TaskFormState>(
+                        buildWhen: (p, s) =>
+                            p.taskPrimitive.checklists !=
+                            s.taskPrimitive.checklists,
+                        builder: (context, state) => Column(
+                          children: state.taskPrimitive.checklists
+                              .map((e) => EditChecklist(
+                                    primitive: e,
+                                    onTap: () async {
+                                      ChecklistPrimitive editedChecklist;
+                                      if (Responsive.isSmall(context))
+                                        editedChecklist = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ChecklistFormPage(
+                                              primitive: e,
+                                            ),
+                                          ),
+                                        );
+                                      else
+                                        editedChecklist =
+                                            await showChecklistFormDialog(
+                                                context, e);
+                                      if (editedChecklist != null)
+                                        context
+                                            .read<TaskFormBloc>()
+                                            .editChecklist(e, editedChecklist);
+                                    },
+                                    onRemove: () => context
+                                        .read<TaskFormBloc>()
+                                        .removeChecklist(e),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
