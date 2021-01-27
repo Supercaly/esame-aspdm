@@ -4,6 +4,8 @@ import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/failures/failures.dart';
+import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -12,71 +14,106 @@ import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:aspdm_project/core/either.dart';
+
+import '../../mocks/mock_failure.dart';
+
+class MockTaskFormRepository extends Mock implements TaskFormRepository {}
 
 void main() {
   group("TaskFormBloc tests", () {
+    TaskFormRepository repository;
+
+    setUpAll(() {
+      repository = MockTaskFormRepository();
+    });
+
     blocTest(
       "emit nothing when created",
-      build: () => TaskFormBloc(Maybe.nothing()),
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
       expect: [],
     );
 
     blocTest(
       "title changed emit state",
-      build: () => TaskFormBloc(Maybe.nothing()),
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) => cubit.titleChanged("new title"),
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(title: "new title"),
-          false,
-          TaskFormMode.creating,
+          taskPrimitive: TaskPrimitive.empty().copyWith(title: "new title"),
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "description changed emit state",
-      build: () => TaskFormBloc(Maybe.nothing()),
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) => cubit.descriptionChanged("new description"),
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "new description",
           ),
-          false,
-          TaskFormMode.creating,
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "expire date changed emit state",
-      build: () => TaskFormBloc(Maybe.nothing()),
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) {
         cubit.dateChanged(Maybe.just(DateTime.fromMillisecondsSinceEpoch(0)));
         cubit.dateChanged(Maybe.nothing());
       },
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             expireDate: Maybe.just(DateTime.fromMillisecondsSinceEpoch(0)),
           ),
-          false,
-          TaskFormMode.creating,
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             expireDate: Maybe.nothing(),
           ),
-          false,
-          TaskFormMode.creating,
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "members changed emit state",
-      build: () => TaskFormBloc(Maybe.nothing()),
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) {
         cubit.membersChanged([
           User(
@@ -96,7 +133,7 @@ void main() {
       },
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             members: [
               User(
                 UniqueId("user1"),
@@ -112,20 +149,27 @@ void main() {
               ),
             ],
           ),
-          false,
-          TaskFormMode.creating,
+          mode: TaskFormMode.creating,
+          saved: false,
+          isSaving: false,
+          hasError: false,
         ),
         TaskFormState(
-          TaskPrimitive.empty().copyWith(members: []),
-          false,
-          TaskFormMode.creating,
+          taskPrimitive: TaskPrimitive.empty().copyWith(members: []),
+          mode: TaskFormMode.creating,
+          saved: false,
+          isSaving: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "labels changed emit state",
-      build: () => TaskFormBloc(Maybe.nothing()),
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) {
         cubit.labelsChanged([
           Label(
@@ -143,7 +187,7 @@ void main() {
       },
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             labels: [
               Label(
                 UniqueId("label1"),
@@ -157,21 +201,25 @@ void main() {
               ),
             ],
           ),
-          false,
-          TaskFormMode.creating,
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
         TaskFormState(
-          TaskPrimitive.empty().copyWith(labels: []),
-          false,
-          TaskFormMode.creating,
+          taskPrimitive: TaskPrimitive.empty().copyWith(labels: []),
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "add checklist emit state",
-      build: () => TaskFormBloc(Maybe.just(
-        Task(
+      build: () => TaskFormBloc(
+        oldTask: Maybe.just(Task(
           UniqueId.empty(),
           TaskTitle.empty(),
           TaskDescription.empty(),
@@ -195,14 +243,15 @@ void main() {
           null,
           Toggle(false),
           null,
-        ),
-      )),
+        )),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) {
         cubit.addChecklist(ChecklistPrimitive.empty());
       },
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "",
             checklists: [
               ChecklistPrimitive(
@@ -212,16 +261,18 @@ void main() {
               ChecklistPrimitive.empty(),
             ],
           ),
-          false,
-          TaskFormMode.editing,
+          mode: TaskFormMode.editing,
+          saved: false,
+          isSaving: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "remove checklist emit state",
-      build: () => TaskFormBloc(Maybe.just(
-        Task(
+      build: () => TaskFormBloc(
+        oldTask: Maybe.just(Task(
           UniqueId.empty(),
           TaskTitle.empty(),
           TaskDescription.empty(),
@@ -256,8 +307,9 @@ void main() {
           null,
           Toggle(false),
           null,
-        ),
-      )),
+        )),
+        repository: repository,
+      ),
       act: (TaskFormBloc cubit) {
         cubit.removeChecklist(ChecklistPrimitive(
           title: "Checklist 1",
@@ -270,7 +322,7 @@ void main() {
       },
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "",
             checklists: [
               ChecklistPrimitive(
@@ -279,60 +331,64 @@ void main() {
               ),
             ],
           ),
-          false,
-          TaskFormMode.editing,
+          mode: TaskFormMode.editing,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "",
             checklists: [],
           ),
-          false,
-          TaskFormMode.editing,
+          mode: TaskFormMode.editing,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
       "edit checklist emit state",
-      build: () => TaskFormBloc(Maybe.just(
-        Task(
-          UniqueId.empty(),
-          TaskTitle.empty(),
-          TaskDescription.empty(),
-          null,
-          null,
-          null,
-          null,
-          [
-            Checklist(
-              UniqueId("checklist_1"),
-              ChecklistTitle("Checklist 1"),
-              [
-                ChecklistItem(
-                  UniqueId("item_id"),
-                  ItemText("item 1"),
-                  Toggle(false),
-                )
-              ],
-            ),
-            Checklist(
-              UniqueId("checklist_2"),
-              ChecklistTitle("Checklist 2"),
-              [
-                ChecklistItem(
-                  UniqueId("item_id"),
-                  ItemText("item 1"),
-                  Toggle(false),
-                )
-              ],
-            ),
-          ],
-          null,
-          Toggle(false),
-          null,
-        ),
-      )),
+      build: () => TaskFormBloc(
+          oldTask: Maybe.just(Task(
+            UniqueId.empty(),
+            TaskTitle.empty(),
+            TaskDescription.empty(),
+            null,
+            null,
+            null,
+            null,
+            [
+              Checklist(
+                UniqueId("checklist_1"),
+                ChecklistTitle("Checklist 1"),
+                [
+                  ChecklistItem(
+                    UniqueId("item_id"),
+                    ItemText("item 1"),
+                    Toggle(false),
+                  )
+                ],
+              ),
+              Checklist(
+                UniqueId("checklist_2"),
+                ChecklistTitle("Checklist 2"),
+                [
+                  ChecklistItem(
+                    UniqueId("item_id"),
+                    ItemText("item 1"),
+                    Toggle(false),
+                  )
+                ],
+              ),
+            ],
+            null,
+            Toggle(false),
+            null,
+          )),
+          repository: repository),
       act: (TaskFormBloc cubit) {
         cubit.editChecklist(
             ChecklistPrimitive(
@@ -349,7 +405,7 @@ void main() {
       },
       expect: [
         TaskFormState(
-          TaskPrimitive.empty().copyWith(
+          taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "",
             checklists: [
               ChecklistPrimitive(
@@ -365,27 +421,126 @@ void main() {
               ),
             ],
           ),
-          false,
-          TaskFormMode.editing,
+          mode: TaskFormMode.editing,
+          isSaving: false,
+          saved: false,
+          hasError: false,
         ),
       ],
     );
 
     blocTest(
-      "save emit state",
-      build: () => TaskFormBloc(Maybe.nothing()),
-      act: (TaskFormBloc cubit) => cubit.saveTask(),
+      "save emit success state when in creating mode",
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
+      act: (TaskFormBloc cubit) {
+        when(repository.saveNewTask(any))
+            .thenAnswer((_) async => Either<Failure, Task>.right(null));
+        cubit.saveTask();
+      },
       expect: [
-        // TODO: Test this after the implementation change!
         TaskFormState(
-          TaskPrimitive.empty(),
-          true,
-          TaskFormMode.creating,
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: true,
+          saved: false,
+          hasError: false,
         ),
         TaskFormState(
-          TaskPrimitive.empty(),
-          false,
-          TaskFormMode.creating,
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: true,
+          hasError: false,
+        ),
+      ],
+    );
+
+    blocTest(
+      "save emit error state when in creating mode",
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
+      act: (TaskFormBloc cubit) {
+        when(repository.saveNewTask(any))
+            .thenAnswer((_) async => Either<Failure, Task>.left(MockFailure()));
+        cubit.saveTask();
+      },
+      expect: [
+        TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: true,
+          saved: false,
+          hasError: false,
+        ),
+        TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: true,
+        ),
+      ],
+    );
+
+    blocTest(
+      "save emit success state when in editing mode",
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
+      act: (TaskFormBloc cubit) {
+        when(repository.updateTask(any))
+            .thenAnswer((_) async => Either<Failure, Task>.right(null));
+        cubit.saveTask();
+      },
+      expect: [
+        TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: true,
+          saved: false,
+          hasError: false,
+        ),
+        TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: true,
+          hasError: false,
+        ),
+      ],
+    );
+
+    blocTest(
+      "save emit error state when in editing mode",
+      build: () => TaskFormBloc(
+        oldTask: Maybe.nothing(),
+        repository: repository,
+      ),
+      act: (TaskFormBloc cubit) {
+        when(repository.updateTask(any))
+            .thenAnswer((_) async => Either<Failure, Task>.left(MockFailure()));
+        cubit.saveTask();
+      },
+      expect: [
+        TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: true,
+          saved: false,
+          hasError: false,
+        ),
+        TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          mode: TaskFormMode.creating,
+          isSaving: false,
+          saved: false,
+          hasError: true,
         ),
       ],
     );

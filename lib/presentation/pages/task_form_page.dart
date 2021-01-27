@@ -3,6 +3,7 @@ import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/dialogs/checklist_form_dialog.dart';
 import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
@@ -29,8 +30,16 @@ class TaskFormPage extends StatelessWidget {
     final Maybe<Task> task = locator<NavigationService>().arguments(context);
 
     return BlocProvider(
-      create: (context) => TaskFormBloc(task),
-      child: TaskFormPageScaffold(),
+      create: (context) => TaskFormBloc(
+        oldTask: task,
+        repository: locator<TaskFormRepository>(),
+      ),
+      child: BlocListener<TaskFormBloc, TaskFormState>(
+        listenWhen: (_, c) => c.saved,
+        listener: (context, state) =>
+            locator<NavigationService>().pop(result: true),
+        child: TaskFormPageScaffold(),
+      ),
     );
   }
 }
@@ -71,7 +80,21 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
               }),
         ],
       ),
-      body: BlocBuilder<TaskFormBloc, TaskFormState>(
+      body: BlocConsumer<TaskFormBloc, TaskFormState>(
+        listenWhen: (p, c) => !p.hasError && c.hasError,
+        listener: (context, state) =>
+            ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error saving task!"),
+            action: SnackBarAction(
+              label: "RETRY",
+              onPressed: () async {
+                if (_formKey.currentState.validate())
+                  await context.read<TaskFormBloc>().saveTask();
+              },
+            ),
+          ),
+        ),
         buildWhen: (p, c) => p.isSaving != c.isSaving,
         builder: (context, state) => LoadingOverlay(
           color: Colors.black45,
