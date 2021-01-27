@@ -494,8 +494,8 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.updateTask(any))
-            .thenAnswer((_) async => Either<Failure, Task>.right(null));
+        when(repository.updateTask(any, any))
+            .thenAnswer((_) async => Either<Failure, Unit>.right(const Unit()));
         cubit.saveTask(UniqueId("mock_id"));
       },
       expect: [
@@ -523,8 +523,8 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.updateTask(any))
-            .thenAnswer((_) async => Either<Failure, Task>.left(MockFailure()));
+        when(repository.updateTask(any, any))
+            .thenAnswer((_) async => Either<Failure, Unit>.left(MockFailure()));
         cubit.saveTask(UniqueId("mock_id"));
       },
       expect: [
