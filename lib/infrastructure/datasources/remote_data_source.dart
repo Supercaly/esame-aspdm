@@ -53,7 +53,7 @@ class RemoteDataSource {
     });
   }
 
-  // TODO: Remove unused method getUser in remote data source
+  // TODO(#63): Remove unused method getUser in remote data source
   // This method is part or the server API, but the application don't use it.
   /// Returns a [Either] with a [Failure] or a [UserModel] with given [userId].
   Future<Either<Failure, UserModel>> getUser(UniqueId userId) async {
