@@ -115,7 +115,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
         )),
       );
     } else {
-      (await repository.updateTask(state.taskPrimitive.toTask())).fold(
+      (await repository.updateTask(state.taskPrimitive.toTask(), userId)).fold(
         (left) => emit(state.copyWith(
           saved: false,
           isSaving: false,

@@ -23,7 +23,11 @@ class TaskFormRepositoryImpl extends TaskFormRepository {
   }
 
   @override
-  Future<Either<Failure, Task>> updateTask(Task task) {
-    return Future.value(Either.left(ServerFailure.unexpectedError("")));
+  Future<Either<Failure, Unit>> updateTask(Task task, UniqueId userId) {
+    return MonadTask(
+            () => _dataSource.patchTask(TaskModel.fromTask(task), userId))
+        .map((_) => const Unit())
+        .attempt((err) => ServerFailure.unexpectedError(err))
+        .run();
   }
 }

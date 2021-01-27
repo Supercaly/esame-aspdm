@@ -5,5 +5,5 @@ import 'package:aspdm_project/domain/values/unique_id.dart';
 
 abstract class TaskFormRepository {
   Future<Either<Failure, Unit>> saveNewTask(Task task, UniqueId userId);
-  Future<Either<Failure, Task>> updateTask(Task task);
+  Future<Either<Failure, Unit>> updateTask(Task task, UniqueId userId);
 }
