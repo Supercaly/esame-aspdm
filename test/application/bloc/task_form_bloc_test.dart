@@ -436,9 +436,9 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.saveNewTask(any))
-            .thenAnswer((_) async => Either<Failure, Task>.right(null));
-        cubit.saveTask();
+        when(repository.saveNewTask(any, any))
+            .thenAnswer((_) async => Either<Failure, Unit>.right(const Unit()));
+        cubit.saveTask(UniqueId("mock_id"));
       },
       expect: [
         TaskFormState(
@@ -465,9 +465,9 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.saveNewTask(any))
-            .thenAnswer((_) async => Either<Failure, Task>.left(MockFailure()));
-        cubit.saveTask();
+        when(repository.saveNewTask(any, any))
+            .thenAnswer((_) async => Either<Failure, Unit>.left(MockFailure()));
+        cubit.saveTask(UniqueId("mock_id"));
       },
       expect: [
         TaskFormState(
@@ -496,7 +496,7 @@ void main() {
       act: (TaskFormBloc cubit) {
         when(repository.updateTask(any))
             .thenAnswer((_) async => Either<Failure, Task>.right(null));
-        cubit.saveTask();
+        cubit.saveTask(UniqueId("mock_id"));
       },
       expect: [
         TaskFormState(
@@ -525,7 +525,7 @@ void main() {
       act: (TaskFormBloc cubit) {
         when(repository.updateTask(any))
             .thenAnswer((_) async => Either<Failure, Task>.left(MockFailure()));
-        cubit.saveTask();
+        cubit.saveTask(UniqueId("mock_id"));
       },
       expect: [
         TaskFormState(

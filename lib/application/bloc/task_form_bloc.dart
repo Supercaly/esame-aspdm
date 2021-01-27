@@ -3,6 +3,7 @@ import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:equatable/equatable.dart';
@@ -99,10 +100,10 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 
   /// Tells the [TaskFormBloc] to save the changes made to the [Task]
   /// or to create a new one depending on the mode.
-  Future<void> saveTask() async {
+  Future<void> saveTask(UniqueId userId) async {
     emit(state.copyWith(isSaving: true, hasError: false));
     if (state.mode == TaskFormMode.creating) {
-      (await repository.saveNewTask(state.taskPrimitive.toTask())).fold(
+      (await repository.saveNewTask(state.taskPrimitive.toTask(), userId)).fold(
         (left) => emit(state.copyWith(
           saved: false,
           isSaving: false,

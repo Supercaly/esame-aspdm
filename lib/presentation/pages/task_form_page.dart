@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 
 class TaskFormPage extends StatelessWidget {
   @override
@@ -76,7 +77,10 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
               icon: Icon(Icons.check),
               onPressed: () async {
                 if (_formKey.currentState.validate())
-                  await context.read<TaskFormBloc>().saveTask();
+                  await context.read<TaskFormBloc>().saveTask(context
+                      .read<AuthState>()
+                      .currentUser
+                      .fold(() => null, (u) => u.id));
               }),
         ],
       ),
@@ -90,7 +94,10 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
               label: "RETRY",
               onPressed: () async {
                 if (_formKey.currentState.validate())
-                  await context.read<TaskFormBloc>().saveTask();
+                  await context.read<TaskFormBloc>().saveTask(context
+                      .read<AuthState>()
+                      .currentUser
+                      .fold(() => null, (u) => u.id));
               },
             ),
           ),
