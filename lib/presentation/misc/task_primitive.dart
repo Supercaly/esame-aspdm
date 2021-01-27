@@ -93,7 +93,7 @@ class TaskPrimitive extends Equatable {
         expireDate.getOrNull(),
         checklists?.map((e) => e.toChecklist())?.toList(),
         null,
-        null,
+        Toggle(false),
         null,
       );
 
