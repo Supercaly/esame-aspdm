@@ -62,7 +62,6 @@ class TaskInfoPageWidget extends StatelessWidget {
                   ? [
                       IconButton(
                         icon: Icon(FeatherIcons.edit),
-                        // TODO(#55): Connect edit button to TaskFormPage
                         onPressed: () async {
                           final updated =
                               await locator<NavigationService>().navigateTo(
