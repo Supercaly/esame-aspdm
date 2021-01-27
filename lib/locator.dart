@@ -1,10 +1,12 @@
 import 'package:aspdm_project/domain/repositories/label_repository.dart';
 import 'package:aspdm_project/domain/repositories/members_repository.dart';
+import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
 import 'package:aspdm_project/infrastructure/repositories/archive_repository_impl.dart';
 import 'package:aspdm_project/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:aspdm_project/infrastructure/repositories/home_repository_impl.dart';
 import 'package:aspdm_project/infrastructure/repositories/label_repository_impl.dart';
 import 'package:aspdm_project/infrastructure/repositories/members_repository_impl.dart';
+import 'package:aspdm_project/infrastructure/repositories/task_form_repository_imp.dart';
 import 'package:aspdm_project/infrastructure/repositories/task_repository_impl.dart';
 import 'package:aspdm_project/domain/repositories/archive_repository.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
@@ -60,6 +62,9 @@ Future<void> setupLocator() async {
   );
   locator.registerLazySingleton<TaskRepository>(
     () => TaskRepositoryImpl(locator<RemoteDataSource>()),
+  );
+  locator.registerLazySingleton<TaskFormRepository>(
+    () => TaskFormRepositoryImpl(locator<RemoteDataSource>()),
   );
   locator.registerLazySingleton<LabelRepository>(
     () => LabelRepositoryImpl(locator<RemoteDataSource>()),
