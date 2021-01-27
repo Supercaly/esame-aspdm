@@ -220,9 +220,9 @@ class RemoteDataSource {
       "expire_date": jsonTask['expire_date'],
       "checklists": newTask.checklists
           ?.map((e) => {
-        "title": e.title,
-        "items": e.items?.map((i) => i.item)?.toList(),
-      })
+                "title": e.title,
+                "items": e.items?.map((i) => i.item)?.toList(),
+              })
           ?.toList(),
     };
     print(m);
