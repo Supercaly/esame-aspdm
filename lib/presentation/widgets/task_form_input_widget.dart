@@ -18,7 +18,7 @@ class TaskFormInputWidget extends StatelessWidget {
         child: Column(
           children: [
             BlocBuilder<TaskFormBloc, TaskFormState>(
-              buildWhen: (_, c) => c.isInitial,
+              buildWhen: (_, __) => false,
               builder: (context, state) => TextFormField(
                 initialValue: state.taskPrimitive.title,
                 style: Theme.of(context).textTheme.headline6,
@@ -47,7 +47,7 @@ class TaskFormInputWidget extends StatelessWidget {
               ),
             ),
             BlocBuilder<TaskFormBloc, TaskFormState>(
-              buildWhen: (_, c) => c.isInitial,
+              buildWhen: (_, __) => false,
               builder: (context, state) => TextFormField(
                 initialValue: state.taskPrimitive.description,
                 style: Theme.of(context).textTheme.bodyText2,

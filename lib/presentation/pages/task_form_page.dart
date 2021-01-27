@@ -3,6 +3,7 @@ import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/dialogs/checklist_form_dialog.dart';
 import 'package:aspdm_project/presentation/dialogs/label_picker_dialog.dart';
@@ -22,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:aspdm_project/application/states/auth_state.dart';
 
 class TaskFormPage extends StatelessWidget {
   @override
@@ -29,8 +31,16 @@ class TaskFormPage extends StatelessWidget {
     final Maybe<Task> task = locator<NavigationService>().arguments(context);
 
     return BlocProvider(
-      create: (context) => TaskFormBloc(task),
-      child: TaskFormPageScaffold(),
+      create: (context) => TaskFormBloc(
+        oldTask: task,
+        repository: locator<TaskFormRepository>(),
+      ),
+      child: BlocListener<TaskFormBloc, TaskFormState>(
+        listenWhen: (_, c) => c.saved,
+        listener: (context, state) =>
+            locator<NavigationService>().pop(result: true),
+        child: TaskFormPageScaffold(),
+      ),
     );
   }
 }
@@ -51,7 +61,12 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
         // change the title of task form page depending on the editing
         // mode: display "New Task" if we are creating a new task,
         // "Edit Task" if we are editing an old one.
-        title: Text("New Task"),
+        title: BlocBuilder<TaskFormBloc, TaskFormState>(
+          buildWhen: (p, c) => p.mode != c.mode,
+          builder: (context, state) => Text(
+            (state.mode == TaskFormMode.creating) ? "New Task" : "Edit Task",
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.close),
@@ -62,12 +77,31 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
               icon: Icon(Icons.check),
               onPressed: () async {
                 if (_formKey.currentState.validate())
-                  await context.read<TaskFormBloc>().saveTask();
+                  await context.read<TaskFormBloc>().saveTask(context
+                      .read<AuthState>()
+                      .currentUser
+                      .fold(() => null, (u) => u.id));
               }),
         ],
       ),
-      body: BlocBuilder<TaskFormBloc, TaskFormState>(
-        // TODO: Build only when save changes
+      body: BlocConsumer<TaskFormBloc, TaskFormState>(
+        listenWhen: (p, c) => !p.hasError && c.hasError,
+        listener: (context, state) =>
+            ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error saving task!"),
+            action: SnackBarAction(
+              label: "RETRY",
+              onPressed: () async {
+                if (_formKey.currentState.validate())
+                  await context.read<TaskFormBloc>().saveTask(context
+                      .read<AuthState>()
+                      .currentUser
+                      .fold(() => null, (u) => u.id));
+              },
+            ),
+          ),
+        ),
         buildWhen: (p, c) => p.isSaving != c.isSaving,
         builder: (context, state) => LoadingOverlay(
           color: Colors.black45,

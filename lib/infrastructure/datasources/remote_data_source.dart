@@ -197,24 +197,36 @@ class RemoteDataSource {
 
   /// Creates a new task from a given [TaskModel].
   /// Returns a [Either] with a [Failure] or the new [TaskModel].
-  Future<Either<Failure, TaskModel>> postTask(TaskModel newTask) async {
+  Future<Either<Failure, TaskModel>> postTask(
+    TaskModel newTask,
+    UniqueId userId,
+  ) async {
+    assert(userId != null);
+
     if (newTask == null)
       return Either.left(
           ServerFailure.invalidArgument("newTask", received: newTask));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
 
     final jsonTask = newTask.toJson();
-    final res = await post("/task", {
+    final m = {
       "title": jsonTask['title'],
       "description": jsonTask['description'],
-      "author": jsonTask['author'],
+      "author": userId.value.getOrNull(),
       "members": jsonTask['members'],
       "labels": jsonTask['labels'],
       "expire_date": jsonTask['expire_date'],
-      "checklists": newTask.checklists?.map((e) => {
-            "title": e.title,
-            "items": e.items?.map((i) => i.item),
-          }),
-    });
+      "checklists": newTask.checklists
+          ?.map((e) => {
+                "title": e.title,
+                "items": e.items?.map((i) => i.item)?.toList(),
+              })
+          ?.toList(),
+    };
+    print(m);
+    final res = await post("/task", m);
     return res.flatMap((right) {
       // TODO: put real failure here
       if (right.data == null)

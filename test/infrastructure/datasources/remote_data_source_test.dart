@@ -557,6 +557,7 @@ void main() {
           false,
           DateTime.parse("2020-12-22"),
         ),
+        UniqueId("mock_id"),
       );
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -615,6 +616,7 @@ void main() {
           false,
           DateTime.parse("2020-12-22"),
         ),
+        UniqueId("mock_id"),
       );
       expect(res2.isLeft(), isTrue);
     });
@@ -1351,8 +1353,32 @@ void main() {
     });
 
     test("post task throws an error with null parameters", () async {
-      final res = await source.postTask(null);
+      final res = await source.postTask(null, UniqueId("user_id"));
       expect(res.isLeft(), isTrue);
+
+      try {
+        await source.postTask(null, null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      final res2 = await source.postTask(
+          TaskModel(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ),
+          UniqueId(null));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("patch task throws an error with null parameters", () async {

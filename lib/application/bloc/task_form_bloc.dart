@@ -2,6 +2,8 @@ import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
+import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:aspdm_project/presentation/misc/task_primitive.dart';
 import 'package:equatable/equatable.dart';
@@ -10,12 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Cubit class used to manage the state of the task form page.
 class TaskFormBloc extends Cubit<TaskFormState> {
+  final TaskFormRepository repository;
+
   /// Creates a [TaskFormBloc] form the old [Task].
-  TaskFormBloc(Maybe<Task> oldTask)
-      : super(TaskFormState.initial(oldTask.fold(
-          () => TaskPrimitive.empty(),
-          (task) => TaskPrimitive.fromTask(task),
-        )));
+  TaskFormBloc({
+    @required Maybe<Task> oldTask,
+    @required this.repository,
+  }) : super(TaskFormState.initial(oldTask));
 
   /// Tells the [TaskFormBloc] that the title is changed.
   void titleChanged(String value) {
@@ -96,41 +99,104 @@ class TaskFormBloc extends Cubit<TaskFormState> {
   }
 
   /// Tells the [TaskFormBloc] to save the changes made to the [Task]
-  /// or to create a new one.
-  Future<void> saveTask() async {
-    // TODO: Implement save/update mechanic
-    print("EditTaskBloc.saveTask: Saving task...");
-    print("EditTaskBloc.saveTask: ${state.taskPrimitive}");
-    emit(state.copyWith(isSaving: true));
-    await Future.delayed(Duration(seconds: 5));
-    emit(state.copyWith(isSaving: false));
+  /// or to create a new one depending on the mode.
+  Future<void> saveTask(UniqueId userId) async {
+    emit(state.copyWith(isSaving: true, hasError: false));
+    if (state.mode == TaskFormMode.creating) {
+      (await repository.saveNewTask(state.taskPrimitive.toTask(), userId)).fold(
+        (left) => emit(state.copyWith(
+          saved: false,
+          isSaving: false,
+          hasError: true,
+        )),
+        (right) => emit(state.copyWith(
+          saved: true,
+          isSaving: false,
+        )),
+      );
+    } else {
+      (await repository.updateTask(state.taskPrimitive.toTask())).fold(
+        (left) => emit(state.copyWith(
+          saved: false,
+          isSaving: false,
+          hasError: true,
+        )),
+        (right) => emit(state.copyWith(
+          saved: true,
+          isSaving: false,
+        )),
+      );
+    }
   }
+}
+
+/// Enum representing all the possible modes
+/// of the task form page
+enum TaskFormMode {
+  /// The page is creating a new task
+  creating,
+
+  /// The page is editing an existing task
+  editing,
 }
 
 /// Class with the state of the [TaskFormBloc].
 class TaskFormState extends Equatable {
   final TaskPrimitive taskPrimitive;
+  final bool hasError;
   final bool isSaving;
-  final bool isInitial;
+  final bool saved;
+  final TaskFormMode mode;
 
   @visibleForTesting
-  TaskFormState(this.taskPrimitive, this.isSaving, this.isInitial);
+  TaskFormState({
+    @required this.taskPrimitive,
+    @required this.hasError,
+    @required this.isSaving,
+    @required this.saved,
+    @required this.mode,
+  });
 
-  factory TaskFormState.initial(TaskPrimitive primitive) =>
-      TaskFormState(primitive, false, true);
+  /// Creates a [TaskFormState] from the old [Task].
+  factory TaskFormState.initial(Maybe<Task> task) => task.fold(
+        () => TaskFormState(
+          taskPrimitive: TaskPrimitive.empty(),
+          hasError: false,
+          isSaving: false,
+          saved: false,
+          mode: TaskFormMode.creating,
+        ),
+        (task) => TaskFormState(
+          taskPrimitive: TaskPrimitive.fromTask(task),
+          hasError: false,
+          isSaving: false,
+          saved: false,
+          mode: TaskFormMode.editing,
+        ),
+      );
 
-  TaskFormState copyWith({TaskPrimitive taskPrimitive, bool isSaving}) =>
+  /// Creates a copy of a [TaskFormState] with some different fields.
+  TaskFormState copyWith({
+    TaskPrimitive taskPrimitive,
+    bool isSaving,
+    bool saved,
+    bool hasError,
+  }) =>
       TaskFormState(
-        taskPrimitive ?? this.taskPrimitive,
-        isSaving ?? this.isSaving,
-        false,
+        taskPrimitive: taskPrimitive ?? this.taskPrimitive,
+        isSaving: isSaving ?? this.isSaving,
+        saved: saved ?? this.saved,
+        mode: this.mode,
+        hasError: hasError ?? this.hasError,
       );
 
   @override
-  List<Object> get props => [taskPrimitive, isSaving, isInitial];
+  List<Object> get props => [taskPrimitive, isSaving, mode];
 
   @override
-  String toString() => taskPrimitive.toString();
+  String toString() => "TaskFormState{taskPrimitive: $taskPrimitive, "
+      "mode: $mode, hasError: $hasError, "
+      "isSaving: $isSaving, saved: $saved}";
 }
 
 // TODO: Optimize all this list shenanigans.
