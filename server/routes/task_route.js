@@ -26,7 +26,7 @@ router.get("/:taskId", [
 router.post("/", [
     body('title').isString().notEmpty(),
     body('description').optional({nullable: true}).isString(),
-    body('expire_date').optional({nullable: true}).isDate(),
+    body('expire_date').optional({nullable: true}).isISO8601(),
     body('author').custom(idValidator).customSanitizer(idSanitizer),
     body('members').custom(arrayValidator),
     body('labels').custom(arrayValidator),
@@ -71,7 +71,7 @@ router.patch("/", [
     body('id').custom(idValidator).customSanitizer(idSanitizer),
     body('task.title').isString().notEmpty(),
     body('task.description').optional({nullable: true}).isString(),
-    body('task.expire_date').optional({nullable: true}).isDate(),
+    body('task.expire_date').optional({nullable: true}).isISO8601(),
     body('task.members').custom(arrayValidator),
     body('task.labels').custom(arrayValidator),
     body('task.checklists').custom(arrayValidator),
