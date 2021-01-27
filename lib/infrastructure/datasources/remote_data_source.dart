@@ -53,7 +53,8 @@ class RemoteDataSource {
     });
   }
 
-  // TODO: This method may be unused.
+  // TODO: Remove unused method getUser in remote data source
+  // This method is part or the server API, but the application don't use it.
   /// Returns a [Either] with a [Failure] or a [UserModel] with given [userId].
   Future<Either<Failure, UserModel>> getUser(UniqueId userId) async {
     assert(userId != null);
@@ -211,12 +212,12 @@ class RemoteDataSource {
           ServerFailure.invalidArgument("userId", received: userId));
 
     final jsonTask = newTask.toJson();
-    final m = {
+    final params = {
       "title": jsonTask['title'],
       "description": jsonTask['description'],
       "author": userId.value.getOrNull(),
-      "members": jsonTask['members'],
-      "labels": jsonTask['labels'],
+      "members": jsonTask['members']?.map((m) => m.id)?.toList(),
+      "labels": jsonTask['labels']?.map((l) => l.id)?.toList(),
       "expire_date": jsonTask['expire_date'],
       "checklists": newTask.checklists
           ?.map((e) => {
@@ -225,8 +226,7 @@ class RemoteDataSource {
               })
           ?.toList(),
     };
-    print(m);
-    final res = await post("/task", m);
+    final res = await post("/task", params);
     return res.flatMap((right) {
       // TODO: put real failure here
       if (right.data == null)
@@ -239,13 +239,40 @@ class RemoteDataSource {
 
   /// Updates an existing task from a given [TaskModel].
   /// Returns a [Either] with a [Failure] or the new [TaskModel].
-  Future<Either<Failure, TaskModel>> patchTask(TaskModel newTask) async {
-    if (newTask == null)
+  Future<Either<Failure, TaskModel>> patchTask(
+    TaskModel updatedTask,
+    UniqueId userId,
+  ) async {
+    assert(userId != null);
+
+    if (updatedTask == null)
       return Either.left(
-          ServerFailure.invalidArgument("newTask", received: newTask));
+          ServerFailure.invalidArgument("newTask", received: updatedTask));
+    if (userId.value.isLeft())
+      return Either.left(
+          ServerFailure.invalidArgument("userId", received: userId));
 
     // TODO(#37): Fix wrong PATCH task parameters
-    final res = await patch("/task", newTask.toJson());
+    final jsonTask = updatedTask.toJson();
+    final params = {
+      "id": jsonTask["_id"],
+      "task": {
+        "title": jsonTask["title"],
+        "description": jsonTask["description"],
+        "expire_date": jsonTask["expire_date"],
+        "members": jsonTask["members"]?.map((m) => m.id)?.toList(),
+        "labels": jsonTask["labels"]?.map((l) => l.id)?.toList(),
+        "checklists": jsonTask["checklists"]
+            ?.map((c) => {
+                  "title": c.title,
+                  "items": c.items
+                      ?.map((i) => {"item": i.item, "checked": i.complete})
+                      ?.toList()
+                })
+            ?.toList()
+      }
+    };
+    final res = await patch("/task", params);
     return res.flatMap((right) {
       // TODO: put real failure here
       if (right.data == null)

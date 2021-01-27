@@ -641,23 +641,49 @@ void main() {
       );
       final res = await source.patchTask(
         TaskModel(
-          null,
+          "mock_task_id",
           "Mock Title",
           "Mock Description",
-          null,
+          [
+            LabelModel("label_1", Colors.red, "label 1"),
+            LabelModel("label_2", Colors.blue, "label 2"),
+          ],
           UserModel(
             "mock_id",
             "Mock User",
             "mock@email.com",
             Color(0xFFFF0000),
           ),
-          null,
+          [
+            UserModel("user_1", "user 1", "user1@email.com", null),
+            UserModel("user_2", "user 2", "user2@email.com", null),
+            UserModel("user_3", "user 3", "user3@email.com", null),
+          ],
           DateTime.parse("2021-01-03"),
-          null,
+          [
+            ChecklistModel(
+              "checklist_1",
+              "Checklist 1",
+              [
+                ChecklistItemModel("item_1", "item 1", true),
+                ChecklistItemModel("item_2", "item 2", false),
+              ],
+            ),
+            ChecklistModel(
+              "checklist_2",
+              "Checklist 2",
+              [
+                ChecklistItemModel("item_1", "item 1", false),
+                ChecklistItemModel("item_2", "item 2", true),
+              ],
+            ),
+            ChecklistModel("checklist_3", "Checklist 3", null),
+          ],
           null,
           false,
           DateTime.parse("2020-12-22"),
         ),
+        UniqueId("mock_id"),
       );
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -689,7 +715,7 @@ void main() {
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.patchTask(
         TaskModel(
-          null,
+          "mock_task_id",
           "Mock Title",
           "Mock Description",
           null,
@@ -706,6 +732,7 @@ void main() {
           false,
           DateTime.parse("2020-12-22"),
         ),
+        UniqueId("mock_id"),
       );
       expect(res2.isLeft(), isTrue);
     });
@@ -1382,8 +1409,32 @@ void main() {
     });
 
     test("patch task throws an error with null parameters", () async {
-      final res = await source.patchTask(null);
+      final res = await source.patchTask(null, UniqueId("mock_id"));
       expect(res.isLeft(), isTrue);
+
+      try {
+        await source.patchTask(null, null);
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+
+      final res2 = await source.patchTask(
+          TaskModel(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ),
+          UniqueId(null));
+      expect(res2.isLeft(), isTrue);
     });
 
     test("post comment throws an error with null parameters", () async {
