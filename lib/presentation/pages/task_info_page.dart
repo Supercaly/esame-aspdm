@@ -63,11 +63,16 @@ class TaskInfoPageWidget extends StatelessWidget {
                       IconButton(
                         icon: Icon(FeatherIcons.edit),
                         // TODO(#55): Connect edit button to TaskFormPage
-                        onPressed: () =>
-                            locator<NavigationService>().navigateTo(
-                          Routes.taskForm,
-                          arguments: state.data,
-                        ),
+                        onPressed: () async {
+                          final updated =
+                              await locator<NavigationService>().navigateTo(
+                            Routes.taskForm,
+                            arguments: state.data,
+                          );
+
+                          if (updated != null && updated)
+                            context.read<TaskBloc>().fetch(showLoading: false);
+                        },
                         tooltip: "Edit",
                       ),
                       if (!state.data.archived.value.getOrCrash())
