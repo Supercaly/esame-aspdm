@@ -252,7 +252,6 @@ class RemoteDataSource {
       return Either.left(
           ServerFailure.invalidArgument("userId", received: userId));
 
-    // TODO(#37): Fix wrong PATCH task parameters
     final jsonTask = updatedTask.toJson();
     final params = {
       "id": jsonTask["_id"],
