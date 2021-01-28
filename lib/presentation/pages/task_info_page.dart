@@ -143,46 +143,39 @@ class HeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (task?.labels != null && task.labels.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Wrap(
+              ListTile(
+                leading: Icon(FeatherIcons.tag),
+                title: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 8.0,
                   runSpacing: 4.0,
-                  children: [Icon(FeatherIcons.tag)]
-                    ..addAll(task.labels.map((l) => LabelWidget(label: l))),
+                  children:
+                      task.labels.map((l) => LabelWidget(label: l)).toList(),
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Row(
+            ListTile(
+              leading: Icon(FeatherIcons.user),
+              title: Row(
                 children: [
-                  Icon(FeatherIcons.user),
-                  SizedBox(width: 8.0),
                   UserAvatar(user: task?.author, size: 32.0),
                 ],
               ),
             ),
             if (task?.members != null && task.members.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Wrap(
+              ListTile(
+                leading: Icon(FeatherIcons.users),
+                title: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 8.0,
                   runSpacing: 4.0,
-                  children: [Icon(FeatherIcons.users)]..addAll(
-                      task.members.map(
-                        (member) => UserAvatar(
-                          user: member,
-                          size: 32.0,
-                        ),
-                      ),
-                    ),
+                  children: task.members
+                      .map((member) => UserAvatar(user: member, size: 32.0))
+                      .toList(),
                 ),
               ),
             if (task?.expireDate != null) ExpirationText(date: task.expireDate),

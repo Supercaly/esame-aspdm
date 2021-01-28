@@ -94,18 +94,12 @@ class ExpirationText extends StatelessWidget {
       color = Theme.of(context).textTheme.caption.color;
     }
 
-    return Row(
-      children: [
-        Icon(
-          FeatherIcons.calendar,
-          color: color,
-        ),
-        SizedBox(width: 8.0),
-        Text(
-          DateFormat("dd MMM y HH:mm").format(date),
-          style: Theme.of(context).textTheme.caption.copyWith(color: color),
-        ),
-      ],
+    return ListTile(
+      leading: Icon(FeatherIcons.calendar, color: color),
+      title: Text(
+        DateFormat("dd MMM y HH:mm").format(date),
+        style: Theme.of(context).textTheme.caption.copyWith(color: color),
+      ),
     );
   }
 }
