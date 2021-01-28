@@ -66,6 +66,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
           ),
         ),
         centerTitle: true,
+        // TODO: This IconButton will be unused if this page is opened as a fullscreen dialog
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () => locator<NavigationService>().pop(),
