@@ -88,7 +88,7 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
             actions: [
               Builder(
                 builder: (context) => TextButton(
-                  child: Text("Done"),
+                  child: Text("SAVE"),
                   onPressed: () {
                     if (_formKey.currentState.validate())
                       context.read<ChecklistFormBloc>().save();

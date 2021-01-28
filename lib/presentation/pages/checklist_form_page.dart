@@ -32,15 +32,12 @@ class ChecklistFormPage extends StatelessWidget {
             locator<NavigationService>().pop(result: state.primitive),
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () => Navigator.pop(context),
-            ),
             title: SizedBox.shrink(),
             actions: [
               Builder(
                 builder: (context) => TextButton(
-                  child: Text("Done"),
+                  child: Text("SAVE"),
+                  style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
                     if (_formKey.currentState.validate())
                       context.read<ChecklistFormBloc>().save();
@@ -48,9 +45,6 @@ class ChecklistFormPage extends StatelessWidget {
                 ),
               ),
             ],
-            backgroundColor: Colors.white,
-            iconTheme:
-                Theme.of(context).iconTheme.copyWith(color: Colors.black),
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(

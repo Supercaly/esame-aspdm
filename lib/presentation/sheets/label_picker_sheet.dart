@@ -108,7 +108,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
                           result: _selected.toList(growable: false),
                         );
                       },
-                      child: Text("Done"),
+                      child: Text("SAVE"),
                     ),
                   ],
                 ),

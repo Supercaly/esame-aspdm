@@ -71,15 +71,21 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
           onPressed: () => locator<NavigationService>().pop(),
         ),
         actions: [
-          IconButton(
-              icon: Icon(Icons.check),
-              onPressed: () async {
-                if (_formKey.currentState.validate())
-                  await context.read<TaskFormBloc>().saveTask(context
-                      .read<AuthState>()
-                      .currentUser
-                      .fold(() => null, (u) => u.id));
-              }),
+          BlocBuilder<TaskFormBloc, TaskFormState>(
+            buildWhen: (p, c) => p.mode != c.mode,
+            builder: (context, state) => TextButton(
+                style: TextButton.styleFrom(primary: Colors.white),
+                child: Text((state.mode == TaskFormMode.creating)
+                    ? "CREATE"
+                    : "UPDATE"),
+                onPressed: () async {
+                  if (_formKey.currentState.validate())
+                    await context.read<TaskFormBloc>().saveTask(context
+                        .read<AuthState>()
+                        .currentUser
+                        .fold(() => null, (u) => u.id));
+                }),
+          ),
         ],
       ),
       body: BlocConsumer<TaskFormBloc, TaskFormState>(
@@ -245,6 +251,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ChecklistFormPage(),
+                                      fullscreenDialog: true,
                                     ),
                                   );
                                 else
@@ -277,6 +284,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                                 ChecklistFormPage(
                                               primitive: e,
                                             ),
+                                            fullscreenDialog: true,
                                           ),
                                         );
                                       else
