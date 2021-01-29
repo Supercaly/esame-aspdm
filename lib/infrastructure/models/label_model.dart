@@ -1,4 +1,5 @@
 import 'package:aspdm_project/domain/entities/label.dart';
+import 'package:aspdm_project/domain/values/label_values.dart';
 import 'package:aspdm_project/infrastructure/color_parser.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
@@ -37,10 +38,10 @@ class LabelModel extends Equatable {
   factory LabelModel.fromLabel(Label label) => LabelModel(
         label.id.value.getOrNull(),
         label.color,
-        label.label,
+        label.label.value.getOrNull(),
       );
 
-  Label toLabel() => Label(UniqueId(id), color, label);
+  Label toLabel() => Label(UniqueId(id), color, LabelName(label));
 
   @override
   List<Object> get props => [id, color, label];

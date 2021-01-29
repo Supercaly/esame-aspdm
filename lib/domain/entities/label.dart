@@ -1,3 +1,4 @@
+import 'package:aspdm_project/domain/values/label_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class Label extends Equatable {
   final Color color;
 
   /// Label's text.
-  final String label;
+  final LabelName label;
 
   Label(this.id, this.color, this.label);
 

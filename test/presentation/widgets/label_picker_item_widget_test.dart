@@ -1,4 +1,5 @@
 import 'package:aspdm_project/domain/entities/label.dart';
+import 'package:aspdm_project/domain/values/label_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ void main() {
     Label label;
 
     setUpAll(() {
-      label = Label(UniqueId.empty(), Colors.red, "label");
+      label = Label(UniqueId.empty(), Colors.red, LabelName("label"));
     });
 
     testWidgets("create one item", (tester) async {
