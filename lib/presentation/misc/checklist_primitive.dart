@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
@@ -7,7 +8,7 @@ import 'package:equatable/equatable.dart';
 /// during the creation or editing of a task.
 class ChecklistPrimitive extends Equatable {
   final String title;
-  final List<ItemText> items;
+  final IList<ItemText> items;
 
   /// Creates a [ChecklistPrimitive].
   ChecklistPrimitive({this.title, this.items});
@@ -15,11 +16,11 @@ class ChecklistPrimitive extends Equatable {
   /// Creates an empty [ChecklistPrimitive].
   factory ChecklistPrimitive.empty() => ChecklistPrimitive(
         title: null,
-        items: List<ItemText>.empty(),
+        items: IList<ItemText>.empty(),
       );
 
   /// Creates a copy of a [ChecklistPrimitive] with some changed fields.
-  ChecklistPrimitive copyWith({String title, List<ItemText> items}) =>
+  ChecklistPrimitive copyWith({String title, IList<ItemText> items}) =>
       ChecklistPrimitive(
         title: title ?? this.title,
         items: items ?? this.items,
@@ -29,8 +30,7 @@ class ChecklistPrimitive extends Equatable {
   factory ChecklistPrimitive.fromChecklist(Checklist checklist) =>
       ChecklistPrimitive(
         title: checklist.title.value.getOrNull(),
-        items: checklist.items?.map((e) => e.item)?.toList() ??
-            List<ItemText>.empty(),
+        items: IList.from(checklist.items?.map((e) => e.item)),
       );
 
   /// Returns a [Checklist].
@@ -45,7 +45,7 @@ class ChecklistPrimitive extends Equatable {
                 Toggle(false),
               ),
             )
-            .toList(),
+            .asList(),
       );
 
   @override

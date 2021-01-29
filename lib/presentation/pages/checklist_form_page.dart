@@ -76,7 +76,7 @@ class ChecklistFormPage extends StatelessWidget {
                               item: e,
                             ),
                           )
-                          .toList(),
+                          .asList(),
                     ),
                   ),
                   ChecklistFormNewItemWidget(),

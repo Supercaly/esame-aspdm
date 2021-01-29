@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/checklist_form_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -13,7 +14,7 @@ void main() {
       verify: (ChecklistFormBloc cubit) => expect(
         cubit.state,
         ChecklistFormState(
-          ChecklistPrimitive(title: "Checklist", items: []),
+          ChecklistPrimitive(title: "Checklist", items: IList.empty()),
           false,
         ),
       ),
@@ -24,10 +25,10 @@ void main() {
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
           title: "Mock Title",
-          items: [
+          items: IList.from([
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
-          ],
+          ]),
         ),
       ),
       expect: [],
@@ -36,10 +37,10 @@ void main() {
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
-            items: [
+            items: IList.from([
               ItemText("Mock Item 1"),
               ItemText("Mock Item 2"),
-            ],
+            ]),
           ),
           false,
         ),
@@ -52,7 +53,7 @@ void main() {
       act: (ChecklistFormBloc cubit) => cubit.titleChanged("Mock Title"),
       expect: [
         ChecklistFormState(
-          ChecklistPrimitive(title: "Mock Title", items: []),
+          ChecklistPrimitive(title: "Mock Title", items: IList.empty()),
           false,
         ),
       ],
@@ -63,9 +64,9 @@ void main() {
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
           title: "Mock Title",
-          items: [
+          items: IList.from([
             ItemText("Mock Item 1"),
-          ],
+          ]),
         ),
       ),
       act: (ChecklistFormBloc cubit) {
@@ -75,10 +76,10 @@ void main() {
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
-            items: [
+            items: IList.from([
               ItemText("Mock Item 1"),
               ItemText("Mock Item 2"),
-            ],
+            ]),
           ),
           false,
         ),
@@ -90,11 +91,11 @@ void main() {
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
           title: "Mock Title",
-          items: [
+          items: IList.from([
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
             ItemText("Mock Item 3"),
-          ],
+          ]),
         ),
       ),
       act: (ChecklistFormBloc cubit) {
@@ -104,10 +105,10 @@ void main() {
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
-            items: [
+            items: IList.from([
               ItemText("Mock Item 1"),
               ItemText("Mock Item 3"),
-            ],
+            ]),
           ),
           false,
         ),
@@ -119,11 +120,11 @@ void main() {
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
           title: "Mock Title",
-          items: [
+          items: IList.from([
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
             ItemText("Mock Item 3"),
-          ],
+          ]),
         ),
       ),
       act: (ChecklistFormBloc cubit) {
@@ -136,11 +137,11 @@ void main() {
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
-            items: [
+            items: IList.from([
               ItemText("Mock Item 1"),
               ItemText("Mock Item 2 (Edited)"),
               ItemText("Mock Item 3"),
-            ],
+            ]),
           ),
           false,
         ),
@@ -152,11 +153,11 @@ void main() {
       build: () => ChecklistFormBloc(
         initialValue: ChecklistPrimitive(
           title: "Mock Title",
-          items: [
+          items: IList.from([
             ItemText("Mock Item 1"),
             ItemText("Mock Item 2"),
             ItemText("Mock Item 3"),
-          ],
+          ]),
         ),
       ),
       act: (ChecklistFormBloc cubit) {
@@ -166,11 +167,11 @@ void main() {
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
-            items: [
+            items: IList.from([
               ItemText("Mock Item 1"),
               ItemText("Mock Item 2"),
               ItemText("Mock Item 3"),
-            ],
+            ]),
           ),
           true,
         ),

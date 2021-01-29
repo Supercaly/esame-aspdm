@@ -171,7 +171,7 @@ class EditChecklist extends StatelessWidget {
                             Expanded(child: Text(e.value.getOrNull() ?? "")),
                           ],
                         ))
-                    .toList(),
+                    .asList(),
               )
             ],
           ),

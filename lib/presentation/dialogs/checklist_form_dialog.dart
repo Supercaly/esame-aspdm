@@ -76,7 +76,7 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
                                   item: e,
                                 ),
                               )
-                              .toList(),
+                              .asList(),
                         ),
                       ),
                       ChecklistFormNewItemWidget(),

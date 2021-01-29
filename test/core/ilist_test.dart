@@ -27,14 +27,14 @@ void main() {
       try {
         ValueIList(null);
         fail("This should throw an exception!");
-      } catch(e) {
+      } catch (e) {
         expect(e, isA<AssertionError>());
       }
 
       try {
         ValueIList([]);
         fail("This should throw an exception!");
-      } catch(e) {
+      } catch (e) {
         expect(e, isA<AssertionError>());
       }
     });
