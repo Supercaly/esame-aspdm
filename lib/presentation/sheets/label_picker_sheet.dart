@@ -26,27 +26,10 @@ Future<IList<Label>> showLabelPickerSheet(
 }
 
 /// Widget that display a bottom sheet that picks labels
-class LabelPickerSheet extends StatefulWidget {
+class LabelPickerSheet extends StatelessWidget {
   final IList<Label> labels;
 
   LabelPickerSheet({Key key, this.labels}) : super(key: key);
-
-  @override
-  _LabelPickerSheetState createState() => _LabelPickerSheetState();
-}
-
-class _LabelPickerSheetState extends State<LabelPickerSheet> {
-  Set<Label> _selected;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.labels != null && widget.labels.isNotEmpty)
-      _selected = Set<Label>.from(widget.labels.asList());
-    else
-      _selected = Set<Label>.identity();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +41,10 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
         right: 24.0,
       ),
       child: BlocProvider<LabelsBloc>(
-        create: (context) => LabelsBloc(locator<LabelRepository>())..fetch(),
+        create: (context) => LabelsBloc(
+          initialValue: labels,
+          repository: locator<LabelRepository>(),
+        )..fetch(),
         child: BlocBuilder<LabelsBloc, LabelsState>(
           builder: (context, state) {
             Widget contentWidget;
@@ -76,16 +62,16 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
                           .map(
                             (e) => LabelPickerItemWidget(
                               label: e,
-                              selected: _selected.contains(e),
-                              onSelected: (selected) => setState(() {
+                              selected: state.selected.contains(e),
+                              onSelected: (selected) {
                                 if (selected)
-                                  _selected.add(e);
+                                  context.read<LabelsBloc>().selectLabel(e);
                                 else
-                                  _selected.remove(e);
-                              }),
+                                  context.read<LabelsBloc>().deselectLabel(e);
+                              },
                             ),
                           )
-                          .toList(),
+                          .asList(),
                     ),
                   ),
                 ],
@@ -106,7 +92,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
                     TextButton(
                       onPressed: () {
                         locator<NavigationService>().pop(
-                          result: IList.from(_selected.toList(growable: false)),
+                          result: state.selected,
                         );
                       },
                       child: Text("SAVE"),
