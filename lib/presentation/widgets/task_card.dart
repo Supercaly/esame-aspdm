@@ -55,7 +55,7 @@ class TaskCard extends StatelessWidget {
                                 label: label,
                                 compact: !isLarge,
                               ))
-                          .toList(),
+                          .asList(),
                     )
                   : SizedBox.shrink(),
               SizedBox(height: 10.0),

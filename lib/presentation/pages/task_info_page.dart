@@ -51,8 +51,7 @@ class TaskInfoPageWidget extends StatelessWidget {
             ),
         builder: (context, state) {
           final canModify = (currentUser.getOrNull() == state.data?.author) ||
-              (state.data?.members?.any((e) => currentUser.getOrNull() == e) ??
-                  false);
+              (state.data?.members?.contains(currentUser.getOrNull()) ?? false);
 
           return Scaffold(
             appBar: AppBar(
@@ -155,7 +154,7 @@ class HeaderCard extends StatelessWidget {
                   spacing: 8.0,
                   runSpacing: 4.0,
                   children:
-                      task.labels.map((l) => LabelWidget(label: l)).toList(),
+                      task.labels.map((l) => LabelWidget(label: l)).asList(),
                 ),
               ),
             ListTile(
@@ -175,7 +174,7 @@ class HeaderCard extends StatelessWidget {
                   runSpacing: 4.0,
                   children: task.members
                       .map((member) => UserAvatar(user: member, size: 32.0))
-                      .toList(),
+                      .asList(),
                 ),
               ),
             if (task?.expireDate != null) ExpirationText(date: task.expireDate),
@@ -296,7 +295,7 @@ class CommentsCard extends StatelessWidget {
                                 ),
                       ),
                     )
-                    .toList(),
+                    .asList(),
               ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
@@ -50,13 +51,13 @@ class TaskFormBloc extends Cubit<TaskFormState> {
   }
 
   /// Tells the [TaskFormBloc] that the members list is changed.
-  void membersChanged(List<User> value) {
+  void membersChanged(IList<User> value) {
     emit(state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(members: value)));
   }
 
   /// Tells the [TaskFormBloc] that the labels list is changed.
-  void labelsChanged(List<Label> value) {
+  void labelsChanged(IList<Label> value) {
     emit(state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(labels: value)));
   }

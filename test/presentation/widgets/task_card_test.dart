@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
@@ -55,10 +56,10 @@ void main() {
               UniqueId("mock_id"),
               TaskTitle("mock title"),
               null,
-              [
+              IList.from([
                 Label(UniqueId("mock_id"), Colors.red, "label"),
                 Label(UniqueId("mock_id"), Colors.blue, "label"),
-              ],
+              ]),
               null,
               null,
               null,
@@ -86,25 +87,25 @@ void main() {
               UniqueId("mock_id"),
               TaskTitle("mock title"),
               TaskDescription("mock description"),
-              [
+              IList.from([
                 Label(UniqueId("mock_id"), Colors.red, "label"),
                 Label(UniqueId("mock_id"), Colors.blue, "label"),
-              ],
+              ]),
               null,
-              [
+              IList.from([
                 User(
                   UniqueId("mock_user"),
                   UserName("Mock User"),
                   EmailAddress("mock.user@email.com"),
                   null,
                 )
-              ],
+              ]),
               DateTime.now(),
-              [
+              IList.from([
                 Checklist(
                   UniqueId("mock_id"),
                   ChecklistTitle("checklist1"),
-                  [
+                  IList.from([
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(false)),
                     ChecklistItem(
@@ -113,22 +114,22 @@ void main() {
                         UniqueId("mock_id"), ItemText("item"), Toggle(false)),
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(true)),
-                  ],
+                  ]),
                 ),
                 Checklist(
                   UniqueId("mock_id"),
                   ChecklistTitle("checklist1"),
-                  [
+                  IList.from([
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(false)),
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(true)),
                     ChecklistItem(
                         UniqueId("mock_id"), ItemText("item"), Toggle(false)),
-                  ],
+                  ]),
                 ),
-              ],
-              [
+              ]),
+              IList.from([
                 Comment(
                   UniqueId("c1"),
                   CommentContent("comment 1"),
@@ -138,8 +139,8 @@ void main() {
                     EmailAddress("mock.user@email.com"),
                     null,
                   ),
-                  [],
-                  [],
+                  IList.empty(),
+                  IList.empty(),
                   DateTime.now(),
                 ),
                 Comment(
@@ -151,8 +152,8 @@ void main() {
                     EmailAddress("mock.user@email.com"),
                     null,
                   ),
-                  [],
-                  [],
+                  IList.empty(),
+                  IList.empty(),
                   DateTime.now(),
                 ),
                 Comment(
@@ -164,11 +165,11 @@ void main() {
                     EmailAddress("mock.user@email.com"),
                     null,
                   ),
-                  [],
-                  [],
+                  IList.empty(),
+                  IList.empty(),
                   DateTime.now(),
                 ),
-              ],
+              ]),
               Toggle(false),
               null,
             ),

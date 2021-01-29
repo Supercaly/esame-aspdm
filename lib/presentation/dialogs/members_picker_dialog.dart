@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/members_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/members_repository.dart';
 import 'package:aspdm_project/locator.dart';
@@ -10,8 +11,8 @@ import 'package:aspdm_project/services/navigation_service.dart';
 /// Display a dialog that picks the members.
 /// Passing an existing [List] of [members] to mark them as already selected.
 /// Returns a [List] of all the selected [User]s.
-Future<List<User>> showMembersPickerDialog(
-    BuildContext context, List<User> members) {
+Future<IList<User>> showMembersPickerDialog(
+    BuildContext context, IList<User> members) {
   return showDialog(
     context: context,
     builder: (context) => MembersPickerDialog(members: members),
@@ -20,7 +21,7 @@ Future<List<User>> showMembersPickerDialog(
 
 /// Widget that display a dialog that picks members
 class MembersPickerDialog extends StatefulWidget {
-  final List<User> members;
+  final IList<User> members;
 
   MembersPickerDialog({Key key, this.members}) : super(key: key);
 
@@ -36,8 +37,9 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
   void initState() {
     super.initState();
 
+    // TODO: Fix this in #65
     if (widget.members != null && widget.members.isNotEmpty)
-      _selected = Set<User>.from(widget.members);
+      _selected = Set<User>.from(widget.members.asList());
     else
       _selected = Set<User>.identity();
   }
@@ -110,7 +112,7 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
           child: Text("SAVE"),
           onPressed: () {
             locator<NavigationService>().pop(
-              result: _selected.toList(growable: false),
+              result: IList.from(_selected.toList(growable: false)),
             );
           },
         ),

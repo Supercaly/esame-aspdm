@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
@@ -186,10 +187,10 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                                   user: e,
                                                   size: 32.0,
                                                 ))
-                                            .toList())
+                                            .asList())
                                     : Text("Members..."),
                                 onTap: () async {
-                                  List<User> selectedMembers;
+                                  IList<User> selectedMembers;
                                   if (Responsive.isSmall(context))
                                     selectedMembers =
                                         await showMembersPickerSheet(
@@ -219,11 +220,11 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                         runSpacing: 4.0,
                                         children: state.taskPrimitive.labels
                                             .map((e) => LabelWidget(label: e))
-                                            .toList(),
+                                            .asList(),
                                       )
                                     : Text("Labels..."),
                                 onTap: () async {
-                                  List<Label> selectedLabels;
+                                  IList<Label> selectedLabels;
                                   if (Responsive.isSmall(context))
                                     selectedLabels = await showLabelPickerSheet(
                                       context,

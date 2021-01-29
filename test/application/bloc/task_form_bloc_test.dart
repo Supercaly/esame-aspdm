@@ -116,7 +116,7 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        cubit.membersChanged([
+        cubit.membersChanged(IList.from([
           User(
             UniqueId("user1"),
             UserName("User 1"),
@@ -129,13 +129,13 @@ void main() {
             EmailAddress("user2@email.com"),
             null,
           ),
-        ]);
-        cubit.membersChanged([]);
+        ]));
+        cubit.membersChanged(IList.empty());
       },
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            members: [
+            members: IList.from([
               User(
                 UniqueId("user1"),
                 UserName("User 1"),
@@ -148,7 +148,7 @@ void main() {
                 EmailAddress("user2@email.com"),
                 null,
               ),
-            ],
+            ]),
           ),
           mode: TaskFormMode.creating,
           saved: false,
@@ -156,7 +156,7 @@ void main() {
           hasError: false,
         ),
         TaskFormState(
-          taskPrimitive: TaskPrimitive.empty().copyWith(members: []),
+          taskPrimitive: TaskPrimitive.empty().copyWith(members: IList.empty()),
           mode: TaskFormMode.creating,
           saved: false,
           isSaving: false,
@@ -172,7 +172,7 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        cubit.labelsChanged([
+        cubit.labelsChanged(IList.from([
           Label(
             UniqueId("label1"),
             Colors.red,
@@ -183,13 +183,13 @@ void main() {
             Colors.red,
             "label 2",
           ),
-        ]);
-        cubit.labelsChanged([]);
+        ]));
+        cubit.labelsChanged(IList.empty());
       },
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            labels: [
+            labels: IList.from([
               Label(
                 UniqueId("label1"),
                 Colors.red,
@@ -200,7 +200,7 @@ void main() {
                 Colors.red,
                 "label 2",
               ),
-            ],
+            ]),
           ),
           mode: TaskFormMode.creating,
           isSaving: false,
@@ -208,7 +208,7 @@ void main() {
           hasError: false,
         ),
         TaskFormState(
-          taskPrimitive: TaskPrimitive.empty().copyWith(labels: []),
+          taskPrimitive: TaskPrimitive.empty().copyWith(labels: IList.empty()),
           mode: TaskFormMode.creating,
           isSaving: false,
           saved: false,
@@ -228,19 +228,19 @@ void main() {
           null,
           null,
           null,
-          [
+          IList.from([
             Checklist(
               UniqueId("checklist_id"),
               ChecklistTitle("Checklist 1"),
-              [
+              IList.from([
                 ChecklistItem(
                   UniqueId("item_id"),
                   ItemText("item 1"),
                   Toggle(false),
                 )
-              ],
+              ]),
             )
-          ],
+          ]),
           null,
           Toggle(false),
           null,
@@ -287,30 +287,30 @@ void main() {
           null,
           null,
           null,
-          [
+          IList.from([
             Checklist(
               UniqueId("checklist_1"),
               ChecklistTitle("Checklist 1"),
-              [
+              IList.from([
                 ChecklistItem(
                   UniqueId("item_id"),
                   ItemText("item 1"),
                   Toggle(false),
                 )
-              ],
+              ]),
             ),
             Checklist(
               UniqueId("checklist_2"),
               ChecklistTitle("Checklist 2"),
-              [
+              IList.from([
                 ChecklistItem(
                   UniqueId("item_id"),
                   ItemText("item 1"),
                   Toggle(false),
                 )
-              ],
+              ]),
             ),
-          ],
+          ]),
           null,
           Toggle(false),
           null,
@@ -365,30 +365,30 @@ void main() {
             null,
             null,
             null,
-            [
+            IList.from([
               Checklist(
                 UniqueId("checklist_1"),
                 ChecklistTitle("Checklist 1"),
-                [
+                IList.from([
                   ChecklistItem(
                     UniqueId("item_id"),
                     ItemText("item 1"),
                     Toggle(false),
                   )
-                ],
+                ]),
               ),
               Checklist(
                 UniqueId("checklist_2"),
                 ChecklistTitle("Checklist 2"),
-                [
+                IList.from([
                   ChecklistItem(
                     UniqueId("item_id"),
                     ItemText("item 1"),
                     Toggle(false),
                   )
-                ],
+                ]),
               ),
-            ],
+            ]),
             null,
             Toggle(false),
             null,
@@ -504,7 +504,7 @@ void main() {
           null,
           null,
           null,
-          [],
+          IList.empty(),
           null,
           Toggle(false),
           null,
@@ -546,7 +546,7 @@ void main() {
           null,
           null,
           null,
-          [],
+          IList.empty(),
           null,
           Toggle(false),
           null,
