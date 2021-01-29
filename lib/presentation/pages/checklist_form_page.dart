@@ -71,7 +71,6 @@ class ChecklistFormPage extends StatelessWidget {
                       children: state.primitive.items
                           .mapIndexed(
                             (idx, e) => ChecklistFormItem(
-                              // TODO(#59): Fix duplicate ValueKey error when checklist item has same text
                               key: ValueKey("$idx-$e"),
                               item: e,
                             ),
