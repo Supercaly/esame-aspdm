@@ -110,36 +110,6 @@ void main() {
       expect(l4[0], equals("0"));
     });
 
-    test("map returns a new list", () {
-      final l1 = IList.from([0, 1, 2, 3]);
-      final l2 = l1.map((element) => element.toString());
-      expect(l2, isA<IList<String>>());
-      expect(l2[0], equals("0"));
-      expect(l2[1], equals("1"));
-      expect(l2[2], equals("2"));
-      expect(l2[3], equals("3"));
-
-      final l3 = IList.empty();
-      final l4 = l3.map((element) => element.toString());
-      expect(l4, isA<IList<String>>());
-      expect(l4.isEmpty, isTrue);
-    });
-
-    test("map indexed returns a new list", () {
-      final l1 = IList.from([4, 5, 6, 7]);
-      final l2 = l1.mapIndexed((i, e) => "$i $e");
-      expect(l2, isA<IList<String>>());
-      expect(l2[0], equals("0 4"));
-      expect(l2[1], equals("1 5"));
-      expect(l2[2], equals("2 6"));
-      expect(l2[3], equals("3 7"));
-
-      final l3 = IList.empty();
-      final l4 = l3.mapIndexed((i, e) => "$i $e");
-      expect(l4, isA<IList<String>>());
-      expect(l4.isEmpty, isTrue);
-    });
-
     test("patch returns a new list with the item replaced", () {
       final l1 = IList.from(["0", "1", "2", "3"]);
       final l2 = l1.patch("2", "5");
@@ -203,6 +173,67 @@ void main() {
       expect(l10.isEmpty, isTrue);
     });
 
+    test("map returns a new list", () {
+      final l1 = IList.from([0, 1, 2, 3]);
+      final l2 = l1.map((element) => element.toString());
+      expect(l2, isA<IList<String>>());
+      expect(l2[0], equals("0"));
+      expect(l2[1], equals("1"));
+      expect(l2[2], equals("2"));
+      expect(l2[3], equals("3"));
+
+      final l3 = IList.empty();
+      final l4 = l3.map((element) => element.toString());
+      expect(l4, isA<IList<String>>());
+      expect(l4.isEmpty, isTrue);
+    });
+
+    test("map indexed returns a new list", () {
+      final l1 = IList.from([4, 5, 6, 7]);
+      final l2 = l1.mapIndexed((i, e) => "$i $e");
+      expect(l2, isA<IList<String>>());
+      expect(l2[0], equals("0 4"));
+      expect(l2[1], equals("1 5"));
+      expect(l2[2], equals("2 6"));
+      expect(l2[3], equals("3 7"));
+
+      final l3 = IList.empty();
+      final l4 = l3.mapIndexed((i, e) => "$i $e");
+      expect(l4, isA<IList<String>>());
+      expect(l4.isEmpty, isTrue);
+    });
+
+    test("filter returns a new list", () {
+      final l1 = IList.from(["0", "1", "2", "1"]);
+      final l2 = l1.filter((element) => element == "1");
+      expect(l2, isA<IList<String>>());
+      expect(l2.length, equals(2));
+      expect(l2.asList(), equals(["1", "1"]));
+
+      final l3 = IList<String>.empty();
+      final l4 = l3.filter((element) => element == "1");
+      expect(l4, isA<IList<String>>());
+      expect(l4.isEmpty, isTrue);
+    });
+
+    test("for each loops all the elements in the list", () {
+      final IList<int> list = IList.from([1, 2, 3, 4]);
+      int idx = 0;
+      list.forEach((element) {
+        expect(list[idx], equals(element));
+        idx++;
+      });
+      expect(idx, equals(list.length));
+
+      final IList<int> empty = IList.empty();
+      int idx2 = 0;
+      empty.forEach((element) {
+        expect(empty[idx2], equals(element));
+        idx2++;
+      });
+      expect(idx2, equals(0));
+    });
+
     test("IList can be used in a for-loop", () {
       final IList<int> list = IList.from([1, 2, 3, 4]);
       int idx = 0;
@@ -226,7 +257,7 @@ void main() {
       expect(IList.from([1, 2, 3, 4]).toString(), equals("[1, 2, 3, 4]"));
     });
 
-    test("as list returns the a valid dart list", () {
+    test("as list returns a valid dart list", () {
       final l1 = IList<int>.empty();
       expect(l1.asList(), isA<List<int>>());
       expect(l1.asList(), isEmpty);

@@ -32,15 +32,6 @@ abstract class IList<E> {
   /// Returns a copy of this list with an element appended
   IList<E> append(E element);
 
-  /// Builds a new list by applying a function to all elements of this list.
-
-  IList<T> map<T>(T f(E element));
-
-  /// Builds a new list by applying a function to all elements of this list.
-  /// This differs from [map] because the transformation function has the
-  /// element index.
-  IList<T> mapIndexed<T>(T f(int index, E element));
-
   /// Returns a copy of this list where the [oldValue] is replaced
   /// by the [newValue].
   IList<E> patch(E oldValue, E newValue);
@@ -48,11 +39,25 @@ abstract class IList<E> {
   /// Returns a copy of this list where the [value] is removed.
   IList<E> remove(E value);
 
+  /// Builds a new list by applying a function to all elements of this list.
+  IList<T> map<T>(T f(E element));
+
+  /// Builds a new list by applying a function to all elements of this list.
+  /// This differs from [map] because the transformation function has the
+  /// element index.
+  IList<T> mapIndexed<T>(T f(int index, E element));
+
+  /// Selects all elements of this list which satisfy a predicate.
+  IList<E> filter(bool t(E element));
+
   /// Access a [Iterable] to be used in for-loops
   Iterable<E> get iterator;
 
   /// Returns a read-only dart:core [List].
   List<E> asList();
+
+  /// Apply [f] to each element for its side effects.
+  void forEach(void f(E element));
 }
 
 /// Implement an empty [IList].
@@ -106,6 +111,14 @@ class EmptyIList<E> implements IList<E> {
 
   @override
   String toString() => "[]";
+
+  @override
+  IList<E> filter(bool Function(E element) t) => this;
+
+  @override
+  void forEach(void Function(E element) f) {
+    // No-Op
+  }
 }
 
 /// Implement an [IList] with some values.
@@ -202,6 +215,20 @@ class ValueIList<E> implements IList<E> {
 
   @override
   String toString() => _dartList.toString();
+
+  @override
+  IList<E> filter(bool Function(E element) t) {
+    final result = List<E>.empty(growable: true);
+    for (int i = 0; i < length; i++) {
+      if (t(this[i])) result.add(this[i]);
+    }
+    return ValueIList(result);
+  }
+
+  @override
+  void forEach(void Function(E element) f) {
+    for (E e in _dartList) f(e);
+  }
 }
 
 /// Computes the hash code of a list of objects.
