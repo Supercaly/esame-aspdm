@@ -42,7 +42,6 @@ class ArchiveState extends Equatable {
   /// Constructor for the initial state.
   factory ArchiveState.initial() => ArchiveState([], false, true);
 
-  // TODO(#53) Refactor to use copyWith pattern
   /// Returns a copy of [ArchiveState] with some field changed.
   ArchiveState copyWith({
     List<Task> data,

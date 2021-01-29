@@ -188,8 +188,6 @@ class TaskState extends Equatable {
   /// The task to display.
   final Task data;
 
-  // TODO(#53) Refactor to use copyWith pattern
-
   @visibleForTesting
   const TaskState(this.data, this.hasError, this.isLoading);
 
