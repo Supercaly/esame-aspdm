@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 
@@ -16,10 +17,10 @@ class Comment extends Equatable {
   final User author;
 
   /// [User]s that liked this comment.
-  final List<User> likes;
+  final IList<User> likes;
 
   /// [User]s that disliked this comment.
-  final List<User> dislikes;
+  final IList<User> dislikes;
 
   /// Date when the comment was created.
   final DateTime creationDate;
