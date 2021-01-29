@@ -10,7 +10,7 @@ void main() {
 
     test("create a list form an iterable", () {
       final l = IList.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-      expect(l.isNonEmpty, isTrue);
+      expect(l.isNotEmpty, isTrue);
       expect(l.length, equals(10));
       expect(l.asList(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -50,11 +50,11 @@ void main() {
     test("isEmpty/isNonEmpty returns correctly", () {
       final l = IList.from([0, 1, 2, 3]);
       expect(l.isEmpty, isFalse);
-      expect(l.isNonEmpty, isTrue);
+      expect(l.isNotEmpty, isTrue);
 
       final l2 = IList.empty();
       expect(l2.isEmpty, isTrue);
-      expect(l2.isNonEmpty, isFalse);
+      expect(l2.isNotEmpty, isFalse);
     });
 
     test("get operator returns the correct element of the list", () {

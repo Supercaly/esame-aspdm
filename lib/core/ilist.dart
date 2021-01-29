@@ -19,7 +19,7 @@ abstract class IList<E> {
   bool get isEmpty;
 
   /// Tests whether the list is not empty.
-  bool get isNonEmpty;
+  bool get isNotEmpty;
 
   /// Tests whether this list contains a given value as an element.
   bool contains(E element);
@@ -78,7 +78,7 @@ class EmptyIList<E> implements IList<E> {
   bool get isEmpty => true;
 
   @override
-  bool get isNonEmpty => false;
+  bool get isNotEmpty => false;
 
   @override
   Iterable<E> get iterator => const [];
@@ -146,7 +146,7 @@ class ValueIList<E> implements IList<E> {
   bool get isEmpty => _dartList.isEmpty;
 
   @override
-  bool get isNonEmpty => _dartList.isNotEmpty;
+  bool get isNotEmpty => _dartList.isNotEmpty;
 
   @override
   Iterable<E> get iterator => _dartList;
