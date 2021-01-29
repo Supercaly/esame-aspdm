@@ -40,7 +40,7 @@ class TaskInfoPageContentMobile extends StatelessWidget {
                                   value,
                                 )
                         : null))
-                .toList(),
+                .asList(),
           ),
         CommentsCard(task: task),
       ],

@@ -69,14 +69,14 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
                             c.primitive.items.length,
                         builder: (context, state) => Column(
                           children: state.primitive.items
-                              .map(
-                                (e) => ChecklistFormItem(
+                              .mapIndexed(
+                                (idx, e) => ChecklistFormItem(
                                   // TODO(#59): Fix duplicate ValueKey error when checklist item has same text
-                                  key: ValueKey(e),
+                                  key: ValueKey("$idx-$e"),
                                   item: e,
                                 ),
                               )
-                              .toList(),
+                              .asList(),
                         ),
                       ),
                       ChecklistFormNewItemWidget(),

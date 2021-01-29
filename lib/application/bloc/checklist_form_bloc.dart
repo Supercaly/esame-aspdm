@@ -1,9 +1,9 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 
 /// Cubit class used to manage the state of the checklist form page and dialog.
 class ChecklistFormBloc extends Cubit<ChecklistFormState> {
@@ -20,7 +20,7 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
     emit(
       state.copyWith(
         primitive: state.primitive.copyWith(
-          items: state.primitive.items.addImmutable(value),
+          items: state.primitive.items.append(value),
         ),
       ),
     );
@@ -31,7 +31,7 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
     emit(
       state.copyWith(
         primitive: state.primitive.copyWith(
-          items: state.primitive.items.removeImmutable(value),
+          items: state.primitive.items.remove(value),
         ),
       ),
     );
@@ -42,7 +42,7 @@ class ChecklistFormBloc extends Cubit<ChecklistFormState> {
     emit(
       state.copyWith(
         primitive: state.primitive.copyWith(
-          items: state.primitive.items.updateImmutable(old, value),
+          items: state.primitive.items.patch(old, value),
         ),
       ),
     );
@@ -65,7 +65,7 @@ class ChecklistFormState extends Equatable {
   /// Constructor for the initial state.
   factory ChecklistFormState.initial(ChecklistPrimitive value) =>
       ChecklistFormState(
-        value ?? ChecklistPrimitive(title: "Checklist", items: []),
+        value ?? ChecklistPrimitive(title: "Checklist", items: IList.empty()),
         false,
       );
 

@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
@@ -21,13 +22,13 @@ class Task extends Equatable {
   final TaskDescription description;
 
   /// [Label]s associated with the task.
-  final List<Label> labels;
+  final IList<Label> labels;
 
   /// The [User] that created the task.
   final User author;
 
   /// [User]s assigned to the task.
-  final List<User> members;
+  final IList<User> members;
 
   /// Date when the task will expire.
   /// Note: after the expiration nothing will
@@ -35,10 +36,10 @@ class Task extends Equatable {
   final DateTime expireDate;
 
   /// [Checklist]s associated with the task.
-  final List<Checklist> checklists;
+  final IList<Checklist> checklists;
 
   /// [Comment]s associated with the task.
-  final List<Comment> comments;
+  final IList<Comment> comments;
 
   /// If `true` this task was archived,
   /// otherwise it's still accessible.

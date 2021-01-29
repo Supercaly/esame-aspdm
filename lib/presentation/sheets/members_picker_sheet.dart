@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/members_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/members_repository.dart';
 import 'package:aspdm_project/presentation/widgets/members_picker_item_widget.dart';
@@ -11,8 +12,8 @@ import '../../locator.dart';
 /// Display a bottom sheet that picks the members.
 /// Passing an existing [List] of [members] to mark them as already selected.
 /// Returns a [List] of all the selected [User]s.
-Future<List<User>> showMembersPickerSheet(
-    BuildContext context, List<User> members) {
+Future<IList<User>> showMembersPickerSheet(
+    BuildContext context, IList<User> members) {
   return showModalBottomSheet(
     context: context,
     builder: (context) => MembersPickerSheet(members: members),
@@ -24,7 +25,7 @@ Future<List<User>> showMembersPickerSheet(
 
 /// Widget that display a bottom sheet that picks members
 class MembersPickerSheet extends StatefulWidget {
-  final List<User> members;
+  final IList<User> members;
 
   MembersPickerSheet({Key key, this.members}) : super(key: key);
 
@@ -40,7 +41,7 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
     super.initState();
 
     if (widget.members != null && widget.members.isNotEmpty)
-      _selected = Set<User>.from(widget.members);
+      _selected = Set<User>.from(widget.members.asList());
     else
       _selected = Set<User>.identity();
   }
@@ -102,7 +103,8 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
                       TextButton(
                         onPressed: () {
                           locator<NavigationService>().pop(
-                            result: _selected.toList(growable: false),
+                            result:
+                                IList.from(_selected.toList(growable: false)),
                           );
                         },
                         child: Text("SAVE"),

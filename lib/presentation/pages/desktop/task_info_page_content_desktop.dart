@@ -56,7 +56,7 @@ class TaskInfoPageContentDesktop extends StatelessWidget {
                                           value,
                                         )
                                     : null))
-                            .toList(),
+                            .asList(),
                       ),
                   ],
                 ),

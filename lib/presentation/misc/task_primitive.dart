@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
@@ -15,9 +16,9 @@ class TaskPrimitive extends Equatable {
   final String title;
   final String description;
   final Maybe<DateTime> expireDate;
-  final List<Label> labels;
-  final List<User> members;
-  final List<ChecklistPrimitive> checklists;
+  final IList<Label> labels;
+  final IList<User> members;
+  final IList<ChecklistPrimitive> checklists;
   final User author;
 
   /// Creates a [TaskPrimitive].
@@ -38,9 +39,9 @@ class TaskPrimitive extends Equatable {
     String title,
     String description,
     Maybe<DateTime> expireDate,
-    List<Label> labels,
-    List<User> members,
-    List<ChecklistPrimitive> checklists,
+    IList<Label> labels,
+    IList<User> members,
+    IList<ChecklistPrimitive> checklists,
   }) =>
       TaskPrimitive(
         id: id,
@@ -57,11 +58,11 @@ class TaskPrimitive extends Equatable {
   factory TaskPrimitive.empty() => TaskPrimitive(
         id: UniqueId.empty(),
         title: null,
-        description: null,
+        description: "",
         expireDate: Maybe.nothing(),
-        labels: List<Label>.empty(),
-        members: List<User>.empty(),
-        checklists: List<ChecklistPrimitive>.empty(),
+        labels: IList<Label>.empty(),
+        members: IList<User>.empty(),
+        checklists: IList<ChecklistPrimitive>.empty(),
         author: null,
       );
 
@@ -73,12 +74,10 @@ class TaskPrimitive extends Equatable {
         expireDate: (task.expireDate != null)
             ? Maybe.just(task.expireDate)
             : Maybe.nothing(),
-        labels: task.labels ?? List<Label>.empty(),
-        members: task.members ?? List<User>.empty(),
-        checklists: task.checklists
-                ?.map((e) => ChecklistPrimitive.fromChecklist(e))
-                ?.toList() ??
-            List<ChecklistPrimitive>.empty(),
+        labels: task.labels ?? IList.empty(),
+        members: task.members ?? IList.empty(),
+        checklists:
+            task.checklists?.map((e) => ChecklistPrimitive.fromChecklist(e)),
         author: task.author,
       );
 
@@ -91,7 +90,7 @@ class TaskPrimitive extends Equatable {
         author,
         members,
         expireDate.getOrNull(),
-        checklists?.map((e) => e.toChecklist())?.toList(),
+        checklists?.map((e) => e.toChecklist()),
         null,
         Toggle(false),
         null,

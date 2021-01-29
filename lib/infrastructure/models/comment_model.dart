@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/infrastructure/models/user_model.dart';
 import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
@@ -56,8 +57,8 @@ class CommentModel extends Equatable {
         comment.id.value.getOrNull(),
         comment.content.value.getOrNull(),
         (comment.author == null) ? null : UserModel.fromUser(comment.author),
-        comment.likes?.map((e) => UserModel.fromUser(e))?.toList(),
-        comment.dislikes?.map((e) => UserModel.fromUser(e))?.toList(),
+        comment.likes?.map((e) => UserModel.fromUser(e))?.asList(),
+        comment.dislikes?.map((e) => UserModel.fromUser(e))?.asList(),
         comment.creationDate,
       );
 
@@ -65,8 +66,8 @@ class CommentModel extends Equatable {
         UniqueId(id),
         CommentContent(content),
         author?.toUser(),
-        likes?.map((e) => e.toUser())?.toList(),
-        dislikes?.map((e) => e.toUser())?.toList(),
+        IList.from(likes?.map((e) => e.toUser())),
+        IList.from(dislikes?.map((e) => e.toUser())),
         creationDate,
       );
 

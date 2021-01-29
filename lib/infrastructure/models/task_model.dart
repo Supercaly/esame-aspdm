@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/infrastructure/models/checklist_model.dart';
 import 'package:aspdm_project/infrastructure/models/comment_model.dart';
 import 'package:aspdm_project/infrastructure/models/label_model.dart';
@@ -72,12 +73,12 @@ class TaskModel extends Equatable {
         task.id.value.getOrNull(),
         task.title.value.getOrNull(),
         task.description.value.getOrNull(),
-        task.labels?.map((e) => LabelModel.fromLabel(e))?.toList(),
+        task.labels?.map((e) => LabelModel.fromLabel(e))?.asList(),
         (task.author == null) ? null : UserModel.fromUser(task.author),
-        task.members?.map((e) => UserModel.fromUser(e))?.toList(),
+        task.members?.map((e) => UserModel.fromUser(e))?.asList(),
         task.expireDate,
-        task.checklists?.map((e) => ChecklistModel.fromChecklist(e))?.toList(),
-        task.comments?.map((e) => CommentModel.fromComment(e))?.toList(),
+        task.checklists?.map((e) => ChecklistModel.fromChecklist(e))?.asList(),
+        task.comments?.map((e) => CommentModel.fromComment(e))?.asList(),
         task.archived.value.getOrElse((_) => false),
         task.creationDate,
       );
@@ -86,12 +87,12 @@ class TaskModel extends Equatable {
         UniqueId(id),
         TaskTitle(title),
         TaskDescription(description),
-        labels?.map((e) => e.toLabel())?.toList(),
+        IList.from(labels?.map((e) => e.toLabel())),
         author?.toUser(),
-        members?.map((e) => e.toUser())?.toList(),
+        IList.from(members?.map((e) => e.toUser())),
         expireDate,
-        checklists?.map((e) => e.toChecklist())?.toList(),
-        comments?.map((e) => e.toComment())?.toList(),
+        IList.from(checklists?.map((e) => e.toChecklist())),
+        IList.from(comments?.map((e) => e.toComment())),
         Toggle(archived),
         creationDate,
       );

@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/labels_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/repositories/label_repository.dart';
 import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart';
@@ -11,9 +12,9 @@ import '../../locator.dart';
 /// Display a bottom sheet that picks the labels.
 /// Passing an existing [List] of [labels] to mark them as already selected.
 /// Returns a [List] of all the selected [Label]s.
-Future<List<Label>> showLabelPickerSheet(
+Future<IList<Label>> showLabelPickerSheet(
   BuildContext context,
-  List<Label> labels,
+  IList<Label> labels,
 ) {
   return showModalBottomSheet(
     context: context,
@@ -26,7 +27,7 @@ Future<List<Label>> showLabelPickerSheet(
 
 /// Widget that display a bottom sheet that picks labels
 class LabelPickerSheet extends StatefulWidget {
-  final List<Label> labels;
+  final IList<Label> labels;
 
   LabelPickerSheet({Key key, this.labels}) : super(key: key);
 
@@ -42,7 +43,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
     super.initState();
 
     if (widget.labels != null && widget.labels.isNotEmpty)
-      _selected = Set<Label>.from(widget.labels);
+      _selected = Set<Label>.from(widget.labels.asList());
     else
       _selected = Set<Label>.identity();
   }
@@ -105,7 +106,7 @@ class _LabelPickerSheetState extends State<LabelPickerSheet> {
                     TextButton(
                       onPressed: () {
                         locator<NavigationService>().pop(
-                          result: _selected.toList(growable: false),
+                          result: IList.from(_selected.toList(growable: false)),
                         );
                       },
                       child: Text("SAVE"),

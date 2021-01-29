@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
@@ -18,10 +19,10 @@ void main() {
 
       expect(t1.id, isNotNull);
       expect(t1.title, isNull);
-      expect(t1.description, isNull);
-      expect(t1.labels, isEmpty);
-      expect(t1.members, isEmpty);
-      expect(t1.checklists, isEmpty);
+      expect(t1.description, isEmpty);
+      expect(t1.labels.isEmpty, isTrue);
+      expect(t1.members.isEmpty, isTrue);
+      expect(t1.checklists.isEmpty, isTrue);
       expect(t1.expireDate.isNothing(), isTrue);
       expect(t1.author, isNull);
     });
@@ -30,31 +31,34 @@ void main() {
       final t1 = TaskPrimitive(
         title: "title",
         description: "description",
-        members: [],
-        labels: [],
-        checklists: [],
+        members: IList.empty(),
+        labels: IList.empty(),
+        checklists: IList.empty(),
         expireDate: Maybe.nothing(),
         id: UniqueId("task_id"),
         author: null,
       );
       final t2 = t1.copyWith(title: "new title");
       final t3 = t1.copyWith(description: "new description");
-      final t4 = t1.copyWith(members: [
+      final t4 = t1.copyWith(
+          members: IList.from([
         User(
           UniqueId("user1"),
           UserName("User 1"),
           EmailAddress("user1@email.com"),
           null,
         )
-      ]);
-      final t5 = t1.copyWith(labels: [
+      ]));
+      final t5 = t1.copyWith(
+          labels: IList.from([
         Label(
           UniqueId("label"),
           Colors.red,
           "label",
         )
-      ]);
-      final t6 = t1.copyWith(checklists: [ChecklistPrimitive.empty()]);
+      ]));
+      final t6 =
+          t1.copyWith(checklists: IList.from([ChecklistPrimitive.empty()]));
       final t7 = t1.copyWith(
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
       );
@@ -82,7 +86,7 @@ void main() {
       expect(t4.description, equals(t1.description));
       expect(t4.labels, equals(t1.labels));
       expect(
-        t4.members,
+        t4.members.asList(),
         equals([
           User(
             UniqueId("user1"),
@@ -100,7 +104,7 @@ void main() {
       expect(t5.title, equals(t1.title));
       expect(t5.description, equals(t1.description));
       expect(
-        t5.labels,
+        t5.labels.asList(),
         equals([
           Label(
             UniqueId("label"),
@@ -119,7 +123,7 @@ void main() {
       expect(t6.description, equals(t1.description));
       expect(t6.labels, equals(t1.labels));
       expect(t6.members, equals(t1.members));
-      expect(t6.checklists, equals([ChecklistPrimitive.empty()]));
+      expect(t6.checklists, equals(IList.from([ChecklistPrimitive.empty()])));
       expect(t6.expireDate, equals(t1.expireDate));
       expect(t6.author, equals(t1.author));
 
@@ -138,38 +142,38 @@ void main() {
         UniqueId("task_id"),
         TaskTitle("title"),
         TaskDescription("description"),
-        [
+        IList.from([
           Label(UniqueId("label"), Colors.red, "label"),
-        ],
+        ]),
         User(
           UniqueId("user_id"),
           UserName("user 1"),
           EmailAddress("user1@email.com"),
           null,
         ),
-        [
+        IList.from([
           User(
             UniqueId("user_id_2"),
             UserName("user 2"),
             EmailAddress("user2@email.com"),
             null,
           ),
-        ],
+        ]),
         DateTime.parse("2021-01-01"),
-        [
+        IList.from([
           Checklist(
             UniqueId("checklist_id"),
             ChecklistTitle("Checklist 1"),
-            [
+            IList.from([
               ChecklistItem(
                 UniqueId("item_1"),
                 ItemText("Item 1"),
                 Toggle(true),
               ),
-            ],
+            ]),
           ),
-        ],
-        [],
+        ]),
+        IList.empty(),
         Toggle(false),
         DateTime.parse("2020-12-30"),
       );
@@ -198,7 +202,7 @@ void main() {
         t1.checklists[0],
         equals(ChecklistPrimitive(
           title: "Checklist 1",
-          items: [ItemText("Item 1")],
+          items: IList.from([ItemText("Item 1")]),
         )),
       );
       expect(t1.expireDate.isJust(), isTrue);
@@ -220,21 +224,21 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: [Label(UniqueId("label"), Colors.red, "label")],
-        members: [
+        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        members: IList.from([
           User(
             UniqueId("user_id_2"),
             UserName("user 2"),
             EmailAddress("user2@email.com"),
             null,
           ),
-        ],
-        checklists: [
+        ]),
+        checklists: IList.from([
           ChecklistPrimitive(
             title: "Checklist 1",
-            items: [ItemText("Item 1")],
+            items: IList.from([ItemText("Item 1")]),
           ),
-        ],
+        ]),
         author: User(
           UniqueId("user_id"),
           UserName("user 1"),
@@ -249,38 +253,38 @@ void main() {
         UniqueId("task_id"),
         TaskTitle("title"),
         TaskDescription("description"),
-        [
+        IList.from([
           Label(UniqueId("label"), Colors.red, "label"),
-        ],
+        ]),
         User(
           UniqueId("user_id"),
           UserName("user 1"),
           EmailAddress("user1@email.com"),
           null,
         ),
-        [
+        IList.from([
           User(
             UniqueId("user_id_2"),
             UserName("user 2"),
             EmailAddress("user2@email.com"),
             null,
           ),
-        ],
+        ]),
         DateTime.parse("2021-01-01"),
-        [
+        IList.from([
           Checklist(
             UniqueId("checklist_id"),
             ChecklistTitle("Checklist 1"),
-            [
+            IList.from([
               ChecklistItem(
                 UniqueId("item_1"),
                 ItemText("Item 1"),
                 Toggle(true),
               ),
-            ],
+            ]),
           ),
-        ],
-        [],
+        ]),
+        IList.empty(),
         Toggle(false),
         DateTime.parse("2020-12-30"),
       );
@@ -290,12 +294,12 @@ void main() {
       expect(tk.title.value.getOrNull(), "title");
       expect(tk.description.value.isRight(), isTrue);
       expect(tk.description.value.getOrNull(), "description");
-      expect(tk.labels, hasLength(1));
+      expect(tk.labels.length, equals(1));
       expect(
         tk.labels[0],
         equals(Label(UniqueId("label"), Colors.red, "label")),
       );
-      expect(tk.members, hasLength(1));
+      expect(tk.members.length, equals(1));
       expect(
         tk.members[0],
         equals(User(
@@ -305,19 +309,19 @@ void main() {
           null,
         )),
       );
-      expect(tk.checklists, hasLength(1));
+      expect(tk.checklists.length, equals(1));
       expect(
         tk.checklists[0],
         equals(Checklist(
           UniqueId.empty(),
           ChecklistTitle("Checklist 1"),
-          [
+          IList.from([
             ChecklistItem(
               UniqueId.empty(),
               ItemText("Item 1"),
               Toggle(false),
             )
-          ],
+          ]),
         )),
       );
       expect(tk.expireDate, isNotNull);
@@ -339,21 +343,21 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: [Label(UniqueId("label"), Colors.red, "label")],
-        members: [
+        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        members: IList.from([
           User(
             UniqueId("user_id_2"),
             UserName("user 2"),
             EmailAddress("user2@email.com"),
             null,
           ),
-        ],
-        checklists: [
+        ]),
+        checklists: IList.from([
           ChecklistPrimitive(
             title: "Checklist 1",
-            items: [ItemText("Item 1")],
+            items: IList.from([ItemText("Item 1")]),
           ),
-        ],
+        ]),
         author: User(
           UniqueId("user_id"),
           UserName("user 1"),
@@ -366,21 +370,21 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: [Label(UniqueId("label"), Colors.red, "label")],
-        members: [
+        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        members: IList.from([
           User(
             UniqueId("user_id_2"),
             UserName("user 2"),
             EmailAddress("user2@email.com"),
             null,
           ),
-        ],
-        checklists: [
+        ]),
+        checklists: IList.from([
           ChecklistPrimitive(
             title: "Checklist 1",
-            items: [ItemText("Item 1")],
+            items: IList.from([ItemText("Item 1")]),
           ),
-        ],
+        ]),
         author: User(
           UniqueId("user_id"),
           UserName("user 1"),
@@ -388,12 +392,36 @@ void main() {
           null,
         ),
       );
-      final c3 = TaskPrimitive.empty();
+      final c3 = TaskPrimitive(
+        id: UniqueId("task_id"),
+        title: "title",
+        description: "description",
+        expireDate: Maybe.just(DateTime.parse("2021-01-01")),
+        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        members: IList.from([
+          User(
+            UniqueId("user_id_2"),
+            UserName("user 2"),
+            EmailAddress("user2@email.com"),
+            null,
+          ),
+        ]),
+        checklists: IList.empty(),
+        author: User(
+          UniqueId("user_id"),
+          UserName("user 1"),
+          EmailAddress("user1@email.com"),
+          null,
+        ),
+      );
+      final c4 = TaskPrimitive.empty();
 
       expect(c1 == c2, isTrue);
       expect(c2 == c1, isTrue);
       expect(c1 == c3, isFalse);
-      expect(c2 == c3, isFalse);
+      expect(c3 == c1, isFalse);
+      expect(c1 == c4, isFalse);
+      expect(c2 == c4, isFalse);
     });
 
     test("to string return the correct representation", () {
@@ -403,21 +431,21 @@ void main() {
           title: "title",
           description: "description",
           expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-          labels: [Label(UniqueId("label"), Colors.red, "label")],
-          members: [
+          labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+          members: IList.from([
             User(
               UniqueId("user_id_2"),
               UserName("user 2"),
               EmailAddress("user2@email.com"),
               null,
             ),
-          ],
-          checklists: [
+          ]),
+          checklists: IList.from([
             ChecklistPrimitive(
               title: "Checklist 1",
-              items: [ItemText("Item 1")],
+              items: IList.from([ItemText("Item 1")]),
             ),
-          ],
+          ]),
           author: User(
             UniqueId("user_id"),
             UserName("user 1"),

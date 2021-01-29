@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/labels_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/repositories/label_repository.dart';
 import 'package:aspdm_project/locator.dart';
@@ -10,8 +11,10 @@ import 'package:aspdm_project/services/navigation_service.dart';
 /// Display a dialog that picks the labels.
 /// Passing an existing [List] of [labels] to mark them as already selected.
 /// Returns a [List] of all the selected [Label]s.
-Future<List<Label>> showLabelPickerDialog(
-    BuildContext context, List<Label> labels) {
+Future<IList<Label>> showLabelPickerDialog(
+  BuildContext context,
+  IList<Label> labels,
+) {
   return showDialog(
     context: context,
     builder: (context) => LabelPickerDialog(labels: labels),
@@ -20,7 +23,7 @@ Future<List<Label>> showLabelPickerDialog(
 
 /// Widget that display a dialog that picks labels
 class LabelPickerDialog extends StatefulWidget {
-  final List<Label> labels;
+  final IList<Label> labels;
 
   LabelPickerDialog({Key key, this.labels}) : super(key: key);
 
@@ -37,7 +40,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
     super.initState();
 
     if (widget.labels != null && widget.labels.isNotEmpty)
-      _selected = Set<Label>.from(widget.labels);
+      _selected = Set<Label>.from(widget.labels.asList());
     else
       _selected = Set<Label>.identity();
   }
@@ -110,7 +113,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
           child: Text("SAVE"),
           onPressed: () {
             locator<NavigationService>().pop(
-              result: _selected.toList(growable: false),
+              result: IList.from(_selected.toList(growable: false)),
             );
           },
         ),
