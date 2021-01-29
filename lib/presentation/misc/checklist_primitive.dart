@@ -30,22 +30,20 @@ class ChecklistPrimitive extends Equatable {
   factory ChecklistPrimitive.fromChecklist(Checklist checklist) =>
       ChecklistPrimitive(
         title: checklist.title.value.getOrNull(),
-        items: IList.from(checklist.items?.map((e) => e.item)),
+        items: checklist.items?.map((e) => e.item),
       );
 
   /// Returns a [Checklist].
   Checklist toChecklist() => Checklist(
         UniqueId.empty(),
         ChecklistTitle(title),
-        items
-            .map(
-              (e) => ChecklistItem(
-                UniqueId.empty(),
-                e,
-                Toggle(false),
-              ),
-            )
-            .asList(),
+        items.map(
+          (e) => ChecklistItem(
+            UniqueId.empty(),
+            e,
+            Toggle(false),
+          ),
+        ),
       );
 
   @override

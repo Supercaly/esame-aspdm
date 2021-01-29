@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
@@ -11,7 +12,7 @@ class Checklist extends Equatable {
   final ChecklistTitle title;
 
   /// Items of the checklist.
-  final List<ChecklistItem> items;
+  final IList<ChecklistItem> items;
 
   Checklist(this.id, this.title, this.items);
 

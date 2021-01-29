@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
@@ -95,7 +96,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                             Text(item.item.value.getOrElse((_) => "-")),
                           ],
                         ))
-                    .toList(),
+                    .asList(),
               )
           ],
         ),
@@ -103,10 +104,10 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
     );
   }
 
-  double _getChecklistProgress(List<ChecklistItem> items) {
+  double _getChecklistProgress(IList<ChecklistItem> items) {
     if (items == null || items.isEmpty) return 0.0;
     final checkedItems =
-        items.where((element) => element.complete.value.getOrCrash());
+        items.filter((element) => element.complete.value.getOrCrash());
     if (checkedItems.isEmpty) return 0.0;
     return checkedItems.length / items.length;
   }

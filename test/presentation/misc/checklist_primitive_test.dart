@@ -35,7 +35,7 @@ void main() {
       final ck = Checklist(
         UniqueId("checklist_id"),
         ChecklistTitle("Checklist 1"),
-        [
+        IList.from([
           ChecklistItem(
             UniqueId("item_1"),
             ItemText("item 1"),
@@ -46,7 +46,7 @@ void main() {
             ItemText("item 2"),
             Toggle(true),
           )
-        ],
+        ]),
       );
       final c1 = ChecklistPrimitive.fromChecklist(ck);
 
@@ -76,7 +76,7 @@ void main() {
       expect(ck.title.value.getOrNull(), equals("Checklist 1"));
       expect(ck.items, hasLength(2));
       expect(
-        ck.items,
+        ck.items.asList(),
         equals([
           ChecklistItem(UniqueId.empty(), ItemText("item 1"), Toggle(false)),
           ChecklistItem(UniqueId.empty(), ItemText("item 2"), Toggle(false)),

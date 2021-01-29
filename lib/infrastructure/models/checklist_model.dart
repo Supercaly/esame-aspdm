@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
@@ -31,13 +32,13 @@ class ChecklistModel extends Equatable {
         checklist.title.value.getOrNull(),
         checklist.items
             ?.map((e) => ChecklistItemModel.fromChecklistItem(e))
-            ?.toList(),
+            ?.asList(),
       );
 
   Checklist toChecklist() => Checklist(
         UniqueId(id),
         ChecklistTitle(title),
-        items?.map((e) => e.toChecklistItem())?.toList(),
+        IList.from(items?.map((e) => e.toChecklistItem())),
       );
 
   @override
