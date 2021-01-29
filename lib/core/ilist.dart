@@ -8,7 +8,7 @@ abstract class IList<E> {
 
   /// Creates an [IList] from a given [Iterable].
   factory IList.from(Iterable<E> elements) {
-    if (elements.isEmpty) return EmptyIList<E>();
+    if (elements == null || elements.isEmpty) return EmptyIList<E>();
     return ValueIList(elements);
   }
 
@@ -57,6 +57,9 @@ abstract class IList<E> {
 
 /// Implement an empty [IList].
 class EmptyIList<E> implements IList<E> {
+  /// Creates an [EmptyIList].
+  ///
+  /// Note: To create an empty list use [IList.empty] instead.
   const EmptyIList();
 
   @override
@@ -109,7 +112,16 @@ class EmptyIList<E> implements IList<E> {
 class ValueIList<E> implements IList<E> {
   final List<E> _dartList;
 
-  ValueIList(List<E> elements) : _dartList = List.of(elements);
+  /// Creates a new [ValueIList] form a non-empty [Iterable]
+  /// of type [E].
+  /// If [elements] is null or empty an [AssertionError] will
+  /// be throws.
+  ///
+  /// Note: To create a list with value use [IList.from] instead.
+  ValueIList(Iterable<E> elements)
+      : assert(elements != null),
+        assert(elements.isNotEmpty),
+        _dartList = List.of(elements);
 
   @override
   E operator [](int index) {
@@ -125,7 +137,7 @@ class ValueIList<E> implements IList<E> {
   }
 
   @override
-  List<E> asList() => _dartList;
+  List<E> asList() => List.unmodifiable(_dartList);
 
   @override
   bool contains(E element) => _dartList.contains(element);
@@ -168,6 +180,7 @@ class ValueIList<E> implements IList<E> {
   IList<E> remove(E value) {
     final result = List<E>.of(_dartList, growable: true);
     result.remove(value);
+    if (result.isEmpty) return IList<E>.empty();
     return ValueIList(result);
   }
 
