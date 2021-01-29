@@ -214,6 +214,11 @@ void main() {
       final l4 = l3.filter((element) => element == "1");
       expect(l4, isA<IList<String>>());
       expect(l4.isEmpty, isTrue);
+
+      final l5 = IList.from(["0", "1", "2", "1"]);
+      final l6 = l5.filter((element) => element == "3");
+      expect(l6, isA<IList<String>>());
+      expect(l6.isEmpty, isTrue);
     });
 
     test("for each loops all the elements in the list", () {

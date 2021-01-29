@@ -222,6 +222,7 @@ class ValueIList<E> implements IList<E> {
     for (int i = 0; i < length; i++) {
       if (t(this[i])) result.add(this[i]);
     }
+    if (result.isEmpty) return IList.empty();
     return ValueIList(result);
   }
 
