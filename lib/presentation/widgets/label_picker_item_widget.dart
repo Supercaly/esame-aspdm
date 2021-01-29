@@ -40,7 +40,7 @@ class LabelPickerItemWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      label.label,
+                      label.label.value.getOrNull() ?? "",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1

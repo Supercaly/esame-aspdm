@@ -7,6 +7,7 @@ import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
+import 'package:aspdm_project/domain/values/label_values.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -176,12 +177,12 @@ void main() {
           Label(
             UniqueId("label1"),
             Colors.red,
-            "label 1",
+            LabelName("label 1"),
           ),
           Label(
             UniqueId("label2"),
             Colors.red,
-            "label 2",
+            LabelName("label 2"),
           ),
         ]));
         cubit.labelsChanged(IList.empty());
@@ -193,12 +194,12 @@ void main() {
               Label(
                 UniqueId("label1"),
                 Colors.red,
-                "label 1",
+                LabelName("label 1"),
               ),
               Label(
                 UniqueId("label2"),
                 Colors.red,
-                "label 2",
+                LabelName("label 2"),
               ),
             ]),
           ),

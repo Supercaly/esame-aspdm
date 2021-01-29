@@ -4,6 +4,7 @@ import 'package:aspdm_project/domain/entities/comment.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/label_values.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -57,8 +58,8 @@ void main() {
               TaskTitle("mock title"),
               null,
               IList.from([
-                Label(UniqueId("mock_id"), Colors.red, "label"),
-                Label(UniqueId("mock_id"), Colors.blue, "label"),
+                Label(UniqueId("mock_id"), Colors.red, LabelName("label")),
+                Label(UniqueId("mock_id"), Colors.blue, LabelName("label")),
               ]),
               null,
               null,
@@ -88,8 +89,8 @@ void main() {
               TaskTitle("mock title"),
               TaskDescription("mock description"),
               IList.from([
-                Label(UniqueId("mock_id"), Colors.red, "label"),
-                Label(UniqueId("mock_id"), Colors.blue, "label"),
+                Label(UniqueId("mock_id"), Colors.red, LabelName("label")),
+                Label(UniqueId("mock_id"), Colors.blue, LabelName("label")),
               ]),
               null,
               IList.from([

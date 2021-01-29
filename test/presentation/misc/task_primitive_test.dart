@@ -4,6 +4,7 @@ import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:aspdm_project/domain/values/label_values.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/values/user_values.dart';
@@ -54,7 +55,7 @@ void main() {
         Label(
           UniqueId("label"),
           Colors.red,
-          "label",
+          LabelName("label"),
         )
       ]));
       final t6 =
@@ -109,7 +110,7 @@ void main() {
           Label(
             UniqueId("label"),
             Colors.red,
-            "label",
+            LabelName("label"),
           )
         ]),
       );
@@ -143,7 +144,7 @@ void main() {
         TaskTitle("title"),
         TaskDescription("description"),
         IList.from([
-          Label(UniqueId("label"), Colors.red, "label"),
+          Label(UniqueId("label"), Colors.red, LabelName("label")),
         ]),
         User(
           UniqueId("user_id"),
@@ -185,7 +186,7 @@ void main() {
       expect(t1.labels, hasLength(1));
       expect(
         t1.labels[0],
-        equals(Label(UniqueId("label"), Colors.red, "label")),
+        equals(Label(UniqueId("label"), Colors.red, LabelName("label"))),
       );
       expect(t1.members, hasLength(1));
       expect(
@@ -224,7 +225,8 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        labels: IList.from(
+            [Label(UniqueId("label"), Colors.red, LabelName("label"))]),
         members: IList.from([
           User(
             UniqueId("user_id_2"),
@@ -254,7 +256,7 @@ void main() {
         TaskTitle("title"),
         TaskDescription("description"),
         IList.from([
-          Label(UniqueId("label"), Colors.red, "label"),
+          Label(UniqueId("label"), Colors.red, LabelName("label")),
         ]),
         User(
           UniqueId("user_id"),
@@ -297,7 +299,7 @@ void main() {
       expect(tk.labels.length, equals(1));
       expect(
         tk.labels[0],
-        equals(Label(UniqueId("label"), Colors.red, "label")),
+        equals(Label(UniqueId("label"), Colors.red, LabelName("label"))),
       );
       expect(tk.members.length, equals(1));
       expect(
@@ -343,7 +345,8 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        labels: IList.from(
+            [Label(UniqueId("label"), Colors.red, LabelName("label"))]),
         members: IList.from([
           User(
             UniqueId("user_id_2"),
@@ -370,7 +373,8 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        labels: IList.from(
+            [Label(UniqueId("label"), Colors.red, LabelName("label"))]),
         members: IList.from([
           User(
             UniqueId("user_id_2"),
@@ -397,7 +401,8 @@ void main() {
         title: "title",
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-        labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+        labels: IList.from(
+            [Label(UniqueId("label"), Colors.red, LabelName("label"))]),
         members: IList.from([
           User(
             UniqueId("user_id_2"),
@@ -431,7 +436,8 @@ void main() {
           title: "title",
           description: "description",
           expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-          labels: IList.from([Label(UniqueId("label"), Colors.red, "label")]),
+          labels: IList.from(
+              [Label(UniqueId("label"), Colors.red, LabelName("label"))]),
           members: IList.from([
             User(
               UniqueId("user_id_2"),
@@ -458,7 +464,7 @@ void main() {
             "title: title, "
             "description: description, "
             "expireDate: Just(2021-01-01 00:00:00.000), "
-            "labels: [Label{id: UniqueId(label), color: MaterialColor(primary value: Color(0xfff44336)), label: label}], "
+            "labels: [Label{id: UniqueId(label), color: MaterialColor(primary value: Color(0xfff44336)), label: LabelName(label)}], "
             "members: [User {id: UniqueId(user_id_2), name: UserName(user 2), email: EmailAddress(user2@email.com), profileColor: null], "
             "checklists: [ChecklistPrimitive{title: Checklist 1, items: [ItemText(Item 1)]}], "
             "author: User {id: UniqueId(user_id), name: UserName(user 1), email: EmailAddress(user1@email.com), profileColor: null}"),
