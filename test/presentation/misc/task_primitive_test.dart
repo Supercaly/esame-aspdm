@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
@@ -18,7 +19,7 @@ void main() {
 
       expect(t1.id, isNotNull);
       expect(t1.title, isNull);
-      expect(t1.description, isNull);
+      expect(t1.description, isEmpty);
       expect(t1.labels, isEmpty);
       expect(t1.members, isEmpty);
       expect(t1.checklists, isEmpty);
@@ -32,7 +33,7 @@ void main() {
         description: "description",
         members: [],
         labels: [],
-        checklists: [],
+        checklists: IList.empty(),
         expireDate: Maybe.nothing(),
         id: UniqueId("task_id"),
         author: null,
@@ -54,7 +55,8 @@ void main() {
           "label",
         )
       ]);
-      final t6 = t1.copyWith(checklists: [ChecklistPrimitive.empty()]);
+      final t6 =
+          t1.copyWith(checklists: IList.from([ChecklistPrimitive.empty()]));
       final t7 = t1.copyWith(
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
       );
@@ -119,7 +121,7 @@ void main() {
       expect(t6.description, equals(t1.description));
       expect(t6.labels, equals(t1.labels));
       expect(t6.members, equals(t1.members));
-      expect(t6.checklists, equals([ChecklistPrimitive.empty()]));
+      expect(t6.checklists, equals(IList.from([ChecklistPrimitive.empty()])));
       expect(t6.expireDate, equals(t1.expireDate));
       expect(t6.author, equals(t1.author));
 
@@ -198,7 +200,7 @@ void main() {
         t1.checklists[0],
         equals(ChecklistPrimitive(
           title: "Checklist 1",
-          items: [ItemText("Item 1")],
+          items: IList.from([ItemText("Item 1")]),
         )),
       );
       expect(t1.expireDate.isJust(), isTrue);
@@ -229,12 +231,12 @@ void main() {
             null,
           ),
         ],
-        checklists: [
+        checklists: IList.from([
           ChecklistPrimitive(
             title: "Checklist 1",
-            items: [ItemText("Item 1")],
+            items: IList.from([ItemText("Item 1")]),
           ),
-        ],
+        ]),
         author: User(
           UniqueId("user_id"),
           UserName("user 1"),
@@ -348,12 +350,12 @@ void main() {
             null,
           ),
         ],
-        checklists: [
+        checklists: IList.from([
           ChecklistPrimitive(
             title: "Checklist 1",
-            items: [ItemText("Item 1")],
+            items: IList.from([ItemText("Item 1")]),
           ),
-        ],
+        ]),
         author: User(
           UniqueId("user_id"),
           UserName("user 1"),
@@ -375,12 +377,12 @@ void main() {
             null,
           ),
         ],
-        checklists: [
+        checklists: IList.from([
           ChecklistPrimitive(
             title: "Checklist 1",
-            items: [ItemText("Item 1")],
+            items: IList.from([ItemText("Item 1")]),
           ),
-        ],
+        ]),
         author: User(
           UniqueId("user_id"),
           UserName("user 1"),
@@ -388,12 +390,36 @@ void main() {
           null,
         ),
       );
-      final c3 = TaskPrimitive.empty();
+      final c3 = TaskPrimitive(
+        id: UniqueId("task_id"),
+        title: "title",
+        description: "description",
+        expireDate: Maybe.just(DateTime.parse("2021-01-01")),
+        labels: [Label(UniqueId("label"), Colors.red, "label")],
+        members: [
+          User(
+            UniqueId("user_id_2"),
+            UserName("user 2"),
+            EmailAddress("user2@email.com"),
+            null,
+          ),
+        ],
+        checklists: IList.empty(),
+        author: User(
+          UniqueId("user_id"),
+          UserName("user 1"),
+          EmailAddress("user1@email.com"),
+          null,
+        ),
+      );
+      final c4 = TaskPrimitive.empty();
 
       expect(c1 == c2, isTrue);
       expect(c2 == c1, isTrue);
       expect(c1 == c3, isFalse);
-      expect(c2 == c3, isFalse);
+      expect(c3 == c1, isFalse);
+      expect(c1 == c4, isFalse);
+      expect(c2 == c4, isFalse);
     });
 
     test("to string return the correct representation", () {
@@ -412,12 +438,12 @@ void main() {
               null,
             ),
           ],
-          checklists: [
+          checklists: IList.from([
             ChecklistPrimitive(
               title: "Checklist 1",
-              items: [ItemText("Item 1")],
+              items: IList.from([ItemText("Item 1")]),
             ),
-          ],
+          ]),
           author: User(
             UniqueId("user_id"),
             UserName("user 1"),

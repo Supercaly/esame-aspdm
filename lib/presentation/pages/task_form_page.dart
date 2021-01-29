@@ -301,7 +301,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                         .read<TaskFormBloc>()
                                         .removeChecklist(e),
                                   ))
-                              .toList(),
+                              .asList(),
                         ),
                       ),
                     ],

@@ -1,4 +1,5 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/checklist.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
@@ -25,7 +26,7 @@ void main() {
   group("TaskFormBloc tests", () {
     TaskFormRepository repository;
 
-    setUpAll(() {
+    setUp(() {
       repository = MockTaskFormRepository();
     });
 
@@ -247,19 +248,25 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        cubit.addChecklist(ChecklistPrimitive.empty());
+        cubit.addChecklist(ChecklistPrimitive(
+          title: "Checklist 2",
+          items: IList.from([ItemText("item 2")]),
+        ));
       },
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "",
-            checklists: [
+            checklists: IList.from([
               ChecklistPrimitive(
                 title: "Checklist 1",
-                items: [ItemText("item 1")],
+                items: IList.from([ItemText("item 1")]),
               ),
-              ChecklistPrimitive.empty(),
-            ],
+              ChecklistPrimitive(
+                title: "Checklist 2",
+                items: IList.from([ItemText("item 2")]),
+              ),
+            ]),
           ),
           mode: TaskFormMode.editing,
           saved: false,
@@ -313,23 +320,22 @@ void main() {
       act: (TaskFormBloc cubit) {
         cubit.removeChecklist(ChecklistPrimitive(
           title: "Checklist 1",
-          items: [ItemText("item 1")],
+          items: IList.from([ItemText("item 1")]),
         ));
         cubit.removeChecklist(ChecklistPrimitive(
           title: "Checklist 2",
-          items: [ItemText("item 1")],
+          items: IList.from([ItemText("item 1")]),
         ));
       },
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            description: "",
-            checklists: [
+            checklists: IList.from([
               ChecklistPrimitive(
                 title: "Checklist 2",
-                items: [ItemText("item 1")],
+                items: IList.from([ItemText("item 1")]),
               ),
-            ],
+            ]),
           ),
           mode: TaskFormMode.editing,
           isSaving: false,
@@ -338,8 +344,7 @@ void main() {
         ),
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            description: "",
-            checklists: [],
+            checklists: IList.empty(),
           ),
           mode: TaskFormMode.editing,
           isSaving: false,
@@ -393,33 +398,32 @@ void main() {
         cubit.editChecklist(
             ChecklistPrimitive(
               title: "Checklist 1",
-              items: [ItemText("item 1")],
+              items: IList.from([ItemText("item 1")]),
             ),
             ChecklistPrimitive(
               title: "Checklist 1 (edited)",
-              items: [
+              items: IList.from([
                 ItemText("item 1"),
                 ItemText("item 2"),
-              ],
+              ]),
             ));
       },
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            description: "",
-            checklists: [
+            checklists: IList.from([
               ChecklistPrimitive(
                 title: "Checklist 1 (edited)",
-                items: [
+                items: IList.from([
                   ItemText("item 1"),
                   ItemText("item 2"),
-                ],
+                ]),
               ),
               ChecklistPrimitive(
                 title: "Checklist 2",
-                items: [ItemText("item 1")],
+                items: IList.from([ItemText("item 1")]),
               ),
-            ],
+            ]),
           ),
           mode: TaskFormMode.editing,
           isSaving: false,
@@ -440,6 +444,7 @@ void main() {
             .thenAnswer((_) async => Either<Failure, Unit>.right(const Unit()));
         cubit.saveTask(UniqueId("mock_id"));
       },
+      verify: (cubit) => verify(repository.saveNewTask(any, any)).called(1),
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
@@ -469,6 +474,7 @@ void main() {
             .thenAnswer((_) async => Either<Failure, Unit>.left(MockFailure()));
         cubit.saveTask(UniqueId("mock_id"));
       },
+      verify: (cubit) => verify(repository.saveNewTask(any, any)).called(1),
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
@@ -490,7 +496,19 @@ void main() {
     blocTest(
       "save emit success state when in editing mode",
       build: () => TaskFormBloc(
-        oldTask: Maybe.nothing(),
+        oldTask: Maybe.just(Task(
+          UniqueId.empty(),
+          TaskTitle.empty(),
+          TaskDescription.empty(),
+          null,
+          null,
+          null,
+          null,
+          [],
+          null,
+          Toggle(false),
+          null,
+        )),
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
@@ -498,17 +516,18 @@ void main() {
             .thenAnswer((_) async => Either<Failure, Unit>.right(const Unit()));
         cubit.saveTask(UniqueId("mock_id"));
       },
+      verify: (cubit) => verify(repository.updateTask(any, any)).called(1),
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
-          mode: TaskFormMode.creating,
+          mode: TaskFormMode.editing,
           isSaving: true,
           saved: false,
           hasError: false,
         ),
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
-          mode: TaskFormMode.creating,
+          mode: TaskFormMode.editing,
           isSaving: false,
           saved: true,
           hasError: false,
@@ -519,7 +538,19 @@ void main() {
     blocTest(
       "save emit error state when in editing mode",
       build: () => TaskFormBloc(
-        oldTask: Maybe.nothing(),
+        oldTask: Maybe.just(Task(
+          UniqueId.empty(),
+          TaskTitle.empty(),
+          TaskDescription.empty(),
+          null,
+          null,
+          null,
+          null,
+          [],
+          null,
+          Toggle(false),
+          null,
+        )),
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
@@ -527,17 +558,18 @@ void main() {
             .thenAnswer((_) async => Either<Failure, Unit>.left(MockFailure()));
         cubit.saveTask(UniqueId("mock_id"));
       },
+      verify: (cubit) => verify(repository.updateTask(any, any)).called(1),
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
-          mode: TaskFormMode.creating,
+          mode: TaskFormMode.editing,
           isSaving: true,
           saved: false,
           hasError: false,
         ),
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
-          mode: TaskFormMode.creating,
+          mode: TaskFormMode.editing,
           isSaving: false,
           saved: false,
           hasError: true,

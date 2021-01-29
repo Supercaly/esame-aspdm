@@ -67,7 +67,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
-          checklists: state.taskPrimitive.checklists.addImmutable(value),
+          checklists: state.taskPrimitive.checklists.append(value),
         ),
       ),
     );
@@ -79,7 +79,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
-          checklists: state.taskPrimitive.checklists.removeImmutable(value),
+          checklists: state.taskPrimitive.checklists.remove(value),
         ),
       ),
     );
@@ -91,8 +91,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
     emit(
       state.copyWith(
         taskPrimitive: state.taskPrimitive.copyWith(
-          checklists:
-              state.taskPrimitive.checklists.updateImmutable(old, value),
+          checklists: state.taskPrimitive.checklists.patch(old, value),
         ),
       ),
     );
@@ -191,7 +190,7 @@ class TaskFormState extends Equatable {
       );
 
   @override
-  List<Object> get props => [taskPrimitive, isSaving, mode];
+  List<Object> get props => [taskPrimitive, isSaving, mode, hasError, saved];
 
   @override
   String toString() => "TaskFormState{taskPrimitive: $taskPrimitive, "
@@ -200,45 +199,45 @@ class TaskFormState extends Equatable {
 }
 
 // TODO: Optimize all this list shenanigans.
-extension ListX<E> on List<E> {
-  List<E> addImmutable(E element) {
-    if (this.isEmpty) return List.of([element]);
-    List<E> result = List<E>.empty(growable: true);
-    result.addAll(this);
-    result.add(element);
-    return result;
-  }
-
-  List<E> removeImmutable(E element) {
-    if (this.isEmpty) return List.empty();
-    List<E> result = List<E>.empty(growable: true);
-    result.addAll(this);
-    result.remove(element);
-    return result;
-  }
-
-  List<E> removeAtImmutable(int index) {
-    if (this.isEmpty) return List.empty();
-    List<E> result = List<E>.empty(growable: true);
-    result.addAll(this);
-    result.removeAt(index);
-    return result;
-  }
-
-  List<E> updatedImmutable(int index, E element) {
-    if (this.isEmpty) return List.empty();
-    List<E> result = List<E>.empty(growable: true);
-    result.addAll(this);
-    result[index] = element;
-    return result;
-  }
-
-  List<E> updateImmutable(E old, E element) {
-    if (this.isEmpty) return List.empty();
-    List<E> result = List<E>.empty(growable: true);
-    result.addAll(this);
-    final idx = result.indexOf(old);
-    if (idx >= 0) result[idx] = element;
-    return result;
-  }
-}
+// extension ListX<E> on List<E> {
+//   List<E> addImmutable(E element) {
+//     if (this.isEmpty) return List.of([element]);
+//     List<E> result = List<E>.empty(growable: true);
+//     result.addAll(this);
+//     result.add(element);
+//     return result;
+//   }
+//
+//   List<E> removeImmutable(E element) {
+//     if (this.isEmpty) return List.empty();
+//     List<E> result = List<E>.empty(growable: true);
+//     result.addAll(this);
+//     result.remove(element);
+//     return result;
+//   }
+//
+//   List<E> removeAtImmutable(int index) {
+//     if (this.isEmpty) return List.empty();
+//     List<E> result = List<E>.empty(growable: true);
+//     result.addAll(this);
+//     result.removeAt(index);
+//     return result;
+//   }
+//
+//   List<E> updatedImmutable(int index, E element) {
+//     if (this.isEmpty) return List.empty();
+//     List<E> result = List<E>.empty(growable: true);
+//     result.addAll(this);
+//     result[index] = element;
+//     return result;
+//   }
+//
+//   List<E> updateImmutable(E old, E element) {
+//     if (this.isEmpty) return List.empty();
+//     List<E> result = List<E>.empty(growable: true);
+//     result.addAll(this);
+//     final idx = result.indexOf(old);
+//     if (idx >= 0) result[idx] = element;
+//     return result;
+//   }
+// }
