@@ -1,4 +1,3 @@
-import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -120,110 +119,32 @@ void main() {
       verify(mockNavigatorObserver.didPop(secondRoute, firstRoute));
     });
 
-    testWidgets(
-        "arguments return a value when the route is pushed with something",
+    testWidgets("navigate to material route push the correct page to the stack",
         (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        navigatorKey: navigationService.navigationKey,
-        navigatorObservers: [mockNavigatorObserver],
-        routes: {
-          "/": (_) => FirstWidget(nav: navigationService, arg: 123),
-          "/second": (_) => SecondWidget(nav: navigationService),
-        },
-      ));
+      final firstRoute = Scaffold(
+        body: Text("First Screen"),
+      );
+      final secondRouteBuilder = (BuildContext context) => Scaffold(
+            body: Text("Second Screen"),
+          );
 
-      expect(find.text("navigate"), findsOneWidget);
-      expect(find.text("123"), findsNothing);
-      expect(find.text("nothing"), findsNothing);
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: navigationService.navigationKey,
+          navigatorObservers: [mockNavigatorObserver],
+          home: firstRoute,
+        ),
+      );
 
-      await tester.tap(find.text("navigate"));
+      expect(find.text("First Screen"), findsOneWidget);
+      expect(find.text("Second Screen"), findsNothing);
+
+      navigationService.navigateToMaterialRoute(secondRouteBuilder);
       await tester.pumpAndSettle();
 
-      expect(find.text("123"), findsOneWidget);
-      expect(find.text("nothing"), findsNothing);
-    });
-
-    testWidgets(
-        "arguments return nothing when the route is pushed without arguments",
-        (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        navigatorKey: navigationService.navigationKey,
-        navigatorObservers: [mockNavigatorObserver],
-        routes: {
-          "/": (_) => FirstWidget(nav: navigationService),
-          "/second": (_) => SecondWidget(nav: navigationService),
-        },
-      ));
-
-      expect(find.text("navigate"), findsOneWidget);
-      expect(find.text("123"), findsNothing);
-      expect(find.text("nothing"), findsNothing);
-
-      await tester.tap(find.text("navigate"));
-      await tester.pumpAndSettle();
-
-      expect(find.text("123"), findsNothing);
-      expect(find.text("nothing"), findsOneWidget);
-    });
-
-    testWidgets(
-        "arguments return nothing when the route is pushed with argument of different type",
-        (tester) async {
-      await tester.pumpWidget(MaterialApp(
-        navigatorKey: navigationService.navigationKey,
-        navigatorObservers: [mockNavigatorObserver],
-        routes: {
-          "/": (_) =>
-              FirstWidget(nav: navigationService, arg: "not_the_value_i_want"),
-          "/second": (_) => SecondWidget(nav: navigationService),
-        },
-      ));
-
-      expect(find.text("navigate"), findsOneWidget);
-      expect(find.text("123"), findsNothing);
-      expect(find.text("nothing"), findsNothing);
-
-      await tester.tap(find.text("navigate"));
-      await tester.pumpAndSettle();
-
-      expect(find.text("123"), findsNothing);
-      expect(find.text("nothing"), findsOneWidget);
+      expect(find.text("First Screen"), findsNothing);
+      expect(find.text("Second Screen"), findsOneWidget);
+      verify(mockNavigatorObserver.didPush(any, any));
     });
   });
-}
-
-class FirstWidget extends StatelessWidget {
-  final NavigationService nav;
-  final dynamic arg;
-
-  const FirstWidget({Key key, this.nav, this.arg}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          child: Text("navigate"),
-          onPressed: () => nav.navigateTo("/second", arguments: arg),
-        ),
-      ),
-    );
-  }
-}
-
-class SecondWidget extends StatelessWidget {
-  final NavigationService nav;
-
-  const SecondWidget({Key key, this.nav}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Maybe<int> arg = nav.arguments(context);
-    final text = arg.isNothing() ? "nothing" : "${arg.getOrNull()}";
-    return Scaffold(
-      body: Center(
-        child: Text(text),
-      ),
-    );
-  }
 }
