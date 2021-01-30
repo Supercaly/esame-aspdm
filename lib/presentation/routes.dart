@@ -10,10 +10,11 @@ import 'package:flutter/material.dart';
 class Routes {
   Routes._();
 
-  static const String main = "/";
-  static const String archive = "/archive";
-  static const String task = "/task";
-  static const String taskForm = "/task-form";
+  /// Route names.
+  static const String _main = "/";
+  static const String _archive = "/archive";
+  static const String _task = "/task";
+  static const String _taskForm = "/task-form";
 
   // TODO(#56): Extract the route arguments in onGenerateRoute
   // Add `onGenerateRoute` static method to `Routes` that creates each routes and extract the correct arguments from it automatically.
@@ -38,24 +39,24 @@ class Routes {
   /// Route generator callback used to build the app's named routes.
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case Routes.main:
+      case Routes._main:
         return MaterialPageRoute(
           builder: (context) => RootWidget(),
           settings: settings,
         );
-      case Routes.archive:
+      case Routes._archive:
         return MaterialPageRoute(
           builder: (context) => ArchivePage(),
           settings: settings,
         );
-      case Routes.task:
+      case Routes._task:
         return MaterialPageRoute(
           builder: (context) => TaskInfoPage(
             taskId: extractArguments<UniqueId>(settings),
           ),
           settings: settings,
         );
-      case Routes.taskForm:
+      case Routes._taskForm:
         return MaterialPageRoute(
           builder: (context) => TaskFormPage(
             task: extractArguments<Task>(settings),
