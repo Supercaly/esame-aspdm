@@ -93,7 +93,19 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                                       ?.call(item, Toggle(value))
                                   : null,
                             ),
-                            Text(item.item.value.getOrElse((_) => "-")),
+                            Text(
+                              item.item.value.getOrElse((_) => "-"),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                    decoration: item.complete.value.fold(
+                                      (_) => null,
+                                      (c) =>
+                                          c ? TextDecoration.lineThrough : null,
+                                    ),
+                                  ),
+                            ),
                           ],
                         ))
                     .asList(),
