@@ -33,26 +33,17 @@ class LabelPickerDialog extends StatefulWidget {
 
 class _LabelPickerDialogState extends State<LabelPickerDialog>
     with TickerProviderStateMixin {
-  Set<Label> _selected;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.labels != null && widget.labels.isNotEmpty)
-      _selected = Set<Label>.from(widget.labels.asList());
-    else
-      _selected = Set<Label>.identity();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      insetPadding: const EdgeInsets.all(40.0),
-      title: Text("Select Labels"),
-      content: BlocProvider<LabelsBloc>(
-        create: (context) => LabelsBloc(locator<LabelRepository>())..fetch(),
-        child: BlocBuilder<LabelsBloc, LabelsState>(
+    return BlocProvider<LabelsBloc>(
+      create: (context) => LabelsBloc(
+        initialValue: widget.labels,
+        repository: locator<LabelRepository>(),
+      )..fetch(),
+      child: AlertDialog(
+        insetPadding: const EdgeInsets.all(40.0),
+        title: Text("Select Labels"),
+        content: BlocBuilder<LabelsBloc, LabelsState>(
           builder: (context, state) {
             Widget contentWidget;
 
@@ -87,16 +78,16 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
                         .map(
                           (e) => LabelPickerItemWidget(
                             label: e,
-                            selected: _selected.contains(e),
-                            onSelected: (selected) => setState(() {
+                            selected: state.selected.contains(e),
+                            onSelected: (selected) {
                               if (selected)
-                                _selected.add(e);
+                                context.read<LabelsBloc>().selectLabel(e);
                               else
-                                _selected.remove(e);
-                            }),
+                                context.read<LabelsBloc>().deselectLabel(e);
+                            },
                           ),
                         )
-                        .toList(),
+                        .asList(),
                   ),
                 ),
               );
@@ -107,17 +98,19 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
             );
           },
         ),
+        actions: [
+          Builder(
+            builder: (context) => TextButton(
+              child: Text("SAVE"),
+              onPressed: () {
+                locator<NavigationService>().pop(
+                  result: context.read<LabelsBloc>().state.selected,
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          child: Text("SAVE"),
-          onPressed: () {
-            locator<NavigationService>().pop(
-              result: IList.from(_selected.toList(growable: false)),
-            );
-          },
-        ),
-      ],
     );
   }
 }

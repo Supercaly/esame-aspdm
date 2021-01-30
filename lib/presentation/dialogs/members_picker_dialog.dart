@@ -31,28 +31,18 @@ class MembersPickerDialog extends StatefulWidget {
 
 class _MembersPickerDialogState extends State<MembersPickerDialog>
     with TickerProviderStateMixin {
-  Set<User> _selected;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // TODO: Fix this in #65
-    if (widget.members != null && widget.members.isNotEmpty)
-      _selected = Set<User>.from(widget.members.asList());
-    else
-      _selected = Set<User>.identity();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      insetPadding: const EdgeInsets.all(40.0),
-      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-      title: Text("Select Members"),
-      content: BlocProvider<MembersBloc>(
-        create: (context) => MembersBloc(locator<MembersRepository>())..fetch(),
-        child: BlocBuilder<MembersBloc, MembersState>(
+    return BlocProvider<MembersBloc>(
+      create: (context) => MembersBloc(
+        initialValue: widget.members,
+        repository: locator<MembersRepository>(),
+      )..fetch(),
+      child: AlertDialog(
+        insetPadding: const EdgeInsets.all(40.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+        title: Text("Select Members"),
+        content: BlocBuilder<MembersBloc, MembersState>(
           builder: (context, state) {
             Widget contentWidget;
 
@@ -86,16 +76,16 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
                         .map(
                           (e) => MembersPickerItemWidget(
                             member: e,
-                            selected: _selected.contains(e),
-                            onSelected: (selected) => setState(() {
+                            selected: state.selected.contains(e),
+                            onSelected: (selected) {
                               if (selected)
-                                _selected.add(e);
+                                context.read<MembersBloc>().selectMember(e);
                               else
-                                _selected.remove(e);
-                            }),
+                                context.read<MembersBloc>().deselectMember(e);
+                            },
                           ),
                         )
-                        .toList(),
+                        .asList(),
                   ),
                 ),
               );
@@ -106,17 +96,19 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
             );
           },
         ),
+        actions: [
+          Builder(
+            builder: (context) => TextButton(
+              child: Text("SAVE"),
+              onPressed: () {
+                locator<NavigationService>().pop(
+                  result: context.read<MembersBloc>().state.selected,
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          child: Text("SAVE"),
-          onPressed: () {
-            locator<NavigationService>().pop(
-              result: IList.from(_selected.toList(growable: false)),
-            );
-          },
-        ),
-      ],
     );
   }
 }

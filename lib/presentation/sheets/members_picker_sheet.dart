@@ -24,27 +24,10 @@ Future<IList<User>> showMembersPickerSheet(
 }
 
 /// Widget that display a bottom sheet that picks members
-class MembersPickerSheet extends StatefulWidget {
+class MembersPickerSheet extends StatelessWidget {
   final IList<User> members;
 
   MembersPickerSheet({Key key, this.members}) : super(key: key);
-
-  @override
-  _MembersPickerSheetState createState() => _MembersPickerSheetState();
-}
-
-class _MembersPickerSheetState extends State<MembersPickerSheet> {
-  Set<User> _selected;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.members != null && widget.members.isNotEmpty)
-      _selected = Set<User>.from(widget.members.asList());
-    else
-      _selected = Set<User>.identity();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +37,10 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
         bottom: 0.0,
       ),
       child: BlocProvider<MembersBloc>(
-        create: (context) => MembersBloc(locator<MembersRepository>())..fetch(),
+        create: (context) => MembersBloc(
+          initialValue: members,
+          repository: locator<MembersRepository>(),
+        )..fetch(),
         child: BlocBuilder<MembersBloc, MembersState>(
           builder: (context, state) {
             Widget contentWidget;
@@ -71,15 +57,17 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
                       state.members
                           .map((e) => MembersPickerItemWidget(
                                 member: e,
-                                selected: _selected.contains(e),
-                                onSelected: (selected) => setState(() {
+                                selected: state.selected.contains(e),
+                                onSelected: (selected) {
                                   if (selected)
-                                    _selected.add(e);
+                                    context.read<MembersBloc>().selectMember(e);
                                   else
-                                    _selected.remove(e);
-                                }),
+                                    context
+                                        .read<MembersBloc>()
+                                        .deselectMember(e);
+                                },
                               ))
-                          .toList(),
+                          .asList(),
                     ),
                   )
                 ],
@@ -103,8 +91,7 @@ class _MembersPickerSheetState extends State<MembersPickerSheet> {
                       TextButton(
                         onPressed: () {
                           locator<NavigationService>().pop(
-                            result:
-                                IList.from(_selected.toList(growable: false)),
+                            result: state.selected,
                           );
                         },
                         child: Text("SAVE"),
