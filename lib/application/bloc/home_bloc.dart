@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/home_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -33,17 +34,17 @@ class HomeState extends Equatable {
   final bool hasError;
 
   /// List of tasks to display.
-  final List<Task> data;
+  final IList<Task> data;
 
   @visibleForTesting
   const HomeState(this.data, this.hasError, this.isLoading);
 
   /// Constructor for the initial state.
-  factory HomeState.initial() => HomeState([], false, true);
+  factory HomeState.initial() => HomeState(IList.empty(), false, true);
 
   /// Returns a copy of [HomeState] with some field changed.
   HomeState copyWith({
-    List<Task> data,
+    IList<Task> data,
     bool hasError,
     bool isLoading,
   }) =>
