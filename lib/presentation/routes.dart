@@ -7,9 +7,11 @@ import 'package:aspdm_project/presentation/pages/task_form_page.dart';
 import 'package:aspdm_project/presentation/pages/task_info_page.dart';
 import 'package:flutter/material.dart';
 
+/// Static class containing all the route related logic.
 class Routes {
   Routes._();
 
+  /// Route names.
   static const String main = "/";
   static const String archive = "/archive";
   static const String task = "/task";
