@@ -22,11 +22,15 @@ import 'package:loading_overlay/loading_overlay.dart';
 import '../../locator.dart';
 
 class TaskInfoPage extends StatelessWidget {
+  final Maybe<UniqueId> taskId;
+
+  const TaskInfoPage({
+    Key key,
+    @required this.taskId,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final Maybe<UniqueId> taskId =
-        locator<NavigationService>().arguments(context);
-
     return BlocProvider<TaskBloc>(
       create: (context) => TaskBloc(
         taskId: taskId,
