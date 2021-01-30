@@ -259,12 +259,11 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                               onTap: () async {
                                 ChecklistPrimitive newChecklist;
                                 if (Responsive.isSmall(context))
-                                  newChecklist = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChecklistFormPage(),
-                                      fullscreenDialog: true,
-                                    ),
+                                  newChecklist =
+                                      await locator<NavigationService>()
+                                          .navigateToMaterialRoute(
+                                    (context) => ChecklistFormPage(),
+                                    fullscreenDialog: true,
                                   );
                                 else
                                   newChecklist = await showChecklistFormDialog(
@@ -289,15 +288,13 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                     onTap: () async {
                                       ChecklistPrimitive editedChecklist;
                                       if (Responsive.isSmall(context))
-                                        editedChecklist = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChecklistFormPage(
-                                              primitive: e,
-                                            ),
-                                            fullscreenDialog: true,
+                                        editedChecklist =
+                                            await locator<NavigationService>()
+                                                .navigateToMaterialRoute(
+                                          (context) => ChecklistFormPage(
+                                            primitive: e,
                                           ),
+                                          fullscreenDialog: true,
                                         );
                                       else
                                         editedChecklist =

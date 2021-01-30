@@ -118,5 +118,33 @@ void main() {
       expect(find.text("Second Screen"), findsNothing);
       verify(mockNavigatorObserver.didPop(secondRoute, firstRoute));
     });
+
+    testWidgets("navigate to material route push the correct page to the stack",
+        (tester) async {
+      final firstRoute = Scaffold(
+        body: Text("First Screen"),
+      );
+      final secondRouteBuilder = (BuildContext context) => Scaffold(
+            body: Text("Second Screen"),
+          );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: navigationService.navigationKey,
+          navigatorObservers: [mockNavigatorObserver],
+          home: firstRoute,
+        ),
+      );
+
+      expect(find.text("First Screen"), findsOneWidget);
+      expect(find.text("Second Screen"), findsNothing);
+
+      navigationService.navigateToMaterialRoute(secondRouteBuilder);
+      await tester.pumpAndSettle();
+
+      expect(find.text("First Screen"), findsNothing);
+      expect(find.text("Second Screen"), findsOneWidget);
+      verify(mockNavigatorObserver.didPush(any, any));
+    });
   });
 }
