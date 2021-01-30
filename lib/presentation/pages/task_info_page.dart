@@ -193,7 +193,8 @@ class DescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (task?.description?.value?.getOrNull() != null)
+    if (task?.description?.value?.getOrNull() != null &&
+        task.description.value.getOrNull().isNotEmpty)
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -37,7 +37,7 @@ class TaskInfoPageContentDesktop extends StatelessWidget {
                 child: Column(
                   children: [
                     DescriptionCard(task: task),
-                    HeaderCard(task: task),
+                    if (task != null) HeaderCard(task: task),
                     if (task?.checklists != null && task.checklists.isNotEmpty)
                       Column(
                         children: task.checklists
@@ -65,7 +65,7 @@ class TaskInfoPageContentDesktop extends StatelessWidget {
                 width: 490,
                 child: Column(
                   children: [
-                    CommentsCard(task: task),
+                    if (task != null) CommentsCard(task: task),
                   ],
                 ),
               ),

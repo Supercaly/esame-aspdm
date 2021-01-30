@@ -21,7 +21,7 @@ class TaskInfoPageContentMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        HeaderCard(task: task),
+        if (task != null) HeaderCard(task: task),
         DescriptionCard(task: task),
         if (task?.checklists != null && task.checklists.isNotEmpty)
           Column(
@@ -42,7 +42,7 @@ class TaskInfoPageContentMobile extends StatelessWidget {
                         : null))
                 .asList(),
           ),
-        CommentsCard(task: task),
+        if (task != null) CommentsCard(task: task),
       ],
     );
   }
