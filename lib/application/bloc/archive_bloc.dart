@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/archive_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -34,17 +35,17 @@ class ArchiveState extends Equatable {
   final bool hasError;
 
   /// List of archived tasks.
-  final List<Task> data;
+  final IList<Task> data;
 
   @visibleForTesting
   const ArchiveState(this.data, this.hasError, this.isLoading);
 
   /// Constructor for the initial state.
-  factory ArchiveState.initial() => ArchiveState([], false, true);
+  factory ArchiveState.initial() => ArchiveState(IList.empty(), false, true);
 
   /// Returns a copy of [ArchiveState] with some field changed.
   ArchiveState copyWith({
-    List<Task> data,
+    IList<Task> data,
     bool hasError,
     bool isLoading,
   }) =>

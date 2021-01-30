@@ -1,5 +1,6 @@
 import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/application/bloc/archive_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/repositories/archive_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,12 +29,12 @@ void main() {
       build: () => ArchiveBloc(repository),
       act: (ArchiveBloc bloc) {
         when(repository.getArchivedTasks())
-            .thenAnswer((_) => Future.value(Either.right([])));
+            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch();
       },
       expect: [
-        ArchiveState([], false, true),
-        ArchiveState([], false, false),
+        ArchiveState(IList.empty(), false, true),
+        ArchiveState(IList.empty(), false, false),
       ],
     );
 
@@ -46,8 +47,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        ArchiveState([], false, true),
-        ArchiveState([], true, false),
+        ArchiveState(IList.empty(), false, true),
+        ArchiveState(IList.empty(), true, false),
       ],
     );
 
@@ -56,11 +57,11 @@ void main() {
       build: () => ArchiveBloc(repository),
       act: (ArchiveBloc bloc) {
         when(repository.getArchivedTasks())
-            .thenAnswer((_) => Future.value(Either.right([])));
+            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch(showLoading: false);
       },
       expect: [
-        ArchiveState([], false, false),
+        ArchiveState(IList.empty(), false, false),
       ],
     );
   });

@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
@@ -12,9 +13,9 @@ class ArchiveRepositoryImpl extends ArchiveRepository {
   ArchiveRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, List<Task>>> getArchivedTasks() {
+  Future<Either<Failure, IList<Task>>> getArchivedTasks() {
     return MonadTask(() => _dataSource.getArchivedTasks())
-        .map((value) => value.map((e) => e.toTask()).toList())
+        .map((value) => value.map((e) => e.toTask()).toIList())
         .attempt((e) => ServerFailure.unexpectedError(e))
         .run();
   }
