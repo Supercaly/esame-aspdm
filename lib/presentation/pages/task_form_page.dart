@@ -29,10 +29,15 @@ import 'package:aspdm_project/presentation/misc/date_time_extension.dart';
 import '../theme.dart';
 
 class TaskFormPage extends StatelessWidget {
+  final Maybe<Task> task;
+
+  const TaskFormPage({
+    Key key,
+    @required this.task,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final Maybe<Task> task = locator<NavigationService>().arguments(context);
-
     return BlocProvider(
       create: (context) => TaskFormBloc(
         oldTask: task,
@@ -67,11 +72,6 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
           ),
         ),
         centerTitle: true,
-        // TODO: This IconButton will be unused if this page is opened as a fullscreen dialog
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () => locator<NavigationService>().pop(),
-        ),
         actions: [
           BlocBuilder<TaskFormBloc, TaskFormState>(
             buildWhen: (p, c) => p.mode != c.mode,
