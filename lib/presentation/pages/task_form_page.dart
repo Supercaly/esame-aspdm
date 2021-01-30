@@ -25,7 +25,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
-
+import 'package:aspdm_project/presentation/misc/date_time_extension.dart';
 import '../theme.dart';
 
 class TaskFormPage extends StatelessWidget {
@@ -153,21 +153,31 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                 ),
                                 onTap: () async {
                                   // TODO(#39): Replace date picker with date-time picker
+                                  // Pick the date
                                   final pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: state.taskPrimitive.expireDate
-                                            .getOrNull() ??
-                                        DateTime.now(),
+                                        .getOrElse(() => DateTime.now()),
                                     firstDate: DateTime(2000),
                                     lastDate: DateTime(2030),
                                   );
-                                  if (pickedDate != null &&
-                                      pickedDate !=
-                                          state.taskPrimitive.expireDate
-                                              .getOrNull())
-                                    context
-                                        .read<TaskFormBloc>()
-                                        .dateChanged(Maybe.just(pickedDate));
+                                  if (pickedDate != null) {
+                                    // Pick the time
+                                    final pickedTime = await showTimePicker(
+                                      context: context,
+                                      initialTime: state
+                                          .taskPrimitive.expireDate
+                                          .getOrElse(() => DateTime.now())
+                                          .toTime(),
+                                    );
+                                    if (pickedTime != null) {
+                                      context.read<TaskFormBloc>().dateChanged(
+                                            Maybe.just(
+                                              pickedDate.combine(pickedTime),
+                                            ),
+                                          );
+                                    }
+                                  }
                                 },
                               ),
                             ),
