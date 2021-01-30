@@ -1,5 +1,6 @@
 import 'package:aspdm_project/core/either.dart';
 import 'package:aspdm_project/application/bloc/home_bloc.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/repositories/home_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,12 +29,12 @@ void main() {
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
         when(repository.getTasks())
-            .thenAnswer((_) => Future.value(Either.right([])));
+            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch();
       },
       expect: [
-        HomeState([], false, true),
-        HomeState([], false, false),
+        HomeState(IList.empty(), false, true),
+        HomeState(IList.empty(), false, false),
       ],
     );
 
@@ -46,8 +47,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        HomeState([], false, true),
-        HomeState([], true, false),
+        HomeState(IList.empty(), false, true),
+        HomeState(IList.empty(), true, false),
       ],
     );
 
@@ -56,11 +57,11 @@ void main() {
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
         when(repository.getTasks())
-            .thenAnswer((_) => Future.value(Either.right([])));
+            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch(showLoading: false);
       },
       expect: [
-        HomeState([], false, false),
+        HomeState(IList.empty(), false, false),
       ],
     );
   });

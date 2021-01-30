@@ -254,3 +254,9 @@ int _hashObjects<T>(Iterable<T> objects) {
 class IndexOutOfBoundsException implements Exception {
   const IndexOutOfBoundsException();
 }
+
+/// Extension methods on [Iterable] of type [T].
+extension IterableX<T> on Iterable<T> {
+  /// Returns a new [IList] from an [Iterable].
+  IList<T> toIList() => IList.from(this);
+}

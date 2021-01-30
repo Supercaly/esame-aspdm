@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
 import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
@@ -12,9 +13,9 @@ class HomeRepositoryImpl extends HomeRepository {
   HomeRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, List<Task>>> getTasks() {
+  Future<Either<Failure, IList<Task>>> getTasks() {
     return MonadTask(() => _dataSource.getUnarchivedTasks())
-        .map((value) => value.map((e) => e.toTask()).toList())
+        .map((value) => value.map((e) => e.toTask()).toIList())
         .attempt((e) => ServerFailure.unexpectedError(e))
         .run();
   }

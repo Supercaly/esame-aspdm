@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
@@ -12,9 +13,9 @@ class MembersRepositoryImpl extends MembersRepository {
   MembersRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, List<User>>> getUsers() {
+  Future<Either<Failure, IList<User>>> getUsers() {
     return MonadTask(() => _dataSource.getUsers())
-        .map((value) => value.map((e) => e.toUser()).toList())
+        .map((value) => value.map((e) => e.toUser()).toIList())
         .attempt((err) => ServerFailure.unexpectedError(err))
         .run();
   }

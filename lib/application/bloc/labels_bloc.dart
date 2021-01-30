@@ -17,7 +17,7 @@ class LabelsBloc extends Cubit<LabelsState> {
     (await repository.getLabels()).fold(
       (left) => emit(state.copyWith(isLoading: false, hasError: true)),
       (right) => emit(state.copyWith(
-        labels: IList.from(right),
+        labels: right,
         hasError: false,
         isLoading: false,
       )),

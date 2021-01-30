@@ -32,7 +32,7 @@ void main() {
       build: () => MembersBloc(repository: repository),
       act: (MembersBloc bloc) {
         when(repository.getUsers())
-            .thenAnswer((_) => Future.value(Either.right([])));
+            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch();
       },
       expect: [
@@ -59,14 +59,16 @@ void main() {
       "emits on select",
       build: () => MembersBloc(repository: repository),
       act: (MembersBloc bloc) async {
-        when(repository.getUsers()).thenAnswer((_) async => Either.right([
-              User(UniqueId("user1"), UserName("User 1"),
-                  EmailAddress("user1@email.com"), null),
-              User(UniqueId("user2"), UserName("User 2"),
-                  EmailAddress("user2@email.com"), null),
-              User(UniqueId("user3"), UserName("User 3"),
-                  EmailAddress("user3@email.com"), null),
-            ]));
+        when(repository.getUsers()).thenAnswer((_) async => Either.right(
+              IList.from([
+                User(UniqueId("user1"), UserName("User 1"),
+                    EmailAddress("user1@email.com"), null),
+                User(UniqueId("user2"), UserName("User 2"),
+                    EmailAddress("user2@email.com"), null),
+                User(UniqueId("user3"), UserName("User 3"),
+                    EmailAddress("user3@email.com"), null),
+              ]),
+            ));
         await bloc.fetch();
         bloc.selectMember(
           User(UniqueId("user2"), UserName("User 2"),

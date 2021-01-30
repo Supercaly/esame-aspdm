@@ -17,7 +17,7 @@ class MembersBloc extends Cubit<MembersState> {
     (await repository.getUsers()).fold(
       (left) => emit(state.copyWith(isLoading: false, hasError: true)),
       (right) => emit(state.copyWith(
-        members: IList.from(right),
+        members: right,
         isLoading: false,
         hasError: false,
       )),
