@@ -1,4 +1,5 @@
 import 'package:aspdm_project/core/either.dart';
+import 'package:aspdm_project/core/ilist.dart';
 import 'package:aspdm_project/core/monad_task.dart';
 import 'package:aspdm_project/domain/entities/label.dart';
 import 'package:aspdm_project/domain/failures/failures.dart';
@@ -12,9 +13,9 @@ class LabelRepositoryImpl extends LabelRepository {
   LabelRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, List<Label>>> getLabels() {
+  Future<Either<Failure, IList<Label>>> getLabels() {
     return MonadTask(() => _dataSource.getLabels())
-        .map((value) => value.map((e) => e.toLabel()).toList())
+        .map((value) => value.map((e) => e.toLabel()).toIList())
         .attempt((err) => ServerFailure.unexpectedError(err))
         .run();
   }

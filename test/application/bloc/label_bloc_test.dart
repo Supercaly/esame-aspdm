@@ -33,7 +33,7 @@ void main() {
       build: () => LabelsBloc(repository: repository),
       act: (LabelsBloc bloc) {
         when(repository.getLabels())
-            .thenAnswer((_) => Future.value(Either.right([])));
+            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch();
       },
       expect: [
@@ -60,11 +60,13 @@ void main() {
       "emits on select",
       build: () => LabelsBloc(repository: repository),
       act: (LabelsBloc bloc) async {
-        when(repository.getLabels()).thenAnswer((_) async => Either.right([
-              Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
-              Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
-              Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
-            ]));
+        when(repository.getLabels()).thenAnswer((_) async => Either.right(
+              IList.from([
+                Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
+                Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
+                Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
+              ]),
+            ));
         await bloc.fetch();
         bloc.selectLabel(
           Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
