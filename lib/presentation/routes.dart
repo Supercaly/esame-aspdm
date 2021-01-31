@@ -17,26 +17,6 @@ class Routes {
   static const String task = "/task";
   static const String taskForm = "/task-form";
 
-  // TODO(#56): Extract the route arguments in onGenerateRoute
-  // Add `onGenerateRoute` static method to `Routes` that creates each routes and extract the correct arguments from it automatically.
-  // ```dart
-  // static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-  //     final args = settings.arguments;
-  //     switch (settings.name) {
-  //       case Router.splashPage:
-  //         return MaterialPageRoute<dynamic>(
-  //           builder: (_) => SplashPage(),
-  //           settings: settings,
-  //         );
-  //       case Router.noteFormPage:
-  //         // extract the arguments
-  //         return MaterialPageRoute<dynamic>(
-  //           builder: (_) => NoteFormPage(editedNote: typedArgs.editedNote),
-  //           settings: settings,
-  //         );
-  //     }
-  //   }
-  // ```
   /// Route generator callback used to build the app's named routes.
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
