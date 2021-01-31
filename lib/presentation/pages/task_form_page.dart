@@ -152,8 +152,6 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                       .dateChanged(Maybe.nothing()),
                                 ),
                                 onTap: () async {
-                                  // TODO(#39): Replace date picker with date-time picker
-                                  // Pick the date
                                   final pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: state.taskPrimitive.expireDate
