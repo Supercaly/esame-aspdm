@@ -65,7 +65,6 @@ class RemoteDataSource {
 
     final res = await get("/user/${userId.value.getOrCrash()}");
     return res.flatMap((right) {
-      // TODO: put real failure here
       if (right.data == null)
         return Either.left(
             ServerFailure.unexpectedError("Failure not implemented"));
@@ -228,10 +227,7 @@ class RemoteDataSource {
     };
     final res = await post("/task", params);
     return res.flatMap((right) {
-      // TODO: put real failure here
-      if (right.data == null)
-        return Either.left(
-            ServerFailure.unexpectedError("Failure not implemented"));
+      if (right.data == null) return Either.left(ServerFailure.uploadError());
       return Either.right(
           TaskModel.fromJson(right.data as Map<String, dynamic>));
     });
@@ -273,10 +269,7 @@ class RemoteDataSource {
     };
     final res = await patch("/task", params);
     return res.flatMap((right) {
-      // TODO: put real failure here
-      if (right.data == null)
-        return Either.left(
-            ServerFailure.unexpectedError("Failure not implemented"));
+      if (right.data == null) return Either.left(ServerFailure.uploadError());
       return Either.right(
           TaskModel.fromJson(right.data as Map<String, dynamic>));
     });

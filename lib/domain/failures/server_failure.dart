@@ -21,8 +21,12 @@ abstract class ServerFailure extends Failure {
   factory ServerFailure.formatError(String message) =>
       _ServerFailureFormatError(message);
 
+  /// Creates a [ServerFailure] with invalid arguments error.
   factory ServerFailure.invalidArgument(String arg, {dynamic received}) =>
       _ServerFailureInvalidArgument(arg, received);
+
+  /// Creates a [ServerFailure] with upload error.
+  factory ServerFailure.uploadError() => _ServerFailureUploadError();
 
   /// Returns [R] after calling the callback from
   /// the correct type.
@@ -33,6 +37,7 @@ abstract class ServerFailure extends Failure {
     R internalError(dynamic msg),
     R formatError(),
     R invalidArgument(String arg, dynamic received),
+    R uploadError(),
   });
 }
 
@@ -56,6 +61,7 @@ class _ServerFailureUnexpectedError implements ServerFailure {
     R Function(dynamic msg) internalError,
     R Function() formatError,
     R invalidArgument(String arg, dynamic received),
+    R uploadError(),
   }) =>
       unexpectedError?.call(message);
 
@@ -81,6 +87,7 @@ class _ServerFailureNoInternet implements ServerFailure {
     R Function(dynamic msg) internalError,
     R Function() formatError,
     R invalidArgument(String arg, dynamic received),
+    R uploadError(),
   }) =>
       noInternet?.call();
 
@@ -109,6 +116,7 @@ class _ServerFailureBadRequest implements ServerFailure {
     R Function(dynamic msg) internalError,
     R Function() formatError,
     R invalidArgument(String arg, dynamic received),
+    R uploadError(),
   }) =>
       badRequest?.call(data);
 
@@ -137,6 +145,7 @@ class _ServerFailureInternalError implements ServerFailure {
     R Function(dynamic msg) internalError,
     R Function() formatError,
     R invalidArgument(String arg, dynamic received),
+    R uploadError(),
   }) =>
       internalError?.call(data);
 
@@ -164,6 +173,7 @@ class _ServerFailureFormatError implements ServerFailure {
     R Function(dynamic msg) internalError,
     R Function() formatError,
     R invalidArgument(String arg, dynamic received),
+    R uploadError(),
   }) =>
       formatError?.call();
 
@@ -185,6 +195,7 @@ class _ServerFailureInvalidArgument implements ServerFailure {
     R Function(dynamic msg) internalError,
     R Function() formatError,
     R Function(String arg, dynamic received) invalidArgument,
+    R uploadError(),
   }) =>
       invalidArgument?.call(argument, received);
 
@@ -201,4 +212,28 @@ class _ServerFailureInvalidArgument implements ServerFailure {
   @override
   String toString() =>
       "ServerFailure: invalid argument `$argument`${received != null ? ", received: $received" : ""}";
+}
+
+class _ServerFailureUploadError implements ServerFailure {
+  @override
+  R when<R>({
+    R Function(String msg) unexpectedError,
+    R Function() noInternet,
+    R Function(dynamic msg) badRequest,
+    R Function(dynamic msg) internalError,
+    R Function() formatError,
+    R Function(String arg, dynamic received) invalidArgument,
+    R Function() uploadError,
+  }) =>
+      uploadError?.call();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is _ServerFailureUploadError);
+
+  @override
+  int get hashCode => super.hashCode;
+
+  @override
+  String toString() => "ServerFailure: upload error";
 }
