@@ -1,14 +1,15 @@
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/notification_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// Widget that inject a [NotificationService] into the widget
+/// tree.
 class NotificationManager extends StatefulWidget {
+  final NotificationService notificationService;
   final Widget child;
 
   const NotificationManager({
     Key key,
+    @required this.notificationService,
     @required this.child,
   })  : assert(child != null),
         super(key: key);
@@ -18,8 +19,6 @@ class NotificationManager extends StatefulWidget {
 }
 
 class _NotificationManagerState extends State<NotificationManager> {
-  NotificationService _notificationService;
-
   @override
   Widget build(BuildContext context) {
     return widget.child;
@@ -28,15 +27,12 @@ class _NotificationManagerState extends State<NotificationManager> {
   @override
   void initState() {
     super.initState();
-
-    _notificationService = NotificationService(locator<LogService>());
-    _notificationService.init();
+    widget.notificationService?.init();
   }
 
   @override
   void dispose() {
-    _notificationService?.close();
-    _notificationService = null;
+    widget.notificationService?.close();
     super.dispose();
   }
 }
