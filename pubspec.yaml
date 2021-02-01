@@ -28,6 +28,10 @@ dependencies:
   # Local cache
   shared_preferences: ^0.5.12+4
 
+  # Firebase
+  firebase_core: 0.7.0
+  firebase_messaging: ^8.0.0-dev.14
+
   # Misc. dependencies
   json_annotation: ^3.0.0
   connectivity: ^2.0.2
