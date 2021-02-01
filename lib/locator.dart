@@ -17,6 +17,7 @@ import 'package:aspdm_project/services/connectivity_service.dart';
 import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:aspdm_project/services/notification_service.dart';
 import 'package:aspdm_project/services/preference_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,6 +29,10 @@ Future<void> setupLocator() async {
   // Services
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<LogService>(() => LogService());
+  locator.registerLazySingleton<NotificationService>(() => NotificationService(
+        navigationService: locator<NavigationService>(),
+        logService: locator<LogService>(),
+      ));
 
   final infoService = AppInfoService(locator<LogService>());
   await infoService.init();

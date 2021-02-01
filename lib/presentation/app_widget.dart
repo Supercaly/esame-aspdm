@@ -12,6 +12,7 @@ import 'package:aspdm_project/presentation/widgets/stream_listener.dart';
 import 'package:aspdm_project/services/connectivity_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:aspdm_project/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,7 @@ class AppWidget extends StatelessWidget {
         ),
       ],
       child: NotificationManager(
+        notificationService: locator<NotificationService>(),
         child: MaterialApp(
           title: "ASPDM Project App",
           theme: lightTheme,
