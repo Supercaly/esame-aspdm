@@ -2,7 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const admin = require('firebase-admin');
 require('dotenv').config();
+
+admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+    databaseURL: 'https://aspdm-project.firebaseio.com',
+});
 
 const app = express();
 app.use(cors());

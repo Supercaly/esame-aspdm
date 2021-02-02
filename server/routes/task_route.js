@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {body, param, validationResult} = require('express-validator');
 const {idValidator, idSanitizer, arrayValidator, populateTask} = require('../utils');
 const Task = require('../model/task_model');
+const fcmUtils = require('../fcm_utils');
 
 // Returns a Task with given id
 router.get("/:taskId", [
@@ -57,6 +58,7 @@ router.post("/", [
         });
         if (task != null) {
             const newTask = await Task.findById(task._id).populate(populateTask).exec();
+            fcmUtils(newTask);
             res.json(newTask);
         } else
             res.json(task);
