@@ -3,8 +3,8 @@ name: ASPDM Project CI
 on: [push, pull_request]
 
 jobs:
-  build:
-    name: Build
+  build_linux:
+    name: Build on Linux
     runs-on: ubuntu-latest
 
     steps:
@@ -39,3 +39,40 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/lcov.info
+  
+  build_windows:
+    name: Build on Windows
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Setup Flutter
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: dev
+      - run: flutter pub get
+
+      # Build part files
+      - name: Build part files
+        run: .\scripts\windows\build_ci.bat
+
+      # Format
+      - name: Format
+        run: flutter format --dry-run --set-exit-if-changed .
+
+      # Analyze
+      - name: Analyze
+        run: flutter analyze
+
+      # Run tests
+      - name: Tests
+        run: flutter test --coverage
+
+      # Upload coverage file
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: .\coverage\lcov.info
