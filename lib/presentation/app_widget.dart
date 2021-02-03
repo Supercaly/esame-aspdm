@@ -7,9 +7,10 @@ import 'package:aspdm_project/presentation/pages/login_page.dart';
 import 'package:aspdm_project/presentation/pages/main_page.dart';
 import 'package:aspdm_project/presentation/routes.dart';
 import 'package:aspdm_project/presentation/theme.dart';
-import 'package:aspdm_project/presentation/widgets/notification_manager.dart';
+import 'package:aspdm_project/presentation/widgets/service_manager.dart';
 import 'package:aspdm_project/presentation/widgets/stream_listener.dart';
 import 'package:aspdm_project/services/connectivity_service.dart';
+import 'package:aspdm_project/services/link_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/notification_service.dart';
@@ -25,8 +26,9 @@ class AppWidget extends StatelessWidget {
           create: (context) => AuthState(locator<AuthRepository>()),
         ),
       ],
-      child: NotificationManager(
+      child: ServiceManager(
         notificationService: locator<NotificationService>(),
+        linkService: locator<LinkService>(),
         child: MaterialApp(
           title: "ASPDM Project App",
           theme: lightTheme,
