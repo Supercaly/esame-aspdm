@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "511949105827",
+    "project_id": "aspdm-project",
+    "storage_bucket": "aspdm-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511949105827:android:5c449d284955e940fbed16",
+        "android_client_info": {
+          "package_name": "com.supercaly.aspdm_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511949105827-npd8cqh6s7ikm6r8cej0lkhlkb83ive5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcPpb-HIHhIPEA5I-MpP-cnxQPlxvSpkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511949105827-npd8cqh6s7ikm6r8cej0lkhlkb83ive5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
