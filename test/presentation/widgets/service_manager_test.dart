@@ -1,4 +1,5 @@
-import 'package:aspdm_project/presentation/widgets/notification_manager.dart';
+import 'package:aspdm_project/presentation/widgets/service_manager.dart';
+import 'package:aspdm_project/services/link_service.dart';
 import 'package:aspdm_project/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,16 +7,20 @@ import 'package:mockito/mockito.dart';
 
 class MockNotificationService extends Mock implements NotificationService {}
 
+class MockLinkService extends Mock implements LinkService {}
+
 void main() {
   group("NotificationManager test", () {
-    NotificationService service;
+    NotificationService notificationService;
+    LinkService linkService;
 
     setUp(() {
-      service = MockNotificationService();
+      notificationService = MockNotificationService();
+      linkService = MockLinkService();
     });
 
     tearDown(() {
-      service = null;
+      notificationService = null;
     });
 
     testWidgets("creating widget initializes the notification service",
@@ -23,15 +28,17 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: NotificationManager(
-              notificationService: service,
+            body: ServiceManager(
+              notificationService: notificationService,
+              linkService: linkService,
               child: Text("body"),
             ),
           ),
         ),
       );
 
-      verify(service.init()).called(1);
+      verify(notificationService.init()).called(1);
+      verify(linkService.init()).called(1);
     });
 
     testWidgets("disposing widget calls close on the notification service",
@@ -39,17 +46,19 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: NotificationManager(
-              notificationService: service,
+            body: ServiceManager(
+              notificationService: notificationService,
+              linkService: linkService,
               child: Text("body"),
             ),
           ),
         ),
       );
-      verify(service.init()).called(1);
+      verify(notificationService.init()).called(1);
+      verify(linkService.init()).called(1);
 
       await tester.pumpWidget(Container());
-      verify(service.close()).called(1);
+      verify(notificationService.close()).called(1);
     });
   });
 }
