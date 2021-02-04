@@ -89,7 +89,6 @@ void main() {
       when(dataSource.patchTask(any, any))
           .thenAnswer((_) async => Either.right(null));
       final res = await repository.updateTask(
-
         Task(
           UniqueId("task_id"),
           TaskTitle("Mock Title"),
@@ -119,7 +118,6 @@ void main() {
       when(dataSource.patchTask(any, any)).thenAnswer(
           (_) async => Either.left(ServerFailure.unexpectedError("")));
       final res = await repository.updateTask(
-
         Task(
           UniqueId("task_id"),
           TaskTitle("Mock Title"),

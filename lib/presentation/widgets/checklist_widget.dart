@@ -5,8 +5,6 @@ import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
-// TODO: Write test for checklist_widget file
-
 /// Widget that displays a single [Checklist].
 class DisplayChecklist extends StatefulWidget {
   /// The [Checklist] object to display.
@@ -76,7 +74,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
             ]),
             SizedBox(height: 8.0),
             LinearProgressIndicator(
-              value: _getChecklistProgress(widget.checklist.items),
+              value: getChecklistProgress(widget.checklist.items),
               backgroundColor: Color(0xFFE5E5E5),
               valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00B24A)),
             ),
@@ -116,7 +114,8 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
     );
   }
 
-  double _getChecklistProgress(IList<ChecklistItem> items) {
+  @visibleForTesting
+  double getChecklistProgress(IList<ChecklistItem> items) {
     if (items == null || items.isEmpty) return 0.0;
     final checkedItems =
         items.filter((element) => element.complete.value.getOrCrash());
