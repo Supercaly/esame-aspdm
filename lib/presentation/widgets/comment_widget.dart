@@ -118,8 +118,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         minLines: 1,
                         textInputAction: TextInputAction.done,
                       )
-                    : Text(widget.comment?.content?.value
-                        ?.getOrElse((left) => "")),
+                    : Text(widget.comment?.content?.value?.getOrNull() ?? ""),
                 SizedBox(height: 10.0),
                 Selector<AuthState, Maybe<User>>(
                   selector: (_, state) => state.currentUser,
@@ -132,7 +131,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                           icon: FeatherIcons.thumbsUp,
                           value: widget.comment?.likes?.length ?? 0,
                           selected: widget.comment?.likes
-                              ?.contains(currentUser.getOrNull()),
+                              ?.contains(currentUser?.getOrNull()),
                           onPressed: () => widget.onLike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -142,12 +141,12 @@ class _CommentWidgetState extends State<CommentWidget> {
                           icon: FeatherIcons.thumbsDown,
                           value: widget.comment?.dislikes?.length ?? 0,
                           selected: widget.comment?.dislikes
-                              ?.contains(currentUser.getOrNull()),
+                              ?.contains(currentUser?.getOrNull()),
                           onPressed: () => widget.onDislike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
                         SizedBox(width: 6.0),
-                      Ago(time: widget.comment.creationDate),
+                      Ago(time: widget.comment?.creationDate),
                     ],
                   ),
                 )
@@ -158,7 +157,7 @@ class _CommentWidgetState extends State<CommentWidget> {
             Selector<AuthState, Maybe<User>>(
               selector: (_, state) => state.currentUser,
               builder: (context, currentUser, _) =>
-                  (currentUser.getOrNull() == widget.comment.author)
+                  (currentUser?.getOrNull() == widget.comment?.author)
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: PopupMenuButton<CommentWidgetAction>(

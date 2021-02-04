@@ -60,5 +60,18 @@ void main() {
       await tester.pumpWidget(Container());
       verify(notificationService.close()).called(1);
     });
+
+    test("create widget with null child throws an exception", () {
+      try {
+        ServiceManager(
+          child: null,
+          linkService: null,
+          notificationService: null,
+        );
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<AssertionError>());
+      }
+    });
   });
 }
