@@ -6,6 +6,7 @@ import 'package:aspdm_project/presentation/pages/desktop/task_info_page_content_
 import 'package:aspdm_project/presentation/pages/mobile/task_info_page_content_mobile.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
 import 'package:aspdm_project/presentation/routes.dart';
+import 'package:aspdm_project/services/link_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
@@ -14,10 +15,12 @@ import 'package:aspdm_project/presentation/widgets/expiration_badge.dart';
 import 'package:aspdm_project/presentation/widgets/label_widget.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';
 import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:share/share.dart';
 
 import '../../locator.dart';
 
@@ -36,6 +39,7 @@ class TaskInfoPage extends StatelessWidget {
         taskId: taskId,
         repository: locator<TaskRepository>(),
         logService: locator<LogService>(),
+        linkService: locator<LinkService>(),
       )..fetch(),
       child: TaskInfoPageWidget(),
     );
@@ -61,40 +65,57 @@ class TaskInfoPageWidget extends StatelessWidget {
             appBar: AppBar(
               title: Text(state.data?.title?.value?.getOrNull() ?? ""),
               centerTitle: true,
-              actions: canModify
-                  ? [
-                      IconButton(
-                        icon: Icon(FeatherIcons.edit),
-                        onPressed: () async {
-                          final updated =
-                              await locator<NavigationService>().navigateTo(
-                            Routes.taskForm,
-                            arguments: state.data,
-                          );
+              actions: [
+                if (!kIsWeb)
+                  BlocListener<TaskBloc, TaskState>(
+                    listenWhen: (p, c) =>
+                        (!p.shareError && c.shareError) ||
+                        (c.shareLink != p.shareLink),
+                    listener: (context, state) {
+                      if (state.shareError)
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Error sharing this task!")));
+                      else if (state.shareLink != null)
+                        Share.share(state.shareLink);
+                    },
+                    child: IconButton(
+                      icon: Icon(FeatherIcons.share2),
+                      onPressed: () async =>
+                          await context.read<TaskBloc>().share(),
+                    ),
+                  ),
+                if (canModify)
+                  IconButton(
+                    icon: Icon(FeatherIcons.edit),
+                    onPressed: () async {
+                      final updated =
+                          await locator<NavigationService>().navigateTo(
+                        Routes.taskForm,
+                        arguments: state.data,
+                      );
 
-                          if (updated != null && updated)
-                            context.read<TaskBloc>().fetch(showLoading: false);
-                        },
-                        tooltip: "Edit",
-                      ),
-                      if (!state.data.archived.value.getOrCrash())
-                        IconButton(
-                          icon: Icon(FeatherIcons.sunset),
-                          onPressed: () => context
-                              .read<TaskBloc>()
-                              .archive(currentUser.map((u) => u.id)),
-                          tooltip: "Archive",
-                        ),
-                      if (state.data.archived.value.getOrCrash())
-                        IconButton(
-                          icon: Icon(FeatherIcons.sunrise),
-                          tooltip: "Unarchive",
-                          onPressed: () => context
-                              .read<TaskBloc>()
-                              .unarchive(currentUser.map((u) => u.id)),
-                        ),
-                    ]
-                  : null,
+                      if (updated != null && updated)
+                        context.read<TaskBloc>().fetch(showLoading: false);
+                    },
+                    tooltip: "Edit",
+                  ),
+                if (canModify && !state.data.archived.value.getOrCrash())
+                  IconButton(
+                    icon: Icon(FeatherIcons.sunset),
+                    onPressed: () => context
+                        .read<TaskBloc>()
+                        .archive(currentUser.map((u) => u.id)),
+                    tooltip: "Archive",
+                  ),
+                if (canModify && state.data.archived.value.getOrCrash())
+                  IconButton(
+                    icon: Icon(FeatherIcons.sunrise),
+                    tooltip: "Unarchive",
+                    onPressed: () => context
+                        .read<TaskBloc>()
+                        .unarchive(currentUser.map((u) => u.id)),
+                  ),
+              ],
             ),
             body: RefreshIndicator(
               onRefresh: () =>
