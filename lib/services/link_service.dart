@@ -1,3 +1,4 @@
+import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/presentation/routes.dart';
 import 'package:aspdm_project/services/log_service.dart';
@@ -26,6 +27,7 @@ class LinkService {
     this._logService,
   ) : _initialized = false;
 
+  /// Initialize the [LinkService].
   Future<void> init() async {
     if (_initialized) return;
     if (kIsWeb) {
@@ -40,10 +42,13 @@ class LinkService {
     _initialized = true;
   }
 
+  /// Close the [LinkService].
   void close() {
     _initialized = false;
   }
 
+  /// This method will navigate to [Routes.task] if the link has
+  /// a valid task id.
   Future<void> _handleDynamicLink(PendingDynamicLinkData data) async {
     if (data?.link == null) return;
     final deepLink = data.link;
@@ -59,24 +64,33 @@ class LinkService {
     }
   }
 
-  /// Returns a [String] with the new sharable link for
+  /// Returns a [Uri] with the new sharable link for
   /// the given task.
-  Future<String> createLinkForPost(UniqueId taskId) async {
+  Future<Maybe<Uri>> createLinkForPost(Maybe<UniqueId> taskId) async {
+    if (kIsWeb) {
+      _logService.warning(
+          "LinkService: Dynamic link generation for web is not supported!");
+      return Maybe.nothing();
+    }
+
+    UniqueId taskIdValue = taskId.fold(() => null, (value) => value);
+    if (taskIdValue == null || taskIdValue.value.isLeft())
+      return Maybe<Uri>.nothing();
+
+    final taskIdStr = taskIdValue.value.getOrNull();
     final param = DynamicLinkParameters(
-      uriPrefix: "https://petifytest.page.link",
-      link: Uri.parse("https://test-petify.web.app/post?id=$taskId"),
+      uriPrefix: "https://taskyapp.page.link",
+      link: Uri.parse("https://aspdm-project.web.app/task?id=$taskIdStr"),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(
         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
       ),
       androidParameters: AndroidParameters(
-        packageName: "com.supercaly.petify",
+        packageName: "com.supercaly.aspdm_project",
         minimumVersion: 0,
       ),
     );
 
     final newShortLink = await param.buildShortLink();
-    final newLink = newShortLink.shortUrl;
-
-    return newLink.toString();
+    return Maybe.just(newShortLink.shortUrl);
   }
 }
