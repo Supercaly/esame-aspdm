@@ -6,6 +6,7 @@ import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:aspdm_project/domain/values/unique_id.dart';
 import 'package:aspdm_project/domain/entities/task.dart';
 import 'package:aspdm_project/domain/repositories/task_repository.dart';
+import 'package:aspdm_project/services/link_service.dart';
 import 'package:aspdm_project/services/log_service.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,14 +16,18 @@ import '../../mocks/mock_log_service.dart';
 
 class MockTaskRepository extends Mock implements TaskRepository {}
 
+class MockLinkService extends Mock implements LinkService {}
+
 void main() {
   group("TaskBloc Tests", () {
     TaskRepository repository;
-    LogService mockLogService;
+    LogService logService;
+    LinkService linkService;
 
     setUp(() {
       repository = MockTaskRepository();
-      mockLogService = MockLogService();
+      logService = MockLogService();
+      linkService = MockLinkService();
     });
 
     blocTest(
@@ -30,7 +35,8 @@ void main() {
       build: () => TaskBloc(
         taskId: Maybe.just(UniqueId("mock_id")),
         repository: repository,
-        logService: mockLogService,
+        logService: logService,
+        linkService: linkService,
       ),
       expect: [],
     );
@@ -39,7 +45,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.getTask(any)).thenAnswer(
@@ -64,24 +71,25 @@ void main() {
           bloc.fetch();
         },
         expect: [
-          TaskState(null, false, true),
+          TaskState(null, false, true, false, null),
           TaskState(
-            Task(
-              UniqueId("mock_id"),
-              TaskTitle("mock title"),
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-            ),
-            false,
-            false,
-          ),
+              Task(
+                UniqueId("mock_id"),
+                TaskTitle("mock title"),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+              ),
+              false,
+              false,
+              false,
+              null),
         ]);
 
     blocTest(
@@ -89,7 +97,8 @@ void main() {
       build: () => TaskBloc(
         taskId: Maybe.just(UniqueId("mock_id")),
         repository: repository,
-        logService: mockLogService,
+        logService: logService,
+        linkService: linkService,
       ),
       act: (TaskBloc bloc) {
         when(repository.getTask(any)).thenAnswer((_) =>
@@ -97,8 +106,8 @@ void main() {
         bloc.fetch();
       },
       expect: [
-        TaskState(null, false, true),
-        TaskState(null, true, false),
+        TaskState(null, false, true, false, null),
+        TaskState(null, true, false, false, null),
       ],
     );
 
@@ -107,7 +116,8 @@ void main() {
       build: () => TaskBloc(
         taskId: Maybe.just(UniqueId("mock_id")),
         repository: repository,
-        logService: mockLogService,
+        logService: logService,
+        linkService: linkService,
       ),
       act: (TaskBloc bloc) {
         when(repository.getTask(any)).thenAnswer(
@@ -133,21 +143,24 @@ void main() {
       },
       expect: [
         TaskState(
-            Task(
-              UniqueId("mock_id"),
-              TaskTitle("mock title"),
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-            ),
-            false,
-            false),
+          Task(
+            UniqueId("mock_id"),
+            TaskTitle("mock title"),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ),
+          false,
+          false,
+          false,
+          null,
+        ),
       ],
     );
 
@@ -155,7 +168,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.deleteComment(any, any, any)).thenAnswer(
@@ -199,6 +213,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -206,7 +222,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.deleteComment(any, any, any)).thenAnswer((_) =>
@@ -217,14 +234,15 @@ void main() {
           );
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on comment edit success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.editComment(any, any, any, any)).thenAnswer(
@@ -269,6 +287,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -276,7 +296,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.editComment(any, any, any, any)).thenAnswer((_) =>
@@ -288,14 +309,15 @@ void main() {
           );
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on comment like success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.likeComment(any, any, any)).thenAnswer(
@@ -339,6 +361,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -346,7 +370,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.likeComment(any, any, any)).thenAnswer((_) =>
@@ -357,14 +382,15 @@ void main() {
           );
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on comment dislike success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.dislikeComment(any, any, any)).thenAnswer(
@@ -408,6 +434,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -415,7 +443,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.dislikeComment(any, any, any)).thenAnswer((_) =>
@@ -426,14 +455,15 @@ void main() {
           );
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on add comment success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.addComment(any, any, any)).thenAnswer(
@@ -475,6 +505,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -482,7 +514,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.addComment(any, any, any)).thenAnswer((_) =>
@@ -493,14 +526,15 @@ void main() {
           );
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on archive success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.archiveTask(any, any)).thenAnswer(
@@ -541,6 +575,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -548,7 +584,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.archiveTask(any, any)).thenAnswer((_) =>
@@ -556,14 +593,15 @@ void main() {
           bloc.archive(Maybe.just(UniqueId("userId")));
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on unarchive success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.unarchiveTask(any, any)).thenAnswer(
@@ -604,6 +642,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -611,7 +651,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.unarchiveTask(any, any)).thenAnswer((_) =>
@@ -619,14 +660,15 @@ void main() {
           bloc.unarchive(Maybe.just(UniqueId("userId")));
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
         ]);
 
     blocTest("emits data on complete checklist success",
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
@@ -673,6 +715,8 @@ void main() {
             ),
             false,
             false,
+            false,
+            null,
           ),
         ]);
 
@@ -680,7 +724,8 @@ void main() {
         build: () => TaskBloc(
               taskId: Maybe.just(UniqueId("mock_id")),
               repository: repository,
-              logService: mockLogService,
+              logService: logService,
+              linkService: linkService,
             ),
         act: (TaskBloc bloc) {
           when(repository.completeChecklist(any, any, any, any, any))
@@ -694,7 +739,39 @@ void main() {
           );
         },
         expect: [
-          TaskState(null, true, false),
+          TaskState(null, true, false, false, null),
+        ]);
+
+    blocTest("emits link on share success",
+        build: () => TaskBloc(
+              taskId: Maybe.just(UniqueId("mock_id")),
+              logService: logService,
+              repository: repository,
+              linkService: linkService,
+            ),
+        act: (TaskBloc cubit) {
+          when(linkService.createLinkForPost(any)).thenAnswer(
+              (_) async => Maybe.just(Uri.parse("https://mock.link.com/mock")));
+          cubit.share();
+        },
+        expect: [
+          TaskState(null, false, false, false, "https://mock.link.com/mock"),
+        ]);
+
+    blocTest("emits error on share error",
+        build: () => TaskBloc(
+              taskId: null,
+              logService: logService,
+              repository: repository,
+              linkService: linkService,
+            ),
+        act: (TaskBloc cubit) {
+          when(linkService.createLinkForPost(any))
+              .thenAnswer((_) async => Maybe.nothing());
+          cubit.share();
+        },
+        expect: [
+          TaskState(null, false, false, true, null),
         ]);
   });
 }
