@@ -20,14 +20,12 @@ void main() {
       logService = MockLogService();
       authState = MockAuthState();
 
-      GetIt.I.registerSingleton<LogService>(logService);
+      GetIt.I.registerSingleton(logService);
     });
 
     tearDownAll(() {
       logService = null;
       authState = null;
-
-      GetIt.I.unregister(instance: logService);
     });
 
     testWidgets("create widget with success", (tester) async {
