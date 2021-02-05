@@ -1,6 +1,7 @@
 import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
 import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Widget that displays an input form where the user
@@ -22,7 +23,7 @@ class TaskFormInputWidget extends StatelessWidget {
                 initialValue: state.taskPrimitive.title,
                 style: Theme.of(context).textTheme.headline6,
                 maxLength: TaskTitle.maxLength,
-                maxLengthEnforced: true,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 decoration: InputDecoration(
                   hintText: "Title...",
                   border: InputBorder.none,
@@ -51,7 +52,7 @@ class TaskFormInputWidget extends StatelessWidget {
                 initialValue: state.taskPrimitive.description,
                 style: Theme.of(context).textTheme.bodyText2,
                 maxLength: TaskDescription.maxLength,
-                maxLengthEnforced: true,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 maxLines: null,
                 minLines: 3,
                 decoration: InputDecoration(

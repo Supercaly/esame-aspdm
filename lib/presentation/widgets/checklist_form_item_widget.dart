@@ -15,7 +15,7 @@ class ChecklistFormTitleWidget extends StatelessWidget {
         initialValue: state.primitive.title ?? "",
         keyboardType: TextInputType.text,
         maxLength: ChecklistTitle.maxLength,
-        maxLengthEnforced: true,
+        maxLengthEnforcement: MaxLengthEnforcement.enforced,
         style: Theme.of(context).textTheme.headline6,
         decoration: InputDecoration(
           counterText: "",
@@ -77,7 +77,7 @@ class _ChecklistFormNewItemWidgetState
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
             maxLength: ItemText.maxLength,
-            maxLengthEnforced: true,
+            maxLengthEnforcement: MaxLengthEnforcement.enforced,
             minLines: 1,
             maxLines: 6,
             onFieldSubmitted: (value) {
@@ -134,7 +134,7 @@ class _ChecklistFormItemState extends State<ChecklistFormItem> {
             child: TextFormField(
               controller: _controller,
               maxLength: ItemText.maxLength,
-              maxLengthEnforced: true,
+              maxLengthEnforcement: MaxLengthEnforcement.enforced,
               minLines: 1,
               maxLines: 6,
               decoration: InputDecoration(counterText: ""),
