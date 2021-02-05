@@ -1,9 +1,13 @@
+<p align="center"><img src="docs/images/app_logo.png" alt="Tasky logo" width=150/></p>
+
+<p align="center">
+<a href="https://github.com/Supercaly/ASPDM-Project/actions"><img src="https://github.com/Supercaly/ASDM-Project/workflows/ASPDM%20Project%20CI/badge.svg" alt="build"/></a>
+<a href="https://codecov.io/gh/Supercaly/ASPDM-Project"><img src="https://codecov.io/gh/Supercaly/ASPDM-Project/branch/master/graph/badge.svg?token=J4P3RO1ZCL" alt="codecov"/></a>
+</p>
+
 **Nome:** Lorenzo Calisti
 
 **Matricola:** 307458
-
-[![ASPDM Project CI](https://github.com/Supercaly/ASDM-Project/workflows/ASPDM%20Project%20CI/badge.svg)](https://github.com/Supercaly/ASPDM-Project/actions)
-[![codecov](https://codecov.io/gh/Supercaly/ASPDM-Project/branch/master/graph/badge.svg?token=J4P3RO1ZCL)](https://codecov.io/gh/Supercaly/ASPDM-Project)
 
 # Tasky
 
@@ -30,15 +34,15 @@ L'applicazione fa utilizzo di pacchetti che richiedono la generazione di codice 
 
 **Linux:**
 ```console
-$ ./script/linux/generate_colors.sh
-$ ./script/linux/generate_model.sh
-$ ./script/linux/generate_icons.sh
+$ ./scripts/linux/generate_colors.sh
+$ ./scripts/linux/generate_model.sh
+$ ./scripts/linux/generate_icons.sh
 ```
 **Windows:**
 ```console
-> ./script/windows/generate_colors.bat
-> ./script/windows/generate_model.bat
-> ./script/windows/generate_icons.bat
+> ./scripts/windows/generate_colors.bat
+> ./scripts/windows/generate_model.bat
+> ./scripts/windows/generate_icons.bat
 ```
 
 ### Nota per il web
@@ -52,3 +56,40 @@ This can happen if the websocket connection used by the web tooling is unabled t
 ```
 
 Questo è dovuto ad un [bug](https://github.com/flutter/flutter/issues/49482) di flutter web che spesso si risolve ri-eseguendo il progetto nuovamente oppure compilandolo in modalità di release con il comando `flutter run -d web --release`.
+
+### Credenziali
+
+Per utilizzare l'applicazione è richiesa una coppia email/password; per testare l'applicazione è possibile utilizzare uno qualsiasi dei segueni account già presenti del database:
+
+| Email                | Password     |
+| -------------------- | ------------ |
+| djonline96@gmail.com | 1234         |
+| jon.doe@gmail.com    | jondoe21     |
+
+## Casi d'uso
+
+Durante il primo avvio all'utente è mostrata una **pagina di login**, qui è possibile inserire la propria email e password. In caso i dati forniti non siano corretti un messaggio d'errore è mostrato all'utente altrimenti è trasportato nella pagina home e i suoi dati d'accesso vengono salvati in modo da non dover essere reimmessi al prossimo accesso. 
+
+<p align="center">
+    <img src="docs/images/login_page.png" alt="Pagina di login" width=200/>
+    <img src="docs/images/login_page_error.png" alt="Pagina di login con errore" width=200/>
+</p>
+
+La **pagina home** è il componente principale dell'applicazione, qui è possibile vedere in forma breve tutti i task creati dagli utenti
+
+<p align="center"><img src="docs/images/home_page.png" alt="Pagina home" width=200/></p>
+
+Premendo l'icona settings nella barra di navigazione inferiore l'utente è portato nella **pagina delle impostazioni**; qui potrà vedere le informazioni sull'account con cui è attualmente collegato, eseguire il logout, aprire le impostazioni di notifica del suo sistema operativo, consultare la lista di tutti i task che sono stati precedentemente marcati come archiviati ed avere più informazioni sull'applicazione e accesso ad un easter-egg.
+
+<p align="center"><img src="docs/images/settings_page.png" alt="Pagina delle impostazioni" width=200/></p>
+
+Aprendo la **pagina archivio** l'utente ha accesso a tutti quei task che sono stati marcati come archiviati. In Tasky si è scelto di non rendere possibile l'eliminazione di un task così l'unico modo in cui si può segnare un task come completato è archiviarlo. L'interfaccia utente di questa pagina è del tutto analoga a quella della pagina home.
+
+<p align="center"><img src="docs/images/archive_page.png" alt="Pagina archivio" width=200/></p>
+
+Quando l'utente preme su un task viene portato nella **pagina di informazioni di un task**, qui è possibile avere una vista completa su tutti gli elementi di un task. L'app bar di questa pagina è cambia a seconda dell'utente attualmente registrato: se l'utente è il creatore del task oppure è uno dei membri troverà un bottone **condividi**, un bottone **modifica** e un bottone **archivia**, antrimenti solo il bottone **condividi** sarà mostrato. Un task può essere archiviato e modificato solo dall'utente che lo ha creato e da tutti gli utenti segnati come membri
+
+<p align="center">
+    <img src="docs/images/info_page.png" alt="Pagina di informazioni su un task" width=200/>
+    <img src="docs/images/info_page_owner.png" alt="Pagina di informazioni su un task" width=200/>
+</p>
