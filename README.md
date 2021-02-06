@@ -129,7 +129,7 @@ Per lo sviluppo del progetto si è scelto di utilizzare alcuni concetti del Doma
 Il diagramma seguente mostra ci componenti architetturali principali presenti in un'applicazione che segue il DDD.
 
 <p align="center">
-    <img src="docs/images/ddd_diagram.png" alt="Diagramma con le componenti principali dell'applicazione" width=200/>
+    <img src="docs/images/ddd_diagram.png" alt="Diagramma con le componenti principali dell'applicazione" width=400/>
 </p>
 
 ### Presentation
@@ -137,7 +137,7 @@ Il diagramma seguente mostra ci componenti architetturali principali presenti in
 Partendo dall'alto il primo layer che si incontra è il **presentation layer**, questo è composto solo da Widget Flutter; in sostanza presentation è il layer che contiene tutto il codice della UI. 
 
 <p align="center">
-    <img src="docs/images/presentation_layer.png" alt="Diagramma con il presentation layer" width=200/>
+    <img src="docs/images/presentation_layer.png" alt="Diagramma con il presentation layer" width=350/>
 </p>
 
 Seguendo il DDD la UI diventa la parte più "stupida" dell'applicazione, questo perché il suo unico scopo è quello di ricevere dei dati dai layer sottostanti e mostrarli all'utente con un interfaccia "accattivante". Quando una logica riguarda dei dati che saranno poi inviati ad un server o salavati in locale quella logica non ha nulla a che vedere con il presentation layer, mentre quindi qui è possibile trovare gli statidegli `StatefullWidget` persino cose semplici come la validazione dei form non è contenuta in questo layer.
@@ -147,7 +147,7 @@ Seguendo il DDD la UI diventa la parte più "stupida" dell'applicazione, questo 
 L'unico compito di questo layer è quello di gestire tutti gli altri layer; la sua funzione è quella di decidere cosa fare con i dati una volta che sono generati. I dati generati dall'input utente devono essere validati, mentre i dati provenienti dal server o dallo storage locale devono essere passati al presentation layer per essere mostrati.
 
 <p align="center">
-    <img src="docs/images/application_layer.png" alt="Diagramma con l'application layer" width=200/>
+    <img src="docs/images/application_layer.png" alt="Diagramma con l'application layer" width=350/>
 </p>
 
 Nell'applicazione per gestire lo stato in questo layer si è scelto si utilizzare il pattern BLoC implementato dal pacchetto [bloc](https://github.com/felangel/bloc), in particolare una sua funzionalità chiamata `Cubit`.
@@ -163,7 +163,7 @@ Il **domain layer** è il cuore dell'applicazione, è l'unico layer che ha dipen
 * la **gestione dei fallimenti**
 
 <p align="center">
-    <img src="docs/images/domain_layer.png" alt="Diagramma con il domain layer" width=200/>
+    <img src="docs/images/domain_layer.png" alt="Diagramma con il domain layer" width=350/>
 </p>
 
 Le entità sono oggetti unicamente identificati formati dal raggruppamento di dati che hanno caratteristiche in comune, ad esempio l'entità `User`, `Task` e `Label`.
@@ -177,7 +177,7 @@ Gestire il fallimento di un metodo può risultare complesso, per questo motivo n
 L'ultimo layer che si incontra è **l'infrastructure layer**, il suo scopo è quello di gestire l'origine dei dati preoccupandosi di comunicare con le API locali e remote.
 
 <p align="center">
-    <img src="docs/images/infrastructure_layer.png" alt="Diagramma con l'infrastructure layer" width=200/>
+    <img src="docs/images/infrastructure_layer.png" alt="Diagramma con l'infrastructure layer" width=350/>
 </p>
 
 Questo livello è diviso in due parti: **repository** e **data source**, le repository hanno il compito di fare da confine fra il "mondo esterno" e il domain/application layer gestendo le `Exception` dei data source e ritornando i dati o i `Failure`. I data source invece operano più a basso livello chiamando le spscifiche API per richiederei i dati ai server remoti o locali. I **modelli** (nel diagramma chiamati Data Transfer Objects) sono il collegamento fra i data source e le repository, il loro scopo è quello di convertire i dati dal formato JSON (usato nelle API) in entità e value object del domain layer.
@@ -197,4 +197,33 @@ Al difuori dei layer descritti nel DDD troviamo i **service**, i servizi sono cl
 
 ### Core
 
-Core è un package che contiene tutte quelle classi 
+Core è un package che contiene alcune classi usate in tutto il progetto.
+Quste classi implementano alcuni concetti derivati dalla pprogrammazione funzionale.
+
+La classe `Maybe` contiene un valore opzionale rappresentato come:
+
+* la presenza di un valore, detto `Just`
+* l'assenza di un valore, detta `Nothing`
+
+La classe `Either` rappresenta un oggetto che può avere due possibili valori:
+
+* un valore corretto, detto `Right`
+* un valore d'errore, detto `Left` 
+
+Either è utilizzata nel progetto come valore di ritorno nei metodi delle reporitoty e di data source poichè può contenere un valore corretto e uno di tipo `Failure`. Either è utilizzato anche all'interno dei `ValueObject` per contenere il valore validato oppure un'istanza di `ValueFailure` che rappresenta un valore non valido.
+
+La classe `MonadTask` è un wrapper attorno ad un `Future<Either<L, R>>` utilizzata nelle repository per facilitare la gestione delle eccezioni tramite metodi come `map` e `attempt`.
+
+La classe `IList` implementa una versione **immutabile** delle liste native dart; al suo interno contiene metodi come `append`, `remove` e `map` che ritornano sempre una nuova lista modifcata. Questa lista è utilizzata nelle entità per impedire la modifica dei valori interni, a differenza delle liste native di dart.
+
+## Pacchetti aggiuntivi
+
+- `provider` 
+- `get_it` libreria di dependency injection utilizzata per fornire i servizi all'intera applicazione senza il bisogno di un context
+- `flutter_bloc` 
+- `equatable` libreria che facilita 
+- `dio`
+- `firebase_messaging`
+- `firebase_dynamic_links`
+- `loading_overlay`
+- `easy_colors`
