@@ -3,6 +3,7 @@ import 'package:aspdm_project/core/maybe.dart';
 import 'package:aspdm_project/domain/entities/user.dart';
 import 'package:aspdm_project/domain/repositories/auth_repository.dart';
 import 'package:aspdm_project/locator.dart';
+import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
 import 'package:aspdm_project/presentation/pages/login_page.dart';
 import 'package:aspdm_project/presentation/pages/main_page.dart';
 import 'package:aspdm_project/presentation/routes.dart';
@@ -16,26 +17,37 @@ import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:aspdm_project/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:aspdm_project/presentation/generated/codegen_loader.g.dart';
 
 class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthState>(
-          create: (context) => AuthState(locator<AuthRepository>()),
-        ),
+    return EasyLocalization(
+      supportedLocales: [
+        Locale('en')
       ],
-      child: ServiceManager(
-        notificationService: locator<NotificationService>(),
-        linkService: locator<LinkService>(),
-        child: MaterialApp(
-          title: "ASPDM Project App",
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          navigatorKey: locator<NavigationService>().navigationKey,
-          initialRoute: Routes.main,
-          onGenerateRoute: Routes.onGenerateRoute,
+      path: "assets/translations",
+      assetLoader: CodegenLoader(),
+      fallbackLocale: Locale('en'),
+      preloaderColor: EasyColors.primary,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthState>(
+            create: (context) => AuthState(locator<AuthRepository>()),
+          ),
+        ],
+        child: ServiceManager(
+          notificationService: locator<NotificationService>(),
+          linkService: locator<LinkService>(),
+          child: MaterialApp(
+            title: "Tasky App",
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            navigatorKey: locator<NavigationService>().navigationKey,
+            initialRoute: Routes.main,
+            onGenerateRoute: Routes.onGenerateRoute,
+          ),
         ),
       ),
     );
@@ -73,7 +85,7 @@ class RootWidget extends StatelessWidget {
           // ```
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("The device is offline!"),
+              content: Text('device_offline_msg').tr(),
             ),
           );
       },

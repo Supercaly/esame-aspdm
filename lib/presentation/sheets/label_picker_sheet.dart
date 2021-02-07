@@ -7,6 +7,7 @@ import 'package:aspdm_project/presentation/widgets/sheet_notch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../locator.dart';
 
 /// Display a bottom sheet that picks the labels.
@@ -52,7 +53,8 @@ class LabelPickerSheet extends StatelessWidget {
             if (state.isLoading)
               contentWidget = Center(child: CircularProgressIndicator());
             else if (state.hasError)
-              contentWidget = Center(child: Text("No label to display!"));
+              contentWidget =
+                  Center(child: Text('no_label_to_display_msg').tr());
             else
               contentWidget = CustomScrollView(
                 slivers: [
@@ -86,16 +88,16 @@ class LabelPickerSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Select Labels",
+                      'select_labels_title',
                       style: Theme.of(context).textTheme.headline6,
-                    ),
+                    ).tr(),
                     TextButton(
                       onPressed: () {
                         locator<NavigationService>().pop(
                           result: state.selected,
                         );
                       },
-                      child: Text("SAVE"),
+                      child: Text('save_btn').tr(),
                     ),
                   ],
                 ),

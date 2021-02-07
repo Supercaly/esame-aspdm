@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget that displays a page that lets the user create or edit a given
 /// [ChecklistPrimitive].
@@ -36,7 +37,7 @@ class ChecklistFormPage extends StatelessWidget {
             actions: [
               Builder(
                 builder: (context) => TextButton(
-                  child: Text("SAVE"),
+                  child: Text('save_btn').tr(),
                   style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
                     if (_formKey.currentState.validate())

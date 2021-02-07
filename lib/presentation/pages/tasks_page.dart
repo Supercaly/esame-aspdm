@@ -6,7 +6,7 @@ import 'package:aspdm_project/presentation/widgets/task_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../theme.dart';
 
 class TasksPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class TasksPage extends StatelessWidget {
     return BlocConsumer<HomeBloc, HomeState>(
       listenWhen: (_, current) => current.hasError,
       listener: (context, state) => ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Unknown error occurred!"))),
+          .showSnackBar(SnackBar(content: Text('unknown_error_msg').tr())),
       builder: (context, state) => LoadingOverlay(
         isLoading: state.isLoading,
         color: Colors.black45,
@@ -32,7 +32,7 @@ class TasksPage extends StatelessWidget {
                       minHeight: constraints.maxHeight,
                     ),
                     child: Center(
-                      child: Text("Nothing to show here!"),
+                      child: Text('nothing_to_show_msg').tr(),
                     ),
                   ),
                 );

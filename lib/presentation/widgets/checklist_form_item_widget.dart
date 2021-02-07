@@ -3,6 +3,7 @@ import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget that displays the title of the checklist letting the user
 /// edit it. The edit events are automatically sent to the [ChecklistFormBloc].
@@ -24,9 +25,9 @@ class ChecklistFormTitleWidget extends StatelessWidget {
             context.read<ChecklistFormBloc>().titleChanged(value),
         validator: (value) => ChecklistTitle(value).value.fold(
               (left) => left.maybeMap(
-                empty: (_) => "Title can't be empty!",
-                tooLong: (_) =>
-                    "Title can't be longer than ${ChecklistTitle.maxLength}!",
+                empty: (_) => 'title_cant_be_empty_msg'.tr(),
+                tooLong: (_) => 'title_cant_be_longer_msg'
+                    .tr(args: [ChecklistTitle.maxLength.toString()]),
                 orElse: () => null,
               ),
               (_) => null,
@@ -71,7 +72,7 @@ class _ChecklistFormNewItemWidgetState
           child: TextFormField(
             controller: _controller,
             decoration: InputDecoration(
-              hintText: "Add item...",
+              hintText: 'add_item_hint'.tr(),
               counterText: "",
             ),
             keyboardType: TextInputType.text,
@@ -148,9 +149,9 @@ class _ChecklistFormItemState extends State<ChecklistFormItem> {
               },
               validator: (value) => ItemText(value).value.fold(
                     (left) => left.maybeMap(
-                      empty: (_) => "Item can't be empty!",
-                      tooLong: (_) =>
-                          "Item can't be longer than ${ChecklistTitle.maxLength}!",
+                      empty: (_) => 'item_cant_be_empty'.tr(),
+                      tooLong: (_) => 'item_cant_be_longer'
+                          .tr(args: [ItemText.maxLength.toString()]),
                       orElse: () => null,
                     ),
                     (_) => null,

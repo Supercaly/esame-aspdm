@@ -4,6 +4,7 @@ import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../locator.dart';
 
 /// Widget that displays a login form and handles all the login logic.
@@ -43,14 +44,14 @@ class _LoginFormState extends State<LoginForm> {
           TextFormField(
             controller: _emailController,
             decoration: InputDecoration(
-              labelText: "Email",
+              labelText: 'email_label'.tr(),
               prefixIcon: Icon(FeatherIcons.mail),
               filled: true,
             ),
             keyboardType: TextInputType.emailAddress,
             validator: (value) => EmailAddress(value).value.fold(
                   (left) => left.maybeMap(
-                    invalidEmail: (_) => "Email is not valid!",
+                    invalidEmail: (_) => 'email_not_valid_msg'.tr(),
                     orElse: () => null,
                   ),
                   (right) => null,
@@ -63,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _passwordController,
             obscureText: _obscurePwd,
             decoration: InputDecoration(
-              labelText: "Password",
+              labelText: 'password_label'.tr(),
               prefixIcon: Icon(FeatherIcons.lock),
               suffixIcon: IconButton(
                   icon: Icon(
@@ -73,7 +74,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             validator: (value) => Password(value).value.fold(
                   (left) => left.maybeMap(
-                    invalidPassword: (_) => "Password can't be empty!",
+                    invalidPassword: (_) => 'password_cant_be_empty'.tr(),
                     orElse: () => null,
                   ),
                   (right) => null,
@@ -86,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 82.0),
             ),
-            child: Text("Log In"),
+            child: Text('login_btn').tr(),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 locator<LogService>().debug(
@@ -97,7 +98,7 @@ class _LoginFormState extends State<LoginForm> {
                         Password(_passwordController.text)))
                     .fold(
                   (e) => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Error logging in!")),
+                    SnackBar(content: Text('login_error_msg').tr()),
                   ),
                   (_) {},
                 );

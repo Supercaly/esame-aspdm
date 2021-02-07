@@ -7,6 +7,7 @@ import 'package:aspdm_project/presentation/widgets/members_picker_item_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Display a dialog that picks the members.
 /// Passing an existing [List] of [members] to mark them as already selected.
@@ -41,7 +42,7 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
       child: AlertDialog(
         insetPadding: const EdgeInsets.all(40.0),
         contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-        title: Text("Select Members"),
+        title: Text('select_members_title').tr(),
         content: BlocBuilder<MembersBloc, MembersState>(
           builder: (context, state) {
             Widget contentWidget;
@@ -63,7 +64,7 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
                   maxWidth: 300.0,
                 ),
                 child: Center(
-                  child: Text("No member to display!"),
+                  child: Text('no_member_to_display_msg').tr(),
                 ),
               );
             else
@@ -99,7 +100,7 @@ class _MembersPickerDialogState extends State<MembersPickerDialog>
         actions: [
           Builder(
             builder: (context) => TextButton(
-              child: Text("SAVE"),
+              child: Text('save_btn').tr(),
               onPressed: () {
                 locator<NavigationService>().pop(
                   result: context.read<MembersBloc>().state.selected,
