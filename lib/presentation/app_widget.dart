@@ -61,11 +61,6 @@ class RootWidget extends StatelessWidget {
     return StreamListener<bool>(
       listener: (_, status) {
         if (status.hasData && !status.data)
-          // TODO(#78): Fix bug with "device is offline" snack-bar
-          // After a hot-restart sometimes the devices looks offline so the snack-bar is displayed during build time resulting in this error message:
-          // ```
-          // The following assertion was thrown building RootWidget(dependencies: [_ScaffoldMessengerScope]):
-          // setState() or markNeedsBuild() called during build.
           //
           // This ScaffoldMessenger widget cannot be marked as needing to build because the framework is already in the process of building widgets.  A widget can be marked as needing to be built during the build phase only if one of its ancestors is currently building. This exception is allowed because the framework builds parent widgets before children, which means a dirty descendant will always be built. Otherwise, the framework might not visit this widget during this build phase.
           // The widget on which setState() or markNeedsBuild() was called was: ScaffoldMessenger
