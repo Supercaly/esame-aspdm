@@ -52,8 +52,26 @@ class SettingsPage extends StatelessWidget {
               title: "about",
               children: [
                 SettingsGroupItem(
-                  text: "About this app",
-                  icon: Icon(FeatherIcons.bookmark),
+                  text: "About Tasky",
+                  icon: Image.asset(
+                    "assets/icons/ic_launcher.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text("About Tasky"),
+                      content: Text(
+                          "Tasky is an application developed by Lorenzo Calisti for the 'Applicazioni Software e Proggrammazione per Dispositivi Mobili' exam of the university of Urbino 'Carlo Bo'"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => locator<NavigationService>().pop(),
+                          child: Text("GOT IT"),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 SettingsGroupItem(
                   text: "Open Source",
