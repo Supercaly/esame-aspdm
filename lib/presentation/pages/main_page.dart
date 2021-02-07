@@ -45,19 +45,11 @@ class _MainPageState extends State<MainPage> {
               currentIndex: _currentIdx,
               pages: _pages,
               navigateTo: _navigateTo,
-              onFilter: () {
-                print("Filtrooo....");
-                context.read<HomeBloc>().fetch();
-              },
             ),
             large: MainPageContentDesktop(
               currentIndex: _currentIdx,
               pages: _pages,
               navigateTo: _navigateTo,
-              onFilter: () {
-                print("Filtrooo....");
-                context.read<HomeBloc>().fetch();
-              },
             ),
           );
         },

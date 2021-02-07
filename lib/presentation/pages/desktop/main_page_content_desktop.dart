@@ -8,14 +8,12 @@ class MainPageContentDesktop extends StatelessWidget {
   final int currentIndex;
   final List<Widget> pages;
   final void Function(int) navigateTo;
-  final VoidCallback onFilter;
 
   MainPageContentDesktop({
     Key key,
     this.currentIndex,
     this.pages,
     this.navigateTo,
-    this.onFilter,
   })  : assert(currentIndex != null && currentIndex >= 0),
         assert(pages != null && pages.isNotEmpty),
         super(key: key);
@@ -32,13 +30,6 @@ class MainPageContentDesktop extends StatelessWidget {
           ),
           SizedBox(width: 16.0),
           Text(locator<AppInfoService>().appName),
-        ],
-        actions: [
-          if (currentIndex == 0)
-            IconButton(
-              icon: Icon(Icons.filter_list),
-              onPressed: onFilter,
-            ),
         ],
         onTap: navigateTo,
         selectedIndex: currentIndex,

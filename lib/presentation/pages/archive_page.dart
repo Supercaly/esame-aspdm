@@ -20,16 +20,6 @@ class ArchivePage extends StatelessWidget {
           appBar: AppBar(
             title: Text("Archived Tasks"),
             centerTitle: true,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.filter_list),
-                onPressed: () {
-                  // TODO: Put filter logic here.
-                  print("Filtering...");
-                  context.read<ArchiveBloc>().fetch();
-                },
-              ),
-            ],
           ),
           body: BlocConsumer<ArchiveBloc, ArchiveState>(
             listenWhen: (_, current) => current.hasError,
