@@ -61,24 +61,6 @@ class RootWidget extends StatelessWidget {
     return StreamListener<bool>(
       listener: (_, status) {
         if (status.hasData && !status.data)
-          //
-          // This ScaffoldMessenger widget cannot be marked as needing to build because the framework is already in the process of building widgets.  A widget can be marked as needing to be built during the build phase only if one of its ancestors is currently building. This exception is allowed because the framework builds parent widgets before children, which means a dirty descendant will always be built. Otherwise, the framework might not visit this widget during this build phase.
-          // The widget on which setState() or markNeedsBuild() was called was: ScaffoldMessenger
-          // dependencies: [MediaQuery]
-          // state: ScaffoldMessengerState#1f92d(tickers: tracking 1 ticker)
-          // The widget which was currently being built when the offending call was made was: RootWidget
-          // dependencies: [_ScaffoldMessengerScope]
-          // The relevant error-causing widget was:
-          // RootWidget file:///home/lorenzo/Scrivania/FlutterProjects/aspdm_project/lib/presentation/routes.dart:43:33
-          //     : To inspect this widget in Flutter DevTools, visit: http://127.0.0.1:9100/#/inspector?uri=http%3A%2F%2F127.0.0.1%3A32817%2Fl3Wk2VfhU48%3D%2F&inspectorRef=inspector-0
-          // When the exception was thrown, this was the stack:
-          // #0      Element.markNeedsBuild.<anonymous closure> (package:flutter/src/widgets/framework.dart:4138:11)
-          // #1      Element.markNeedsBuild (package:flutter/src/widgets/framework.dart:4153:6)
-          // #2      State.setState (package:flutter/src/widgets/framework.dart:1287:15)
-          // #3      ScaffoldMessengerState.showSnackBar (package:flutter/src/material/scaffold.dart:351:5)
-          // #4      RootWidget.build.<anonymous closure> (package:aspdm_project/presentation/app_widget.dart:44:41)
-          // ...
-          // ```
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('device_offline_msg').tr(),
