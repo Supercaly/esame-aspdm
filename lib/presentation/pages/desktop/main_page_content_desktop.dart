@@ -24,7 +24,7 @@ class MainPageContentDesktop extends StatelessWidget {
       appBar: CustomAppBar(
         leading: [
           Image.asset(
-            "assets/icons/ic_launcher.png",
+            "assets/icons/ic_launcher_border.png",
             width: 48.0,
             height: 48.0,
           ),

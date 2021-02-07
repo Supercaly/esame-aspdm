@@ -22,6 +22,14 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     ),
     margin: const EdgeInsets.symmetric(vertical: 4.0),
   ),
+  bottomNavigationBarTheme:
+      BottomNavigationBarThemeData(selectedItemColor: EasyColors.secondary),
+  checkboxTheme: CheckboxThemeData(
+    fillColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.selected)) return EasyColors.primary;
+      return null; //EasyColors.secondary;
+    }),
+  ),
 );
 
 final ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -41,6 +49,14 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       borderRadius: BorderRadius.zero,
     ),
     margin: const EdgeInsets.symmetric(vertical: 4.0),
+  ),
+  bottomNavigationBarTheme:
+      BottomNavigationBarThemeData(selectedItemColor: EasyColors.primary),
+  checkboxTheme: CheckboxThemeData(
+    fillColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.selected)) return EasyColors.secondary;
+      return null; //EasyColors.secondary;
+    }),
   ),
 );
 
