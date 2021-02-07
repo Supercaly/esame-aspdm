@@ -1,11 +1,12 @@
 import 'package:aspdm_project/presentation/widgets/ago.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../widget_tester_extension.dart';
 
 void main() {
   group("AgoTest test", () {
-    testWidgets("use ago widget", (tester) async {
-      await tester.pumpWidget(
+    testWidgets("create widget with valid time", (tester) async {
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Ago(
@@ -15,8 +16,10 @@ void main() {
         ),
       );
       expect(find.text("about an hour ago"), findsOneWidget);
+    });
 
-      await tester.pumpWidget(
+    testWidgets("create widget with no time", (tester) async {
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Ago(

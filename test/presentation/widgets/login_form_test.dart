@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:aspdm_project/core/either.dart';
 import '../../mocks/mock_auth_state.dart';
 import '../../mocks/mock_log_service.dart';
+import '../../widget_tester_extension.dart';
 
 void main() {
   group("LoginForm test", () {
@@ -29,7 +30,7 @@ void main() {
     });
 
     testWidgets("create widget with success", (tester) async {
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: LoginForm(),
@@ -45,7 +46,7 @@ void main() {
     testWidgets("login with correct data", (tester) async {
       when(authState.login(any, any))
           .thenAnswer((realInvocation) async => Either.right(Unit()));
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
@@ -70,7 +71,7 @@ void main() {
     testWidgets("login with invalid data", (tester) async {
       when(authState.login(any, any))
           .thenAnswer((realInvocation) async => Either.right(Unit()));
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
@@ -95,7 +96,7 @@ void main() {
     testWidgets("login with server error", (tester) async {
       when(authState.login(any, any)).thenAnswer((realInvocation) async =>
           Either.left(ServerFailure.unexpectedError("")));
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(

@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
 
 import '../../mocks/mock_auth_state.dart';
+import '../../widget_tester_extension.dart';
 
 void main() {
   group("LikeButton test", () {
@@ -101,7 +102,7 @@ void main() {
       bool commentSent = false;
       CommentContent contentSent;
 
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: AddCommentWidget(
@@ -140,7 +141,7 @@ void main() {
     });
 
     testWidgets("show comment of another user", (tester) async {
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
@@ -178,7 +179,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
@@ -222,7 +223,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
@@ -296,7 +297,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
@@ -347,7 +348,7 @@ void main() {
       bool commentLiked = false;
       bool commentDisliked = false;
 
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: ChangeNotifierProvider.value(
