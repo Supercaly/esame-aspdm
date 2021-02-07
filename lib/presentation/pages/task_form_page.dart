@@ -261,16 +261,17 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                               title: Text('add_checklist_text').tr(),
                               onTap: () async {
                                 ChecklistPrimitive newChecklist;
-                                if (Responsive.isSmall(context))
+                                if (Responsive.isLarge(context))
+                                  newChecklist = await showChecklistFormDialog(
+                                      context, null);
+                                else
                                   newChecklist =
                                       await locator<NavigationService>()
                                           .navigateToMaterialRoute(
                                     (context) => ChecklistFormPage(),
                                     fullscreenDialog: true,
                                   );
-                                else
-                                  newChecklist = await showChecklistFormDialog(
-                                      context, null);
+
                                 if (newChecklist != null)
                                   context
                                       .read<TaskFormBloc>()
@@ -290,7 +291,11 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                     primitive: e,
                                     onTap: () async {
                                       ChecklistPrimitive editedChecklist;
-                                      if (Responsive.isSmall(context))
+                                      if (Responsive.isLarge(context))
+                                        editedChecklist =
+                                            await showChecklistFormDialog(
+                                                context, e);
+                                      else
                                         editedChecklist =
                                             await locator<NavigationService>()
                                                 .navigateToMaterialRoute(
@@ -299,10 +304,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                           ),
                                           fullscreenDialog: true,
                                         );
-                                      else
-                                        editedChecklist =
-                                            await showChecklistFormDialog(
-                                                context, e);
+
                                       if (editedChecklist != null)
                                         context
                                             .read<TaskFormBloc>()
