@@ -24,9 +24,7 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EasyLocalization(
-      supportedLocales: [
-        Locale('en')
-      ],
+      supportedLocales: [Locale('en')],
       path: "assets/translations",
       assetLoader: CodegenLoader(),
       fallbackLocale: Locale('en'),
