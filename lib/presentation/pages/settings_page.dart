@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:aspdm_project/locator.dart';
 import 'package:aspdm_project/presentation/routes.dart';
 import 'package:aspdm_project/services/app_info_service.dart';
@@ -7,6 +8,7 @@ import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/widgets/responsive.dart';
 import 'package:aspdm_project/presentation/widgets/settings_widget.dart';
 import 'package:aspdm_project/presentation/widgets/user_info_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
@@ -23,14 +25,19 @@ class SettingsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: [
             UserInfoCard(),
-            SettingsGroup.single(
-              title: "notifications",
-              item: SettingsGroupItem(
-                text: "Show system settings",
-                icon: Icon(FeatherIcons.bell),
-                onTap: null,
+            if (!kIsWeb)
+              SettingsGroup.single(
+                title: "notifications",
+                item: SettingsGroupItem(
+                  text: "Show notification settings",
+                  icon: Icon(FeatherIcons.bell),
+                  onTap: () async {
+                    if (!kIsWeb) {
+                      await AppSettings.openNotificationSettings();
+                    }
+                  },
+                ),
               ),
-            ),
             SettingsGroup.single(
               title: "archive",
               item: SettingsGroupItem(
