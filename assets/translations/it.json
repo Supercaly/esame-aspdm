@@ -8,7 +8,7 @@
   "edit_btn": "Modifica",
   "delete_btn": "Elimina",
 
-  "unknown_error_msg": "Error sconosciuto!",
+  "unknown_error_msg": "Errore sconosciuto!",
   "nothing_to_show_msg": "Nulla da vedere qui!",
   "error_saving_task_msg": "Errore salvando il task!",
   "error_sharing_task_msg": "Errore condividendo questo task!",
@@ -22,7 +22,7 @@
   "item_cant_be_longer": "L'item non può essere più lungo di {}!",
   "device_offline_msg": "Il dispositivo è offline!",
 
-  "select_labels_title": "Seleziona Labels",
+  "select_labels_title": "Seleziona Label",
   "no_label_to_display_msg": "Nessuna label da mostrare!",
   "select_members_title": "Seleziona Membri",
   "no_member_to_display_msg": "Nessun menbro da mostrare!",
@@ -48,7 +48,7 @@
   "copyright_msg": "©2020 Lorenzo Calisti",
   "made_in_italy_msg": "Made with ❤ from Italy.",
   "about_title": "About Tasky",
-  "about_msg": "Questa applicazione è stata sviluppata da Lorenzo Calisti per il progetto d'esami del corso 'Applicazioni Software e Proggrammazione per Dispositivi Mobili' dell'università di Urbino 'Carlo Bo'",
+  "about_msg": "Questa applicazione è stata sviluppata da Lorenzo Calisti per il progetto d'esame del corso 'Applicazioni Software e Programmazione per Dispositivi Mobili' dell'università di Urbino 'Carlo Bo'",
 
   "new_task_title": "Nuovo Task",
   "edit_task_title": "Modifica Task",
@@ -76,7 +76,7 @@
   "ago_a_moment": "un momento",
   "ago_a_minute": "un minuto",
   "ago_minutes": "{} minuti",
-  "ago_an_hour": "circa un ora",
+  "ago_an_hour": "circa un'ora",
   "ago_hours": "{} ore",
   "ago_a_day": "un giorno",
   "ago_days": "{} giorni",
