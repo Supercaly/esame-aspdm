@@ -40,7 +40,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
             SettingsGroup.single(
-              title: "settings_archive_title",
+              title: "settings_archive_title".tr(),
               item: SettingsGroupItem(
                 text: 'settings_archive_msg'.tr(),
                 icon: Icon(FeatherIcons.archive),
