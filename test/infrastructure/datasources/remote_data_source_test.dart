@@ -207,37 +207,6 @@ void main() {
       expect(res2.getOrNull(), isEmpty);
     });
 
-    test("get user works correctly", () async {
-      when(dio.get(any)).thenAnswer(
-        (_) async => Response(
-          data: {
-            "_id": "mock_id_1",
-            "name": "Mock User 1",
-            "email": "mock1@email.com",
-            "profile_color": "#FF0000",
-          },
-        ),
-      );
-      final res = await source.getUser(UniqueId("mock_id_1"));
-      expect(res.isRight(), isTrue);
-      expect(res.getOrNull(), isNotNull);
-      expect(
-        res.getOrNull(),
-        equals(
-          UserModel(
-            "mock_id_1",
-            "Mock User 1",
-            "mock1@email.com",
-            Color(0xFFFF0000),
-          ),
-        ),
-      );
-
-      when(dio.get(any)).thenAnswer((_) async => Response(data: null));
-      final res2 = await source.getUser(UniqueId("mock_id_1"));
-      expect(res2.isLeft(), isTrue);
-    });
-
     test("authentication works correctly", () async {
       when(dio.post(any, data: anyNamed("data"))).thenAnswer(
         (_) async => Response(
@@ -1336,15 +1305,6 @@ void main() {
         Toggle(true),
       );
       expect(res2.isLeft(), isTrue);
-    });
-
-    test("get user throws an error with null parameters", () async {
-      try {
-        await source.getUser(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
     });
 
     test("get task throws an error with null parameters", () async {

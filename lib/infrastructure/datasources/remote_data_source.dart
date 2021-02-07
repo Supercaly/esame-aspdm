@@ -53,26 +53,6 @@ class RemoteDataSource {
     });
   }
 
-  // TODO(#63): Remove unused method getUser in remote data source
-  // This method is part or the server API, but the application don't use it.
-  /// Returns a [Either] with a [Failure] or a [UserModel] with given [userId].
-  Future<Either<Failure, UserModel>> getUser(UniqueId userId) async {
-    assert(userId != null);
-
-    if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
-
-    final res = await get("/user/${userId.value.getOrCrash()}");
-    return res.flatMap((right) {
-      if (right.data == null)
-        return Either.left(
-            ServerFailure.unexpectedError("Failure not implemented"));
-      return Either.right(
-          UserModel.fromJson(right.data as Map<String, dynamic>));
-    });
-  }
-
   /// Authenticate a user with given [email] and [password].
   /// Returns a [Either] with a [InvalidUserFailure] or the corresponding [UserModel]
   /// if the credentials are correct.
