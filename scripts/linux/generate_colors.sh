@@ -1,3 +1,3 @@
 #! /bin/bash
 
-flutter pub run easy_colors:generate
+flutter pub run easy_colors:generate --output-dir ./lib/presentation/generated

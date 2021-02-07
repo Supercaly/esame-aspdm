@@ -1,4 +1,4 @@
-import 'package:aspdm_project/generated/gen_colors.g.dart';
+import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
 import 'package:aspdm_project/presentation/widgets/expiration_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
