@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget used to display a [Text] with a [time] formatted in a
 /// fuzzy way like 'a moment ago'.
@@ -38,11 +39,11 @@ class Ago extends StatelessWidget {
 
     if (elapsed < 0) {
       elapsed = date.isBefore(_clock) ? elapsed : elapsed.abs();
-      prefix = '';
-      suffix = 'from now';
+      prefix = 'ago_prefix_from_now'.tr();
+      suffix = 'ago_suffix_from_now'.tr();
     } else {
-      prefix = '';
-      suffix = 'ago';
+      prefix = 'ago_prefix_ago'.tr();
+      suffix = 'ago_suffix_ago'.tr();
     }
 
     final num seconds = elapsed / 1000;
@@ -54,27 +55,27 @@ class Ago extends StatelessWidget {
 
     String result;
     if (seconds < 45)
-      result = 'a moment';
+      result = 'ago_a_moment'.tr();
     else if (seconds < 90)
-      result = 'a minute';
+      result = 'ago_a_minute'.tr();
     else if (minutes < 45)
-      result = '${minutes.round().toString()} minutes';
+      result = 'ago_minutes'.tr(args: [minutes.round().toString()]);
     else if (minutes < 90)
-      result = 'about an hour';
+      result = 'ago_an_hour'.tr();
     else if (hours < 24)
-      result = '${hours.round().toString()} hours';
+      result = 'ago_hours'.tr(args: [hours.round().toString()]);
     else if (hours < 48)
-      result = 'a day';
+      result = 'ago_a_day'.tr();
     else if (days < 30)
-      result = '${days.round().toString()} days';
+      result = 'ago_days'.tr(args: [days.round().toString()]);
     else if (days < 60)
-      result = 'about a month';
+      result = 'ago_a_month'.tr();
     else if (days < 365)
-      result = '${months.round().toString()} months';
+      result = 'ago_months'.tr(args: [months.round().toString()]);
     else if (years < 2)
-      result = 'about a year';
+      result = 'ago_a_year'.tr();
     else
-      result = '${years.round().toString()} years';
+      result = 'ago_years'.tr(args: [years.round().toString()]);
 
     return [prefix, result, suffix]
         .where((str) => str != null && str.isNotEmpty)

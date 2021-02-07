@@ -17,13 +17,13 @@ jobs:
           channel: beta
       - run: flutter pub get
 
-      # Build part files
-      - name: Build part files
-        run: ./scripts/linux/build_ci.sh
-
       # Format
       - name: Format
         run: flutter format --dry-run --set-exit-if-changed .
+
+      # Build part files
+      - name: Build part files
+        run: ./scripts/linux/build_ci.sh
 
       # Analyze
       - name: Analyze
@@ -54,13 +54,13 @@ jobs:
           channel: beta
       - run: flutter pub get
 
-      # Build part files
-      - name: Build part files
-        run: .\scripts\windows\build_ci.bat
-
       # Format
       - name: Format
         run: flutter format --dry-run --set-exit-if-changed .
+
+      # Build part files
+      - name: Build part files
+        run: .\scripts\windows\build_ci.bat
 
       # Analyze
       - name: Analyze

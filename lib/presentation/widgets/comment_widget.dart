@@ -9,7 +9,7 @@ import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../locator.dart';
 
 /// Enum with the current type of the comment widget.
@@ -179,10 +179,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                   value: CommentWidgetAction.edit,
-                                  child: Text("Edit")),
+                                  child: Text('edit_btn').tr()),
                               PopupMenuItem(
                                   value: CommentWidgetAction.delete,
-                                  child: Text("Delete")),
+                                  child: Text('delete_btn').tr()),
                             ],
                           ),
                         )
@@ -284,7 +284,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
         });
       },
       decoration: InputDecoration(
-        labelText: "Add comment",
+        labelText: 'add_comment_label'.tr(),
         suffixIcon: IconButton(
           icon: Icon(FeatherIcons.send),
           onPressed: (_sendEnabled)

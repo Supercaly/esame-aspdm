@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MainPageContentMobile extends StatelessWidget {
   final int currentIndex;
@@ -19,7 +20,8 @@ class MainPageContentMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((currentIndex == 0) ? "Tasks" : "Settings"),
+        title:
+            Text((currentIndex == 0) ? 'tasks_title' : 'settings_title').tr(),
         centerTitle: true,
       ),
       body: IndexedStack(
@@ -31,15 +33,15 @@ class MainPageContentMobile extends StatelessWidget {
         onTap: navigateTo,
         items: [
           BottomNavigationBarItem(
-            label: "Home",
+            label: 'home_page'.tr(),
             icon: Icon(FeatherIcons.home),
           ),
           BottomNavigationBarItem(
-            label: "New Task",
+            label: 'new_task_page'.tr(),
             icon: Icon(FeatherIcons.plusCircle),
           ),
           BottomNavigationBarItem(
-            label: "Settings",
+            label: 'settings_page'.tr(),
             icon: Icon(FeatherIcons.settings),
           ),
         ],

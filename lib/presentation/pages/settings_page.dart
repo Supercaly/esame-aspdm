@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -27,9 +28,9 @@ class SettingsPage extends StatelessWidget {
             UserInfoCard(),
             if (!kIsWeb)
               SettingsGroup.single(
-                title: "notifications",
+                title: 'settings_notifications_title'.tr(),
                 item: SettingsGroupItem(
-                  text: "Show notification settings",
+                  text: 'settings_notifications_msg'.tr(),
                   icon: Icon(FeatherIcons.bell),
                   onTap: () async {
                     if (!kIsWeb) {
@@ -39,9 +40,9 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
             SettingsGroup.single(
-              title: "archive",
+              title: "settings_archive_title".tr(),
               item: SettingsGroupItem(
-                text: "Show archived tasks",
+                text: 'settings_archive_msg'.tr(),
                 icon: Icon(FeatherIcons.archive),
                 onTap: () {
                   locator<NavigationService>().navigateTo(Routes.archive);
@@ -49,10 +50,10 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
             SettingsGroup(
-              title: "about",
+              title: 'settings_about_title'.tr(),
               children: [
                 SettingsGroupItem(
-                  text: "About Tasky",
+                  text: 'settings_about_msg'.tr(),
                   icon: Image.asset(
                     "assets/icons/ic_launcher.png",
                     width: 24,
@@ -61,47 +62,48 @@ class SettingsPage extends StatelessWidget {
                   onTap: () => showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text("About Tasky"),
-                      content: Text(
-                          "Tasky is an application developed by Lorenzo Calisti for the 'Applicazioni Software e Proggrammazione per Dispositivi Mobili' exam of the university of Urbino 'Carlo Bo'"),
+                      title: Text('about_title').tr(),
+                      content: Text('about_msg').tr(),
                       actions: [
                         TextButton(
                           onPressed: () => locator<NavigationService>().pop(),
-                          child: Text("GOT IT"),
+                          child: Text('got_it_btn').tr(),
                         ),
                       ],
                     ),
                   ),
                 ),
                 SettingsGroupItem(
-                  text: "Open Source",
+                  text: 'settings_open_source'.tr(),
                   icon: Icon(Icons.adb_outlined),
                   onTap: () {
                     showLicensePage(
-                        context: context,
-                        applicationVersion: appInfo.version,
-                        applicationLegalese: "©2020 Lorenzo Calisti");
-                  },
-                ),
-                SettingsGroupItem(
-                  text: "Version ${appInfo.version}(${appInfo.buildNumber})",
-                  onLongPress: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("This is not an Easter Egg!"),
-                      ),
+                      context: context,
+                      applicationVersion: appInfo.version,
+                      applicationLegalese: 'copyright_msg'.tr(),
                     );
                   },
                 ),
                 SettingsGroupItem(
-                  text: "Made with ❤ from Italy.",
+                  text: 'settings_version_msg'.tr(namedArgs: {
+                    "version": appInfo.version,
+                    "build": appInfo.buildNumber
+                  }),
+                  onLongPress: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('easter_egg_msg').tr(),
+                      ),
+                    );
+                  },
                 ),
+                SettingsGroupItem(text: 'made_in_italy_msg'.tr()),
               ],
             ),
             SettingsGroup.single(
-              title: "account",
+              title: 'settings_account_title'.tr(),
               item: SettingsGroupItem(
-                text: "Sign Out",
+                text: 'settings_logout'.tr(),
                 icon: Icon(FeatherIcons.logOut, color: Colors.red),
                 textColor: Colors.red,
                 onTap: () async {

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import '../../widget_tester_extension.dart';
 
 class MockChecklistFormBloc extends MockBloc<ChecklistFormState>
     implements ChecklistFormBloc {}
@@ -24,7 +25,7 @@ void main() {
       when(bloc.state).thenReturn(
         ChecklistFormState.initial(ChecklistPrimitive.empty()),
       );
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -49,7 +50,7 @@ void main() {
       when(bloc.state).thenReturn(
         ChecklistFormState.initial(ChecklistPrimitive(title: "Mock title")),
       );
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -71,7 +72,7 @@ void main() {
       when(bloc.state).thenReturn(
         ChecklistFormState.initial(ChecklistPrimitive.empty()),
       );
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -108,7 +109,7 @@ void main() {
 
     testWidgets("displays hind when started", (tester) async {
       final form = GlobalKey<FormState>();
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -130,7 +131,7 @@ void main() {
       when(bloc.state).thenReturn(
         ChecklistFormState.initial(ChecklistPrimitive.empty()),
       );
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -162,7 +163,7 @@ void main() {
 
     testWidgets("display item correctly", (tester) async {
       final form = GlobalKey<FormState>();
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -182,7 +183,7 @@ void main() {
 
     testWidgets("editing item calls bloc", (tester) async {
       final form = GlobalKey<FormState>();
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(
@@ -210,7 +211,7 @@ void main() {
       when(bloc.state).thenReturn(
         ChecklistFormState.initial(ChecklistPrimitive.empty()),
       );
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(

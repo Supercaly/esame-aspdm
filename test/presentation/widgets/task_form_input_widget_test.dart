@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import '../../widget_tester_extension.dart';
 
 class MockTaskFormBloc extends MockBloc<TaskFormState> implements TaskFormBloc {
 }
@@ -18,7 +19,7 @@ void main() {
     testWidgets("create with null initial data", (tester) async {
       final bloc = MockTaskFormBloc();
       when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: BlocProvider<TaskFormBloc>.value(
@@ -50,7 +51,7 @@ void main() {
       final bloc = MockTaskFormBloc();
       when(bloc.state).thenReturn(TaskFormState.initial(Maybe.just(task)));
 
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: BlocProvider<TaskFormBloc>.value(
@@ -68,7 +69,7 @@ void main() {
     testWidgets("edit fields changes calls bloc", (tester) async {
       final bloc = MockTaskFormBloc();
       when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: BlocProvider<TaskFormBloc>.value(
@@ -95,7 +96,7 @@ void main() {
       final formKey = GlobalKey<FormState>();
       final bloc = MockTaskFormBloc();
       when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
-      await tester.pumpWidget(
+      await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
             body: Form(

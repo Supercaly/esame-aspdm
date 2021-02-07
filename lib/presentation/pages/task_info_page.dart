@@ -21,7 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:share/share.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../locator.dart';
 
 class TaskInfoPage extends StatelessWidget {
@@ -55,7 +55,7 @@ class TaskInfoPageWidget extends StatelessWidget {
         listenWhen: (_, current) => current.hasError && current.data != null,
         listener: (context, state) =>
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Unknown error occurred!")),
+              SnackBar(content: Text('unknown_error_msg').tr()),
             ),
         builder: (context, state) {
           final canModify = (currentUser.getOrNull() == state.data?.author) ||
@@ -74,7 +74,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                     listener: (context, state) {
                       if (state.shareError)
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Error sharing this task!")));
+                            content: Text('error_sharing_task_msg').tr()));
                       else if (state.shareLink != null)
                         Share.share(state.shareLink);
                     },
@@ -97,7 +97,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                       if (updated != null && updated)
                         context.read<TaskBloc>().fetch(showLoading: false);
                     },
-                    tooltip: "Edit",
+                    tooltip: 'edit_tooltip'.tr(),
                   ),
                 if (canModify && !state.data.archived.value.getOrCrash())
                   IconButton(
@@ -105,12 +105,12 @@ class TaskInfoPageWidget extends StatelessWidget {
                     onPressed: () => context
                         .read<TaskBloc>()
                         .archive(currentUser.map((u) => u.id)),
-                    tooltip: "Archive",
+                    tooltip: 'archive_tooltip'.tr(),
                   ),
                 if (canModify && state.data.archived.value.getOrCrash())
                   IconButton(
                     icon: Icon(FeatherIcons.sunrise),
-                    tooltip: "Unarchive",
+                    tooltip: 'unarchive_tooltip'.tr(),
                     onPressed: () => context
                         .read<TaskBloc>()
                         .unarchive(currentUser.map((u) => u.id)),
@@ -131,7 +131,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                         constraints:
                             BoxConstraints(minHeight: constraints.maxHeight),
                         child: Center(
-                          child: Text("Nothing to show here"),
+                          child: Text('nothing_to_show_msg').tr(),
                         ),
                       ),
                     );
@@ -232,9 +232,9 @@ class DescriptionCard extends StatelessWidget {
                   Icon(FeatherIcons.alignLeft),
                   SizedBox(width: 8.0),
                   Text(
-                    "Description",
+                    'description_title',
                     style: Theme.of(context).textTheme.headline6,
-                  ),
+                  ).tr(),
                 ],
               ),
               SizedBox(height: 8.0),
@@ -269,9 +269,9 @@ class CommentsCard extends StatelessWidget {
                 Icon(FeatherIcons.messageSquare),
                 SizedBox(width: 8.0),
                 Text(
-                  "Comments",
+                  'comments_title',
                   style: Theme.of(context).textTheme.headline6,
-                ),
+                ).tr(),
               ],
             ),
             AddCommentWidget(

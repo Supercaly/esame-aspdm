@@ -1,7 +1,7 @@
 import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
 import 'package:aspdm_project/presentation/widgets/login_form.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../theme.dart';
 
 class LoginPageContentDesktop extends StatelessWidget {
@@ -26,9 +26,9 @@ class LoginPageContentDesktop extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Log In",
+                          'login_btn',
                           style: Theme.of(context).textTheme.headline4,
-                        ),
+                        ).tr(),
                         SizedBox(height: 24.0),
                         LoginForm(),
                       ],

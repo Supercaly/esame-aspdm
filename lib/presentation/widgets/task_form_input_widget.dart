@@ -3,6 +3,7 @@ import 'package:aspdm_project/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget that displays an input form where the user
 /// can insert a title and a description.
@@ -25,7 +26,7 @@ class TaskFormInputWidget extends StatelessWidget {
                 maxLength: TaskTitle.maxLength,
                 maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 decoration: InputDecoration(
-                  hintText: "Title...",
+                  hintText: 'title_hint'.tr(),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -37,9 +38,9 @@ class TaskFormInputWidget extends StatelessWidget {
                     context.read<TaskFormBloc>().titleChanged(value),
                 validator: (value) => TaskTitle(value).value.fold(
                       (left) => left.maybeMap(
-                        empty: (_) => "Title can't be empty!",
-                        tooLong: (_) =>
-                            "Title can't be longer than ${TaskTitle.maxLength}!",
+                        empty: (_) => 'title_cant_be_empty_msg'.tr(),
+                        tooLong: (_) => 'title_cant_be_longer_msg'
+                            .tr(args: [TaskTitle.maxLength.toString()]),
                         orElse: () => null,
                       ),
                       (_) => null,
@@ -56,7 +57,7 @@ class TaskFormInputWidget extends StatelessWidget {
                 maxLines: null,
                 minLines: 3,
                 decoration: InputDecoration(
-                  hintText: "Description",
+                  hintText: 'description_hint'.tr(),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -67,8 +68,8 @@ class TaskFormInputWidget extends StatelessWidget {
                     context.read<TaskFormBloc>().descriptionChanged(value),
                 validator: (value) => TaskDescription(value).value.fold(
                       (left) => left.maybeMap(
-                        tooLong: (_) =>
-                            "Description can't be longer than ${TaskDescription.maxLength}!",
+                        tooLong: (_) => 'description_cant_be_longer'
+                            .tr(args: [TaskDescription.maxLength.toString()]),
                         orElse: () => null,
                       ),
                       (_) => null,

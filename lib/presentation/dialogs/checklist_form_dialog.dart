@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Display a dialog that picks the labels.
 /// Passing an existing [List] of [labels] to mark them as already selected.
@@ -87,7 +88,7 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
             actions: [
               Builder(
                 builder: (context) => TextButton(
-                  child: Text("SAVE"),
+                  child: Text('save_btn').tr(),
                   onPressed: () {
                     if (_formKey.currentState.validate())
                       context.read<ChecklistFormBloc>().save();

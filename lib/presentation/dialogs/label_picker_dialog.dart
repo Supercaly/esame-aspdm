@@ -7,6 +7,7 @@ import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Display a dialog that picks the labels.
 /// Passing an existing [List] of [labels] to mark them as already selected.
@@ -42,7 +43,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
       )..fetch(),
       child: AlertDialog(
         insetPadding: const EdgeInsets.all(40.0),
-        title: Text("Select Labels"),
+        title: Text('select_labels_title').tr(),
         content: BlocBuilder<LabelsBloc, LabelsState>(
           builder: (context, state) {
             Widget contentWidget;
@@ -64,7 +65,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
                   maxWidth: 300.0,
                 ),
                 child: Center(
-                  child: Text("No label to display!"),
+                  child: Text('no_label_to_display_msg').tr(),
                 ),
               );
             else
@@ -101,7 +102,7 @@ class _LabelPickerDialogState extends State<LabelPickerDialog>
         actions: [
           Builder(
             builder: (context) => TextButton(
-              child: Text("SAVE"),
+              child: Text('save_btn').tr(),
               onPressed: () {
                 locator<NavigationService>().pop(
                   result: context.read<LabelsBloc>().state.selected,

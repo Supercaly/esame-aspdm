@@ -27,6 +27,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:aspdm_project/application/states/auth_state.dart';
 import 'package:aspdm_project/presentation/misc/date_time_extension.dart';
 import '../theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TaskFormPage extends StatelessWidget {
   final Maybe<Task> task;
@@ -68,8 +69,10 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
         title: BlocBuilder<TaskFormBloc, TaskFormState>(
           buildWhen: (p, c) => p.mode != c.mode,
           builder: (context, state) => Text(
-            (state.mode == TaskFormMode.creating) ? "New Task" : "Edit Task",
-          ),
+            (state.mode == TaskFormMode.creating)
+                ? 'new_task_title'
+                : 'edit_task_title',
+          ).tr(),
         ),
         centerTitle: true,
         actions: [
@@ -77,9 +80,11 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
             buildWhen: (p, c) => p.mode != c.mode,
             builder: (context, state) => TextButton(
                 style: TextButton.styleFrom(primary: Colors.white),
-                child: Text((state.mode == TaskFormMode.creating)
-                    ? "CREATE"
-                    : "UPDATE"),
+                child: Text(
+                  (state.mode == TaskFormMode.creating)
+                      ? 'create_btn'
+                      : 'update_btn',
+                ).tr(),
                 onPressed: () async {
                   if (_formKey.currentState.validate())
                     await context.read<TaskFormBloc>().saveTask(context
@@ -95,9 +100,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
         listener: (context, state) =>
             ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Error saving task!"),
+            content: Text('error_saving_task_msg').tr(),
             action: SnackBarAction(
-              label: "RETRY",
+              label: 'retry_btn'.tr(),
               onPressed: () async {
                 if (_formKey.currentState.validate())
                   await context.read<TaskFormBloc>().saveTask(context
@@ -144,7 +149,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                     ? Text(DateFormat("dd MMM y HH:mm").format(
                                         state.taskPrimitive.expireDate
                                             .getOrNull()))
-                                    : Text("Expiration Date..."),
+                                    : Text('expiration_date_text').tr(),
                                 trailing: IconButton(
                                   icon: Icon(Icons.close),
                                   onPressed: () => context
@@ -196,7 +201,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                                   size: 32.0,
                                                 ))
                                             .asList())
-                                    : Text("Members..."),
+                                    : Text('members_text').tr(),
                                 onTap: () async {
                                   IList<User> selectedMembers;
                                   if (Responsive.isSmall(context))
@@ -230,7 +235,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                                             .map((e) => LabelWidget(label: e))
                                             .asList(),
                                       )
-                                    : Text("Labels..."),
+                                    : Text('labels_text').tr(),
                                 onTap: () async {
                                   IList<Label> selectedLabels;
                                   if (Responsive.isSmall(context))
@@ -253,7 +258,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                             ),
                             ListTile(
                               leading: Icon(FeatherIcons.checkCircle),
-                              title: Text("Add checklist..."),
+                              title: Text('add_checklist_text').tr(),
                               onTap: () async {
                                 ChecklistPrimitive newChecklist;
                                 if (Responsive.isSmall(context))
