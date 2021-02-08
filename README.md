@@ -71,8 +71,7 @@ Per utilizzare l'applicazione è richiesa una coppia email/password; per testare
 Durante il primo avvio all'utente è mostrata la **pagina di login**, qui è possibile inserire la propria email e password. In caso i dati forniti non siano corretti è mostrato un messaggio d'errore altrimenti l'utente è trasportato nella pagina home e i suoi dati d'accesso sono salvati per il prossimo accesso. 
 
 <p align="center">
-    <img src="docs/images/login_page.png" alt="Pagina di login" width=200/>
-    <img src="docs/images/login_page_error.png" alt="Pagina di login con errore" width=200/>
+    <img src="docs/images/login_page.gif" alt="Pagina di login" width=200/>
 </p>
 
 La **pagina home** è il componente principale dell'applicazione, qui è possibile vedere in forma breve tutti i task creati dagli utenti
@@ -93,7 +92,7 @@ Una particolarità del design di questa pagina sono le diverse bottom sheet e pa
 
 Premendo il bottone *CREATE* nella pagina superiore il task verrà caricato e da quel momento potrà essere visto da tutti gli utenti nella schermata home.
 
-<p align="center"><img src="docs/images/create_page.png" alt="Pagina nuovo task" width=200/></p>
+<p align="center"><img src="docs/images/new_task_page.gif" alt="Pagina nuovo task" width=200/></p>
 
 Quando l'utente preme su un determinato task la **pagina di informazioni di un task** si apre sopra la pagina corrente, qui è possibile avere una vista completa su tutti gli elementi di quello specifico task. 
 
@@ -101,7 +100,7 @@ L'app bar di questa pagina cambia a seconda dell'utente attualmente registrato: 
 
 <p align="center">
     <img src="docs/images/info_page.png" alt="Pagina di informazioni su un task" width=200/>
-    <img src="docs/images/info_page_owner.png" alt="Pagina di informazioni su un task" width=200/>
+    <img src="docs/images/info_page_owner.gif" alt="Pagina di informazioni su un task" width=200/>
 </p>
 
 Se si preme il bottone *modifica* la **pagina di modifica del task** verrà aperta, questa pagina è del tutto analoga a quella **nuovo task** (infatti in termini implementativi è la stessa pagina), l'unica differenza è che tutti i campi sono pre compilati con i valori del task che si vuole modificare per rendere più semplice la modifica; il bottone *CREATE* è stato sostituito da *UPDATE* che, se lo si preme, salverà le modifiche fatte su quel task.
