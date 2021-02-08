@@ -50,10 +50,19 @@ class LoginPageContentDesktop extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                  child: Image.asset(
-                    "assets/icons/ic_launcher.png",
-                    width: 250.0,
-                    height: 250.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(180.0),
+                      border: Border.all(
+                        color: Color(0xFFE5E5E5),
+                        width: 3,
+                      ),
+                    ),
+                    child: Image.asset(
+                      "assets/icons/ic_launcher.png",
+                      width: 250.0,
+                      height: 250.0,
+                    ),
                   ),
                 ),
               ],

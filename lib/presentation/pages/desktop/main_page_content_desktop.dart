@@ -23,10 +23,19 @@ class MainPageContentDesktop extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         leading: [
-          Image.asset(
-            "assets/icons/ic_launcher_border.png",
-            width: 48.0,
-            height: 48.0,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(180.0),
+              border: Border.all(
+                color: Color(0xFFE5E5E5),
+                width: 2,
+              ),
+            ),
+            child: Image.asset(
+              "assets/icons/ic_launcher.png",
+              width: 42.0,
+              height: 42.0,
+            ),
           ),
           SizedBox(width: 16.0),
           Text(locator<AppInfoService>().appName),
