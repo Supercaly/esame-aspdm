@@ -67,10 +67,14 @@ L'applicazione salva tutti i dati su un server remoto implementato in `node.js` 
 
 Per utilizzare l'applicazione è richiesa una coppia email/password; per il testing è possibile utilizzare uno qualsiasi dei segueni account già presenti nel database:
 
-| Email                | Password |
-| -------------------- | -------- |
-| djonline96@gmail.com | 1234     |
-| jon.doe@gmail.com    | jondoe21 |
+| Email                       | Password          |
+| --------------------------- | ----------------- |
+| cuno.klopfenstein@uniurb.it | qwerty            |
+| djonline96@gmail.com        | 1234              |
+| jon.doe@gmail.com           | jondoe21          |
+| l.calisti@campus.uniurb.it  | password123       |
+| mario.rossi@gmail.com       | 0000              |
+| m.lombardi@gmail.com        | 1111              |
 
 ## Casi d'uso e Interfaccia Utente
 
