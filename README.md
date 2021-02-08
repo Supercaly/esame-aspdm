@@ -131,7 +131,7 @@ Quando un utente crea un nuovo task, una notifica è automaticamente generata da
 quel task appena creato, in questo modo è possibile rimanere sempre aggiornati sulle ultime novità.
 
 <p align="center">
-    <img src="docs/images/notifications.gif" alt="Aprire una notifica apre la pagina di informazioni su quel task" width=200/>
+    <img src="docs/images/open_notification.gif" alt="Aprire una notifica apre la pagina di informazioni su quel task" width=200/>
 </p>
 
 Analogamente alle notifiche, aprendo un link generato utilizzando la funzionalità **condividi task** risulterà nell'apertura dell'applicazione nella pagina di informazioni sul task condiviso.
