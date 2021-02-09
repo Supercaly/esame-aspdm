@@ -18,7 +18,7 @@
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-#.vscode/
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -44,6 +44,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android icons
+/android/app/src/main/res/mipmap-hdpi/
+/android/app/src/main/res/mipmap-mdpi/
+/android/app/src/main/res/mipmap-xhdpi/
+/android/app/src/main/res/mipmap-xxhdpi/
+/android/app/src/main/res/mipmap-xxxhdpi/
+/android/app/src/main/res/mipmap-anydpi-v26/
+/android/app/src/main/res/drawable-hdpi/
+/android/app/src/main/res/drawable-mdpi/
+/android/app/src/main/res/drawable-xhdpi/
+/android/app/src/main/res/drawable-xxhdpi/
+/android/app/src/main/res/drawable-xxxhdpi/
+
+# IOS icons
+/ios/Runner/Assets.xcassets/AppIcon.appiconset
 
 # Generated part files
 *.g.dart
