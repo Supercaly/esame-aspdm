@@ -1,4 +1,4 @@
-package com.supercaly.aspdm_project
+package com.supercaly.tasky
 
 import io.flutter.embedding.android.FlutterActivity
 
