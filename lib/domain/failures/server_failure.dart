@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/failures/failures.dart';
 
 /// Represent that a [Failure] with the server happened.

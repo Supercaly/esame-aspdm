@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/application/bloc/checklist_form_bloc.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:flutter/material.dart';

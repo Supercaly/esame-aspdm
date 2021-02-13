@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/infrastructure/models/checklist_model.dart';
 import 'package:tasky/infrastructure/models/comment_model.dart';

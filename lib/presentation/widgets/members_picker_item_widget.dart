@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';

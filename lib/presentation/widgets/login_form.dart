@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/values/user_values.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:tasky/application/states/auth_state.dart';

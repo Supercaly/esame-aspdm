@@ -1,3 +1,4 @@
+// @dart=2.9
 /// Class that represent an optional value.
 /// A value of type Maybe can be either a value of type
 /// [Just] or [Nothing].

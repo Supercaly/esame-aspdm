@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';

@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 

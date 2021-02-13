@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/services/link_service.dart';
 import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
