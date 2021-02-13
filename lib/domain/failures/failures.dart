@@ -1,4 +1,4 @@
-import 'package:aspdm_project/domain/values/user_values.dart';
+import 'package:tasky/domain/values/user_values.dart';
 
 /// Class representing a general failure.
 /// A failure is not an error nor an exception.

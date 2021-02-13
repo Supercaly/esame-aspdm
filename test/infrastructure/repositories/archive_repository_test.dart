@@ -1,10 +1,10 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
-import 'package:aspdm_project/infrastructure/models/task_model.dart';
-import 'package:aspdm_project/infrastructure/models/user_model.dart';
-import 'package:aspdm_project/infrastructure/repositories/archive_repository_impl.dart';
-import 'package:aspdm_project/domain/failures/server_failure.dart';
-import 'package:aspdm_project/domain/repositories/archive_repository.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
+import 'package:tasky/infrastructure/models/task_model.dart';
+import 'package:tasky/infrastructure/models/user_model.dart';
+import 'package:tasky/infrastructure/repositories/archive_repository_impl.dart';
+import 'package:tasky/domain/failures/server_failure.dart';
+import 'package:tasky/domain/repositories/archive_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

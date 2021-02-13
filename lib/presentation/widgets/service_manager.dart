@@ -1,5 +1,5 @@
-import 'package:aspdm_project/services/link_service.dart';
-import 'package:aspdm_project/services/notification_service.dart';
+import 'package:tasky/services/link_service.dart';
+import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
 
 /// Widget that inject a [NotificationService] and a [LinkService]

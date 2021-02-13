@@ -1,8 +1,8 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/infrastructure/models/user_model.dart';
-import 'package:aspdm_project/domain/entities/comment.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/infrastructure/models/user_model.dart';
+import 'package:tasky/domain/entities/comment.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

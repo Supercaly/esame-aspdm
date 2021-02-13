@@ -1,7 +1,7 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/entities/task.dart';
 
 abstract class ArchiveRepository {
   Future<Either<Failure, IList<Task>>> getArchivedTasks();

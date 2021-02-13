@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:aspdm_project/presentation/misc/date_time_extension.dart';
+import 'package:tasky/presentation/misc/date_time_extension.dart';
 
 void main() {
   group("DateTimeX test", () {

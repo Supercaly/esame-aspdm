@@ -1,4 +1,4 @@
-import 'package:aspdm_project/services/log_service.dart';
+import 'package:tasky/services/log_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';

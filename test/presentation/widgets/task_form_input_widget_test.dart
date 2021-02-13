@@ -1,9 +1,9 @@
-import 'package:aspdm_project/application/bloc/task_form_bloc.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/presentation/widgets/task_form_input_widget.dart';
+import 'package:tasky/application/bloc/task_form_bloc.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/presentation/widgets/task_form_input_widget.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

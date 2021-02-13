@@ -1,5 +1,5 @@
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 
 /// Represent that a [Failure] with the task has happened.
 abstract class TaskFailure extends Failure {

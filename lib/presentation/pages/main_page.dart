@@ -1,14 +1,14 @@
-import 'package:aspdm_project/application/bloc/home_bloc.dart';
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/presentation/pages/desktop/main_page_content_desktop.dart';
-import 'package:aspdm_project/presentation/pages/mobile/main_page_content_mobile.dart';
-import 'package:aspdm_project/presentation/pages/settings_page.dart';
-import 'package:aspdm_project/presentation/pages/tasks_page.dart';
-import 'package:aspdm_project/domain/repositories/home_repository.dart';
-import 'package:aspdm_project/presentation/routes.dart';
-import 'package:aspdm_project/services/log_service.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/presentation/widgets/responsive.dart';
+import 'package:tasky/application/bloc/home_bloc.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/presentation/pages/desktop/main_page_content_desktop.dart';
+import 'package:tasky/presentation/pages/mobile/main_page_content_mobile.dart';
+import 'package:tasky/presentation/pages/settings_page.dart';
+import 'package:tasky/presentation/pages/tasks_page.dart';
+import 'package:tasky/domain/repositories/home_repository.dart';
+import 'package:tasky/presentation/routes.dart';
+import 'package:tasky/services/log_service.dart';
+import 'package:tasky/services/navigation_service.dart';
+import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

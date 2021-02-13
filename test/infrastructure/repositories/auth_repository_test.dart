@@ -1,15 +1,15 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/failures/server_failure.dart';
-import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
-import 'package:aspdm_project/infrastructure/models/user_model.dart';
-import 'package:aspdm_project/infrastructure/repositories/auth_repository_impl.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/services/preference_service.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/failures/server_failure.dart';
+import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
+import 'package:tasky/infrastructure/models/user_model.dart';
+import 'package:tasky/infrastructure/repositories/auth_repository_impl.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/repositories/auth_repository.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/services/preference_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

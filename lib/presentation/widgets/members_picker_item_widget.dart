@@ -1,5 +1,5 @@
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 

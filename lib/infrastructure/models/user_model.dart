@@ -1,7 +1,7 @@
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/infrastructure/color_parser.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/infrastructure/color_parser.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';

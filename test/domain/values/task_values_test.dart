@@ -1,4 +1,4 @@
-import 'package:aspdm_project/domain/values/task_values.dart';
+import 'package:tasky/domain/values/task_values.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

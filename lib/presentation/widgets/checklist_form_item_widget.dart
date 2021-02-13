@@ -1,5 +1,5 @@
-import 'package:aspdm_project/application/bloc/checklist_form_bloc.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
+import 'package:tasky/application/bloc/checklist_form_bloc.dart';
+import 'package:tasky/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,4 +1,4 @@
-import 'package:aspdm_project/presentation/widgets/login_form.dart';
+import 'package:tasky/presentation/widgets/login_form.dart';
 import 'package:flutter/material.dart';
 
 class LoginPageContentMobile extends StatelessWidget {

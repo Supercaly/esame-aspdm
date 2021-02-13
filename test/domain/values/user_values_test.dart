@@ -1,4 +1,4 @@
-import 'package:aspdm_project/domain/values/user_values.dart';
+import 'package:tasky/domain/values/user_values.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

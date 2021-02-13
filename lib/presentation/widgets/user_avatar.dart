@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:tasky/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 
 /// Widget displaying a nice circle or rectangular

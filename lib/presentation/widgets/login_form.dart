@@ -1,6 +1,6 @@
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/services/log_service.dart';
-import 'package:aspdm_project/application/states/auth_state.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/services/log_service.dart';
+import 'package:tasky/application/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';

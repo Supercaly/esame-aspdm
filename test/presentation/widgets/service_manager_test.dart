@@ -1,6 +1,6 @@
-import 'package:aspdm_project/presentation/widgets/service_manager.dart';
-import 'package:aspdm_project/services/link_service.dart';
-import 'package:aspdm_project/services/notification_service.dart';
+import 'package:tasky/presentation/widgets/service_manager.dart';
+import 'package:tasky/services/link_service.dart';
+import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

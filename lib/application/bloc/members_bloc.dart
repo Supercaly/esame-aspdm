@@ -1,9 +1,9 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:aspdm_project/domain/repositories/members_repository.dart';
+import 'package:tasky/domain/repositories/members_repository.dart';
 
 /// Class used to manage the state of the tasks page.
 class MembersBloc extends Cubit<MembersState> {

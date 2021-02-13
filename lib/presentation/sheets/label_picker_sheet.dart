@@ -1,12 +1,12 @@
-import 'package:aspdm_project/application/bloc/labels_bloc.dart';
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/repositories/label_repository.dart';
-import 'package:aspdm_project/presentation/widgets/label_picker_item_widget.dart';
-import 'package:aspdm_project/presentation/widgets/sheet_notch.dart';
+import 'package:tasky/application/bloc/labels_bloc.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/domain/repositories/label_repository.dart';
+import 'package:tasky/presentation/widgets/label_picker_item_widget.dart';
+import 'package:tasky/presentation/widgets/sheet_notch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:tasky/services/navigation_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../locator.dart';
 

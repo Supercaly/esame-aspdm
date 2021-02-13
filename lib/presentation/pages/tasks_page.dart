@@ -1,8 +1,8 @@
-import 'package:aspdm_project/application/bloc/home_bloc.dart';
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/services/log_service.dart';
-import 'package:aspdm_project/presentation/widgets/responsive.dart';
-import 'package:aspdm_project/presentation/widgets/task_card.dart';
+import 'package:tasky/application/bloc/home_bloc.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/services/log_service.dart';
+import 'package:tasky/presentation/widgets/responsive.dart';
+import 'package:tasky/presentation/widgets/task_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';

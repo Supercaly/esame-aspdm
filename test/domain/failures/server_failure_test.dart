@@ -1,4 +1,4 @@
-import 'package:aspdm_project/domain/failures/server_failure.dart';
+import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

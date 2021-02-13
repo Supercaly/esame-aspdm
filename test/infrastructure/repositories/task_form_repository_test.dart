@@ -1,15 +1,15 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/failures/server_failure.dart';
-import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
-import 'package:aspdm_project/infrastructure/repositories/task_form_repository_imp.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/failures/server_failure.dart';
+import 'package:tasky/domain/repositories/task_form_repository.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
+import 'package:tasky/infrastructure/repositories/task_form_repository_imp.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:aspdm_project/core/either.dart';
+import 'package:tasky/core/either.dart';
 import 'package:mockito/mockito.dart';
 import '../../mocks/mock_remote_data_source.dart';
 

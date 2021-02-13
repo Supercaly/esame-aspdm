@@ -1,15 +1,15 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/entities/checklist.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/values/label_values.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
-import 'package:aspdm_project/presentation/misc/task_primitive.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/entities/checklist.dart';
+import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/values/label_values.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/misc/task_primitive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

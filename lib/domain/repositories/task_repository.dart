@@ -1,8 +1,8 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 import '../entities/task.dart';
 
 abstract class TaskRepository {

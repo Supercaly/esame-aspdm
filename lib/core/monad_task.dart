@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:aspdm_project/core/either.dart';
+import 'package:tasky/core/either.dart';
 
 /// Class that encapsulates a [Future] of [Either] and helps manage
 /// his completion and errors in a more FP-way.

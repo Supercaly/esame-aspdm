@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/presentation/routes.dart';
-import 'package:aspdm_project/services/log_service.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/presentation/routes.dart';
+import 'package:tasky/services/log_service.dart';
+import 'package:tasky/services/navigation_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 

@@ -1,7 +1,7 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/application/bloc/home_bloc.dart';
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/repositories/home_repository.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/application/bloc/home_bloc.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/repositories/home_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

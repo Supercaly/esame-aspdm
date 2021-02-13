@@ -1,8 +1,8 @@
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/presentation/widgets/members_picker_item_widget.dart';
-import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/presentation/widgets/members_picker_item_widget.dart';
+import 'package:tasky/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_test/flutter_test.dart';

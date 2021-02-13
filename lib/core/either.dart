@@ -1,4 +1,4 @@
-import 'package:aspdm_project/core/maybe.dart';
+import 'package:tasky/core/maybe.dart';
 
 /// Class representing a void return type.
 /// This class is used only in conjunction with

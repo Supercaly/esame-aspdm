@@ -1,5 +1,5 @@
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/services/app_info_service.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/services/app_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';

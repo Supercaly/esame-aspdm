@@ -1,7 +1,7 @@
-import 'package:aspdm_project/application/bloc/checklist_form_bloc.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
-import 'package:aspdm_project/presentation/widgets/checklist_form_item_widget.dart';
+import 'package:tasky/application/bloc/checklist_form_bloc.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/widgets/checklist_form_item_widget.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

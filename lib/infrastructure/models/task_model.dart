@@ -1,11 +1,11 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/infrastructure/models/checklist_model.dart';
-import 'package:aspdm_project/infrastructure/models/comment_model.dart';
-import 'package:aspdm_project/infrastructure/models/label_model.dart';
-import 'package:aspdm_project/infrastructure/models/user_model.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/infrastructure/models/checklist_model.dart';
+import 'package:tasky/infrastructure/models/comment_model.dart';
+import 'package:tasky/infrastructure/models/label_model.dart';
+import 'package:tasky/infrastructure/models/user_model.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

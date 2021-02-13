@@ -1,4 +1,4 @@
-import 'package:aspdm_project/domain/failures/failures.dart';
+import 'package:tasky/domain/failures/failures.dart';
 
 /// Represent that a [Failure] with the server happened.
 abstract class ServerFailure extends Failure {

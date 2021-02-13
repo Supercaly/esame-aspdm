@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aspdm_project/presentation/widgets/settings_widget.dart';
+import 'package:tasky/presentation/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

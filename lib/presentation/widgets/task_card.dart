@@ -1,10 +1,10 @@
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/presentation/routes.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/presentation/widgets/expiration_badge.dart';
-import 'package:aspdm_project/presentation/widgets/label_widget.dart';
-import 'package:aspdm_project/presentation/widgets/responsive.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/presentation/routes.dart';
+import 'package:tasky/services/navigation_service.dart';
+import 'package:tasky/presentation/widgets/expiration_badge.dart';
+import 'package:tasky/presentation/widgets/label_widget.dart';
+import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
