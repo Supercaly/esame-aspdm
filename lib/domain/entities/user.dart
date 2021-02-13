@@ -14,12 +14,13 @@ class User extends Equatable {
   /// User's email address.
   final EmailAddress email;
 
-  final Color profileColor;
+  /// Users' profile color
+  final Color? profileColor;
 
   const User(this.id, this.name, this.email, this.profileColor);
 
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id];
 
   @override
   String toString() => "User {id: $id, name: $name, email: $email, "
