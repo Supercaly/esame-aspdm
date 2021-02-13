@@ -1,11 +1,11 @@
-import 'package:aspdm_project/application/bloc/checklist_form_bloc.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/presentation/misc/checklist_primitive.dart';
-import 'package:aspdm_project/presentation/widgets/checklist_form_item_widget.dart';
+import 'package:tasky/application/bloc/checklist_form_bloc.dart';
+import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/widgets/checklist_form_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:tasky/services/navigation_service.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 

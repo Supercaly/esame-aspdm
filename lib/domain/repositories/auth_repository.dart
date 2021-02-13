@@ -1,7 +1,7 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/values/user_values.dart';
 
 import '../entities/user.dart';
 

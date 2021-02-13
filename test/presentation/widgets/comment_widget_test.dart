@@ -1,17 +1,17 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/entities/comment.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/presentation/widgets/comment_widget.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/entities/comment.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/presentation/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:aspdm_project/application/states/auth_state.dart';
+import 'package:tasky/application/states/auth_state.dart';
 
 import '../../mocks/mock_auth_state.dart';
 import '../../widget_tester_extension.dart';

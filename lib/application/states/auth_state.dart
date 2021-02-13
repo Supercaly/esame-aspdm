@@ -1,11 +1,11 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/services/log_service.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/values/user_values.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/repositories/auth_repository.dart';
+import 'package:tasky/services/log_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

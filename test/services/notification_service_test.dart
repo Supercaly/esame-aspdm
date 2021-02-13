@@ -1,6 +1,6 @@
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/services/notification_service.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/services/navigation_service.dart';
+import 'package:tasky/services/notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

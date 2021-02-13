@@ -1,6 +1,6 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
 import 'checklist.dart';
 import 'comment.dart';

@@ -1,5 +1,5 @@
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/presentation/routes.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

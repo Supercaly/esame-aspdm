@@ -1,5 +1,5 @@
-import 'package:aspdm_project/domain/failures/task_failure.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/domain/failures/task_failure.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

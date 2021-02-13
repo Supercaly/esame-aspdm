@@ -1,6 +1,6 @@
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/repositories/label_repository.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/domain/repositories/label_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,10 +1,10 @@
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/values/task_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/repositories/task_repository.dart';
-import 'package:aspdm_project/services/link_service.dart';
-import 'package:aspdm_project/services/log_service.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/values/task_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/repositories/task_repository.dart';
+import 'package:tasky/services/link_service.dart';
+import 'package:tasky/services/log_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

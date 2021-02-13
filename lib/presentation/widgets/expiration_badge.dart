@@ -1,4 +1,4 @@
-import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
+import 'package:tasky/presentation/generated/gen_colors.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';

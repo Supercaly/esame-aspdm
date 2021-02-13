@@ -1,7 +1,7 @@
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/values/label_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/presentation/widgets/label_widget.dart';
+import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/domain/values/label_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/presentation/widgets/label_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

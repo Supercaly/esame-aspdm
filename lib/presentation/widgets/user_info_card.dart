@@ -1,7 +1,7 @@
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/application/states/auth_state.dart';
-import 'package:aspdm_project/presentation/widgets/user_avatar.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/application/states/auth_state.dart';
+import 'package:tasky/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

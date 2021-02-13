@@ -1,5 +1,5 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/maybe.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/maybe.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

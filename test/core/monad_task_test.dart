@@ -1,5 +1,5 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/monad_task.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/monad_task.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 

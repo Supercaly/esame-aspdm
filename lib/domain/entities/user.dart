@@ -1,5 +1,5 @@
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,7 @@
-import 'package:aspdm_project/presentation/pages/desktop/login_page_content_desktop.dart';
-import 'package:aspdm_project/presentation/pages/mobile/login_page_content_mobile.dart';
-import 'package:aspdm_project/application/states/auth_state.dart';
-import 'package:aspdm_project/presentation/widgets/responsive.dart';
+import 'package:tasky/presentation/pages/desktop/login_page_content_desktop.dart';
+import 'package:tasky/presentation/pages/mobile/login_page_content_mobile.dart';
+import 'package:tasky/application/states/auth_state.dart';
+import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';

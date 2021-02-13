@@ -1,5 +1,5 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/value_object.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/value_object.dart';
 
 /// Class representing an unique identifier used
 /// by the entities in the app.

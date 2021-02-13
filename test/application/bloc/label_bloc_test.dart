@@ -1,10 +1,10 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/entities/label.dart';
-import 'package:aspdm_project/domain/repositories/label_repository.dart';
-import 'package:aspdm_project/application/bloc/labels_bloc.dart';
-import 'package:aspdm_project/domain/values/label_values.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/domain/repositories/label_repository.dart';
+import 'package:tasky/application/bloc/labels_bloc.dart';
+import 'package:tasky/domain/values/label_values.dart';
+import 'package:tasky/domain/values/unique_id.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

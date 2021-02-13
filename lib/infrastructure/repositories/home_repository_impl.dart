@@ -1,11 +1,11 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/core/monad_task.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/failures/server_failure.dart';
-import 'package:aspdm_project/domain/repositories/home_repository.dart';
-import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/core/monad_task.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/failures/server_failure.dart';
+import 'package:tasky/domain/repositories/home_repository.dart';
+import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
 
 class HomeRepositoryImpl extends HomeRepository {
   final RemoteDataSource _dataSource;

@@ -1,7 +1,7 @@
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/services/link_service.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/services/link_service.dart';
+import 'package:tasky/services/navigation_service.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

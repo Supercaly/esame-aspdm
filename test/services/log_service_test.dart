@@ -1,4 +1,4 @@
-import 'package:aspdm_project/services/log_service.dart';
+import 'package:tasky/services/log_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

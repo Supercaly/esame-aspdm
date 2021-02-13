@@ -1,4 +1,4 @@
-import 'package:aspdm_project/core/either.dart';
+import 'package:tasky/core/either.dart';
 import 'package:flutter/foundation.dart';
 
 /// Class representing a value that can be used by an entity.

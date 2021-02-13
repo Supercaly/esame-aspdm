@@ -1,5 +1,5 @@
-import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
-import 'package:aspdm_project/presentation/widgets/expiration_badge.dart';
+import 'package:tasky/presentation/generated/gen_colors.g.dart';
+import 'package:tasky/presentation/widgets/expiration_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';

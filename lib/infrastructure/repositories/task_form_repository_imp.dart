@@ -1,12 +1,12 @@
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/monad_task.dart';
-import 'package:aspdm_project/domain/entities/task.dart';
-import 'package:aspdm_project/domain/failures/failures.dart';
-import 'package:aspdm_project/domain/failures/server_failure.dart';
-import 'package:aspdm_project/domain/repositories/task_form_repository.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/infrastructure/datasources/remote_data_source.dart';
-import 'package:aspdm_project/infrastructure/models/task_model.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/monad_task.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/failures/server_failure.dart';
+import 'package:tasky/domain/repositories/task_form_repository.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
+import 'package:tasky/infrastructure/models/task_model.dart';
 
 class TaskFormRepositoryImpl extends TaskFormRepository {
   final RemoteDataSource _dataSource;

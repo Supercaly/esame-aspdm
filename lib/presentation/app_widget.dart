@@ -1,24 +1,24 @@
-import 'package:aspdm_project/application/states/auth_state.dart';
-import 'package:aspdm_project/core/maybe.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/repositories/auth_repository.dart';
-import 'package:aspdm_project/locator.dart';
-import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
-import 'package:aspdm_project/presentation/pages/login_page.dart';
-import 'package:aspdm_project/presentation/pages/main_page.dart';
-import 'package:aspdm_project/presentation/routes.dart';
-import 'package:aspdm_project/presentation/theme.dart';
-import 'package:aspdm_project/presentation/widgets/service_manager.dart';
-import 'package:aspdm_project/presentation/widgets/stream_listener.dart';
-import 'package:aspdm_project/services/connectivity_service.dart';
-import 'package:aspdm_project/services/link_service.dart';
-import 'package:aspdm_project/services/log_service.dart';
-import 'package:aspdm_project/services/navigation_service.dart';
-import 'package:aspdm_project/services/notification_service.dart';
+import 'package:tasky/application/states/auth_state.dart';
+import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/repositories/auth_repository.dart';
+import 'package:tasky/locator.dart';
+import 'package:tasky/presentation/generated/gen_colors.g.dart';
+import 'package:tasky/presentation/pages/login_page.dart';
+import 'package:tasky/presentation/pages/main_page.dart';
+import 'package:tasky/presentation/routes.dart';
+import 'package:tasky/presentation/theme.dart';
+import 'package:tasky/presentation/widgets/service_manager.dart';
+import 'package:tasky/presentation/widgets/stream_listener.dart';
+import 'package:tasky/services/connectivity_service.dart';
+import 'package:tasky/services/link_service.dart';
+import 'package:tasky/services/log_service.dart';
+import 'package:tasky/services/navigation_service.dart';
+import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:aspdm_project/presentation/generated/codegen_loader.g.dart';
+import 'package:tasky/presentation/generated/codegen_loader.g.dart';
 
 class AppWidget extends StatelessWidget {
   @override

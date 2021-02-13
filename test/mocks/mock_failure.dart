@@ -1,3 +1,3 @@
-import 'package:aspdm_project/domain/failures/failures.dart';
+import 'package:tasky/domain/failures/failures.dart';
 
 class MockFailure extends Failure {}

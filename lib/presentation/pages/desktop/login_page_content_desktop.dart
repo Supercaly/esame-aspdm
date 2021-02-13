@@ -1,5 +1,5 @@
-import 'package:aspdm_project/presentation/generated/gen_colors.g.dart';
-import 'package:aspdm_project/presentation/widgets/login_form.dart';
+import 'package:tasky/presentation/generated/gen_colors.g.dart';
+import 'package:tasky/presentation/widgets/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../theme.dart';

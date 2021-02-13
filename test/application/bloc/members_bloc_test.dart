@@ -1,10 +1,10 @@
-import 'package:aspdm_project/application/bloc/members_bloc.dart';
-import 'package:aspdm_project/core/either.dart';
-import 'package:aspdm_project/core/ilist.dart';
-import 'package:aspdm_project/domain/entities/user.dart';
-import 'package:aspdm_project/domain/repositories/members_repository.dart';
-import 'package:aspdm_project/domain/values/unique_id.dart';
-import 'package:aspdm_project/domain/values/user_values.dart';
+import 'package:tasky/application/bloc/members_bloc.dart';
+import 'package:tasky/core/either.dart';
+import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/repositories/members_repository.dart';
+import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/domain/values/user_values.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
