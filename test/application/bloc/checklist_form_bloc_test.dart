@@ -1,7 +1,7 @@
 import 'package:tasky/application/bloc/checklist_form_bloc.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
-import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 

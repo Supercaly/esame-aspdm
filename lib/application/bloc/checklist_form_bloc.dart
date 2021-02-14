@@ -1,6 +1,6 @@
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
-import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -2,9 +2,9 @@ import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/task.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/presentation/app_widget.dart';
-import 'package:tasky/presentation/pages/archive_page.dart';
-import 'package:tasky/presentation/pages/task_form_page.dart';
-import 'package:tasky/presentation/pages/task_info_page.dart';
+import 'package:tasky/presentation/pages/task_list/archive_page.dart';
+import 'package:tasky/presentation/pages/task_form/task_form_page.dart';
+import 'package:tasky/presentation/pages/task_info/task_info_page.dart';
 import 'package:flutter/material.dart';
 
 /// Static class containing all the route related logic.
