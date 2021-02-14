@@ -31,8 +31,10 @@ void main() {
           equals("TaskTitle(ValueFailure<String>.empty(value: null))"));
       final longLine = StringBuffer();
       for (var i = 0; i < 50; i++) longLine.write("a");
-      expect(TaskTitle(longLine.toString()).toString(),
-          equals("TaskTitle(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
+      expect(
+          TaskTitle(longLine.toString()).toString(),
+          equals(
+              "TaskTitle(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
     });
   });
 
@@ -98,8 +100,10 @@ void main() {
 
       final longLine = StringBuffer();
       for (var i = 0; i < 600; i++) longLine.write("a");
-      expect(ItemText(longLine.toString()).toString(),
-          equals("ItemText(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
+      expect(
+          ItemText(longLine.toString()).toString(),
+          equals(
+              "ItemText(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
     });
   });
 

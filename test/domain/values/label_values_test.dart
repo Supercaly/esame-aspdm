@@ -30,8 +30,10 @@ void main() {
           equals("LabelName(ValueFailure<String>.empty(value: null))"));
       final longLine = StringBuffer();
       for (var i = 0; i < 50; i++) longLine.write("a");
-      expect(LabelName(longLine.toString()).toString(),
-          equals("LabelName(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
+      expect(
+          LabelName(longLine.toString()).toString(),
+          equals(
+              "LabelName(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
     });
   });
 }
