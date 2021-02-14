@@ -243,103 +243,103 @@ void main() {
 
     test("when returns the result of the correct case", () {
       final r1 = TaskFailure.invalidId().when(
-        () => true,
-        () => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => true,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r2 = TaskFailure.newCommentFailure().when(
-        () => false,
-        () => true,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => true,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r3 = TaskFailure.editCommentFailure(UniqueId("commentId")).when(
-        () => false,
-        () => false,
-        (commentId) => true,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => true,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r4 = TaskFailure.deleteCommentFailure(UniqueId("commentId")).when(
-        () => false,
-        () => false,
-        (commentId) => false,
-        (commentId) => true,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => true,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r5 = TaskFailure.likeFailure(UniqueId("commentId")).when(
-        () => false,
-        () => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => true,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => true,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r6 = TaskFailure.dislikeFailure(UniqueId("commentId")).when(
-        () => false,
-        () => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => true,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => true,
       );
       final r7 = TaskFailure.archiveFailure(UniqueId("taskId")).when(
-        () => false,
-        () => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => true,
-        (taskId) => false,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        archiveFailure: (UniqueId taskId) => true,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r8 = TaskFailure.unarchiveFailure(UniqueId("taskId")).when(
-        () => false,
-        () => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => true,
-        (itemId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => false,
+        unarchiveFailure: (UniqueId taskId) => true,
+        archiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        dislikeFailure: (UniqueId commentId) => false,
       );
       final r9 = TaskFailure.itemCompleteFailure(UniqueId("itemId")).when(
-        () => false,
-        () => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (commentId) => false,
-        (taskId) => false,
-        (taskId) => false,
-        (itemId) => true,
+        dislikeFailure: (UniqueId commentId) => false,
+        unarchiveFailure: (UniqueId taskId) => false,
+        invalidId: () => false,
+        archiveFailure: (UniqueId taskId) => false,
+        likeFailure: (UniqueId commentId) => false,
+        editCommentFailure: (UniqueId commentId) => false,
+        deleteCommentFailure: (UniqueId commentId) => false,
+        newCommentFailure: () => false,
+        itemCompleteFailure: (UniqueId itemId) => true,
       );
 
       expect(r1, isTrue);
@@ -351,27 +351,6 @@ void main() {
       expect(r7, isTrue);
       expect(r8, isTrue);
       expect(r9, isTrue);
-    });
-
-    test("to string returns the correct representation", () {
-      expect(TaskFailure.invalidId().toString(),
-          equals("TaskFailure: invalid id"));
-      expect(TaskFailure.newCommentFailure().toString(),
-          equals("TaskFailure: new comment failure"));
-      expect(TaskFailure.editCommentFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: edit comment UniqueId(commentId) failure"));
-      expect(TaskFailure.deleteCommentFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: delete comment UniqueId(commentId) failure"));
-      expect(TaskFailure.likeFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: like comment UniqueId(commentId) failure"));
-      expect(TaskFailure.dislikeFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: dislike comment UniqueId(commentId) failure"));
-      expect(TaskFailure.archiveFailure(UniqueId("taskId")).toString(),
-          equals("TaskFailure: archive task UniqueId(taskId) failure"));
-      expect(TaskFailure.unarchiveFailure(UniqueId("taskId")).toString(),
-          equals("TaskFailure: unarchive task UniqueId(taskId) failure"));
-      expect(TaskFailure.itemCompleteFailure(UniqueId("itemId")).toString(),
-          equals("TaskFailure: complete item UniqueId(itemId) failure"));
     });
   });
 }

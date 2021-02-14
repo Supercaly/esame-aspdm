@@ -13,6 +13,7 @@ import 'package:tasky/locator.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:tasky/domain/failures/invalid_user_failure.dart';
 
 /// Class representing the data source of the entire application.
 /// This class has the purpose to receive data from the remote server

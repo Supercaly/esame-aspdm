@@ -35,6 +35,7 @@ dependencies:
 
   # Misc. dependencies
   json_annotation: ^3.0.0
+  freezed_annotation: ^0.12.0
   connectivity: ^2.0.2
   package_info: ^0.4.3+2
   flutter_feather_icons: ^1.0.3
@@ -50,6 +51,7 @@ dev_dependencies:
 
   easy_colors: ^0.0.1+1
   build_runner: ^1.0.0
+  freezed: ^0.12.7
   json_serializable: ^3.2.0
   flutter_launcher_icons: ^0.8.1
 

@@ -36,7 +36,7 @@ void main() {
       expect(ValueObjectImpl(Either.right(123)).toString(),
           equals("Value{Right(123)}"));
       expect(ValueObjectImpl(Either.left(ValueFailure.unknown(123))).toString(),
-          equals("Value{Left(ValueFailureUnknown{123})}"));
+          equals("Value{Left(ValueFailure<int>.unknown(value: 123))}"));
     });
   });
 
@@ -175,30 +175,6 @@ void main() {
       expect(obj6 == obj3, isFalse);
       expect(obj6 == obj4, isFalse);
       expect(obj6 == obj5, isFalse);
-    });
-
-    test("hash code works correctly", () {
-      expect(ValueFailure.empty(123).hashCode, equals(123.hashCode));
-      expect(ValueFailure.tooLong(123).hashCode, equals(123.hashCode));
-      expect(ValueFailure.invalidEmail(123).hashCode, equals(123.hashCode));
-      expect(ValueFailure.invalidPassword(123).hashCode, equals(123.hashCode));
-      expect(ValueFailure.invalidId(123).hashCode, equals(123.hashCode));
-      expect(ValueFailure.unknown(123).hashCode, equals(123.hashCode));
-    });
-
-    test("to string return the expected representation", () {
-      expect(
-          ValueFailure.empty(123).toString(), equals("ValueFailureEmpty{123}"));
-      expect(ValueFailure.tooLong(123).toString(),
-          equals("ValueFailureTooLong{123}"));
-      expect(ValueFailure.invalidEmail(123).toString(),
-          equals("ValueFailureInvalidEmail{123}"));
-      expect(ValueFailure.invalidPassword(123).toString(),
-          equals("ValueFailureInvalidPassword{123}"));
-      expect(ValueFailure.invalidId(null).toString(),
-          equals("ValueFailureInvalidId{null}"));
-      expect(ValueFailure.unknown(123).toString(),
-          equals("ValueFailureUnknown{123}"));
     });
   });
 }
