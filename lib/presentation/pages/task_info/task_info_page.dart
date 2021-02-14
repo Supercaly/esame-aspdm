@@ -11,7 +11,7 @@ import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/comment_widget.dart';
-import 'package:tasky/presentation/widgets/expiration_badge.dart';
+import 'package:tasky/presentation/pages/task_info/widgets/expiration_text.dart';
 import 'package:tasky/presentation/widgets/label_widget.dart';
 import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:tasky/presentation/widgets/user_avatar.dart';

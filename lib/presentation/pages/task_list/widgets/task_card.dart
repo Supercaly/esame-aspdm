@@ -2,11 +2,12 @@ import 'package:tasky/locator.dart';
 import 'package:tasky/domain/entities/task.dart';
 import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/services/navigation_service.dart';
-import 'package:tasky/presentation/widgets/expiration_badge.dart';
 import 'package:tasky/presentation/widgets/label_widget.dart';
 import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
+import 'expiration_badge.dart';
 
 /// Widget displaying a card with a short recap
 /// of all the task's info.

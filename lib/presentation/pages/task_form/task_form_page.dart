@@ -13,7 +13,7 @@ import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart
 import 'package:tasky/presentation/pages/task_form/checklist_form_page.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/label_picker_sheet.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/members_picker_sheet.dart';
-import 'package:tasky/presentation/widgets/checklist_widget.dart';
+import 'package:tasky/presentation/pages/task_form/widgets/edit_checklist.dart';
 import 'package:tasky/presentation/widgets/label_widget.dart';
 import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/task_form_input_widget.dart';

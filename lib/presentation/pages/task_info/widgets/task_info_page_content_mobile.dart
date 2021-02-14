@@ -1,11 +1,12 @@
 import 'package:tasky/domain/entities/task.dart';
 import 'package:tasky/application/states/auth_state.dart';
-import 'package:tasky/presentation/widgets/checklist_widget.dart';
 import 'package:flutter/material.dart';
 import '../task_info_page.dart';
 import 'package:tasky/application/bloc/task_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'display_checklist.dart';
 
 class TaskInfoPageContentMobile extends StatelessWidget {
   final Task task;
