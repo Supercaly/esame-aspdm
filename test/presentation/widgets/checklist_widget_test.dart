@@ -2,7 +2,7 @@ import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
-import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:tasky/presentation/widgets/checklist_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';

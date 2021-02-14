@@ -62,6 +62,7 @@ class ExpirationBadge extends StatelessWidget {
   }
 }
 
+// TODO: Split this in his own file
 /// Widget displaying a colored text and icon with
 /// the task's expiration [date].
 /// If the task is expired the text is colored

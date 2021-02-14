@@ -1,7 +1,7 @@
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/values/task_values.dart';
-import 'package:tasky/presentation/misc/checklist_primitive.dart';
+import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -124,6 +124,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
   }
 }
 
+// TODO: Split in his own file
 /// Widget that displays a single [ChecklistPrimitive].
 /// This widget is used in the [TaskFormPage] during the
 /// creation or edit of a task.
