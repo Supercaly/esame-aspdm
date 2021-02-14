@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'package:tasky/core/maybe.dart';
 
 /// Class representing a void return type.
@@ -22,16 +21,16 @@ abstract class Either<L, R> {
 
   /// Short-hand constructor for a [Either]
   /// with [Left] value.
-  factory Either.left(L l) => Left._(l);
+  const factory Either.left(L l) = Left;
 
   /// Short-hand constructor for a [Either]
   /// with [Right] value.
-  factory Either.right(R r) => Right._(r);
+  const factory Either.right(R r) = Right;
 
   /// Apply a transformation to the right side value if this is
   /// a [Right], or else the left side value if this is a [Left],
   /// and returns the result.
-  B fold<B>(B Function(L left) ifLeft, B Function(R right) ifRight);
+  B? fold<B>(B? Function(L left) ifLeft, B? Function(R right) ifRight);
 
   /// Returns a new [Either] that has the same left value or
   /// the result of [f] as right value.
@@ -42,7 +41,7 @@ abstract class Either<L, R> {
   Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f);
 
   /// Returns the value if it's a right side value or null.
-  R getOrNull();
+  R? getOrNull();
 
   /// Returns the value if it's a right side value or throws an exception.
   R getOrCrash();
@@ -52,31 +51,25 @@ abstract class Either<L, R> {
   R getOrElse(R Function(L left) orElse);
 
   /// Returns `true` if this is a [Left] side value.
-  bool isLeft() => fold((l) => true, (r) => false);
+  bool isLeft();
 
   /// Returns `true` if this is a [Right] side value.
-  bool isRight() => fold((l) => false, (r) => true);
+  bool isRight();
 
   /// Returns a [Maybe] from the right side value.
-  Maybe<R> toMaybe() => fold(
-        (left) => Maybe<R>.nothing(),
-        (right) => Maybe<R>.just(right),
-      );
-
-  @override
-  String toString() => fold((l) => "Left($l)", (r) => "Right($r)");
+  Maybe<R> toMaybe();
 }
 
 /// Implements the left element of the [Either].
 class Left<L, R> extends Either<L, R> {
   final L _value;
 
-  const Left._(this._value);
+  const Left(this._value);
 
   L get value => _value;
 
   @override
-  B fold<B>(B Function(L p1) ifLeft, B Function(R p1) ifRight) =>
+  B? fold<B>(B? Function(L p1) ifLeft, B? Function(R p1) ifRight) =>
       ifLeft(_value);
 
   @override
@@ -87,7 +80,7 @@ class Left<L, R> extends Either<L, R> {
       Either<L, R2>.left(_value);
 
   @override
-  R getOrNull() => null;
+  R? getOrNull() => null;
 
   @override
   R getOrCrash() => throw Exception("Trying to get invalid value!");
@@ -96,23 +89,35 @@ class Left<L, R> extends Either<L, R> {
   R getOrElse(R Function(L left) orElse) => orElse(_value);
 
   @override
+  bool isLeft() => true;
+
+  @override
+  bool isRight() => false;
+
+  @override
+  Maybe<R> toMaybe() => Maybe<R>.nothing();
+
+  @override
   bool operator ==(Object other) =>
       other is Left && other._value == this._value;
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  String toString() => "Left($_value)";
 }
 
 /// Implements the right element of the [Either].
 class Right<L, R> extends Either<L, R> {
   final R _value;
 
-  const Right._(this._value);
+  const Right(this._value);
 
   R get value => _value;
 
   @override
-  B fold<B>(B Function(L p1) ifLeft, B Function(R p1) ifRight) =>
+  B? fold<B>(B? Function(L p1) ifLeft, B? Function(R p1) ifRight) =>
       ifRight(_value);
 
   @override
@@ -123,7 +128,7 @@ class Right<L, R> extends Either<L, R> {
   Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f) => f(_value);
 
   @override
-  R getOrNull() => _value;
+  R? getOrNull() => _value;
 
   @override
   R getOrCrash() => _value;
@@ -132,9 +137,21 @@ class Right<L, R> extends Either<L, R> {
   R getOrElse(R Function(L left) orElse) => _value;
 
   @override
+  bool isLeft() => false;
+
+  @override
+  bool isRight() => true;
+
+  @override
+  Maybe<R> toMaybe() => Maybe<R>.just(_value);
+
+  @override
   bool operator ==(Object other) =>
       other is Right && other._value == this._value;
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  String toString() => "Right($_value)";
 }

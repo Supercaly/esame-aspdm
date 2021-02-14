@@ -7,7 +7,7 @@ abstract class IList<E> {
   const factory IList.empty() = EmptyIList<E>;
 
   /// Creates an [IList] from a given [Iterable].
-  factory IList.from(Iterable<E> elements) {
+  factory IList.from(Iterable<E>? elements) {
     if (elements == null || elements.isEmpty) return EmptyIList<E>();
     return ValueIList(elements);
   }
@@ -132,8 +132,7 @@ class ValueIList<E> implements IList<E> {
   ///
   /// Note: To create a list with value use [IList.from] instead.
   ValueIList(Iterable<E> elements)
-      : assert(elements != null),
-        assert(elements.isNotEmpty),
+      : assert(elements.isNotEmpty),
         _dartList = List.of(elements);
 
   @override

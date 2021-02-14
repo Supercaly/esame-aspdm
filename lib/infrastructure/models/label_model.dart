@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/entities/label.dart';
 import 'package:tasky/domain/values/label_values.dart';
 import 'package:tasky/infrastructure/color_parser.dart';

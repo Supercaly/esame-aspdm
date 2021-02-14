@@ -13,7 +13,7 @@ class TaskTitle extends ValueObject<String> {
   /// Creates a [TaskTitle] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory TaskTitle(String input) {
+  factory TaskTitle(String? input) {
     if (input == null || input.isEmpty)
       return TaskTitle._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -33,17 +33,17 @@ class TaskTitle extends ValueObject<String> {
 }
 
 /// Class representing a valid description.
-class TaskDescription extends ValueObject<String> {
+class TaskDescription extends ValueObject<String?> {
   static const int maxLength = 1000;
 
   @override
-  final Either<ValueFailure<String>, String> value;
+  final Either<ValueFailure<String?>, String?> value;
 
   const TaskDescription._(this.value);
 
   /// Creates a [TaskDescription] from an input [String] that has
   /// at most [maxLength] characters.
-  factory TaskDescription(String input) {
+  factory TaskDescription(String? input) {
     if (input != null && input.length > maxLength)
       return TaskDescription._(Either.left(ValueFailure.tooLong(input)));
     return TaskDescription._(Either.right(input));
@@ -68,7 +68,7 @@ class ChecklistTitle extends ValueObject<String> {
   /// Creates a [ChecklistTitle] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory ChecklistTitle(String input) {
+  factory ChecklistTitle(String? input) {
     if (input == null || input.isEmpty)
       return ChecklistTitle._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -93,7 +93,7 @@ class ItemText extends ValueObject<String> {
   /// Creates a [ItemText] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory ItemText(String input) {
+  factory ItemText(String? input) {
     if (input == null || input.isEmpty)
       return ItemText._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -118,7 +118,7 @@ class CommentContent extends ValueObject<String> {
   /// Creates a [CommentContent] from a [String] content.
   /// The content can't be null, empty or more long than
   /// [maxLength].
-  factory CommentContent(String content) {
+  factory CommentContent(String? content) {
     if (content == null || content.isEmpty)
       return CommentContent._(Either.left(ValueFailure.empty(content)));
     if (content.length > maxLength)
@@ -140,7 +140,7 @@ class Toggle extends ValueObject<bool> {
 
   /// Creates a [Toggle] from a [bool] input.
   /// If the input is null `false` will be used instead.
-  factory Toggle(bool input) => Toggle._(Either.right(input ?? false));
+  factory Toggle(bool? input) => Toggle._(Either.right(input ?? false));
 
   @override
   String toString() =>

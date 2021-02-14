@@ -13,7 +13,7 @@ class LabelName extends ValueObject {
   /// Creates a [LabelName] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory LabelName(String input) {
+  factory LabelName(String? input) {
     if (input == null || input.isEmpty)
       return LabelName._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
