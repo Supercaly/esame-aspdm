@@ -27,11 +27,11 @@ void main() {
     test("to string returns the correct representation", () {
       expect(LabelName("Mock Name").toString(), equals("LabelName(Mock Name)"));
       expect(LabelName(null).toString(),
-          equals("LabelName(ValueFailureEmpty{null})"));
+          equals("LabelName(ValueFailure<String>.empty(value: null))"));
       final longLine = StringBuffer();
       for (var i = 0; i < 50; i++) longLine.write("a");
       expect(LabelName(longLine.toString()).toString(),
-          equals("LabelName(ValueFailureTooLong{${longLine.toString()}})"));
+          equals("LabelName(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
     });
   });
 }

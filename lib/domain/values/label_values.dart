@@ -6,7 +6,7 @@ class LabelName extends ValueObject {
   static const int maxLength = 30;
 
   @override
-  final Either<ValueFailure, dynamic> value;
+  final Either<ValueFailure<String>, String> value;
 
   const LabelName._(this.value);
 

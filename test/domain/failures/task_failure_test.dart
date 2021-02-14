@@ -352,26 +352,5 @@ void main() {
       expect(r8, isTrue);
       expect(r9, isTrue);
     });
-
-    test("to string returns the correct representation", () {
-      expect(TaskFailure.invalidId().toString(),
-          equals("TaskFailure: invalid id"));
-      expect(TaskFailure.newCommentFailure().toString(),
-          equals("TaskFailure: new comment failure"));
-      expect(TaskFailure.editCommentFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: edit comment UniqueId(commentId) failure"));
-      expect(TaskFailure.deleteCommentFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: delete comment UniqueId(commentId) failure"));
-      expect(TaskFailure.likeFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: like comment UniqueId(commentId) failure"));
-      expect(TaskFailure.dislikeFailure(UniqueId("commentId")).toString(),
-          equals("TaskFailure: dislike comment UniqueId(commentId) failure"));
-      expect(TaskFailure.archiveFailure(UniqueId("taskId")).toString(),
-          equals("TaskFailure: archive task UniqueId(taskId) failure"));
-      expect(TaskFailure.unarchiveFailure(UniqueId("taskId")).toString(),
-          equals("TaskFailure: unarchive task UniqueId(taskId) failure"));
-      expect(TaskFailure.itemCompleteFailure(UniqueId("itemId")).toString(),
-          equals("TaskFailure: complete item UniqueId(itemId) failure"));
-    });
   });
 }

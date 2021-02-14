@@ -190,25 +190,5 @@ void main() {
       expect(r6, isTrue);
       expect(r7, isTrue);
     });
-
-    test("to string returns the correct representation", () {
-      expect(ServerFailure.unexpectedError("mock_error").toString(),
-          equals("ServerFailure: unexpected error: mock_error"));
-      expect(ServerFailure.noInternet().toString(),
-          equals("ServerFailure: no internet connection"));
-      expect(ServerFailure.badRequest("mock_error").toString(),
-          equals("ServerFailure: bad request: mock_error"));
-      expect(ServerFailure.internalError("mock_error").toString(),
-          equals("ServerFailure: internal error: mock_error"));
-      expect(ServerFailure.formatError("mock_error").toString(),
-          equals("ServerFailure: format error: mock_error"));
-      expect(
-          ServerFailure.invalidArgument("mock_argument", received: 123)
-              .toString(),
-          equals(
-              "ServerFailure: invalid argument `mock_argument`, received: 123"));
-      expect(ServerFailure.uploadError().toString(),
-          equals("ServerFailure: upload error"));
-    });
   });
 }
