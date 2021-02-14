@@ -53,7 +53,7 @@ void main() {
           ),
         ),
       );
-      final res = await repository.getTask(Maybe.just(UniqueId("id")));
+      final res = await repository.watchTask(Maybe.just(UniqueId("id"))).first;
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNotNull);
@@ -62,19 +62,20 @@ void main() {
 
     test("get task returns null task", () async {
       when(dataSource.getTask(any)).thenAnswer((_) async => Either.right(null));
-      final res = await repository.getTask(Maybe.just(UniqueId("id")));
+      final res = await repository.watchTask(Maybe.just(UniqueId("id"))).first;
 
       expect(res.isRight(), isTrue);
       expect(res.getOrNull(), isNull);
     });
 
     test("get task return error", () async {
-      final res = await repository.getTask(Maybe.nothing());
+      final res = await repository.watchTask(Maybe.nothing()).first;
       expect(res.isLeft(), isTrue);
 
       when(dataSource.getTask(any)).thenAnswer(
           (_) async => Either.left(ServerFailure.unexpectedError("")));
-      final res2 = await repository.getTask(Maybe.just(UniqueId("mock_id")));
+      final res2 =
+          await repository.watchTask(Maybe.just(UniqueId("mock_id"))).first;
       expect(res2.isLeft(), isTrue);
     });
 

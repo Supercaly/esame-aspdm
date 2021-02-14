@@ -49,8 +49,8 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.getTask(any)).thenAnswer(
-            (_) => Future.value(
+          when(repository.watchTask(any)).thenAnswer(
+            (_) => Stream.value(
               Either.right(
                 Task(
                   UniqueId("mock_id"),
@@ -101,8 +101,8 @@ void main() {
         linkService: linkService,
       ),
       act: (TaskBloc bloc) {
-        when(repository.getTask(any)).thenAnswer((_) =>
-            Future.value(Either.left(ServerFailure.unexpectedError(""))));
+        when(repository.watchTask(any)).thenAnswer((_) =>
+            Stream.value(Either.left(ServerFailure.unexpectedError(""))));
         bloc.fetch();
       },
       expect: [
@@ -120,8 +120,8 @@ void main() {
         linkService: linkService,
       ),
       act: (TaskBloc bloc) {
-        when(repository.getTask(any)).thenAnswer(
-          (_) => Future.value(
+        when(repository.watchTask(any)).thenAnswer(
+          (_) => Stream.value(
             Either.right(
               Task(
                 UniqueId("mock_id"),
