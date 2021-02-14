@@ -33,7 +33,7 @@ class Task extends Equatable {
   /// Date when the task will expire.
   /// Note: after the expiration nothing will
   /// happen other that the application marking it.
-  final DateTime expireDate;
+  final DateTime? expireDate;
 
   /// [Checklist]s associated with the task.
   final IList<Checklist> checklists;
@@ -60,7 +60,7 @@ class Task extends Equatable {
   );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         title,
         description,

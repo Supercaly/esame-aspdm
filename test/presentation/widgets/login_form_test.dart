@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:tasky/presentation/widgets/login_form.dart';
 import 'package:tasky/services/log_service.dart';

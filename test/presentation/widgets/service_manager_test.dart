@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/presentation/widgets/service_manager.dart';
 import 'package:tasky/services/link_service.dart';
 import 'package:tasky/services/notification_service.dart';

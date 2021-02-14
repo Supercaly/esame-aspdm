@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/application/bloc/members_bloc.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/ilist.dart';

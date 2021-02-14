@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/locator.dart';
 import 'package:tasky/services/app_info_service.dart';
 import 'package:flutter/material.dart';

@@ -19,7 +19,7 @@ class Label extends Equatable {
   Label(this.id, this.color, this.label);
 
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id];
 
   @override
   String toString() => "Label{id: $id, color: $color, label: $label}";

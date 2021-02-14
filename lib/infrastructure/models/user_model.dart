@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/infrastructure/color_parser.dart';
 import 'package:tasky/domain/values/unique_id.dart';

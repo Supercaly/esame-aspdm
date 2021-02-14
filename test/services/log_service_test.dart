@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/services/log_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 

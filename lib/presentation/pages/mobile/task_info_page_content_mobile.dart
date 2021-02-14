@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/domain/entities/task.dart';
 import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/widgets/checklist_widget.dart';

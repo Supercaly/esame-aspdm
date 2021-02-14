@@ -17,7 +17,7 @@ class Checklist extends Equatable {
   Checklist(this.id, this.title, this.items);
 
   @override
-  List<Object> get props => [id, title, items];
+  List<Object?> get props => [id, title, items];
 
   @override
   String toString() => "Checklist{id: $id, title: $title, items: $items}";
@@ -37,7 +37,7 @@ class ChecklistItem extends Equatable {
   ChecklistItem(this.id, this.item, this.complete);
 
   @override
-  List<Object> get props => [id, item, complete];
+  List<Object?> get props => [id, item, complete];
 
   @override
   String toString() =>

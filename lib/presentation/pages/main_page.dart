@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/application/bloc/home_bloc.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/presentation/pages/desktop/main_page_content_desktop.dart';

@@ -1,7 +1,6 @@
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
-
 import 'user.dart';
 import 'package:equatable/equatable.dart';
 
@@ -35,7 +34,7 @@ class Comment extends Equatable {
   );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         content,
         author,
@@ -46,6 +45,6 @@ class Comment extends Equatable {
 
   @override
   String toString() => 'Comment{id: $id, content: $content, author: $author, '
-      'likes: ${likes?.length}, dislikes: ${dislikes?.length}, '
+      'likes: ${likes.length}, dislikes: ${dislikes.length}, '
       'creationDate: $creationDate}';
 }

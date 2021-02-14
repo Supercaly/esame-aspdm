@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/failures/server_failure.dart';

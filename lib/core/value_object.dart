@@ -1,5 +1,4 @@
 import 'package:tasky/core/either.dart';
-import 'package:flutter/foundation.dart';
 
 /// Class representing a value that can be used by an entity.
 abstract class ValueObject<T> {
@@ -23,38 +22,44 @@ abstract class ValueObject<T> {
 
 /// Class representing the invalid state of a ValueObject.
 abstract class ValueFailure<T> {
-  factory ValueFailure.empty(T value) => ValueFailureEmpty(value);
-  factory ValueFailure.tooLong(T value) => ValueFailureTooLong(value);
-  factory ValueFailure.invalidEmail(T value) => ValueFailureInvalidEmail(value);
-  factory ValueFailure.invalidPassword(T value) =>
-      ValueFailureInvalidPassword(value);
-  factory ValueFailure.invalidId(T value) => ValueFailureInvalidId(value);
-  factory ValueFailure.unknown(T value) => ValueFailureUnknown(value);
+  factory ValueFailure.empty(T? value) => ValueFailureEmpty(value);
 
-  final T _value;
+  factory ValueFailure.tooLong(T? value) => ValueFailureTooLong(value);
+
+  factory ValueFailure.invalidEmail(T? value) =>
+      ValueFailureInvalidEmail(value);
+
+  factory ValueFailure.invalidPassword(T? value) =>
+      ValueFailureInvalidPassword(value);
+
+  factory ValueFailure.invalidId(T? value) => ValueFailureInvalidId(value);
+
+  factory ValueFailure.unknown(T? value) => ValueFailureUnknown(value);
+
+  final T? _value;
 
   const ValueFailure(this._value);
 
   /// Returns the invalid value.
   /// This can be useful for debug purpose.
-  T get value => _value;
+  T? get value => _value;
 
   /// Returns a value of type [R] obtained from calling the
   /// relative callback.
   /// If the relative callback is null [orElse] will be called instead
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   });
 }
 
 class ValueFailureEmpty<T> extends ValueFailure<T> {
-  const ValueFailureEmpty(T value) : super(value);
+  const ValueFailureEmpty(T? value) : super(value);
 
   @override
   bool operator ==(Object other) {
@@ -69,16 +74,15 @@ class ValueFailureEmpty<T> extends ValueFailure<T> {
   String toString() => "ValueFailureEmpty{$_value}";
 
   @override
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   }) {
-    assert(orElse != null);
     if (empty != null)
       return empty(_value);
     else
@@ -87,7 +91,7 @@ class ValueFailureEmpty<T> extends ValueFailure<T> {
 }
 
 class ValueFailureTooLong<T> extends ValueFailure<T> {
-  const ValueFailureTooLong(T value) : super(value);
+  const ValueFailureTooLong(T? value) : super(value);
 
   @override
   bool operator ==(Object other) {
@@ -102,16 +106,15 @@ class ValueFailureTooLong<T> extends ValueFailure<T> {
   String toString() => "ValueFailureTooLong{$_value}";
 
   @override
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   }) {
-    assert(orElse != null);
     if (tooLong != null)
       return tooLong(_value);
     else
@@ -120,7 +123,7 @@ class ValueFailureTooLong<T> extends ValueFailure<T> {
 }
 
 class ValueFailureInvalidEmail<T> extends ValueFailure<T> {
-  const ValueFailureInvalidEmail(T value) : super(value);
+  const ValueFailureInvalidEmail(T? value) : super(value);
 
   @override
   bool operator ==(Object other) {
@@ -135,16 +138,15 @@ class ValueFailureInvalidEmail<T> extends ValueFailure<T> {
   String toString() => "ValueFailureInvalidEmail{$_value}";
 
   @override
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   }) {
-    assert(orElse != null);
     if (invalidEmail != null)
       return invalidEmail(_value);
     else
@@ -153,7 +155,7 @@ class ValueFailureInvalidEmail<T> extends ValueFailure<T> {
 }
 
 class ValueFailureInvalidPassword<T> extends ValueFailure<T> {
-  const ValueFailureInvalidPassword(T value) : super(value);
+  const ValueFailureInvalidPassword(T? value) : super(value);
 
   @override
   bool operator ==(Object other) {
@@ -168,16 +170,15 @@ class ValueFailureInvalidPassword<T> extends ValueFailure<T> {
   String toString() => "ValueFailureInvalidPassword{$_value}";
 
   @override
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   }) {
-    assert(orElse != null);
     if (invalidPassword != null)
       return invalidPassword(_value);
     else
@@ -186,7 +187,7 @@ class ValueFailureInvalidPassword<T> extends ValueFailure<T> {
 }
 
 class ValueFailureInvalidId<T> extends ValueFailure<T> {
-  const ValueFailureInvalidId(T value) : super(value);
+  const ValueFailureInvalidId(T? value) : super(value);
 
   @override
   bool operator ==(Object other) {
@@ -201,16 +202,15 @@ class ValueFailureInvalidId<T> extends ValueFailure<T> {
   String toString() => "ValueFailureInvalidId{$_value}";
 
   @override
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   }) {
-    assert(orElse != null);
     if (invalidId != null)
       return invalidId(_value);
     else
@@ -219,7 +219,7 @@ class ValueFailureInvalidId<T> extends ValueFailure<T> {
 }
 
 class ValueFailureUnknown<T> extends ValueFailure<T> {
-  const ValueFailureUnknown(T value) : super(value);
+  const ValueFailureUnknown(T? value) : super(value);
 
   @override
   bool operator ==(Object other) {
@@ -234,16 +234,15 @@ class ValueFailureUnknown<T> extends ValueFailure<T> {
   String toString() => "ValueFailureUnknown{$_value}";
 
   @override
-  R maybeMap<R>({
-    R Function(T value) empty,
-    R Function(T value) tooLong,
-    R Function(T value) invalidEmail,
-    R Function(T value) invalidPassword,
-    R Function(T value) invalidId,
-    R Function(T value) unknown,
-    @required R Function() orElse,
+  R? maybeMap<R>({
+    R? Function(T? value)? empty,
+    R? Function(T? value)? tooLong,
+    R? Function(T? value)? invalidEmail,
+    R? Function(T? value)? invalidPassword,
+    R? Function(T? value)? invalidId,
+    R? Function(T? value)? unknown,
+    required R Function() orElse,
   }) {
-    assert(orElse != null);
     if (unknown != null)
       return unknown(_value);
     else
