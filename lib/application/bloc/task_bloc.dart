@@ -27,8 +27,7 @@ class TaskBloc extends Cubit<TaskState> {
     @required TaskRepository repository,
     @required LogService logService,
     @required LinkService linkService,
-  })
-      : _taskId = taskId ?? Maybe<UniqueId>.nothing(),
+  })  : _taskId = taskId ?? Maybe<UniqueId>.nothing(),
         _repository = repository,
         _logService = logService,
         _linkService = linkService,
@@ -39,142 +38,138 @@ class TaskBloc extends Cubit<TaskState> {
     if (showLoading) emit(state.copyWith(isLoading: true, hasError: false));
 
     await _taskSubscription?.cancel();
-    _taskSubscription = _repository.watchTask(_taskId).listen((event) =>
-        event.fold(
+    _taskSubscription =
+        _repository.watchTask(_taskId).listen((event) => event.fold(
               (_) => emit(state.copyWith(isLoading: false, hasError: true)),
-              (newTask) =>
-              emit(state.copyWith(
+              (newTask) => emit(state.copyWith(
                 data: newTask,
                 isLoading: false,
                 hasError: false,
               )),
-        ));
+            ));
   }
 
   /// Tells [TaskRepository] the user wants to delete one of his
   /// comments under this task.
   Future<void> deleteComment(UniqueId commentId, Maybe<UniqueId> userId) async {
     (await _repository.deleteComment(_taskId, commentId, userId)).fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.deleteComment: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] the user wants to edit one of his
   /// comments under this task.
-  Future<void> editComment(UniqueId commentId,
-      CommentContent newContent,
-      Maybe<UniqueId> userId,) async {
+  Future<void> editComment(
+    UniqueId commentId,
+    CommentContent newContent,
+    Maybe<UniqueId> userId,
+  ) async {
     (await _repository.editComment(_taskId, commentId, newContent, userId))
         .fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.editComment: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] the user created a new comment under this task.
-  Future<void> addComment(CommentContent content,
-      Maybe<UniqueId> userId) async {
+  Future<void> addComment(
+      CommentContent content, Maybe<UniqueId> userId) async {
     (await _repository.addComment(_taskId, content, userId)).fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.addComment: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] the user likes a comment under this task.
   Future<void> likeComment(UniqueId commentId, Maybe<UniqueId> userId) async {
     (await _repository.likeComment(_taskId, commentId, userId)).fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.likeComment: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] the user dislikes a comment under this task.
-  Future<void> dislikeComment(UniqueId commentId,
-      Maybe<UniqueId> userId) async {
+  Future<void> dislikeComment(
+      UniqueId commentId, Maybe<UniqueId> userId) async {
     (await _repository.dislikeComment(_taskId, commentId, userId)).fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.dislikeComment: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] the task is archived.
   Future<void> archive(Maybe<UniqueId> userId) async {
     (await _repository.archiveTask(_taskId, userId)).fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.archive: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] the task is un-archived.
   Future<void> unarchive(Maybe<UniqueId> userId) async {
     (await _repository.unarchiveTask(_taskId, userId)).fold(
-          (e) {
+      (e) {
         _logService.error("TaskBloc.unarchive: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Tells [TaskRepository] a checklist's item is completed.
-  Future<void> completeChecklist(Maybe<UniqueId> userId,
-      UniqueId checklistId,
-      UniqueId itemId,
-      Toggle complete,) async {
+  Future<void> completeChecklist(
+    Maybe<UniqueId> userId,
+    UniqueId checklistId,
+    UniqueId itemId,
+    Toggle complete,
+  ) async {
     (await _repository.completeChecklist(
       _taskId,
       userId,
@@ -183,40 +178,37 @@ class TaskBloc extends Cubit<TaskState> {
       complete,
     ))
         .fold(
-          (e) {
+      (e) {
         _logService.error("TaskBlock.completeChecklist: ", e);
         emit(state.copyWith(isLoading: false, hasError: true));
       },
-          (newTask) =>
-          emit(state.copyWith(
-            data: newTask,
-            isLoading: false,
-            hasError: false,
-          )),
+      (newTask) => emit(state.copyWith(
+        data: newTask,
+        isLoading: false,
+        hasError: false,
+      )),
     );
   }
 
   /// Uses the [LinkService] to generate a sharable link.
   Future<void> share() async {
     (await _linkService.createLinkForPost(_taskId)).fold(
-          () =>
-          emit(state.copyWith(
-            shareError: true,
-            shareLink: Maybe.nothing(),
-            isLoading: false,
-          )),
-          (link) =>
-          emit(state.copyWith(
-            shareLink: Maybe.just(link.toString()),
-            shareError: false,
-            hasError: false,
-            isLoading: false,
-          )),
+      () => emit(state.copyWith(
+        shareError: true,
+        shareLink: Maybe.nothing(),
+        isLoading: false,
+      )),
+      (link) => emit(state.copyWith(
+        shareLink: Maybe.just(link.toString()),
+        shareError: false,
+        hasError: false,
+        isLoading: false,
+      )),
     );
   }
 
   @override
-  Future<void> close() async{
+  Future<void> close() async {
     await _taskSubscription?.cancel();
     return super.close();
   }
@@ -240,11 +232,13 @@ class TaskState extends Equatable {
   final bool shareError;
 
   @visibleForTesting
-  const TaskState(this.data,
-      this.hasError,
-      this.isLoading,
-      this.shareError,
-      this.shareLink,);
+  const TaskState(
+    this.data,
+    this.hasError,
+    this.isLoading,
+    this.shareError,
+    this.shareLink,
+  );
 
   /// Constructor for the initial state.
   factory TaskState.initial() => TaskState(null, false, true, false, null);
