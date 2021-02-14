@@ -1,6 +1,6 @@
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
-import 'package:tasky/domain/failures/failures.dart';
+import 'package:tasky/domain/failures/invalid_user_failure.dart';
 import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
 import 'package:tasky/infrastructure/models/user_model.dart';

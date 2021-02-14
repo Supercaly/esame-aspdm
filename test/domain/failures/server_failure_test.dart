@@ -121,7 +121,7 @@ void main() {
       final r1 = ServerFailure.formatError("error_string").when(
         noInternet: () => false,
         internalError: (msg) => false,
-        formatError: () => true,
+        formatError: (msg) => true,
         badRequest: (msg) => false,
         unexpectedError: (msg) => false,
         invalidArgument: (arg, received) => false,
@@ -130,7 +130,7 @@ void main() {
       final r2 = ServerFailure.noInternet().when(
         noInternet: () => true,
         internalError: (msg) => false,
-        formatError: () => false,
+        formatError: (msg) => false,
         badRequest: (msg) => false,
         unexpectedError: (msg) => false,
         invalidArgument: (arg, received) => false,
@@ -139,7 +139,7 @@ void main() {
       final r3 = ServerFailure.unexpectedError("error_string").when(
         noInternet: () => false,
         internalError: (msg) => false,
-        formatError: () => false,
+        formatError: (msg) => false,
         badRequest: (msg) => false,
         unexpectedError: (msg) => true,
         invalidArgument: (arg, received) => false,
@@ -148,7 +148,7 @@ void main() {
       final r4 = ServerFailure.badRequest("error_string").when(
         noInternet: () => false,
         internalError: (msg) => false,
-        formatError: () => false,
+        formatError: (msg) => false,
         badRequest: (msg) => true,
         unexpectedError: (msg) => false,
         invalidArgument: (arg, received) => false,
@@ -157,7 +157,7 @@ void main() {
       final r5 = ServerFailure.internalError("error_string").when(
         noInternet: () => false,
         internalError: (msg) => true,
-        formatError: () => false,
+        formatError: (msg) => false,
         badRequest: (msg) => false,
         unexpectedError: (msg) => false,
         invalidArgument: (arg, received) => false,
@@ -166,7 +166,7 @@ void main() {
       final r6 = ServerFailure.invalidArgument("argument").when(
         noInternet: () => false,
         internalError: (msg) => false,
-        formatError: () => false,
+        formatError: (msg) => false,
         badRequest: (msg) => false,
         unexpectedError: (msg) => false,
         invalidArgument: (arg, received) => true,
@@ -175,7 +175,7 @@ void main() {
       final r7 = ServerFailure.invalidArgument("argument").when(
         noInternet: () => false,
         internalError: (msg) => false,
-        formatError: () => false,
+        formatError: (msg) => false,
         badRequest: (msg) => false,
         unexpectedError: (msg) => false,
         invalidArgument: (arg, received) => true,

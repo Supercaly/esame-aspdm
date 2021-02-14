@@ -63,6 +63,7 @@ app.*.map.json
 
 # Generated part files
 *.g.dart
+*.freezed.dart
 
 # Coverage
 coverage/
