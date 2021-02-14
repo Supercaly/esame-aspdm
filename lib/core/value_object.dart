@@ -26,7 +26,8 @@ abstract class ValueFailure<T> {
 
   factory ValueFailure.tooLong(T? value) => ValueFailureTooLong(value);
 
-  factory ValueFailure.invalidEmail(T? value) => ValueFailureInvalidEmail(value);
+  factory ValueFailure.invalidEmail(T? value) =>
+      ValueFailureInvalidEmail(value);
 
   factory ValueFailure.invalidPassword(T? value) =>
       ValueFailureInvalidPassword(value);
