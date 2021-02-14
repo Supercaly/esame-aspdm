@@ -63,7 +63,7 @@ void main() {
             DateTime.parse("2020-12-01"),
           ),
         ]));
-    final res = await repository.getArchivedTasks();
+    final res = await repository.watchArchivedTasks().first;
 
     expect(res.isRight(), isTrue);
     expect(res.getOrNull(), isNotNull);
@@ -73,7 +73,7 @@ void main() {
   test("get archived tasks returns empty", () async {
     when(dataSource.getArchivedTasks())
         .thenAnswer((_) async => Either.right([]));
-    final res = await repository.getArchivedTasks();
+    final res = await repository.watchArchivedTasks().first;
     expect(res.isRight(), isTrue);
     expect(res.getOrNull(), isNotNull);
     expect(res.getOrNull(), isEmpty);
@@ -82,11 +82,11 @@ void main() {
   test("get archived tasks returns error", () async {
     when(dataSource.getArchivedTasks()).thenAnswer(
         (_) async => Either.left(ServerFailure.unexpectedError("")));
-    final res = await repository.getArchivedTasks();
+    final res = await repository.watchArchivedTasks().first;
     expect(res.isLeft(), isTrue);
 
     when(dataSource.getArchivedTasks()).thenAnswer((_) async => throw Error());
-    final res2 = await repository.getArchivedTasks();
+    final res2 = await repository.watchArchivedTasks().first;
     expect(res2.isLeft(), isTrue);
   });
 }
