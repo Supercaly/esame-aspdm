@@ -11,12 +11,13 @@ import 'package:flutter/material.dart';
 
 /// Class containing the authentication state.
 class AuthState extends ChangeNotifier {
-  AuthRepository _repository;
+  final AuthRepository _repository;
   Maybe<User> _currentUser;
   bool _isLoading;
 
-  AuthState(this._repository)
-      : _currentUser = _repository.lastSignedInUser,
+  AuthState({@required AuthRepository repository})
+      : _repository = repository,
+        _currentUser = repository.lastSignedInUser,
         _isLoading = false;
 
   /// Returns the current logged in [User]

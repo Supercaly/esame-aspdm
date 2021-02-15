@@ -14,7 +14,9 @@ class HomeBloc extends Cubit<HomeState> {
   final HomeRepository _repository;
   StreamSubscription<Either<Failure, IList<Task>>> _tasksSubscription;
 
-  HomeBloc(this._repository) : super(HomeState.initial());
+  HomeBloc({@required HomeRepository repository})
+      : _repository = repository,
+        super(HomeState.initial());
 
   /// Tells [HomeBloc] to fetch new data from [HomeRepository].
   Future<void> fetch({bool showLoading = true}) async {

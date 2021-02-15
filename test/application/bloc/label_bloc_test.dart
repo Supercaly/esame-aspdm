@@ -24,13 +24,13 @@ void main() {
 
     blocTest(
       "emits nothing when created",
-      build: () => LabelsBloc(repository: repository),
+      build: () => LabelsBloc(initialValue: null, repository: repository),
       expect: [],
     );
 
     blocTest(
       "emits data on success",
-      build: () => LabelsBloc(repository: repository),
+      build: () => LabelsBloc(initialValue: null, repository: repository),
       act: (LabelsBloc bloc) {
         when(repository.getLabels())
             .thenAnswer((_) => Future.value(Either.right(IList.empty())));
@@ -44,7 +44,7 @@ void main() {
 
     blocTest(
       "emits error on error",
-      build: () => LabelsBloc(repository: repository),
+      build: () => LabelsBloc(initialValue: null, repository: repository),
       act: (LabelsBloc bloc) {
         when(repository.getLabels())
             .thenAnswer((_) => Future.value(Either.left(MockFailure())));
@@ -58,7 +58,7 @@ void main() {
 
     blocTest(
       "emits on select",
-      build: () => LabelsBloc(repository: repository),
+      build: () => LabelsBloc(initialValue: null, repository: repository),
       act: (LabelsBloc bloc) async {
         when(repository.getLabels()).thenAnswer((_) async => Either.right(
               IList.from([

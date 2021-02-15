@@ -35,7 +35,9 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(locator<HomeRepository>())..fetch(),
+      create: (context) => HomeBloc(
+        repository: locator<HomeRepository>(),
+      )..fetch(),
       child: Builder(
         builder: (context) {
           locator<LogService>()

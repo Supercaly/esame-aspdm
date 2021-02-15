@@ -9,7 +9,7 @@ void main() {
   group("ChecklistFormBloc Tests", () {
     blocTest(
       "emits nothing when created with no initial value",
-      build: () => ChecklistFormBloc(),
+      build: () => ChecklistFormBloc(initialValue: null),
       expect: [],
       verify: (ChecklistFormBloc cubit) => expect(
         cubit.state,
@@ -49,7 +49,7 @@ void main() {
 
     blocTest(
       "emits on title changed",
-      build: () => ChecklistFormBloc(),
+      build: () => ChecklistFormBloc(initialValue: null),
       act: (ChecklistFormBloc cubit) => cubit.titleChanged("Mock Title"),
       expect: [
         ChecklistFormState(

@@ -7,14 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Class used to manage the state of the label dialog.
 class LabelsBloc extends Cubit<LabelsState> {
-  LabelRepository repository;
+  final LabelRepository _repository;
 
-  LabelsBloc({IList<Label> initialValue, this.repository})
-      : super(LabelsState.initial(initialValue));
+  LabelsBloc({
+    @required IList<Label> initialValue,
+    @required LabelRepository repository,
+  })  : _repository = repository,
+        super(LabelsState.initial(initialValue));
 
   Future<void> fetch() async {
     emit(state.copyWith(isLoading: true, hasError: false));
-    (await repository.getLabels()).fold(
+    (await _repository.getLabels()).fold(
       (left) => emit(state.copyWith(isLoading: false, hasError: true)),
       (right) => emit(state.copyWith(
         labels: right,

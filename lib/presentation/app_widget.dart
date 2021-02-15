@@ -35,7 +35,9 @@ class AppWidget extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthState>(
-            create: (context) => AuthState(locator<AuthRepository>()),
+            create: (context) => AuthState(
+              repository: locator<AuthRepository>(),
+            ),
           ),
         ],
         child: ServiceManager(

@@ -13,13 +13,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Cubit class used to manage the state of the task form page.
 class TaskFormBloc extends Cubit<TaskFormState> {
-  final TaskFormRepository repository;
+  final TaskFormRepository _repository;
 
   /// Creates a [TaskFormBloc] form the old [Task].
   TaskFormBloc({
     @required Maybe<Task> oldTask,
-    @required this.repository,
-  }) : super(TaskFormState.initial(oldTask));
+    @required TaskFormRepository repository,
+  })  : _repository = repository,
+        super(TaskFormState.initial(oldTask));
 
   /// Tells the [TaskFormBloc] that the title is changed.
   void titleChanged(String value) {
@@ -103,7 +104,8 @@ class TaskFormBloc extends Cubit<TaskFormState> {
   Future<void> saveTask(UniqueId userId) async {
     emit(state.copyWith(isSaving: true, hasError: false));
     if (state.mode == TaskFormMode.creating) {
-      (await repository.saveNewTask(state.taskPrimitive.toTask(), userId)).fold(
+      (await _repository.saveNewTask(state.taskPrimitive.toTask(), userId))
+          .fold(
         (left) => emit(state.copyWith(
           saved: false,
           isSaving: false,
@@ -115,7 +117,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
         )),
       );
     } else {
-      (await repository.updateTask(state.taskPrimitive.toTask(), userId)).fold(
+      (await _repository.updateTask(state.taskPrimitive.toTask(), userId)).fold(
         (left) => emit(state.copyWith(
           saved: false,
           isSaving: false,

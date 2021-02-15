@@ -23,13 +23,13 @@ void main() {
 
     blocTest(
       "emits nothing when created",
-      build: () => MembersBloc(repository: repository),
+      build: () => MembersBloc(initialValue: null, repository: repository),
       expect: [],
     );
 
     blocTest(
       "emits data on success",
-      build: () => MembersBloc(repository: repository),
+      build: () => MembersBloc(initialValue: null, repository: repository),
       act: (MembersBloc bloc) {
         when(repository.getUsers())
             .thenAnswer((_) => Future.value(Either.right(IList.empty())));
@@ -43,7 +43,7 @@ void main() {
 
     blocTest(
       "emits error on error",
-      build: () => MembersBloc(repository: repository),
+      build: () => MembersBloc(initialValue: null, repository: repository),
       act: (MembersBloc bloc) {
         when(repository.getUsers())
             .thenAnswer((_) => Future.value(Either.left(MockFailure())));
@@ -57,7 +57,7 @@ void main() {
 
     blocTest(
       "emits on select",
-      build: () => MembersBloc(repository: repository),
+      build: () => MembersBloc(initialValue: null, repository: repository),
       act: (MembersBloc bloc) async {
         when(repository.getUsers()).thenAnswer((_) async => Either.right(
               IList.from([

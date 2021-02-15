@@ -20,13 +20,13 @@ void main() {
 
     blocTest(
       "emits nothing when created",
-      build: () => ArchiveBloc(repository),
+      build: () => ArchiveBloc(repository: repository),
       expect: [],
     );
 
     blocTest(
       "emits data on success",
-      build: () => ArchiveBloc(repository),
+      build: () => ArchiveBloc(repository: repository),
       act: (ArchiveBloc bloc) {
         when(repository.watchArchivedTasks())
             .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
@@ -40,7 +40,7 @@ void main() {
 
     blocTest(
       "emits error on error",
-      build: () => ArchiveBloc(repository),
+      build: () => ArchiveBloc(repository: repository),
       act: (ArchiveBloc bloc) {
         when(repository.watchArchivedTasks())
             .thenAnswer((_) => Stream.value(Either.left(MockFailure())));
@@ -54,7 +54,7 @@ void main() {
 
     blocTest(
       "don't emits loading when fetch has showLoading false",
-      build: () => ArchiveBloc(repository),
+      build: () => ArchiveBloc(repository: repository),
       act: (ArchiveBloc bloc) {
         when(repository.watchArchivedTasks())
             .thenAnswer((_) => Stream.value(Either.right(IList.empty())));

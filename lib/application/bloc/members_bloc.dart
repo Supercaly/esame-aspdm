@@ -7,14 +7,17 @@ import 'package:tasky/domain/repositories/members_repository.dart';
 
 /// Class used to manage the state of the tasks page.
 class MembersBloc extends Cubit<MembersState> {
-  MembersRepository repository;
+  final MembersRepository _repository;
 
-  MembersBloc({IList<User> initialValue, this.repository})
-      : super(MembersState.initial(initialValue));
+  MembersBloc({
+    @required IList<User> initialValue,
+    @required MembersRepository repository,
+  })  : _repository = repository,
+        super(MembersState.initial(initialValue));
 
   Future<void> fetch() async {
     emit(state.copyWith(isLoading: true, hasError: false));
-    (await repository.getUsers()).fold(
+    (await _repository.getUsers()).fold(
       (left) => emit(state.copyWith(isLoading: false, hasError: true)),
       (right) => emit(state.copyWith(
         members: right,
@@ -52,8 +55,12 @@ class MembersState extends Equatable {
   MembersState(this.selected, this.members, this.isLoading, this.hasError);
 
   /// Constructor for the initial state.
-  factory MembersState.initial(IList<User> oldMembers) =>
-      MembersState(oldMembers ?? IList.empty(), IList.empty(), true, false);
+  factory MembersState.initial(IList<User> oldMembers) => MembersState(
+        oldMembers ?? IList.empty(),
+        IList.empty(),
+        true,
+        false,
+      );
 
   /// Returns a copy of [MembersState] with some field changed.
   MembersState copyWith({

@@ -24,7 +24,7 @@ void main() {
 
   test("create AuthState wih user", () {
     when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
-    expect(AuthState(repository).currentUser.isNothing(), isTrue);
+    expect(AuthState(repository: repository).currentUser.isNothing(), isTrue);
 
     when(repository.lastSignedInUser).thenReturn(
       Maybe.just(User(
@@ -35,7 +35,7 @@ void main() {
       )),
     );
     expect(
-      AuthState(repository).currentUser.getOrNull(),
+      AuthState(repository: repository).currentUser.getOrNull(),
       equals(User(
         UniqueId("mock_id"),
         UserName("Mock User"),
@@ -47,7 +47,7 @@ void main() {
 
   test("is loading returns the correct value", () {
     when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
-    final state = AuthState(repository);
+    final state = AuthState(repository: repository);
 
     expect(state.isLoading, isFalse);
   });
@@ -61,7 +61,7 @@ void main() {
           null,
         )));
 
-    final authState = AuthState(repository);
+    final authState = AuthState(repository: repository);
     final res = await authState.login(
       EmailAddress("test@email.com"),
       Password("password"),
@@ -85,7 +85,7 @@ void main() {
     when(repository.login(any, any)).thenAnswer(
         (_) async => Either.left(ServerFailure.unexpectedError("")));
 
-    final authState = AuthState(repository);
+    final authState = AuthState(repository: repository);
     final res = await authState.login(
       EmailAddress("test@email.com"),
       Password("password"),
@@ -104,7 +104,7 @@ void main() {
     )));
     when(repository.logout()).thenAnswer((_) => null);
 
-    final authState = AuthState(repository);
+    final authState = AuthState(repository: repository);
 
     expect(authState.currentUser.isJust(), isTrue);
     await authState.logout();

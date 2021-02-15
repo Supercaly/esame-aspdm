@@ -14,7 +14,9 @@ class ArchiveBloc extends Cubit<ArchiveState> {
   final ArchiveRepository _repository;
   StreamSubscription<Either<Failure, IList<Task>>> _archivedSubscription;
 
-  ArchiveBloc(this._repository) : super(ArchiveState.initial());
+  ArchiveBloc({@required ArchiveRepository repository})
+      : _repository = repository,
+        super(ArchiveState.initial());
 
   /// Tells [ArchiveBloc] to fetch the data from [ArchiveRepository].
   Future<void> fetch({bool showLoading = true}) async {

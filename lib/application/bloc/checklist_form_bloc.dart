@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Cubit class used to manage the state of the checklist form page and dialog.
 class ChecklistFormBloc extends Cubit<ChecklistFormState> {
-  ChecklistFormBloc({ChecklistPrimitive initialValue})
+  ChecklistFormBloc({@required ChecklistPrimitive initialValue})
       : super(ChecklistFormState.initial(initialValue));
 
   /// Called when the title of the checklist changes.
