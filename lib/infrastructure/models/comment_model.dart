@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/infrastructure/models/user_model.dart';
 import 'package:tasky/domain/entities/comment.dart';
@@ -39,14 +40,14 @@ class CommentModel extends Equatable {
   )
   final DateTime creationDate;
 
-  CommentModel(
-    this.id,
-    this.content,
-    this.author,
-    this.likes,
-    this.dislikes,
-    this.creationDate,
-  );
+  CommentModel({
+    @required this.id,
+    @required this.content,
+    @required this.author,
+    @required this.likes,
+    @required this.dislikes,
+    @required this.creationDate,
+  });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) =>
       _$CommentModelFromJson(json);
@@ -54,12 +55,14 @@ class CommentModel extends Equatable {
   Map<String, dynamic> toJson() => _$CommentModelToJson(this);
 
   factory CommentModel.fromComment(Comment comment) => CommentModel(
-        comment.id.value.getOrNull(),
-        comment.content.value.getOrNull(),
-        (comment.author == null) ? null : UserModel.fromUser(comment.author),
-        comment.likes?.map((e) => UserModel.fromUser(e))?.asList(),
-        comment.dislikes?.map((e) => UserModel.fromUser(e))?.asList(),
-        comment.creationDate,
+        id: comment.id.value.getOrNull(),
+        content: comment.content.value.getOrNull(),
+        author: (comment.author == null)
+            ? null
+            : UserModel.fromUser(comment.author),
+        likes: comment.likes?.map((e) => UserModel.fromUser(e))?.asList(),
+        dislikes: comment.dislikes?.map((e) => UserModel.fromUser(e))?.asList(),
+        creationDate: comment.creationDate,
       );
 
   Comment toComment() => Comment(

@@ -54,10 +54,10 @@ void main() {
   test("login returns the logged in user", () async {
     when(dataSource.authenticate(any, any))
         .thenAnswer((_) async => Either.right(UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              null,
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: null,
             )));
     final user = await repository.login(
         EmailAddress("user@email.com"), Password("1234"));

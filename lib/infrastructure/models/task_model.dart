@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/infrastructure/models/checklist_model.dart';
 import 'package:tasky/infrastructure/models/comment_model.dart';
@@ -50,19 +51,19 @@ class TaskModel extends Equatable {
   @JsonKey(defaultValue: false)
   final bool archived;
 
-  TaskModel(
-    this.id,
-    this.title,
-    this.description,
-    this.labels,
-    this.author,
-    this.members,
-    this.expireDate,
-    this.checklists,
-    this.comments,
-    this.archived,
-    this.creationDate,
-  );
+  TaskModel({
+    @required this.id,
+    @required this.title,
+    @required this.description,
+    @required this.labels,
+    @required this.author,
+    @required this.members,
+    @required this.expireDate,
+    @required this.checklists,
+    @required this.comments,
+    @required this.archived,
+    @required this.creationDate,
+  });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
       _$TaskModelFromJson(json);
@@ -70,17 +71,20 @@ class TaskModel extends Equatable {
   Map<String, dynamic> toJson() => _$TaskModelToJson(this);
 
   factory TaskModel.fromTask(Task task) => TaskModel(
-        task.id.value.getOrNull(),
-        task.title.value.getOrNull(),
-        task.description.value.getOrNull(),
-        task.labels?.map((e) => LabelModel.fromLabel(e))?.asList(),
-        (task.author == null) ? null : UserModel.fromUser(task.author),
-        task.members?.map((e) => UserModel.fromUser(e))?.asList(),
-        task.expireDate,
-        task.checklists?.map((e) => ChecklistModel.fromChecklist(e))?.asList(),
-        task.comments?.map((e) => CommentModel.fromComment(e))?.asList(),
-        task.archived.value.getOrElse((_) => false),
-        task.creationDate,
+        id: task.id.value.getOrNull(),
+        title: task.title.value.getOrNull(),
+        description: task.description.value.getOrNull(),
+        labels: task.labels?.map((e) => LabelModel.fromLabel(e))?.asList(),
+        author: (task.author == null) ? null : UserModel.fromUser(task.author),
+        members: task.members?.map((e) => UserModel.fromUser(e))?.asList(),
+        expireDate: task.expireDate,
+        checklists: task.checklists
+            ?.map((e) => ChecklistModel.fromChecklist(e))
+            ?.asList(),
+        comments:
+            task.comments?.map((e) => CommentModel.fromComment(e))?.asList(),
+        archived: task.archived.value.getOrElse((_) => false),
+        creationDate: task.creationDate,
       );
 
   Task toTask() => Task(

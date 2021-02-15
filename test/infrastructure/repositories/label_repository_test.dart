@@ -26,8 +26,16 @@ void main() {
 
   test("get labels returns some data", () async {
     when(dataSource.getLabels()).thenAnswer((_) async => Either.right([
-          LabelModel("label1", Colors.red, "label1"),
-          LabelModel("label2", Colors.blue, "label2"),
+          LabelModel(
+            id: "label1",
+            color: Colors.red,
+            label: "label1",
+          ),
+          LabelModel(
+            id: "label2",
+            color: Colors.blue,
+            label: "label2",
+          ),
         ]));
     final res = await repository.getLabels();
 

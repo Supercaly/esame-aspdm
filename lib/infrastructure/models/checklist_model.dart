@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/values/task_values.dart';
@@ -20,7 +21,11 @@ class ChecklistModel extends Equatable {
 
   final List<ChecklistItemModel> items;
 
-  ChecklistModel(this.id, this.title, this.items);
+  ChecklistModel({
+    @required this.id,
+    @required this.title,
+    @required this.items,
+  });
 
   factory ChecklistModel.fromJson(Map<String, dynamic> json) =>
       _$ChecklistModelFromJson(json);
@@ -28,9 +33,9 @@ class ChecklistModel extends Equatable {
   Map<String, dynamic> toJson() => _$ChecklistModelToJson(this);
 
   factory ChecklistModel.fromChecklist(Checklist checklist) => ChecklistModel(
-        checklist.id.value.getOrNull(),
-        checklist.title.value.getOrNull(),
-        checklist.items
+        id: checklist.id.value.getOrNull(),
+        title: checklist.title.value.getOrNull(),
+        items: checklist.items
             ?.map((e) => ChecklistItemModel.fromChecklistItem(e))
             ?.asList(),
       );
@@ -59,7 +64,11 @@ class ChecklistItemModel extends Equatable {
   @JsonKey(defaultValue: false)
   final bool complete;
 
-  ChecklistItemModel(this.id, this.item, this.complete);
+  ChecklistItemModel({
+    @required this.id,
+    @required this.item,
+    @required this.complete,
+  });
 
   factory ChecklistItemModel.fromJson(Map<String, dynamic> json) =>
       _$ChecklistItemModelFromJson(json);
@@ -68,9 +77,9 @@ class ChecklistItemModel extends Equatable {
 
   factory ChecklistItemModel.fromChecklistItem(ChecklistItem item) =>
       ChecklistItemModel(
-        item.id.value.getOrNull(),
-        item.item.value.getOrNull(),
-        item.complete.value.getOrNull(),
+        id: item.id.value.getOrNull(),
+        item: item.item.value.getOrNull(),
+        complete: item.complete.value.getOrNull(),
       );
 
   ChecklistItem toChecklistItem() => ChecklistItem(

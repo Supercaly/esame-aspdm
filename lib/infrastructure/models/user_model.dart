@@ -26,7 +26,12 @@ class UserModel extends Equatable {
   )
   final Color profileColor;
 
-  UserModel(this.id, this.name, this.email, this.profileColor);
+  UserModel({
+    @required this.id,
+    @required this.name,
+    @required this.email,
+    @required this.profileColor,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
@@ -34,10 +39,10 @@ class UserModel extends Equatable {
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   factory UserModel.fromUser(User user) => UserModel(
-        user.id.value.getOrNull(),
-        user.name.value.getOrNull(),
-        user.email.value.getOrNull(),
-        user.profileColor,
+        id: user.id.value.getOrNull(),
+        name: user.name.value.getOrNull(),
+        email: user.email.value.getOrNull(),
+        profileColor: user.profileColor,
       );
 
   User toUser() => User(

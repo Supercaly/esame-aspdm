@@ -186,16 +186,16 @@ void main() {
         equals(
           [
             UserModel(
-              "mock_id_1",
-              "Mock User 1",
-              "mock1@email.com",
-              Color(0xFFFF0000),
+              id: "mock_id_1",
+              name: "Mock User 1",
+              email: "mock1@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
             UserModel(
-              "mock_id_2",
-              "Mock User 2",
-              "mock2@email.com",
-              Color(0xFF00FF00),
+              id: "mock_id_2",
+              name: "Mock User 2",
+              email: "mock2@email.com",
+              profileColor: Color(0xFF00FF00),
             ),
           ],
         ),
@@ -226,10 +226,10 @@ void main() {
         res.getOrNull(),
         equals(
           UserModel(
-            "mock_id",
-            "Mock User",
-            "mock@email.com",
-            Color(0xFFFF0000),
+            id: "mock_id",
+            name: "Mock User",
+            email: "mock@email.com",
+            profileColor: Color(0xFFFF0000),
           ),
         ),
       );
@@ -273,19 +273,19 @@ void main() {
         equals(
           [
             LabelModel(
-              "mock_id_1",
-              Color(0xFFFF0000),
-              "Label 1",
+              id: "mock_id_1",
+              color: Color(0xFFFF0000),
+              label: "Label 1",
             ),
             LabelModel(
-              "mock_id_2",
-              Color(0xFF00FF00),
-              "Label 2",
+              id: "mock_id_2",
+              color: Color(0xFF00FF00),
+              label: "Label 2",
             ),
             LabelModel(
-              "mock_id_3",
-              Color(0xFF0000FF),
-              "Label 3",
+              id: "mock_id_3",
+              color: Color(0xFF0000FF),
+              label: "Label 3",
             ),
           ],
         ),
@@ -325,22 +325,22 @@ void main() {
         equals(
           [
             TaskModel(
-              "mock_task_id",
-              "Mock Title",
-              null,
-              null,
-              UserModel(
-                "mock_id",
-                "Mock User",
-                "mock@email.com",
-                Color(0xFFFF0000),
+              id: "mock_task_id",
+              title: "Mock Title",
+              description: null,
+              labels: null,
+              author: UserModel(
+                id: "mock_id",
+                name: "Mock User",
+                email: "mock@email.com",
+                profileColor: Color(0xFFFF0000),
               ),
-              null,
-              null,
-              null,
-              null,
-              false,
-              DateTime.parse("2020-12-22"),
+              members: null,
+              checklists: null,
+              comments: null,
+              expireDate: null,
+              archived: false,
+              creationDate: DateTime.parse("2020-12-22"),
             ),
           ],
         ),
@@ -380,22 +380,22 @@ void main() {
         equals(
           [
             TaskModel(
-              "mock_task_id",
-              "Mock Title",
-              null,
-              null,
-              UserModel(
-                "mock_id",
-                "Mock User",
-                "mock@email.com",
-                Color(0xFFFF0000),
+              id: "mock_task_id",
+              title: "Mock Title",
+              description: null,
+              labels: null,
+              author: UserModel(
+                id: "mock_id",
+                name: "Mock User",
+                email: "mock@email.com",
+                profileColor: Color(0xFFFF0000),
               ),
-              null,
-              null,
-              null,
-              null,
-              false,
-              DateTime.parse("2020-12-22"),
+              members: null,
+              checklists: null,
+              comments: null,
+              expireDate: null,
+              archived: false,
+              creationDate: DateTime.parse("2020-12-22"),
             ),
           ],
         ),
@@ -430,22 +430,22 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            null,
-            false,
-            DateTime.parse("2020-12-22"),
+            members: null,
+            checklists: null,
+            comments: null,
+            expireDate: null,
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -499,32 +499,44 @@ void main() {
       );
       final res = await source.postTask(
         TaskModel(
-          null,
-          "Mock Title",
-          "Mock Description",
-          null,
-          UserModel(
-            "mock_id",
-            "Mock User",
-            "mock@email.com",
-            Color(0xFFFF0000),
+          id: null,
+          title: "Mock Title",
+          description: "Mock Description",
+          labels: null,
+          author: UserModel(
+            id: "mock_id",
+            name: "Mock User",
+            email: "mock@email.com",
+            profileColor: Color(0xFFFF0000),
           ),
-          null,
-          DateTime.parse("2021-01-03"),
-          [
+          members: null,
+          expireDate: DateTime.parse("2021-01-03"),
+          checklists: [
             ChecklistModel(
-              "mock_checklist_id",
-              "Mock Checklist Title",
-              [
-                ChecklistItemModel("mock_item_1", "item 1", false),
-                ChecklistItemModel("mock_item_2", "item 2", false),
-                ChecklistItemModel("mock_item_3", "item 3", false),
+              id: "mock_checklist_id",
+              title: "Mock Checklist Title",
+              items: [
+                ChecklistItemModel(
+                  id: "mock_item_1",
+                  item: "item 1",
+                  complete: false,
+                ),
+                ChecklistItemModel(
+                  id: "mock_item_2",
+                  item: "item 2",
+                  complete: false,
+                ),
+                ChecklistItemModel(
+                  id: "mock_item_3",
+                  item: "item 3",
+                  complete: false,
+                ),
               ],
             ),
           ],
-          null,
-          false,
-          DateTime.parse("2020-12-22"),
+          comments: null,
+          archived: false,
+          creationDate: DateTime.parse("2020-12-22"),
         ),
         UniqueId("mock_id"),
       );
@@ -534,32 +546,44 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            "Mock Description",
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: "Mock Description",
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            DateTime.parse("2021-01-03"),
-            [
+            members: null,
+            expireDate: DateTime.parse("2021-01-03"),
+            checklists: [
               ChecklistModel(
-                "mock_checklist_id",
-                "Mock Checklist Title",
-                [
-                  ChecklistItemModel("mock_item_1", "item 1", false),
-                  ChecklistItemModel("mock_item_2", "item 2", false),
-                  ChecklistItemModel("mock_item_3", "item 3", false),
+                id: "mock_checklist_id",
+                title: "Mock Checklist Title",
+                items: [
+                  ChecklistItemModel(
+                    id: "mock_item_1",
+                    item: "item 1",
+                    complete: false,
+                  ),
+                  ChecklistItemModel(
+                    id: "mock_item_2",
+                    item: "item 2",
+                    complete: false,
+                  ),
+                  ChecklistItemModel(
+                    id: "mock_item_3",
+                    item: "item 3",
+                    complete: false,
+                  ),
                 ],
               ),
             ],
-            null,
-            false,
-            DateTime.parse("2020-12-22"),
+            comments: null,
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -568,22 +592,22 @@ void main() {
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.postTask(
         TaskModel(
-          null,
-          "Mock Title",
-          "Mock Description",
-          null,
-          UserModel(
-            "mock_id",
-            "Mock User",
-            "mock@email.com",
-            Color(0xFFFF0000),
+          id: null,
+          title: "Mock Title",
+          description: "Mock Description",
+          labels: null,
+          author: UserModel(
+            id: "mock_id",
+            name: "Mock User",
+            email: "mock@email.com",
+            profileColor: Color(0xFFFF0000),
           ),
-          null,
-          DateTime.parse("2021-01-03"),
-          null,
-          null,
-          false,
-          DateTime.parse("2020-12-22"),
+          members: null,
+          expireDate: DateTime.parse("2021-01-03"),
+          checklists: null,
+          comments: null,
+          archived: false,
+          creationDate: DateTime.parse("2020-12-22"),
         ),
         UniqueId("mock_id"),
       );
@@ -610,47 +634,90 @@ void main() {
       );
       final res = await source.patchTask(
         TaskModel(
-          "mock_task_id",
-          "Mock Title",
-          "Mock Description",
-          [
-            LabelModel("label_1", Colors.red, "label 1"),
-            LabelModel("label_2", Colors.blue, "label 2"),
+          id: "mock_task_id",
+          title: "Mock Title",
+          description: "Mock Description",
+          labels: [
+            LabelModel(
+              id: "label_1",
+              color: Colors.red,
+              label: "label 1",
+            ),
+            LabelModel(
+              id: "label_2",
+              color: Colors.blue,
+              label: "label 2",
+            ),
           ],
-          UserModel(
-            "mock_id",
-            "Mock User",
-            "mock@email.com",
-            Color(0xFFFF0000),
+          author: UserModel(
+            id: "mock_id",
+            name: "Mock User",
+            email: "mock@email.com",
+            profileColor: Color(0xFFFF0000),
           ),
-          [
-            UserModel("user_1", "user 1", "user1@email.com", null),
-            UserModel("user_2", "user 2", "user2@email.com", null),
-            UserModel("user_3", "user 3", "user3@email.com", null),
+          members: [
+            UserModel(
+              id: "user_1",
+              name: "user 1",
+              email: "user1@email.com",
+              profileColor: null,
+            ),
+            UserModel(
+              id: "user_2",
+              name: "user 2",
+              email: "user2@email.com",
+              profileColor: null,
+            ),
+            UserModel(
+              id: "user_3",
+              name: "user 3",
+              email: "user3@email.com",
+              profileColor: null,
+            ),
           ],
-          DateTime.parse("2021-01-03"),
-          [
+          expireDate: DateTime.parse("2021-01-03"),
+          checklists: [
             ChecklistModel(
-              "checklist_1",
-              "Checklist 1",
-              [
-                ChecklistItemModel("item_1", "item 1", true),
-                ChecklistItemModel("item_2", "item 2", false),
+              id: "checklist_1",
+              title: "Checklist 1",
+              items: [
+                ChecklistItemModel(
+                  id: "item_1",
+                  item: "item 1",
+                  complete: true,
+                ),
+                ChecklistItemModel(
+                  id: "item_2",
+                  item: "item 2",
+                  complete: false,
+                ),
               ],
             ),
             ChecklistModel(
-              "checklist_2",
-              "Checklist 2",
-              [
-                ChecklistItemModel("item_1", "item 1", false),
-                ChecklistItemModel("item_2", "item 2", true),
+              id: "checklist_2",
+              title: "Checklist 2",
+              items: [
+                ChecklistItemModel(
+                  id: "item_1",
+                  item: "item 1",
+                  complete: false,
+                ),
+                ChecklistItemModel(
+                  id: "item_2",
+                  item: "item 2",
+                  complete: true,
+                ),
               ],
             ),
-            ChecklistModel("checklist_3", "Checklist 3", null),
+            ChecklistModel(
+              id: "checklist_3",
+              title: "Checklist 3",
+              items: null,
+            ),
           ],
-          null,
-          false,
-          DateTime.parse("2020-12-22"),
+          comments: null,
+          archived: false,
+          creationDate: DateTime.parse("2020-12-22"),
         ),
         UniqueId("mock_id"),
       );
@@ -660,22 +727,22 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            "Mock Description",
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: "Mock Description",
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            DateTime.parse("2021-01-03"),
-            null,
-            null,
-            false,
-            DateTime.parse("2020-12-22"),
+            members: null,
+            expireDate: DateTime.parse("2021-01-03"),
+            checklists: null,
+            comments: null,
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -684,22 +751,22 @@ void main() {
           .thenAnswer((_) async => Response(data: null));
       final res2 = await source.patchTask(
         TaskModel(
-          "mock_task_id",
-          "Mock Title",
-          "Mock Description",
-          null,
-          UserModel(
-            "mock_id",
-            "Mock User",
-            "mock@email.com",
-            Color(0xFFFF0000),
+          id: "mock_task_id",
+          title: "Mock Title",
+          description: "Mock Description",
+          labels: null,
+          author: UserModel(
+            id: "mock_id",
+            name: "Mock User",
+            email: "mock@email.com",
+            profileColor: Color(0xFFFF0000),
           ),
-          null,
-          DateTime.parse("2021-01-03"),
-          null,
-          null,
-          false,
-          DateTime.parse("2020-12-22"),
+          members: null,
+          expireDate: DateTime.parse("2021-01-03"),
+          checklists: null,
+          comments: null,
+          archived: false,
+          creationDate: DateTime.parse("2020-12-22"),
         ),
         UniqueId("mock_id"),
       );
@@ -748,36 +815,36 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            [
+            members: null,
+            expireDate: null,
+            checklists: null,
+            comments: [
               CommentModel(
-                "mock_comment",
-                "mock_content",
-                UserModel(
-                  "mock_id",
-                  "Mock User",
-                  "mock@email.com",
-                  Color(0xFFFF0000),
+                id: "mock_comment",
+                content: "mock_content",
+                author: UserModel(
+                  id: "mock_id",
+                  name: "Mock User",
+                  email: "mock@email.com",
+                  profileColor: Color(0xFFFF0000),
                 ),
-                [],
-                [],
-                DateTime.parse("2020-12-22"),
+                likes: [],
+                dislikes: [],
+                creationDate: DateTime.parse("2020-12-22"),
               )
             ],
-            false,
-            DateTime.parse("2020-12-22"),
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -834,36 +901,36 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            [
+            members: null,
+            expireDate: null,
+            checklists: null,
+            comments: [
               CommentModel(
-                "mock_comment",
-                "mock_content",
-                UserModel(
-                  "mock_id",
-                  "Mock User",
-                  "mock@email.com",
-                  Color(0xFFFF0000),
+                id: "mock_comment",
+                content: "mock_content",
+                author: UserModel(
+                  id: "mock_id",
+                  name: "Mock User",
+                  email: "mock@email.com",
+                  profileColor: Color(0xFFFF0000),
                 ),
-                [],
-                [],
-                DateTime.parse("2020-12-22"),
+                likes: [],
+                dislikes: [],
+                creationDate: DateTime.parse("2020-12-22"),
               )
             ],
-            false,
-            DateTime.parse("2020-12-22"),
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -921,35 +988,36 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            [
+            expireDate: null,
+            members: null,
+            checklists: null,
+            comments: [
               CommentModel(
-                  "mock_comment",
-                  "mock_content",
-                  UserModel(
-                    "mock_id",
-                    "Mock User",
-                    "mock@email.com",
-                    Color(0xFFFF0000),
-                  ),
-                  [],
-                  [],
-                  DateTime.parse("2020-12-22"))
+                id: "mock_comment",
+                content: "mock_content",
+                author: UserModel(
+                  id: "mock_id",
+                  name: "Mock User",
+                  email: "mock@email.com",
+                  profileColor: Color(0xFFFF0000),
+                ),
+                likes: [],
+                dislikes: [],
+                creationDate: DateTime.parse("2020-12-22"),
+              )
             ],
-            false,
-            DateTime.parse("2020-12-22"),
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -1014,42 +1082,42 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            [
+            members: null,
+            expireDate: null,
+            checklists: null,
+            comments: [
               CommentModel(
-                  "mock_comment",
-                  "mock_content",
-                  UserModel(
-                    "mock_id",
-                    "Mock User",
-                    "mock@email.com",
-                    Color(0xFFFF0000),
+                  id: "mock_comment",
+                  content: "mock_content",
+                  author: UserModel(
+                    id: "mock_id",
+                    name: "Mock User",
+                    email: "mock@email.com",
+                    profileColor: Color(0xFFFF0000),
                   ),
-                  [
+                  likes: [
                     UserModel(
-                      "mock_id",
-                      "Mock User",
-                      "mock@email.com",
-                      Color(0xFFFF0000),
+                      id: "mock_id",
+                      name: "Mock User",
+                      email: "mock@email.com",
+                      profileColor: Color(0xFFFF0000),
                     ),
                   ],
-                  [],
-                  DateTime.parse("2020-12-22"))
+                  dislikes: [],
+                  creationDate: DateTime.parse("2020-12-22"))
             ],
-            false,
-            DateTime.parse("2020-12-22"),
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -1113,42 +1181,43 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            [
+            members: null,
+            expireDate: null,
+            checklists: null,
+            comments: [
               CommentModel(
-                  "mock_comment",
-                  "mock_content",
+                id: "mock_comment",
+                content: "mock_content",
+                author: UserModel(
+                  id: "mock_id",
+                  name: "Mock User",
+                  email: "mock@email.com",
+                  profileColor: Color(0xFFFF0000),
+                ),
+                likes: [],
+                dislikes: [
                   UserModel(
-                    "mock_id",
-                    "Mock User",
-                    "mock@email.com",
-                    Color(0xFFFF0000),
+                    id: "mock_id",
+                    name: "Mock User",
+                    email: "mock@email.com",
+                    profileColor: Color(0xFFFF0000),
                   ),
-                  [],
-                  [
-                    UserModel(
-                      "mock_id",
-                      "Mock User",
-                      "mock@email.com",
-                      Color(0xFFFF0000),
-                    ),
-                  ],
-                  DateTime.parse("2020-12-22"))
+                ],
+                creationDate: DateTime.parse("2020-12-22"),
+              )
             ],
-            false,
-            DateTime.parse("2020-12-22"),
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -1191,22 +1260,22 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            null,
-            [],
-            true,
-            DateTime.parse("2020-12-22"),
+            expireDate: null,
+            members: null,
+            checklists: null,
+            comments: [],
+            archived: true,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -1263,34 +1332,34 @@ void main() {
         res.getOrNull(),
         equals(
           TaskModel(
-            "mock_task_id",
-            "Mock Title",
-            null,
-            null,
-            UserModel(
-              "mock_id",
-              "Mock User",
-              "mock@email.com",
-              Color(0xFFFF0000),
+            id: "mock_task_id",
+            title: "Mock Title",
+            description: null,
+            labels: null,
+            author: UserModel(
+              id: "mock_id",
+              name: "Mock User",
+              email: "mock@email.com",
+              profileColor: Color(0xFFFF0000),
             ),
-            null,
-            null,
-            [
+            expireDate: null,
+            members: null,
+            checklists: [
               ChecklistModel(
-                "mock_checklist_id",
-                "mock checklist title",
-                [
+                id: "mock_checklist_id",
+                title: "mock checklist title",
+                items: [
                   ChecklistItemModel(
-                    "mock_item_id",
-                    "item 1",
-                    true,
+                    id: "mock_item_id",
+                    item: "item 1",
+                    complete: true,
                   )
                 ],
               ),
             ],
-            null,
-            false,
-            DateTime.parse("2020-12-22"),
+            comments: null,
+            archived: false,
+            creationDate: DateTime.parse("2020-12-22"),
           ),
         ),
       );
@@ -1352,17 +1421,17 @@ void main() {
 
       final res2 = await source.postTask(
           TaskModel(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            id: null,
+            title: null,
+            description: null,
+            labels: null,
+            author: null,
+            members: null,
+            expireDate: null,
+            comments: null,
+            checklists: null,
+            archived: null,
+            creationDate: null,
           ),
           UniqueId(null));
       expect(res2.isLeft(), isTrue);
@@ -1381,17 +1450,17 @@ void main() {
 
       final res2 = await source.patchTask(
           TaskModel(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            id: null,
+            title: null,
+            description: null,
+            labels: null,
+            author: null,
+            members: null,
+            expireDate: null,
+            comments: null,
+            checklists: null,
+            archived: null,
+            creationDate: null,
           ),
           UniqueId(null));
       expect(res2.isLeft(), isTrue);

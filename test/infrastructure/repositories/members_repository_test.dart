@@ -26,8 +26,18 @@ void main() {
 
   test("get users returns some data", () async {
     when(dataSource.getUsers()).thenAnswer((_) async => Either.right([
-          UserModel("user1", "user 1 name", "user1@email.com", Colors.red),
-          UserModel("user2", "user 2 name", "user2@email.com", Colors.blue),
+          UserModel(
+            id: "user1",
+            name: "user 1 name",
+            email: "user1@email.com",
+            profileColor: Colors.red,
+          ),
+          UserModel(
+            id: "user2",
+            name: "user 2 name",
+            email: "user2@email.com",
+            profileColor: Colors.blue,
+          ),
         ]));
     final res = await repository.getUsers();
 

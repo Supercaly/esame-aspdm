@@ -28,7 +28,11 @@ class LabelModel extends Equatable {
   @JsonKey(nullable: true)
   final String label;
 
-  LabelModel(this.id, this.color, this.label);
+  LabelModel({
+    @required this.id,
+    @required this.color,
+    @required this.label,
+  });
 
   factory LabelModel.fromJson(Map<String, dynamic> json) =>
       _$LabelModelFromJson(json);
@@ -36,9 +40,9 @@ class LabelModel extends Equatable {
   Map<String, dynamic> toJson() => _$LabelModelToJson(this);
 
   factory LabelModel.fromLabel(Label label) => LabelModel(
-        label.id.value.getOrNull(),
-        label.color,
-        label.label.value.getOrNull(),
+        id: label.id.value.getOrNull(),
+        color: label.color,
+        label: label.label.value.getOrNull(),
       );
 
   Label toLabel() => Label(
