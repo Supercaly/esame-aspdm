@@ -24,7 +24,10 @@ void main() {
   setUpAll(() {
     dataSource = MockRemoteDataSource();
     preferenceService = MockPreferenceService();
-    repository = AuthRepositoryImpl(dataSource, preferenceService);
+    repository = AuthRepositoryImpl(
+      dataSource: dataSource,
+      preferenceService: preferenceService,
+    );
   });
 
   tearDownAll(() {

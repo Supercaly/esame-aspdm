@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/failures/failures.dart';
@@ -10,7 +11,8 @@ import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
 class HomeRepositoryImpl extends HomeRepository {
   final RemoteDataSource _dataSource;
 
-  HomeRepositoryImpl(this._dataSource);
+  HomeRepositoryImpl({@required RemoteDataSource dataSource})
+      : _dataSource = dataSource;
 
   @override
   Stream<Either<Failure, IList<Task>>> watchTasks() {

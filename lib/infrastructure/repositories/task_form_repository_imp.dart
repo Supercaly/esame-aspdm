@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/monad_task.dart';
 import 'package:tasky/domain/entities/task.dart';
@@ -11,7 +12,8 @@ import 'package:tasky/infrastructure/models/task_model.dart';
 class TaskFormRepositoryImpl extends TaskFormRepository {
   final RemoteDataSource _dataSource;
 
-  TaskFormRepositoryImpl(this._dataSource);
+  TaskFormRepositoryImpl({@required RemoteDataSource dataSource})
+      : _dataSource = dataSource;
 
   @override
   Future<Either<Failure, Unit>> saveNewTask(Task task, UniqueId userId) {

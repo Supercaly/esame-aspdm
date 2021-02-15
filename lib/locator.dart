@@ -39,7 +39,7 @@ Future<void> setupLocator() async {
         logService: locator<LogService>(),
       ));
 
-  final infoService = AppInfoService(locator<LogService>());
+  final infoService = AppInfoService(logService: locator<LogService>());
   await infoService.init();
   locator.registerSingleton<AppInfoService>(infoService);
 
@@ -60,27 +60,27 @@ Future<void> setupLocator() async {
   // Repositories
   locator.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
-      locator<RemoteDataSource>(),
-      locator<PreferenceService>(),
+      dataSource: locator<RemoteDataSource>(),
+      preferenceService: locator<PreferenceService>(),
     ),
   );
   locator.registerLazySingleton<HomeRepository>(
-    () => HomeRepositoryImpl(locator<RemoteDataSource>()),
+    () => HomeRepositoryImpl(dataSource: locator<RemoteDataSource>()),
   );
   locator.registerLazySingleton<ArchiveRepository>(
-    () => ArchiveRepositoryImpl(locator<RemoteDataSource>()),
+    () => ArchiveRepositoryImpl(dataSource: locator<RemoteDataSource>()),
   );
   locator.registerLazySingleton<TaskRepository>(
-    () => TaskRepositoryImpl(locator<RemoteDataSource>()),
+    () => TaskRepositoryImpl(dataSource: locator<RemoteDataSource>()),
   );
   locator.registerLazySingleton<TaskFormRepository>(
-    () => TaskFormRepositoryImpl(locator<RemoteDataSource>()),
+    () => TaskFormRepositoryImpl(dataSource: locator<RemoteDataSource>()),
   );
   locator.registerLazySingleton<LabelRepository>(
-    () => LabelRepositoryImpl(locator<RemoteDataSource>()),
+    () => LabelRepositoryImpl(dataSource: locator<RemoteDataSource>()),
   );
   locator.registerLazySingleton<MembersRepository>(
-    () => MembersRepositoryImpl(locator<RemoteDataSource>()),
+    () => MembersRepositoryImpl(dataSource: locator<RemoteDataSource>()),
   );
 
   // Wait all singletons are ready before starting the app

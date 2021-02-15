@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/failures/failures.dart';
@@ -10,17 +11,23 @@ import 'package:tasky/domain/values/user_values.dart';
 import 'package:tasky/services/preference_service.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  RemoteDataSource _dataSource;
-  PreferenceService _preferenceService;
+  final RemoteDataSource _dataSource;
+  final PreferenceService _preferenceService;
 
-  AuthRepositoryImpl(this._dataSource, this._preferenceService);
+  AuthRepositoryImpl({
+    @required RemoteDataSource dataSource,
+    @required PreferenceService preferenceService,
+  })  : _dataSource = dataSource,
+        _preferenceService = preferenceService;
 
   @override
   Maybe<User> get lastSignedInUser => _preferenceService.getLastSignedInUser();
 
   @override
   Future<Either<Failure, User>> login(
-      EmailAddress email, Password password) async {
+    EmailAddress email,
+    Password password,
+  ) async {
     final result =
         await MonadTask(() => _dataSource.authenticate(email, password))
             .map((value) => value.toUser())

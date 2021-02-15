@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/core/monad_task.dart';
@@ -10,7 +11,8 @@ import 'package:tasky/domain/failures/server_failure.dart';
 class LabelRepositoryImpl extends LabelRepository {
   final RemoteDataSource _dataSource;
 
-  LabelRepositoryImpl(this._dataSource);
+  LabelRepositoryImpl({@required RemoteDataSource dataSource})
+      : _dataSource = dataSource;
 
   @override
   Future<Either<Failure, IList<Label>>> getLabels() {

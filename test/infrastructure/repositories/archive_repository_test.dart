@@ -16,7 +16,7 @@ void main() {
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
-    repository = ArchiveRepositoryImpl(dataSource);
+    repository = ArchiveRepositoryImpl(dataSource: dataSource);
   });
 
   tearDownAll(() {

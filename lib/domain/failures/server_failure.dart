@@ -26,8 +26,8 @@ abstract class ServerFailure extends Failure with _$ServerFailure {
       ServerFailureFormatError;
 
   /// Creates a [ServerFailure] with invalid arguments error.
-  const factory ServerFailure.invalidArgument(@nullable String arg, {dynamic received}) =
-      ServerFailureInvalidArgument;
+  const factory ServerFailure.invalidArgument(@nullable String arg,
+      {dynamic received}) = ServerFailureInvalidArgument;
 
   /// Creates a [ServerFailure] with upload error.
   const factory ServerFailure.uploadError() = ServerFailureUploadError;

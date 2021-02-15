@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/failures/failures.dart';
@@ -13,7 +14,8 @@ import 'package:tasky/domain/values/unique_id.dart';
 class TaskRepositoryImpl extends TaskRepository {
   final RemoteDataSource _dataSource;
 
-  TaskRepositoryImpl(this._dataSource);
+  TaskRepositoryImpl({@required RemoteDataSource dataSource})
+      : _dataSource = dataSource;
 
   @override
   Stream<Either<Failure, Task>> watchTask(Maybe<UniqueId> id) {

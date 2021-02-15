@@ -16,7 +16,7 @@ void main() {
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
-    repository = LabelRepositoryImpl(dataSource);
+    repository = LabelRepositoryImpl(dataSource: dataSource);
   });
 
   tearDownAll(() {
