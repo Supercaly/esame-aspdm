@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -8,12 +10,14 @@ import 'package:tasky/services/log_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasky/domain/failures/failures.dart';
 
 /// Class used to manage the state of the task info page.
 class TaskBloc extends Cubit<TaskState> {
   final TaskRepository _repository;
   final LogService _logService;
   final LinkService _linkService;
+  StreamSubscription<Either<Failure, Task>> _taskSubscription;
 
   /// Id of the task that we want to display.
   final Maybe<UniqueId> _taskId;
@@ -33,14 +37,16 @@ class TaskBloc extends Cubit<TaskState> {
   Future<void> fetch({bool showLoading = true}) async {
     if (showLoading) emit(state.copyWith(isLoading: true, hasError: false));
 
-    (await _repository.getTask(_taskId)).fold(
-      (_) => emit(state.copyWith(isLoading: false, hasError: true)),
-      (newTask) => emit(state.copyWith(
-        data: newTask,
-        isLoading: false,
-        hasError: false,
-      )),
-    );
+    await _taskSubscription?.cancel();
+    _taskSubscription =
+        _repository.watchTask(_taskId).listen((event) => event.fold(
+              (_) => emit(state.copyWith(isLoading: false, hasError: true)),
+              (newTask) => emit(state.copyWith(
+                data: newTask,
+                isLoading: false,
+                hasError: false,
+              )),
+            ));
   }
 
   /// Tells [TaskRepository] the user wants to delete one of his
@@ -199,6 +205,12 @@ class TaskBloc extends Cubit<TaskState> {
         isLoading: false,
       )),
     );
+  }
+
+  @override
+  Future<void> close() async {
+    await _taskSubscription?.cancel();
+    return super.close();
   }
 }
 

@@ -13,10 +13,10 @@ class ArchiveRepositoryImpl extends ArchiveRepository {
   ArchiveRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, IList<Task>>> getArchivedTasks() {
-    return MonadTask(() => _dataSource.getArchivedTasks())
+  Stream<Either<Failure, IList<Task>>> watchArchivedTasks() {
+    return Stream.fromFuture(MonadTask(() => _dataSource.getArchivedTasks())
         .map((value) => value.map((e) => e.toTask()).toIList())
         .attempt((e) => ServerFailure.unexpectedError(e))
-        .run();
+        .run());
   }
 }

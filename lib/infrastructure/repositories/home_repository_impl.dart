@@ -13,10 +13,10 @@ class HomeRepositoryImpl extends HomeRepository {
   HomeRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, IList<Task>>> getTasks() {
-    return MonadTask(() => _dataSource.getUnarchivedTasks())
+  Stream<Either<Failure, IList<Task>>> watchTasks() {
+    return Stream.fromFuture(MonadTask(() => _dataSource.getUnarchivedTasks())
         .map((value) => value.map((e) => e.toTask()).toIList())
         .attempt((e) => ServerFailure.unexpectedError(e))
-        .run();
+        .run());
   }
 }

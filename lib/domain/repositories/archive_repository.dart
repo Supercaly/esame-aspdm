@@ -4,5 +4,5 @@ import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/entities/task.dart';
 
 abstract class ArchiveRepository {
-  Future<Either<Failure, IList<Task>>> getArchivedTasks();
+  Stream<Either<Failure, IList<Task>>> watchArchivedTasks();
 }

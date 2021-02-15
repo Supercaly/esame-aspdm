@@ -6,7 +6,7 @@ import 'package:tasky/domain/values/unique_id.dart';
 import '../entities/task.dart';
 
 abstract class TaskRepository {
-  Future<Either<Failure, Task>> getTask(Maybe<UniqueId> id);
+  Stream<Either<Failure, Task>> watchTask(Maybe<UniqueId> id);
 
   Future<Either<Failure, Task>> deleteComment(
     Maybe<UniqueId> taskId,

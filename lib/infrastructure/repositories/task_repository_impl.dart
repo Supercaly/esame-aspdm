@@ -16,12 +16,14 @@ class TaskRepositoryImpl extends TaskRepository {
   TaskRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, Task>> getTask(Maybe<UniqueId> id) async {
-    if (id.isNothing()) return Either.left(TaskFailure.invalidId());
-    return MonadTask(() => _dataSource.getTask(id.getOrNull()))
-        .map((value) => value?.toTask())
-        .attempt((e) => ServerFailure.unexpectedError(e))
-        .run();
+  Stream<Either<Failure, Task>> watchTask(Maybe<UniqueId> id) {
+    if (id.isNothing())
+      return Stream.value(Either.left(TaskFailure.invalidId()));
+    return Stream.fromFuture(
+        MonadTask(() => _dataSource.getTask(id.getOrNull()))
+            .map((value) => value?.toTask())
+            .attempt((e) => ServerFailure.unexpectedError(e))
+            .run());
   }
 
   @override

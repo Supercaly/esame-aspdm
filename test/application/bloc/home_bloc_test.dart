@@ -28,8 +28,8 @@ void main() {
       "emits data on success",
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
-        when(repository.getTasks())
-            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
+        when(repository.watchTasks())
+            .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
         bloc.fetch();
       },
       expect: [
@@ -42,8 +42,8 @@ void main() {
       "emits error on error",
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
-        when(repository.getTasks())
-            .thenAnswer((_) => Future.value(Either.left(MockFailure())));
+        when(repository.watchTasks())
+            .thenAnswer((_) => Stream.value(Either.left(MockFailure())));
         bloc.fetch();
       },
       expect: [
@@ -56,8 +56,8 @@ void main() {
       "don't emits loading when fetch has showLoading false",
       build: () => HomeBloc(repository),
       act: (HomeBloc bloc) {
-        when(repository.getTasks())
-            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
+        when(repository.watchTasks())
+            .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
         bloc.fetch(showLoading: false);
       },
       expect: [
