@@ -79,9 +79,8 @@ class TaskModel extends Equatable {
             (task.author == null) ? null : UserModel.fromDomain(task.author),
         members: task.members?.map((e) => UserModel.fromDomain(e))?.asList(),
         expireDate: task.expireDate,
-        checklists: task.checklists
-            ?.map((e) => ChecklistModel.fromDomain(e))
-            ?.asList(),
+        checklists:
+            task.checklists?.map((e) => ChecklistModel.fromDomain(e))?.asList(),
         comments:
             task.comments?.map((e) => CommentModel.fromDomain(e))?.asList(),
         archived: task.archived.value.getOrElse((_) => false),
