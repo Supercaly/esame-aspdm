@@ -14,30 +14,30 @@ abstract class TaskFailure extends Failure with _$TaskFailure {
   const factory TaskFailure.newCommentFailure() = TaskFailureNewCommentFailure;
 
   /// Creates a [TaskFailure] with edit comment error.
-  const factory TaskFailure.editCommentFailure(UniqueId commentId) =
+  const factory TaskFailure.editCommentFailure(@nullable UniqueId commentId) =
       TaskFailureEditCommentFailure;
 
   /// Creates a [TaskFailure] with delete comment error.
-  const factory TaskFailure.deleteCommentFailure(UniqueId commentId) =
+  const factory TaskFailure.deleteCommentFailure(@nullable UniqueId commentId) =
       TaskFailureDeleteCommentFailure;
 
   /// Creates a [TaskFailure] with like comment error.
-  const factory TaskFailure.likeFailure(UniqueId commentId) =
+  const factory TaskFailure.likeFailure(@nullable UniqueId commentId) =
       TaskFailureLikeFailure;
 
   /// Creates a [TaskFailure] with dislike comment error.
-  const factory TaskFailure.dislikeFailure(UniqueId commentId) =
+  const factory TaskFailure.dislikeFailure(@nullable UniqueId commentId) =
       TaskFailureDislikeFailure;
 
   /// Creates a [TaskFailure] with archive error.
-  const factory TaskFailure.archiveFailure(UniqueId taskId) =
+  const factory TaskFailure.archiveFailure(@nullable UniqueId taskId) =
       TaskFailureArchiveFailure;
 
   /// Creates a [TaskFailure] with unarchive error.
-  const factory TaskFailure.unarchiveFailure(UniqueId taskId) =
+  const factory TaskFailure.unarchiveFailure(@nullable UniqueId taskId) =
       TaskFailureUnarchiveFailure;
 
   /// Creates a [TaskFailure] with complete item error.
-  const factory TaskFailure.itemCompleteFailure(UniqueId itemId) =
+  const factory TaskFailure.itemCompleteFailure(@nullable UniqueId itemId) =
       TaskFailureItemCompleteFailure;
 }
