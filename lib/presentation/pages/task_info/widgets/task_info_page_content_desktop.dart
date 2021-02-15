@@ -15,8 +15,8 @@ class TaskInfoPageContentDesktop extends StatelessWidget {
 
   TaskInfoPageContentDesktop({
     Key key,
-    this.task,
-    this.canModify,
+    @required this.task,
+    @required this.canModify,
   }) : super(key: key);
 
   @override

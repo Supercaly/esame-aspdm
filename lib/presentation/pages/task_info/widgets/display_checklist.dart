@@ -18,7 +18,7 @@ class DisplayChecklist extends StatefulWidget {
 
   const DisplayChecklist({
     Key key,
-    this.checklist,
+    @required this.checklist,
     this.onItemChange,
   })  : assert(checklist != null),
         super(key: key);

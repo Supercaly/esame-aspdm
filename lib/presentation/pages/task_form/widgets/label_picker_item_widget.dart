@@ -15,7 +15,7 @@ class LabelPickerItemWidget extends StatelessWidget {
 
   LabelPickerItemWidget({
     Key key,
-    this.label,
+    @required this.label,
     this.selected = false,
     this.onSelected,
   })  : assert(label != null),

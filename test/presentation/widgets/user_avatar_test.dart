@@ -134,13 +134,13 @@ void main() {
 
   test("null size throws an error", () {
     try {
-      UserAvatar();
+      UserAvatar(size: null, user: null);
       fail("This should throw an exception!");
     } catch (e) {
       expect(e, isA<AssertionError>());
     }
     try {
-      UserAvatar(size: 0.0);
+      UserAvatar(size: 0.0, user: null);
       fail("This should throw an exception!");
     } catch (e) {
       expect(e, isA<AssertionError>());
@@ -149,7 +149,7 @@ void main() {
 
   test("null rectangle throws an error", () {
     try {
-      UserAvatar(size: 24, rectangle: null);
+      UserAvatar(size: 24, rectangle: null, user: null);
       fail("This should throw an exception!");
     } catch (e) {
       expect(e, isA<AssertionError>());

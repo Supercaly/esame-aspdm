@@ -18,8 +18,8 @@ class UserAvatar extends StatefulWidget {
 
   UserAvatar({
     Key key,
-    this.user,
-    this.size,
+    @required this.user,
+    @required this.size,
     this.rectangle = false,
   })  : assert(size != null && size > 0.0),
         assert(rectangle != null),

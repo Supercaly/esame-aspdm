@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/values/task_values.dart';
@@ -11,7 +12,7 @@ class ChecklistPrimitive extends Equatable {
   final IList<ItemText> items;
 
   /// Creates a [ChecklistPrimitive].
-  ChecklistPrimitive({this.title, this.items});
+  ChecklistPrimitive({@required this.title, @required this.items});
 
   /// Creates an empty [ChecklistPrimitive].
   factory ChecklistPrimitive.empty() => ChecklistPrimitive(

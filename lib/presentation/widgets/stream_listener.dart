@@ -27,11 +27,12 @@ class StreamListener<T> extends StatefulWidget {
 
   StreamListener({
     Key key,
-    this.listener,
-    this.stream,
+    @required this.listener,
+    @required this.stream,
     this.initialData,
-    this.child,
-  }) : super(key: key);
+    @required this.child,
+  })  : assert(child != null),
+        super(key: key);
 
   @override
   _StreamListenerState createState() => _StreamListenerState<T>();

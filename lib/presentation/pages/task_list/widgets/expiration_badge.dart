@@ -14,7 +14,7 @@ class ExpirationBadge extends StatelessWidget {
 
   ExpirationBadge({
     Key key,
-    this.date,
+    @required this.date,
   })  : assert(date != null),
         super(key: key);
 

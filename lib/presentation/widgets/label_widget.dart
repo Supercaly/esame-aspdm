@@ -15,7 +15,7 @@ class LabelWidget extends StatelessWidget {
 
   const LabelWidget({
     Key key,
-    this.label,
+    @required this.label,
     this.compact = false,
   })  : assert(label != null),
         super(key: key);

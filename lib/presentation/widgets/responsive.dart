@@ -20,9 +20,9 @@ class Responsive extends StatelessWidget {
   /// [medium] could be omitted.
   Responsive({
     Key key,
-    this.small,
+    @required this.small,
     this.medium,
-    this.large,
+    @required this.large,
   })  : assert(small != null),
         assert(large != null),
         super(key: key);

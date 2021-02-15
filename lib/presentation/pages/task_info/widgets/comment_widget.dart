@@ -48,7 +48,7 @@ class CommentWidget extends StatefulWidget {
 
   CommentWidget({
     Key key,
-    this.comment,
+    @required this.comment,
     this.onEdit,
     this.onDelete,
     this.onLike,

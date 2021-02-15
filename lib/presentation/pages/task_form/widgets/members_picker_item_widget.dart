@@ -16,7 +16,7 @@ class MembersPickerItemWidget extends StatelessWidget {
 
   MembersPickerItemWidget({
     Key key,
-    this.member,
+    @required this.member,
     this.selected = false,
     this.onSelected,
   })  : assert(member != null),

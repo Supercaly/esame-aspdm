@@ -10,7 +10,7 @@ import '../../finders/container_by_color_finder.dart';
 void main() {
   test("create widget with null label throws an error", () {
     try {
-      LabelWidget();
+      LabelWidget(label: null);
       fail("This should throw an error!");
     } catch (e) {
       expect(e, isA<AssertionError>());

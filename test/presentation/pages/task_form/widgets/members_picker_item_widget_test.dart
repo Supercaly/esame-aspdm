@@ -85,7 +85,7 @@ void main() {
 
     test("creating with missing parameters throws an error", () {
       try {
-        MembersPickerItemWidget();
+        MembersPickerItemWidget(member: null);
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());

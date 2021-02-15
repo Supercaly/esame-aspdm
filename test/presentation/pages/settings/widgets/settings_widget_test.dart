@@ -8,7 +8,7 @@ void main() {
   group("SettingsGroup Tests", () {
     test("SettingsGroup with null title or children throws an error", () {
       try {
-        SettingsGroup();
+        SettingsGroup(title: null, children: []);
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());
@@ -17,6 +17,7 @@ void main() {
       try {
         SettingsGroup(
           title: "title",
+          children: null,
         );
         fail("This should throw an exception!");
       } catch (e) {
@@ -87,7 +88,7 @@ void main() {
   group("SettingsGroupItem Tests", () {
     test("SettingsGroupItem with null text throws an error", () {
       try {
-        SettingsGroupItem();
+        SettingsGroupItem(text: null);
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());

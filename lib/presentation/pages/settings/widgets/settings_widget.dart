@@ -11,8 +11,8 @@ class SettingsGroup extends StatelessWidget {
 
   SettingsGroup({
     Key key,
-    this.title,
-    this.children,
+    @required this.title,
+    @required this.children,
   })  : assert(title != null),
         assert(children != null && children.isNotEmpty,
             "You must give at least one children!"),
@@ -21,8 +21,8 @@ class SettingsGroup extends StatelessWidget {
   /// Creates a [SettingsGroup] with a single [SettingsGroupItem].
   factory SettingsGroup.single({
     Key key,
-    String title,
-    SettingsGroupItem item,
+    @required String title,
+    @required SettingsGroupItem item,
   }) =>
       SettingsGroup(
         key: key,
@@ -70,7 +70,7 @@ class SettingsGroupItem extends StatelessWidget {
   SettingsGroupItem({
     Key key,
     this.icon,
-    this.text,
+    @required this.text,
     this.onTap,
     this.onLongPress,
     this.textColor,

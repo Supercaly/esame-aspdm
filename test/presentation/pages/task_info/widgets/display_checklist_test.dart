@@ -11,7 +11,7 @@ void main() {
   group("DisplayChecklist test", () {
     test("create widget with null parameter throws an exception", () {
       try {
-        DisplayChecklist();
+        DisplayChecklist(checklist: null);
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());

@@ -103,7 +103,7 @@ class ChecklistFormItem extends StatefulWidget {
 
   ChecklistFormItem({
     Key key,
-    this.item,
+    @required this.item,
   }) : super(key: key);
 
   @override

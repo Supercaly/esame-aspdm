@@ -16,7 +16,7 @@ class AppInfoService {
     }
   }
 
-  AppInfoService(this._logService);
+  AppInfoService({@required LogService logService}) : _logService = logService;
 
   @visibleForTesting
   AppInfoService.private(this._packageInfo, this._logService);

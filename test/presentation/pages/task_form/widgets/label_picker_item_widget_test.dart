@@ -77,7 +77,7 @@ void main() {
 
     test("creating with missing parameters throws an error", () {
       try {
-        LabelPickerItemWidget();
+        LabelPickerItemWidget(label: null);
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());

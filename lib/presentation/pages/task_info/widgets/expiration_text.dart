@@ -15,7 +15,7 @@ class ExpirationText extends StatelessWidget {
 
   ExpirationText({
     Key key,
-    this.date,
+    @required this.date,
   })  : assert(date != null),
         super(key: key);
 

@@ -11,8 +11,8 @@ class MainPageContentDesktop extends StatelessWidget {
 
   MainPageContentDesktop({
     Key key,
-    this.currentIndex,
-    this.pages,
+    @required this.currentIndex,
+    @required this.pages,
     this.navigateTo,
   })  : assert(currentIndex != null && currentIndex >= 0),
         assert(pages != null && pages.isNotEmpty),

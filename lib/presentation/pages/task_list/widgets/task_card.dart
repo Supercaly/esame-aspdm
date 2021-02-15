@@ -19,7 +19,7 @@ class TaskCard extends StatelessWidget {
 
   TaskCard({
     Key key,
-    this.task,
+    @required this.task,
   })  : assert(task != null),
         super(key: key);
 

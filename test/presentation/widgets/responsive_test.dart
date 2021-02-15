@@ -151,14 +151,14 @@ void main() {
 
     test("create Responsive with null parameters throws an error", () {
       try {
-        Responsive(large: Container());
+        Responsive(small: null, large: Container());
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());
       }
 
       try {
-        Responsive(small: Container());
+        Responsive(small: Container(), large: null);
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<AssertionError>());

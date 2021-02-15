@@ -17,7 +17,7 @@ class EditChecklist extends StatelessWidget {
 
   const EditChecklist({
     Key key,
-    this.primitive,
+    @required this.primitive,
     this.onTap,
     this.onRemove,
   })  : assert(primitive != null),

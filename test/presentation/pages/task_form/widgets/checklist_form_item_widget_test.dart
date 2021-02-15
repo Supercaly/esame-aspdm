@@ -48,7 +48,10 @@ void main() {
     testWidgets("when editing displays the existing title", (tester) async {
       final form = GlobalKey<FormState>();
       when(bloc.state).thenReturn(
-        ChecklistFormState.initial(ChecklistPrimitive(title: "Mock title")),
+        ChecklistFormState.initial(ChecklistPrimitive(
+          title: "Mock title",
+          items: null,
+        )),
       );
       await tester.pumpLocalizedWidget(
         MaterialApp(
