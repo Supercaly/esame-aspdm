@@ -13,8 +13,12 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User(UniqueId("mock_id"), UserName("Mock User"),
-                EmailAddress("mock@email.com"), Colors.red),
+            user: User(
+              id: UniqueId("mock_id"),
+              name: UserName("Mock User"),
+              email: EmailAddress("mock@email.com"),
+              profileColor: Colors.red,
+            ),
             size: 48.0,
           ),
         ),
@@ -37,10 +41,10 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             user: User(
-              UniqueId("mock_id"),
-              UserName("Mock User"),
-              EmailAddress("mock@email.com"),
-              Colors.blue,
+              id: UniqueId("mock_id"),
+              name: UserName("Mock User"),
+              email: EmailAddress("mock@email.com"),
+              profileColor: Colors.blue,
             ),
             size: 48.0,
             rectangle: true,
@@ -95,10 +99,10 @@ void main() {
           body: UserAvatar(
             key: key,
             user: User(
-              UniqueId("mock_id"),
-              UserName("Mock User"),
-              EmailAddress("mock@email.com"),
-              Colors.blue,
+              id: UniqueId("mock_id"),
+              name: UserName("Mock User"),
+              email: EmailAddress("mock@email.com"),
+              profileColor: Colors.blue,
             ),
             size: 48.0,
           ),
@@ -116,10 +120,10 @@ void main() {
           body: UserAvatar(
             key: key,
             user: User(
-              UniqueId("mock_id_2"),
-              UserName("New Mocked User"),
-              EmailAddress("mock2@email.com"),
-              Colors.green,
+              id: UniqueId("mock_id_2"),
+              name: UserName("New Mocked User"),
+              email: EmailAddress("mock2@email.com"),
+              profileColor: Colors.green,
             ),
             size: 48.0,
           ),

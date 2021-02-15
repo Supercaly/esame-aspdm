@@ -13,7 +13,11 @@ void main() {
     Label label;
 
     setUpAll(() {
-      label = Label(UniqueId.empty(), Colors.red, LabelName("label"));
+      label = Label(
+        id: UniqueId.empty(),
+        color: Colors.red,
+        label: LabelName("label"),
+      );
     });
 
     testWidgets("create one item", (tester) async {

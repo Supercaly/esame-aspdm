@@ -148,13 +148,17 @@ void main() {
               value: authState,
               child: CommentWidget(
                 comment: Comment(
-                  UniqueId("comment_id"),
-                  CommentContent("Mock comment content"),
-                  User(UniqueId("user_id"), UserName("User 1"),
-                      EmailAddress("user@mock.com"), null),
-                  IList.empty(),
-                  IList.empty(),
-                  DateTime.now(),
+                  id: UniqueId("comment_id"),
+                  content: CommentContent("Mock comment content"),
+                  author: User(
+                    id: UniqueId("user_id"),
+                    name: UserName("User 1"),
+                    email: EmailAddress("user@mock.com"),
+                    profileColor: null,
+                  ),
+                  likes: IList.empty(),
+                  dislikes: IList.empty(),
+                  creationDate: DateTime.now(),
                 ),
               ),
             ),
@@ -172,10 +176,10 @@ void main() {
       when(authState.currentUser).thenReturn(
         Maybe.just(
           User(
-            UniqueId("user_id"),
-            UserName("User 1"),
-            EmailAddress("user@mock.com"),
-            null,
+            id: UniqueId("user_id"),
+            name: UserName("User 1"),
+            email: EmailAddress("user@mock.com"),
+            profileColor: null,
           ),
         ),
       );
@@ -186,17 +190,17 @@ void main() {
               value: authState,
               child: CommentWidget(
                 comment: Comment(
-                  UniqueId("comment_id"),
-                  CommentContent("Mock comment content"),
-                  User(
-                    UniqueId("user_id"),
-                    UserName("User 1"),
-                    EmailAddress("user@mock.com"),
-                    null,
+                  id: UniqueId("comment_id"),
+                  content: CommentContent("Mock comment content"),
+                  author: User(
+                    id: UniqueId("user_id"),
+                    name: UserName("User 1"),
+                    email: EmailAddress("user@mock.com"),
+                    profileColor: null,
                   ),
-                  IList.empty(),
-                  IList.empty(),
-                  DateTime.now(),
+                  likes: IList.empty(),
+                  dislikes: IList.empty(),
+                  creationDate: DateTime.now(),
                 ),
               ),
             ),
@@ -215,10 +219,10 @@ void main() {
       when(authState.currentUser).thenReturn(
         Maybe.just(
           User(
-            UniqueId("user_id"),
-            UserName("User 1"),
-            EmailAddress("user@mock.com"),
-            null,
+            id: UniqueId("user_id"),
+            name: UserName("User 1"),
+            email: EmailAddress("user@mock.com"),
+            profileColor: null,
           ),
         ),
       );
@@ -230,17 +234,17 @@ void main() {
               value: authState,
               child: CommentWidget(
                 comment: Comment(
-                  UniqueId("comment_id"),
-                  CommentContent("Mock comment content"),
-                  User(
-                    UniqueId("user_id"),
-                    UserName("User 1"),
-                    EmailAddress("user@mock.com"),
-                    null,
+                  id: UniqueId("comment_id"),
+                  content: CommentContent("Mock comment content"),
+                  author: User(
+                    id: UniqueId("user_id"),
+                    name: UserName("User 1"),
+                    email: EmailAddress("user@mock.com"),
+                    profileColor: null,
                   ),
-                  IList.empty(),
-                  IList.empty(),
-                  DateTime.now(),
+                  likes: IList.empty(),
+                  dislikes: IList.empty(),
+                  creationDate: DateTime.now(),
                 ),
                 onEdit: (comment) => editedComment = comment,
               ),
@@ -289,10 +293,10 @@ void main() {
       when(authState.currentUser).thenReturn(
         Maybe.just(
           User(
-            UniqueId("user_id"),
-            UserName("User 1"),
-            EmailAddress("user@mock.com"),
-            null,
+            id: UniqueId("user_id"),
+            name: UserName("User 1"),
+            email: EmailAddress("user@mock.com"),
+            profileColor: null,
           ),
         ),
       );
@@ -304,17 +308,17 @@ void main() {
               value: authState,
               child: CommentWidget(
                 comment: Comment(
-                  UniqueId("comment_id"),
-                  CommentContent("Mock comment content"),
-                  User(
-                    UniqueId("user_id"),
-                    UserName("User 1"),
-                    EmailAddress("user@mock.com"),
-                    null,
+                  id: UniqueId("comment_id"),
+                  content: CommentContent("Mock comment content"),
+                  author: User(
+                    id: UniqueId("user_id"),
+                    name: UserName("User 1"),
+                    email: EmailAddress("user@mock.com"),
+                    profileColor: null,
                   ),
-                  IList.empty(),
-                  IList.empty(),
-                  DateTime.now(),
+                  likes: IList.empty(),
+                  dislikes: IList.empty(),
+                  creationDate: DateTime.now(),
                 ),
                 onDelete: () => deleteComment = true,
               ),
@@ -355,17 +359,17 @@ void main() {
               value: authState,
               child: CommentWidget(
                 comment: Comment(
-                  UniqueId("comment_id"),
-                  CommentContent("Mock comment content"),
-                  User(
-                    UniqueId("user_id"),
-                    UserName("User 1"),
-                    EmailAddress("user@mock.com"),
-                    null,
+                  id: UniqueId("comment_id"),
+                  content: CommentContent("Mock comment content"),
+                  author: User(
+                    id: UniqueId("user_id"),
+                    name: UserName("User 1"),
+                    email: EmailAddress("user@mock.com"),
+                    profileColor: null,
                   ),
-                  IList.empty(),
-                  IList.empty(),
-                  DateTime.now(),
+                  likes: IList.empty(),
+                  dislikes: IList.empty(),
+                  creationDate: DateTime.now(),
                 ),
                 onLike: () {
                   commentLiked = true;

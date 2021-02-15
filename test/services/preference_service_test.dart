@@ -42,10 +42,10 @@ void main() {
       user.getOrNull(),
       equals(
         User(
-          UniqueId("mock_id"),
-          UserName("mock user"),
-          EmailAddress("mock.user@email.com"),
-          Colors.red,
+          id: UniqueId("mock_id"),
+          name: UserName("mock user"),
+          email: EmailAddress("mock.user@email.com"),
+          profileColor: Colors.red,
         ),
       ),
     );
@@ -98,10 +98,10 @@ void main() {
     expect(user.isNothing(), isTrue);
 
     await service.storeSignedInUser(Maybe.just(User(
-      UniqueId("mock_id"),
-      UserName("mock user"),
-      EmailAddress("mock.user@email.com"),
-      Colors.yellow,
+      id: UniqueId("mock_id"),
+      name: UserName("mock user"),
+      email: EmailAddress("mock.user@email.com"),
+      profileColor: Colors.yellow,
     )));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));

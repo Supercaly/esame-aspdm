@@ -83,17 +83,17 @@ class TaskPrimitive extends Equatable {
 
   /// Returns a [Task].
   Task toTask() => Task(
-        id,
-        TaskTitle(title),
-        TaskDescription(description),
-        labels,
-        author,
-        members,
-        expireDate.getOrNull(),
-        checklists?.map((e) => e.toChecklist()),
-        null,
-        Toggle(false),
-        null,
+        id: id,
+        title: TaskTitle(title),
+        description: TaskDescription(description),
+        labels: labels,
+        author: author,
+        members: members,
+        expireDate: expireDate.getOrNull(),
+        checklists: checklists?.map((e) => e.toChecklist()),
+        comments: null,
+        archived: Toggle(false),
+        creationDate: null,
       );
 
   @override

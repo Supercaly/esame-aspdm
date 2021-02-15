@@ -40,8 +40,12 @@ class UserModel extends Equatable {
         user.profileColor,
       );
 
-  User toUser() =>
-      User(UniqueId(id), UserName(name), EmailAddress(email), profileColor);
+  User toUser() => User(
+        id: UniqueId(id),
+        name: UserName(name),
+        email: EmailAddress(email),
+        profileColor: profileColor,
+      );
 
   @override
   List<Object> get props => [id, name, email, profileColor];

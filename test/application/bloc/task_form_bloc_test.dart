@@ -119,16 +119,16 @@ void main() {
       act: (TaskFormBloc cubit) {
         cubit.membersChanged(IList.from([
           User(
-            UniqueId("user1"),
-            UserName("User 1"),
-            EmailAddress("user1@email.com"),
-            null,
+            id: UniqueId("user1"),
+            name: UserName("User 1"),
+            email: EmailAddress("user1@email.com"),
+            profileColor: null,
           ),
           User(
-            UniqueId("user2"),
-            UserName("User 2"),
-            EmailAddress("user2@email.com"),
-            null,
+            id: UniqueId("user2"),
+            name: UserName("User 2"),
+            email: EmailAddress("user2@email.com"),
+            profileColor: null,
           ),
         ]));
         cubit.membersChanged(IList.empty());
@@ -138,16 +138,16 @@ void main() {
           taskPrimitive: TaskPrimitive.empty().copyWith(
             members: IList.from([
               User(
-                UniqueId("user1"),
-                UserName("User 1"),
-                EmailAddress("user1@email.com"),
-                null,
+                id: UniqueId("user1"),
+                name: UserName("User 1"),
+                email: EmailAddress("user1@email.com"),
+                profileColor: null,
               ),
               User(
-                UniqueId("user2"),
-                UserName("User 2"),
-                EmailAddress("user2@email.com"),
-                null,
+                id: UniqueId("user2"),
+                name: UserName("User 2"),
+                email: EmailAddress("user2@email.com"),
+                profileColor: null,
               ),
             ]),
           ),
@@ -175,14 +175,14 @@ void main() {
       act: (TaskFormBloc cubit) {
         cubit.labelsChanged(IList.from([
           Label(
-            UniqueId("label1"),
-            Colors.red,
-            LabelName("label 1"),
+            id: UniqueId("label1"),
+            color: Colors.red,
+            label: LabelName("label 1"),
           ),
           Label(
-            UniqueId("label2"),
-            Colors.red,
-            LabelName("label 2"),
+            id: UniqueId("label2"),
+            color: Colors.red,
+            label: LabelName("label 2"),
           ),
         ]));
         cubit.labelsChanged(IList.empty());
@@ -192,14 +192,14 @@ void main() {
           taskPrimitive: TaskPrimitive.empty().copyWith(
             labels: IList.from([
               Label(
-                UniqueId("label1"),
-                Colors.red,
-                LabelName("label 1"),
+                id: UniqueId("label1"),
+                color: Colors.red,
+                label: LabelName("label 1"),
               ),
               Label(
-                UniqueId("label2"),
-                Colors.red,
-                LabelName("label 2"),
+                id: UniqueId("label2"),
+                color: Colors.red,
+                label: LabelName("label 2"),
               ),
             ]),
           ),
@@ -222,29 +222,29 @@ void main() {
       "add checklist emit state",
       build: () => TaskFormBloc(
         oldTask: Maybe.just(Task(
-          UniqueId.empty(),
-          TaskTitle.empty(),
-          TaskDescription.empty(),
-          null,
-          null,
-          null,
-          null,
-          IList.from([
+          id: UniqueId.empty(),
+          title: TaskTitle.empty(),
+          description: TaskDescription.empty(),
+          author: null,
+          labels: null,
+          members: null,
+          expireDate: null,
+          checklists: IList.from([
             Checklist(
-              UniqueId("checklist_id"),
-              ChecklistTitle("Checklist 1"),
-              IList.from([
+              id: UniqueId("checklist_id"),
+              title: ChecklistTitle("Checklist 1"),
+              items: IList.from([
                 ChecklistItem(
-                  UniqueId("item_id"),
-                  ItemText("item 1"),
-                  Toggle(false),
+                  id: UniqueId("item_id"),
+                  item: ItemText("item 1"),
+                  complete: Toggle(false),
                 )
               ]),
             )
           ]),
-          null,
-          Toggle(false),
-          null,
+          comments: null,
+          archived: Toggle(false),
+          creationDate: null,
         )),
         repository: repository,
       ),
@@ -281,40 +281,40 @@ void main() {
       "remove checklist emit state",
       build: () => TaskFormBloc(
         oldTask: Maybe.just(Task(
-          UniqueId.empty(),
-          TaskTitle.empty(),
-          TaskDescription.empty(),
-          null,
-          null,
-          null,
-          null,
-          IList.from([
+          id: UniqueId.empty(),
+          title: TaskTitle.empty(),
+          description: TaskDescription.empty(),
+          author: null,
+          labels: null,
+          members: null,
+          expireDate: null,
+          checklists: IList.from([
             Checklist(
-              UniqueId("checklist_1"),
-              ChecklistTitle("Checklist 1"),
-              IList.from([
+              id: UniqueId("checklist_1"),
+              title: ChecklistTitle("Checklist 1"),
+              items: IList.from([
                 ChecklistItem(
-                  UniqueId("item_id"),
-                  ItemText("item 1"),
-                  Toggle(false),
+                  id: UniqueId("item_id"),
+                  item: ItemText("item 1"),
+                  complete: Toggle(false),
                 )
               ]),
             ),
             Checklist(
-              UniqueId("checklist_2"),
-              ChecklistTitle("Checklist 2"),
-              IList.from([
+              id: UniqueId("checklist_2"),
+              title: ChecklistTitle("Checklist 2"),
+              items: IList.from([
                 ChecklistItem(
-                  UniqueId("item_id"),
-                  ItemText("item 1"),
-                  Toggle(false),
+                  id: UniqueId("item_id"),
+                  item: ItemText("item 1"),
+                  complete: Toggle(false),
                 )
               ]),
             ),
           ]),
-          null,
-          Toggle(false),
-          null,
+          comments: null,
+          archived: Toggle(false),
+          creationDate: null,
         )),
         repository: repository,
       ),
@@ -359,40 +359,40 @@ void main() {
       "edit checklist emit state",
       build: () => TaskFormBloc(
           oldTask: Maybe.just(Task(
-            UniqueId.empty(),
-            TaskTitle.empty(),
-            TaskDescription.empty(),
-            null,
-            null,
-            null,
-            null,
-            IList.from([
+            id: UniqueId.empty(),
+            title: TaskTitle.empty(),
+            description: TaskDescription.empty(),
+            author: null,
+            labels: null,
+            members: null,
+            expireDate: null,
+            checklists: IList.from([
               Checklist(
-                UniqueId("checklist_1"),
-                ChecklistTitle("Checklist 1"),
-                IList.from([
+                id: UniqueId("checklist_1"),
+                title: ChecklistTitle("Checklist 1"),
+                items: IList.from([
                   ChecklistItem(
-                    UniqueId("item_id"),
-                    ItemText("item 1"),
-                    Toggle(false),
+                    id: UniqueId("item_id"),
+                    item: ItemText("item 1"),
+                    complete: Toggle(false),
                   )
                 ]),
               ),
               Checklist(
-                UniqueId("checklist_2"),
-                ChecklistTitle("Checklist 2"),
-                IList.from([
+                id: UniqueId("checklist_2"),
+                title: ChecklistTitle("Checklist 2"),
+                items: IList.from([
                   ChecklistItem(
-                    UniqueId("item_id"),
-                    ItemText("item 1"),
-                    Toggle(false),
+                    id: UniqueId("item_id"),
+                    item: ItemText("item 1"),
+                    complete: Toggle(false),
                   )
                 ]),
               ),
             ]),
-            null,
-            Toggle(false),
-            null,
+            comments: null,
+            archived: Toggle(false),
+            creationDate: null,
           )),
           repository: repository),
       act: (TaskFormBloc cubit) {
@@ -498,17 +498,17 @@ void main() {
       "save emit success state when in editing mode",
       build: () => TaskFormBloc(
         oldTask: Maybe.just(Task(
-          UniqueId.empty(),
-          TaskTitle.empty(),
-          TaskDescription.empty(),
-          null,
-          null,
-          null,
-          null,
-          IList.empty(),
-          null,
-          Toggle(false),
-          null,
+          id: UniqueId.empty(),
+          title: TaskTitle.empty(),
+          description: TaskDescription.empty(),
+          author: null,
+          labels: null,
+          members: null,
+          expireDate: null,
+          checklists: IList.empty(),
+          comments: null,
+          archived: Toggle(false),
+          creationDate: null,
         )),
         repository: repository,
       ),
@@ -540,17 +540,17 @@ void main() {
       "save emit error state when in editing mode",
       build: () => TaskFormBloc(
         oldTask: Maybe.just(Task(
-          UniqueId.empty(),
-          TaskTitle.empty(),
-          TaskDescription.empty(),
-          null,
-          null,
-          null,
-          null,
-          IList.empty(),
-          null,
-          Toggle(false),
-          null,
+          id: UniqueId.empty(),
+          title: TaskTitle.empty(),
+          description: TaskDescription.empty(),
+          author: null,
+          labels: null,
+          members: null,
+          expireDate: null,
+          checklists: IList.empty(),
+          comments: null,
+          archived: Toggle(false),
+          creationDate: null,
         )),
         repository: repository,
       ),

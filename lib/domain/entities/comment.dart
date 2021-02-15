@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -25,14 +26,14 @@ class Comment extends Equatable {
   /// Date when the comment was created.
   final DateTime creationDate;
 
-  const Comment(
-    this.id,
-    this.content,
-    this.author,
-    this.likes,
-    this.dislikes,
-    this.creationDate,
-  );
+  const Comment({
+    @required this.id,
+    @required this.content,
+    @required this.author,
+    @required this.likes,
+    @required this.dislikes,
+    @required this.creationDate,
+  });
 
   @override
   List<Object> get props => [

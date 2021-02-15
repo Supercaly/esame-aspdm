@@ -36,13 +36,13 @@ class ChecklistPrimitive extends Equatable {
 
   /// Returns a [Checklist].
   Checklist toChecklist() => Checklist(
-        UniqueId.empty(),
-        ChecklistTitle(title),
-        items.map(
+        id: UniqueId.empty(),
+        title: ChecklistTitle(title),
+        items: items.map(
           (e) => ChecklistItem(
-            UniqueId.empty(),
-            e,
-            Toggle(false),
+            id: UniqueId.empty(),
+            item: e,
+            complete: Toggle(false),
           ),
         ),
       );

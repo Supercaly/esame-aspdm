@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -14,7 +15,11 @@ class Checklist extends Equatable {
   /// Items of the checklist.
   final IList<ChecklistItem> items;
 
-  Checklist(this.id, this.title, this.items);
+  Checklist({
+    @required this.id,
+    @required this.title,
+    @required this.items,
+  });
 
   @override
   List<Object> get props => [id, title, items];
@@ -34,7 +39,11 @@ class ChecklistItem extends Equatable {
   /// Whether the item is marked as completed or not.
   final Toggle complete;
 
-  ChecklistItem(this.id, this.item, this.complete);
+  ChecklistItem({
+    @required this.id,
+    @required this.item,
+    @required this.complete,
+  });
 
   @override
   List<Object> get props => [id, item, complete];

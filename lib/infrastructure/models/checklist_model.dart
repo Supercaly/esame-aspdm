@@ -36,9 +36,9 @@ class ChecklistModel extends Equatable {
       );
 
   Checklist toChecklist() => Checklist(
-        UniqueId(id),
-        ChecklistTitle(title),
-        IList.from(items?.map((e) => e.toChecklistItem())),
+        id: UniqueId(id),
+        title: ChecklistTitle(title),
+        items: IList.from(items?.map((e) => e.toChecklistItem())),
       );
 
   @override
@@ -74,9 +74,9 @@ class ChecklistItemModel extends Equatable {
       );
 
   ChecklistItem toChecklistItem() => ChecklistItem(
-        UniqueId(id),
-        ItemText(item),
-        Toggle(complete),
+        id: UniqueId(id),
+        item: ItemText(item),
+        complete: Toggle(complete),
       );
 
   @override

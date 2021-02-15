@@ -16,7 +16,11 @@ class Label extends Equatable {
   /// Label's text.
   final LabelName label;
 
-  Label(this.id, this.color, this.label);
+  Label({
+    @required this.id,
+    @required this.color,
+    @required this.label,
+  });
 
   @override
   List<Object> get props => [id];

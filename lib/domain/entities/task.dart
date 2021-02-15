@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -45,19 +46,19 @@ class Task extends Equatable {
   /// otherwise it's still accessible.
   final Toggle archived;
 
-  Task(
-    this.id,
-    this.title,
-    this.description,
-    this.labels,
-    this.author,
-    this.members,
-    this.expireDate,
-    this.checklists,
-    this.comments,
-    this.archived,
-    this.creationDate,
-  );
+  Task({
+    @required this.id,
+    @required this.title,
+    @required this.description,
+    @required this.labels,
+    @required this.author,
+    @required this.members,
+    @required this.expireDate,
+    @required this.checklists,
+    @required this.comments,
+    @required this.archived,
+    @required this.creationDate,
+  });
 
   @override
   List<Object> get props => [

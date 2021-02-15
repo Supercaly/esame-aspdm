@@ -28,19 +28,19 @@ void main() {
 
     when(repository.lastSignedInUser).thenReturn(
       Maybe.just(User(
-        UniqueId("mock_id"),
-        UserName("Mock User"),
-        EmailAddress("mock.user@email.it"),
-        null,
+        id: UniqueId("mock_id"),
+        name: UserName("Mock User"),
+        email: EmailAddress("mock.user@email.it"),
+        profileColor: null,
       )),
     );
     expect(
       AuthState(repository: repository).currentUser.getOrNull(),
       equals(User(
-        UniqueId("mock_id"),
-        UserName("Mock User"),
-        EmailAddress("mock.user@email.it"),
-        null,
+        id: UniqueId("mock_id"),
+        name: UserName("Mock User"),
+        email: EmailAddress("mock.user@email.it"),
+        profileColor: null,
       )),
     );
   });
@@ -55,10 +55,10 @@ void main() {
   test("login with correct data logs the user", () async {
     when(repository.lastSignedInUser).thenReturn(Maybe.nothing());
     when(repository.login(any, any)).thenAnswer((_) async => Either.right(User(
-          UniqueId("mock_id"),
-          UserName("Mock Name"),
-          EmailAddress("mock@email.com"),
-          null,
+          id: UniqueId("mock_id"),
+          name: UserName("Mock Name"),
+          email: EmailAddress("mock@email.com"),
+          profileColor: null,
         )));
 
     final authState = AuthState(repository: repository);
@@ -72,10 +72,10 @@ void main() {
     expect(
       authState.currentUser.getOrNull(),
       equals(User(
-        UniqueId("mock_id"),
-        UserName("Mock Name"),
-        EmailAddress("mock@email.com"),
-        null,
+        id: UniqueId("mock_id"),
+        name: UserName("Mock Name"),
+        email: EmailAddress("mock@email.com"),
+        profileColor: null,
       )),
     );
   });
@@ -97,10 +97,10 @@ void main() {
 
   test("logout sets currentUser to null", () async {
     when(repository.lastSignedInUser).thenReturn(Maybe.just(User(
-      UniqueId("mock_id"),
-      UserName("Mock Name"),
-      EmailAddress("mock@email.com"),
-      null,
+      id: UniqueId("mock_id"),
+      name: UserName("Mock Name"),
+      email: EmailAddress("mock@email.com"),
+      profileColor: null,
     )));
     when(repository.logout()).thenAnswer((_) => null);
 

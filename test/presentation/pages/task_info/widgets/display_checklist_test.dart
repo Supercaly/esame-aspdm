@@ -24,24 +24,24 @@ void main() {
           home: Scaffold(
             body: DisplayChecklist(
               checklist: Checklist(
-                UniqueId("checklist_id"),
-                ChecklistTitle("Checklist"),
-                IList.from(
+                id: UniqueId("checklist_id"),
+                title: ChecklistTitle("Checklist"),
+                items: IList.from(
                   [
                     ChecklistItem(
-                      UniqueId("item_1"),
-                      ItemText("Item 1"),
-                      Toggle(false),
+                      id: UniqueId("item_1"),
+                      item: ItemText("Item 1"),
+                      complete: Toggle(false),
                     ),
                     ChecklistItem(
-                      UniqueId("item_2"),
-                      ItemText("Item 2"),
-                      Toggle(false),
+                      id: UniqueId("item_2"),
+                      item: ItemText("Item 2"),
+                      complete: Toggle(false),
                     ),
                     ChecklistItem(
-                      UniqueId("item_3"),
-                      ItemText("Item 3"),
-                      Toggle(true),
+                      id: UniqueId("item_3"),
+                      item: ItemText("Item 3"),
+                      complete: Toggle(true),
                     ),
                   ],
                 ),
@@ -64,24 +64,24 @@ void main() {
           home: Scaffold(
             body: DisplayChecklist(
               checklist: Checklist(
-                UniqueId("checklist_id"),
-                ChecklistTitle("Checklist"),
-                IList.from(
+                id: UniqueId("checklist_id"),
+                title: ChecklistTitle("Checklist"),
+                items: IList.from(
                   [
                     ChecklistItem(
-                      UniqueId("item_1"),
-                      ItemText("Item 1"),
-                      Toggle(false),
+                      id: UniqueId("item_1"),
+                      item: ItemText("Item 1"),
+                      complete: Toggle(false),
                     ),
                     ChecklistItem(
-                      UniqueId("item_2"),
-                      ItemText("Item 2"),
-                      Toggle(false),
+                      id: UniqueId("item_2"),
+                      item: ItemText("Item 2"),
+                      complete: Toggle(false),
                     ),
                     ChecklistItem(
-                      UniqueId("item_3"),
-                      ItemText("Item 3"),
-                      Toggle(true),
+                      id: UniqueId("item_3"),
+                      item: ItemText("Item 3"),
+                      complete: Toggle(true),
                     ),
                   ],
                 ),
@@ -120,24 +120,24 @@ void main() {
           home: Scaffold(
             body: DisplayChecklist(
               checklist: Checklist(
-                UniqueId("checklist_id"),
-                ChecklistTitle("Checklist"),
-                IList.from(
+                id: UniqueId("checklist_id"),
+                title: ChecklistTitle("Checklist"),
+                items: IList.from(
                   [
                     ChecklistItem(
-                      UniqueId("item_1"),
-                      ItemText("Item 1"),
-                      Toggle(false),
+                      id: UniqueId("item_1"),
+                      item: ItemText("Item 1"),
+                      complete: Toggle(false),
                     ),
                     ChecklistItem(
-                      UniqueId("item_2"),
-                      ItemText("Item 2"),
-                      Toggle(false),
+                      id: UniqueId("item_2"),
+                      item: ItemText("Item 2"),
+                      complete: Toggle(false),
                     ),
                     ChecklistItem(
-                      UniqueId("item_3"),
-                      ItemText("Item 3"),
-                      Toggle(true),
+                      id: UniqueId("item_3"),
+                      item: ItemText("Item 3"),
+                      complete: Toggle(true),
                     ),
                   ],
                 ),
@@ -162,9 +162,9 @@ void main() {
       expect(
         changedItem,
         equals(ChecklistItem(
-          UniqueId("item_1"),
-          ItemText("Item 1"),
-          Toggle(false),
+          id: UniqueId("item_1"),
+          item: ItemText("Item 1"),
+          complete: Toggle(false),
         )),
       );
       expect(checked, isTrue);
@@ -174,9 +174,9 @@ void main() {
       expect(
         changedItem,
         equals(ChecklistItem(
-          UniqueId("item_2"),
-          ItemText("Item 2"),
-          Toggle(false),
+          id: UniqueId("item_2"),
+          item: ItemText("Item 2"),
+          complete: Toggle(false),
         )),
       );
       expect(checked, isTrue);
@@ -186,9 +186,9 @@ void main() {
       expect(
         changedItem,
         equals(ChecklistItem(
-          UniqueId("item_3"),
-          ItemText("Item 3"),
-          Toggle(true),
+          id: UniqueId("item_3"),
+          item: ItemText("Item 3"),
+          complete: Toggle(true),
         )),
       );
       expect(checked, isFalse);
@@ -197,24 +197,24 @@ void main() {
     test("get checklist progress returns the correct amount", () {
       final widget = DisplayChecklist(
         checklist: Checklist(
-          UniqueId("checklist_id"),
-          ChecklistTitle("Checklist"),
-          IList.from(
+          id: UniqueId("checklist_id"),
+          title: ChecklistTitle("Checklist"),
+          items: IList.from(
             [
               ChecklistItem(
-                UniqueId("item_1"),
-                ItemText("Item 1"),
-                Toggle(false),
+                id: UniqueId("item_1"),
+                item: ItemText("Item 1"),
+                complete: Toggle(false),
               ),
               ChecklistItem(
-                UniqueId("item_2"),
-                ItemText("Item 2"),
-                Toggle(false),
+                id: UniqueId("item_2"),
+                item: ItemText("Item 2"),
+                complete: Toggle(false),
               ),
               ChecklistItem(
-                UniqueId("item_3"),
-                ItemText("Item 3"),
-                Toggle(true),
+                id: UniqueId("item_3"),
+                item: ItemText("Item 3"),
+                complete: Toggle(true),
               ),
             ],
           ),

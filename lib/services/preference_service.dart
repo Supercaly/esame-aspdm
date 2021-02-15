@@ -45,10 +45,10 @@ class PreferenceService {
     final id = UniqueId(_preferences.getString("user_id"));
     if (id.value.isLeft()) return Maybe<User>.nothing();
     return Maybe.just(User(
-      id,
-      UserName(_preferences.getString("user_name")),
-      EmailAddress(_preferences.getString("user_email")),
-      colorValue != null ? Color(colorValue) : null,
+      id: id,
+      name: UserName(_preferences.getString("user_name")),
+      email: EmailAddress(_preferences.getString("user_email")),
+      profileColor: colorValue != null ? Color(colorValue) : null,
     ));
   }
 }

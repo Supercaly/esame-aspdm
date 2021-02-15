@@ -38,10 +38,10 @@ void main() {
 
   test("get last signed in user returns a user", () {
     when(preferenceService.getLastSignedInUser()).thenReturn(Maybe.just(User(
-      UniqueId("mock_id"),
-      UserName("Mock User"),
-      EmailAddress("mock@email.com"),
-      null,
+      id: UniqueId("mock_id"),
+      name: UserName("Mock User"),
+      email: EmailAddress("mock@email.com"),
+      profileColor: null,
     )));
     final user = repository.lastSignedInUser;
 

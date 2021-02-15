@@ -84,17 +84,17 @@ class TaskModel extends Equatable {
       );
 
   Task toTask() => Task(
-        UniqueId(id),
-        TaskTitle(title),
-        TaskDescription(description),
-        IList.from(labels?.map((e) => e.toLabel())),
-        author?.toUser(),
-        IList.from(members?.map((e) => e.toUser())),
-        expireDate,
-        IList.from(checklists?.map((e) => e.toChecklist())),
-        IList.from(comments?.map((e) => e.toComment())),
-        Toggle(archived),
-        creationDate,
+        id: UniqueId(id),
+        title: TaskTitle(title),
+        description: TaskDescription(description),
+        labels: IList.from(labels?.map((e) => e.toLabel())),
+        author: author?.toUser(),
+        members: IList.from(members?.map((e) => e.toUser())),
+        expireDate: expireDate,
+        checklists: IList.from(checklists?.map((e) => e.toChecklist())),
+        comments: IList.from(comments?.map((e) => e.toComment())),
+        archived: Toggle(archived),
+        creationDate: creationDate,
       );
 
   @override

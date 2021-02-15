@@ -33,18 +33,18 @@ void main() {
 
     test("from checklist creates a primitive correctly", () {
       final ck = Checklist(
-        UniqueId("checklist_id"),
-        ChecklistTitle("Checklist 1"),
-        IList.from([
+        id: UniqueId("checklist_id"),
+        title: ChecklistTitle("Checklist 1"),
+        items: IList.from([
           ChecklistItem(
-            UniqueId("item_1"),
-            ItemText("item 1"),
-            Toggle(false),
+            id: UniqueId("item_1"),
+            item: ItemText("item 1"),
+            complete: Toggle(false),
           ),
           ChecklistItem(
-            UniqueId("item_2"),
-            ItemText("item 2"),
-            Toggle(true),
+            id: UniqueId("item_2"),
+            item: ItemText("item 2"),
+            complete: Toggle(true),
           )
         ]),
       );
@@ -78,8 +78,16 @@ void main() {
       expect(
         ck.items.asList(),
         equals([
-          ChecklistItem(UniqueId.empty(), ItemText("item 1"), Toggle(false)),
-          ChecklistItem(UniqueId.empty(), ItemText("item 2"), Toggle(false)),
+          ChecklistItem(
+            id: UniqueId.empty(),
+            item: ItemText("item 1"),
+            complete: Toggle(false),
+          ),
+          ChecklistItem(
+            id: UniqueId.empty(),
+            item: ItemText("item 2"),
+            complete: Toggle(false),
+          ),
         ]),
       );
     });

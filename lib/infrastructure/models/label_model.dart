@@ -41,7 +41,11 @@ class LabelModel extends Equatable {
         label.label.value.getOrNull(),
       );
 
-  Label toLabel() => Label(UniqueId(id), color, LabelName(label));
+  Label toLabel() => Label(
+        id: UniqueId(id),
+        color: color,
+        label: LabelName(label),
+      );
 
   @override
   List<Object> get props => [id, color, label];

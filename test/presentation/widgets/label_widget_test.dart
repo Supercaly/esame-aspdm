@@ -22,8 +22,11 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: LabelWidget(
-            label:
-                Label(UniqueId("mock_id"), Colors.red, LabelName("mock_label")),
+            label: Label(
+              id: UniqueId("mock_id"),
+              color: Colors.red,
+              label: LabelName("mock_label"),
+            ),
             compact: true,
           ),
         ),
@@ -40,8 +43,11 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: LabelWidget(
-            label:
-                Label(UniqueId("mock_id"), Colors.red, LabelName("mock_label")),
+            label: Label(
+              id: UniqueId("mock_id"),
+              color: Colors.red,
+              label: LabelName("mock_label"),
+            ),
             compact: false,
           ),
         ),

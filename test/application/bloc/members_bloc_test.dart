@@ -61,18 +61,34 @@ void main() {
       act: (MembersBloc bloc) async {
         when(repository.getUsers()).thenAnswer((_) async => Either.right(
               IList.from([
-                User(UniqueId("user1"), UserName("User 1"),
-                    EmailAddress("user1@email.com"), null),
-                User(UniqueId("user2"), UserName("User 2"),
-                    EmailAddress("user2@email.com"), null),
-                User(UniqueId("user3"), UserName("User 3"),
-                    EmailAddress("user3@email.com"), null),
+                User(
+                  id: UniqueId("user1"),
+                  name: UserName("User 1"),
+                  email: EmailAddress("user1@email.com"),
+                  profileColor: null,
+                ),
+                User(
+                  id: UniqueId("user2"),
+                  name: UserName("User 2"),
+                  email: EmailAddress("user2@email.com"),
+                  profileColor: null,
+                ),
+                User(
+                  id: UniqueId("user3"),
+                  name: UserName("User 3"),
+                  email: EmailAddress("user3@email.com"),
+                  profileColor: null,
+                ),
               ]),
             ));
         await bloc.fetch();
         bloc.selectMember(
-          User(UniqueId("user2"), UserName("User 2"),
-              EmailAddress("user2@email.com"), null),
+          User(
+            id: UniqueId("user2"),
+            name: UserName("User 2"),
+            email: EmailAddress("user2@email.com"),
+            profileColor: null,
+          ),
         );
       },
       expect: [
@@ -80,27 +96,55 @@ void main() {
         MembersState(
             IList.empty(),
             IList.from([
-              User(UniqueId("user1"), UserName("User 1"),
-                  EmailAddress("user1@email.com"), null),
-              User(UniqueId("user2"), UserName("User 2"),
-                  EmailAddress("user2@email.com"), null),
-              User(UniqueId("user3"), UserName("User 3"),
-                  EmailAddress("user3@email.com"), null),
+              User(
+                id: UniqueId("user1"),
+                name: UserName("User 1"),
+                email: EmailAddress("user1@email.com"),
+                profileColor: null,
+              ),
+              User(
+                id: UniqueId("user2"),
+                name: UserName("User 2"),
+                email: EmailAddress("user2@email.com"),
+                profileColor: null,
+              ),
+              User(
+                id: UniqueId("user3"),
+                name: UserName("User 3"),
+                email: EmailAddress("user3@email.com"),
+                profileColor: null,
+              ),
             ]),
             false,
             false),
         MembersState(
             IList.from([
-              User(UniqueId("user2"), UserName("User 2"),
-                  EmailAddress("user2@email.com"), null),
+              User(
+                id: UniqueId("user2"),
+                name: UserName("User 2"),
+                email: EmailAddress("user2@email.com"),
+                profileColor: null,
+              ),
             ]),
             IList.from([
-              User(UniqueId("user1"), UserName("User 1"),
-                  EmailAddress("user1@email.com"), null),
-              User(UniqueId("user2"), UserName("User 2"),
-                  EmailAddress("user2@email.com"), null),
-              User(UniqueId("user3"), UserName("User 3"),
-                  EmailAddress("user3@email.com"), null),
+              User(
+                id: UniqueId("user1"),
+                name: UserName("User 1"),
+                email: EmailAddress("user1@email.com"),
+                profileColor: null,
+              ),
+              User(
+                id: UniqueId("user2"),
+                name: UserName("User 2"),
+                email: EmailAddress("user2@email.com"),
+                profileColor: null,
+              ),
+              User(
+                id: UniqueId("user3"),
+                name: UserName("User 3"),
+                email: EmailAddress("user3@email.com"),
+                profileColor: null,
+              ),
             ]),
             false,
             false),
@@ -111,28 +155,52 @@ void main() {
       "emits on deselect",
       build: () => MembersBloc(
         initialValue: IList.from([
-          User(UniqueId("user1"), UserName("User 1"),
-              EmailAddress("user1@email.com"), null),
-          User(UniqueId("user2"), UserName("User 2"),
-              EmailAddress("user2@email.com"), null),
-          User(UniqueId("user3"), UserName("User 3"),
-              EmailAddress("user3@email.com"), null),
+          User(
+            id: UniqueId("user1"),
+            name: UserName("User 1"),
+            email: EmailAddress("user1@email.com"),
+            profileColor: null,
+          ),
+          User(
+            id: UniqueId("user2"),
+            name: UserName("User 2"),
+            email: EmailAddress("user2@email.com"),
+            profileColor: null,
+          ),
+          User(
+            id: UniqueId("user3"),
+            name: UserName("User 3"),
+            email: EmailAddress("user3@email.com"),
+            profileColor: null,
+          ),
         ]),
         repository: repository,
       ),
       act: (MembersBloc bloc) {
         bloc.deselectMember(
-          User(UniqueId("user2"), UserName("User 2"),
-              EmailAddress("user2@email.com"), null),
+          User(
+            id: UniqueId("user2"),
+            name: UserName("User 2"),
+            email: EmailAddress("user2@email.com"),
+            profileColor: null,
+          ),
         );
       },
       expect: [
         MembersState(
             IList.from([
-              User(UniqueId("user1"), UserName("User 1"),
-                  EmailAddress("user1@email.com"), null),
-              User(UniqueId("user3"), UserName("User 3"),
-                  EmailAddress("user3@email.com"), null),
+              User(
+                id: UniqueId("user1"),
+                name: UserName("User 1"),
+                email: EmailAddress("user1@email.com"),
+                profileColor: null,
+              ),
+              User(
+                id: UniqueId("user3"),
+                name: UserName("User 3"),
+                email: EmailAddress("user3@email.com"),
+                profileColor: null,
+              ),
             ]),
             IList.empty(),
             false,

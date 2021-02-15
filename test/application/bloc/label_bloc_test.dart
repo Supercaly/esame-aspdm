@@ -62,14 +62,30 @@ void main() {
       act: (LabelsBloc bloc) async {
         when(repository.getLabels()).thenAnswer((_) async => Either.right(
               IList.from([
-                Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
-                Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
-                Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
+                Label(
+                  id: UniqueId("label1"),
+                  color: Colors.red,
+                  label: LabelName("Label 1"),
+                ),
+                Label(
+                  id: UniqueId("label2"),
+                  color: Colors.green,
+                  label: LabelName("Label 2"),
+                ),
+                Label(
+                  id: UniqueId("label3"),
+                  color: Colors.blue,
+                  label: LabelName("Label 3"),
+                ),
               ]),
             ));
         await bloc.fetch();
         bloc.selectLabel(
-          Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
+          Label(
+            id: UniqueId("label2"),
+            color: Colors.green,
+            label: LabelName("Label 2"),
+          ),
         );
       },
       expect: [
@@ -77,20 +93,48 @@ void main() {
         LabelsState(
             IList.empty(),
             IList.from([
-              Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
-              Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
-              Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
+              Label(
+                id: UniqueId("label1"),
+                color: Colors.red,
+                label: LabelName("Label 1"),
+              ),
+              Label(
+                id: UniqueId("label2"),
+                color: Colors.green,
+                label: LabelName("Label 2"),
+              ),
+              Label(
+                id: UniqueId("label3"),
+                color: Colors.blue,
+                label: LabelName("Label 3"),
+              ),
             ]),
             false,
             false),
         LabelsState(
             IList.from([
-              Label(UniqueId("label2"), Colors.green, LabelName("Label 2"))
+              Label(
+                id: UniqueId("label2"),
+                color: Colors.green,
+                label: LabelName("Label 2"),
+              )
             ]),
             IList.from([
-              Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
-              Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
-              Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
+              Label(
+                id: UniqueId("label1"),
+                color: Colors.red,
+                label: LabelName("Label 1"),
+              ),
+              Label(
+                id: UniqueId("label2"),
+                color: Colors.green,
+                label: LabelName("Label 2"),
+              ),
+              Label(
+                id: UniqueId("label3"),
+                color: Colors.blue,
+                label: LabelName("Label 3"),
+              ),
             ]),
             false,
             false),
@@ -101,22 +145,46 @@ void main() {
       "emits on deselect",
       build: () => LabelsBloc(
         initialValue: IList.from([
-          Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
-          Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
-          Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
+          Label(
+            id: UniqueId("label1"),
+            color: Colors.red,
+            label: LabelName("Label 1"),
+          ),
+          Label(
+            id: UniqueId("label2"),
+            color: Colors.green,
+            label: LabelName("Label 2"),
+          ),
+          Label(
+            id: UniqueId("label3"),
+            color: Colors.blue,
+            label: LabelName("Label 3"),
+          ),
         ]),
         repository: repository,
       ),
       act: (LabelsBloc bloc) {
         bloc.deselectLabel(
-          Label(UniqueId("label2"), Colors.green, LabelName("Label 2")),
+          Label(
+            id: UniqueId("label2"),
+            color: Colors.green,
+            label: LabelName("Label 2"),
+          ),
         );
       },
       expect: [
         LabelsState(
             IList.from([
-              Label(UniqueId("label1"), Colors.red, LabelName("Label 1")),
-              Label(UniqueId("label3"), Colors.blue, LabelName("Label 3")),
+              Label(
+                id: UniqueId("label1"),
+                color: Colors.red,
+                label: LabelName("Label 1"),
+              ),
+              Label(
+                id: UniqueId("label3"),
+                color: Colors.blue,
+                label: LabelName("Label 3"),
+              ),
             ]),
             IList.empty(),
             false,

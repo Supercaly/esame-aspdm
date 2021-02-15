@@ -13,10 +13,10 @@ void main() {
 
     setUpAll(() {
       member = User(
-        UniqueId.empty(),
-        UserName("User Name"),
-        EmailAddress("user@email.com"),
-        Colors.red,
+        id: UniqueId.empty(),
+        name: UserName("User Name"),
+        email: EmailAddress("user@email.com"),
+        profileColor: Colors.red,
       );
     });
 

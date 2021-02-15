@@ -63,12 +63,12 @@ class CommentModel extends Equatable {
       );
 
   Comment toComment() => Comment(
-        UniqueId(id),
-        CommentContent(content),
-        author?.toUser(),
-        IList.from(likes?.map((e) => e.toUser())),
-        IList.from(dislikes?.map((e) => e.toUser())),
-        creationDate,
+        id: UniqueId(id),
+        content: CommentContent(content),
+        author: author?.toUser(),
+        likes: IList.from(likes?.map((e) => e.toUser())),
+        dislikes: IList.from(dislikes?.map((e) => e.toUser())),
+        creationDate: creationDate,
       );
 
   @override

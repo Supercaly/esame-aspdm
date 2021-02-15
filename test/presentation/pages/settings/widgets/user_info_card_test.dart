@@ -19,10 +19,10 @@ void main() {
     state = MockAuthState();
 
     when(state.currentUser).thenReturn(Maybe.just(User(
-      UniqueId("mock_id"),
-      UserName("Mock User"),
-      EmailAddress("mock.user@email.com"),
-      Colors.green,
+      id: UniqueId("mock_id"),
+      name: UserName("Mock User"),
+      email: EmailAddress("mock.user@email.com"),
+      profileColor: Colors.green,
     )));
   });
 
