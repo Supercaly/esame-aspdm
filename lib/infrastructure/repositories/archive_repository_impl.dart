@@ -17,7 +17,7 @@ class ArchiveRepositoryImpl extends ArchiveRepository {
   @override
   Stream<Either<Failure, IList<Task>>> watchArchivedTasks() {
     return Stream.fromFuture(MonadTask(() => _dataSource.getArchivedTasks())
-        .map((value) => value.map((e) => e.toTask()).toIList())
+        .map((value) => value.map((e) => e.toDomain()).toIList())
         .attempt((e) => ServerFailure.unexpectedError(e))
         .run());
   }

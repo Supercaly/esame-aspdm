@@ -54,23 +54,24 @@ class CommentModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$CommentModelToJson(this);
 
-  factory CommentModel.fromComment(Comment comment) => CommentModel(
+  factory CommentModel.fromDomain(Comment comment) => CommentModel(
         id: comment.id.value.getOrNull(),
         content: comment.content.value.getOrNull(),
         author: (comment.author == null)
             ? null
-            : UserModel.fromUser(comment.author),
-        likes: comment.likes?.map((e) => UserModel.fromUser(e))?.asList(),
-        dislikes: comment.dislikes?.map((e) => UserModel.fromUser(e))?.asList(),
+            : UserModel.fromDomain(comment.author),
+        likes: comment.likes?.map((e) => UserModel.fromDomain(e))?.asList(),
+        dislikes:
+            comment.dislikes?.map((e) => UserModel.fromDomain(e))?.asList(),
         creationDate: comment.creationDate,
       );
 
-  Comment toComment() => Comment(
+  Comment toDomain() => Comment(
         id: UniqueId(id),
         content: CommentContent(content),
-        author: author?.toUser(),
-        likes: IList.from(likes?.map((e) => e.toUser())),
-        dislikes: IList.from(dislikes?.map((e) => e.toUser())),
+        author: author?.toDomain(),
+        likes: IList.from(likes?.map((e) => e.toDomain())),
+        dislikes: IList.from(dislikes?.map((e) => e.toDomain())),
         creationDate: creationDate,
       );
 

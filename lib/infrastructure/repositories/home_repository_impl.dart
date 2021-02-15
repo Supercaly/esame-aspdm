@@ -17,7 +17,7 @@ class HomeRepositoryImpl extends HomeRepository {
   @override
   Stream<Either<Failure, IList<Task>>> watchTasks() {
     return Stream.fromFuture(MonadTask(() => _dataSource.getUnarchivedTasks())
-        .map((value) => value.map((e) => e.toTask()).toIList())
+        .map((value) => value.map((e) => e.toDomain()).toIList())
         .attempt((e) => ServerFailure.unexpectedError(e))
         .run());
   }

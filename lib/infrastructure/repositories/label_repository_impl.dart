@@ -17,7 +17,7 @@ class LabelRepositoryImpl extends LabelRepository {
   @override
   Future<Either<Failure, IList<Label>>> getLabels() {
     return MonadTask(() => _dataSource.getLabels())
-        .map((value) => value.map((e) => e.toLabel()).toIList())
+        .map((value) => value.map((e) => e.toDomain()).toIList())
         .attempt((err) => ServerFailure.unexpectedError(err))
         .run();
   }

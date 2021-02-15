@@ -30,7 +30,7 @@ class AuthRepositoryImpl extends AuthRepository {
   ) async {
     final result =
         await MonadTask(() => _dataSource.authenticate(email, password))
-            .map((value) => value.toUser())
+            .map((value) => value.toDomain())
             .attempt((e) => ServerFailure.unexpectedError(e))
             .run();
 

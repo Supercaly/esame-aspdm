@@ -70,33 +70,34 @@ class TaskModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$TaskModelToJson(this);
 
-  factory TaskModel.fromTask(Task task) => TaskModel(
+  factory TaskModel.fromDomain(Task task) => TaskModel(
         id: task.id.value.getOrNull(),
         title: task.title.value.getOrNull(),
         description: task.description.value.getOrNull(),
-        labels: task.labels?.map((e) => LabelModel.fromLabel(e))?.asList(),
-        author: (task.author == null) ? null : UserModel.fromUser(task.author),
-        members: task.members?.map((e) => UserModel.fromUser(e))?.asList(),
+        labels: task.labels?.map((e) => LabelModel.fromDomain(e))?.asList(),
+        author:
+            (task.author == null) ? null : UserModel.fromDomain(task.author),
+        members: task.members?.map((e) => UserModel.fromDomain(e))?.asList(),
         expireDate: task.expireDate,
         checklists: task.checklists
-            ?.map((e) => ChecklistModel.fromChecklist(e))
+            ?.map((e) => ChecklistModel.fromDomain(e))
             ?.asList(),
         comments:
-            task.comments?.map((e) => CommentModel.fromComment(e))?.asList(),
+            task.comments?.map((e) => CommentModel.fromDomain(e))?.asList(),
         archived: task.archived.value.getOrElse((_) => false),
         creationDate: task.creationDate,
       );
 
-  Task toTask() => Task(
+  Task toDomain() => Task(
         id: UniqueId(id),
         title: TaskTitle(title),
         description: TaskDescription(description),
-        labels: IList.from(labels?.map((e) => e.toLabel())),
-        author: author?.toUser(),
-        members: IList.from(members?.map((e) => e.toUser())),
+        labels: IList.from(labels?.map((e) => e.toDomain())),
+        author: author?.toDomain(),
+        members: IList.from(members?.map((e) => e.toDomain())),
         expireDate: expireDate,
-        checklists: IList.from(checklists?.map((e) => e.toChecklist())),
-        comments: IList.from(comments?.map((e) => e.toComment())),
+        checklists: IList.from(checklists?.map((e) => e.toDomain())),
+        comments: IList.from(comments?.map((e) => e.toDomain())),
         archived: Toggle(archived),
         creationDate: creationDate,
       );

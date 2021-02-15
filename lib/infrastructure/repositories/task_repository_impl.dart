@@ -23,7 +23,7 @@ class TaskRepositoryImpl extends TaskRepository {
       return Stream.value(Either.left(TaskFailure.invalidId()));
     return Stream.fromFuture(
         MonadTask(() => _dataSource.getTask(id.getOrNull()))
-            .map((value) => value?.toTask())
+            .map((value) => value?.toDomain())
             .attempt((e) => ServerFailure.unexpectedError(e))
             .run());
   }
@@ -39,7 +39,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 commentId,
                 userId.getOrNull(),
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -56,7 +56,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 userId.getOrNull(),
                 content,
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -71,7 +71,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 userId.getOrNull(),
                 content,
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -86,7 +86,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 commentId,
                 userId.getOrNull(),
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -101,7 +101,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 commentId,
                 userId.getOrNull(),
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -115,7 +115,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 userId.getOrNull(),
                 Toggle(true),
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -129,7 +129,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 userId.getOrNull(),
                 Toggle(false),
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 
@@ -148,7 +148,7 @@ class TaskRepositoryImpl extends TaskRepository {
                 itemId,
                 complete,
               ))
-          .map((value) => value.toTask())
+          .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
           .run();
 }

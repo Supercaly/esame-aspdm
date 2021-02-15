@@ -17,7 +17,7 @@ class MembersRepositoryImpl extends MembersRepository {
   @override
   Future<Either<Failure, IList<User>>> getUsers() {
     return MonadTask(() => _dataSource.getUsers())
-        .map((value) => value.map((e) => e.toUser()).toIList())
+        .map((value) => value.map((e) => e.toDomain()).toIList())
         .attempt((err) => ServerFailure.unexpectedError(err))
         .run();
   }

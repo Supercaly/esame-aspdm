@@ -32,18 +32,18 @@ class ChecklistModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$ChecklistModelToJson(this);
 
-  factory ChecklistModel.fromChecklist(Checklist checklist) => ChecklistModel(
+  factory ChecklistModel.fromDomain(Checklist checklist) => ChecklistModel(
         id: checklist.id.value.getOrNull(),
         title: checklist.title.value.getOrNull(),
         items: checklist.items
-            ?.map((e) => ChecklistItemModel.fromChecklistItem(e))
+            ?.map((e) => ChecklistItemModel.fromDomain(e))
             ?.asList(),
       );
 
-  Checklist toChecklist() => Checklist(
+  Checklist toDomain() => Checklist(
         id: UniqueId(id),
         title: ChecklistTitle(title),
-        items: IList.from(items?.map((e) => e.toChecklistItem())),
+        items: IList.from(items?.map((e) => e.toDomain())),
       );
 
   @override
@@ -75,14 +75,14 @@ class ChecklistItemModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$ChecklistItemModelToJson(this);
 
-  factory ChecklistItemModel.fromChecklistItem(ChecklistItem item) =>
+  factory ChecklistItemModel.fromDomain(ChecklistItem item) =>
       ChecklistItemModel(
         id: item.id.value.getOrNull(),
         item: item.item.value.getOrNull(),
         complete: item.complete.value.getOrNull(),
       );
 
-  ChecklistItem toChecklistItem() => ChecklistItem(
+  ChecklistItem toDomain() => ChecklistItem(
         id: UniqueId(id),
         item: ItemText(item),
         complete: Toggle(complete),

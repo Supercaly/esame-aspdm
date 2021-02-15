@@ -38,14 +38,14 @@ class UserModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
-  factory UserModel.fromUser(User user) => UserModel(
+  factory UserModel.fromDomain(User user) => UserModel(
         id: user.id.value.getOrNull(),
         name: user.name.value.getOrNull(),
         email: user.email.value.getOrNull(),
         profileColor: user.profileColor,
       );
 
-  User toUser() => User(
+  User toDomain() => User(
         id: UniqueId(id),
         name: UserName(name),
         email: EmailAddress(email),

@@ -39,13 +39,13 @@ class LabelModel extends Equatable {
 
   Map<String, dynamic> toJson() => _$LabelModelToJson(this);
 
-  factory LabelModel.fromLabel(Label label) => LabelModel(
+  factory LabelModel.fromDomain(Label label) => LabelModel(
         id: label.id.value.getOrNull(),
         color: label.color,
         label: label.label.value.getOrNull(),
       );
 
-  Label toLabel() => Label(
+  Label toDomain() => Label(
         id: UniqueId(id),
         color: color,
         label: LabelName(label),
