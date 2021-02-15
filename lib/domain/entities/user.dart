@@ -29,5 +29,5 @@ class User extends Equatable {
 
   @override
   String toString() => "User {id: $id, name: $name, email: $email, "
-      "profileColor: $profileColor";
+      "profileColor: $profileColor}";
 }
