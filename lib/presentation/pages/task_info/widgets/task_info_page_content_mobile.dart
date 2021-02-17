@@ -1,5 +1,5 @@
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/domain/entities/task.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import '../task_info_page.dart';
 import 'package:tasky/application/bloc/task_bloc.dart';
@@ -33,8 +33,9 @@ class TaskInfoPageContentMobile extends StatelessWidget {
                         ? (item, value) =>
                             context.read<TaskBloc>().completeChecklist(
                                   context
-                                      .read<AuthState>()
-                                      .currentUser
+                                      .read<AuthBloc>()
+                                      .state
+                                      .user
                                       .map((u) => u.id),
                                   checklist.id,
                                   item.id,

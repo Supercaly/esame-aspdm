@@ -146,5 +146,51 @@ void main() {
       expect(find.text("Second Screen"), findsOneWidget);
       verify(mockNavigatorObserver.didPush(any, any));
     });
+
+    testWidgets(
+        "replaceWith pushed the selected route in place of the last route in the navigation stack",
+        (tester) async {
+      final firstRoute = MaterialPageRoute(
+        builder: (context) => Scaffold(
+          body: Text("First Screen"),
+        ),
+      );
+      final secondRoute = MaterialPageRoute(
+        builder: (_) => Scaffold(
+          body: Text("Second Screen"),
+        ),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: navigationService.navigationKey,
+          navigatorObservers: [mockNavigatorObserver],
+          initialRoute: "first_route",
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case "first_route":
+                return firstRoute;
+              case "second_route":
+                return secondRoute;
+              default:
+                return null;
+            }
+          },
+        ),
+      );
+
+      expect(find.text("First Screen"), findsOneWidget);
+      expect(find.text("Second Screen"), findsNothing);
+
+      navigationService.replaceWith("second_route");
+      await tester.pumpAndSettle();
+
+      expect(find.text("First Screen"), findsNothing);
+      expect(find.text("Second Screen"), findsOneWidget);
+      verify(mockNavigatorObserver.didReplace(
+        newRoute: secondRoute,
+        oldRoute: firstRoute,
+      ));
+    });
   });
 }

@@ -1,7 +1,9 @@
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/task.dart';
 import 'package:tasky/domain/values/unique_id.dart';
-import 'package:tasky/presentation/app_widget.dart';
+import 'package:tasky/presentation/pages/login/login_page.dart';
+import 'package:tasky/presentation/pages/main/main_page.dart';
+import 'package:tasky/presentation/pages/splash/splash_page.dart';
 import 'package:tasky/presentation/pages/task_list/archive_page.dart';
 import 'package:tasky/presentation/pages/task_form/task_form_page.dart';
 import 'package:tasky/presentation/pages/task_info/task_info_page.dart';
@@ -12,7 +14,9 @@ class Routes {
   Routes._();
 
   /// Route names.
-  static const String main = "/";
+  static const String splash = "/";
+  static const String main = "/main";
+  static const String login = "/login";
   static const String archive = "/archive";
   static const String task = "/task";
   static const String taskForm = "/task-form";
@@ -20,9 +24,19 @@ class Routes {
   /// Route generator callback used to build the app's named routes.
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.splash:
+        return MaterialPageRoute(
+          builder: (context) => SplashPage(),
+          settings: settings,
+        );
       case Routes.main:
         return MaterialPageRoute(
-          builder: (context) => RootWidget(),
+          builder: (context) => MainPage(),
+          settings: settings,
+        );
+      case Routes.login:
+        return MaterialPageRoute(
+          builder: (context) => LoginPage(),
           settings: settings,
         );
       case Routes.archive:

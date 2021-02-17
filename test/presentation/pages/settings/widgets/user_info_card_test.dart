@@ -1,41 +1,40 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/domain/values/user_values.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/pages/settings/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../finders/container_by_color_finder.dart';
-import '../../../../mocks/mock_auth_state.dart';
+import '../../../../mocks/mock_auth_bloc.dart';
 
 void main() {
-  AuthState state;
+  AuthBloc authBloc;
 
   setUpAll(() {
-    state = MockAuthState();
+    authBloc = MockAuthBloc();
 
-    when(state.currentUser).thenReturn(Maybe.just(User(
+    when(authBloc.state).thenReturn(AuthState.authenticated(Maybe.just(User(
       id: UniqueId("mock_id"),
       name: UserName("Mock User"),
       email: EmailAddress("mock.user@email.com"),
       profileColor: Colors.green,
-    )));
+    ))));
   });
 
   tearDownAll(() {
-    state = null;
+    authBloc = null;
   });
 
   testWidgets("displayed correctly", (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: ChangeNotifierProvider<AuthState>.value(
-            value: state,
+          body: BlocProvider<AuthBloc>.value(
+            value: authBloc,
             child: UserInfoCard(),
           ),
         ),

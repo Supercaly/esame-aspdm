@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/comment.dart';
@@ -10,10 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:tasky/application/states/auth_state.dart';
-
-import '../../../../mocks/mock_auth_state.dart';
+import '../../../../mocks/mock_auth_bloc.dart';
 import '../../../../widget_tester_extension.dart';
 
 void main() {
@@ -130,22 +129,23 @@ void main() {
   });
 
   group("CommentWidget test", () {
-    AuthState authState;
+    AuthBloc authBloc;
 
     setUpAll(() {
-      authState = MockAuthState();
+      authBloc = MockAuthBloc();
     });
 
     tearDownAll(() {
-      authState = null;
+      authBloc = null;
     });
 
     testWidgets("show comment of another user", (tester) async {
+      when(authBloc.state).thenReturn(AuthState.initial(Maybe.nothing()));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
-            body: ChangeNotifierProvider.value(
-              value: authState,
+            body: BlocProvider<AuthBloc>.value(
+              value: authBloc,
               child: CommentWidget(
                 comment: Comment(
                   id: UniqueId("comment_id"),
@@ -173,7 +173,7 @@ void main() {
     });
 
     testWidgets("show comment of this user", (tester) async {
-      when(authState.currentUser).thenReturn(
+      when(authBloc.state).thenReturn(AuthState.authenticated(
         Maybe.just(
           User(
             id: UniqueId("user_id"),
@@ -182,12 +182,12 @@ void main() {
             profileColor: null,
           ),
         ),
-      );
+      ));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
-            body: ChangeNotifierProvider.value(
-              value: authState,
+            body: BlocProvider<AuthBloc>.value(
+              value: authBloc,
               child: CommentWidget(
                 comment: Comment(
                   id: UniqueId("comment_id"),
@@ -216,7 +216,7 @@ void main() {
 
     testWidgets("edit comment", (tester) async {
       CommentContent editedComment;
-      when(authState.currentUser).thenReturn(
+      when(authBloc.state).thenReturn(AuthState.authenticated(
         Maybe.just(
           User(
             id: UniqueId("user_id"),
@@ -225,13 +225,13 @@ void main() {
             profileColor: null,
           ),
         ),
-      );
+      ));
 
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
-            body: ChangeNotifierProvider.value(
-              value: authState,
+            body: BlocProvider<AuthBloc>.value(
+              value: authBloc,
               child: CommentWidget(
                 comment: Comment(
                   id: UniqueId("comment_id"),
@@ -290,7 +290,7 @@ void main() {
 
     testWidgets("delete comment", (tester) async {
       bool deleteComment = false;
-      when(authState.currentUser).thenReturn(
+      when(authBloc.state).thenReturn(AuthState.authenticated(
         Maybe.just(
           User(
             id: UniqueId("user_id"),
@@ -299,13 +299,13 @@ void main() {
             profileColor: null,
           ),
         ),
-      );
+      ));
 
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
-            body: ChangeNotifierProvider.value(
-              value: authState,
+            body: BlocProvider<AuthBloc>.value(
+              value: authBloc,
               child: CommentWidget(
                 comment: Comment(
                   id: UniqueId("comment_id"),
@@ -355,8 +355,8 @@ void main() {
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
-            body: ChangeNotifierProvider.value(
-              value: authState,
+            body: BlocProvider<AuthBloc>.value(
+              value: authBloc,
               child: CommentWidget(
                 comment: Comment(
                   id: UniqueId("comment_id"),

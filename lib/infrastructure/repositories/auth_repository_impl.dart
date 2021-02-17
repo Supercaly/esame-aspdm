@@ -21,7 +21,8 @@ class AuthRepositoryImpl extends AuthRepository {
         _preferenceService = preferenceService;
 
   @override
-  Maybe<User> get lastSignedInUser => _preferenceService.getLastSignedInUser();
+  Future<Maybe<User>> getSignedInUser() =>
+      Future.value(_preferenceService.getLastSignedInUser());
 
   @override
   Future<Either<Failure, User>> login(
@@ -41,7 +42,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> logout() async {
+  Future<void> logout() async {
     await _preferenceService.storeSignedInUser(Maybe.nothing());
     return Either.right(const Unit());
   }

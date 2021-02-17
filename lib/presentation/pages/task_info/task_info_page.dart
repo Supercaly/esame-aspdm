@@ -1,3 +1,4 @@
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/application/bloc/task_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/services/link_service.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/comment_widget.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/expiration_text.dart';
 import 'package:tasky/presentation/widgets/label_widget.dart';
@@ -49,7 +49,7 @@ class TaskInfoPage extends StatelessWidget {
 class TaskInfoPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<AuthState>().currentUser;
+    final currentUser = context.watch<AuthBloc>().state.user;
 
     return BlocConsumer<TaskBloc, TaskState>(
         listenWhen: (_, current) => current.hasError && current.data != null,
@@ -277,7 +277,7 @@ class CommentsCard extends StatelessWidget {
             AddCommentWidget(
               onNewComment: (content) => context.read<TaskBloc>().addComment(
                     content,
-                    context.read<AuthState>().currentUser.map((u) => u.id),
+                    context.read<AuthBloc>().state.user.map((u) => u.id),
                   ),
             ),
             if (task?.comments != null && task.comments.isNotEmpty)
@@ -291,8 +291,9 @@ class CommentsCard extends StatelessWidget {
                         onDelete: () => context.read<TaskBloc>().deleteComment(
                               comment.id,
                               context
-                                  .read<AuthState>()
-                                  .currentUser
+                                  .read<AuthBloc>()
+                                  .state
+                                  .user
                                   .map((u) => u.id),
                             ),
                         onEdit: (content) =>
@@ -300,23 +301,26 @@ class CommentsCard extends StatelessWidget {
                                   comment.id,
                                   content,
                                   context
-                                      .read<AuthState>()
-                                      .currentUser
+                                      .read<AuthBloc>()
+                                      .state
+                                      .user
                                       .map((u) => u.id),
                                 ),
                         onLike: () => context.read<TaskBloc>().likeComment(
                               comment.id,
                               context
-                                  .read<AuthState>()
-                                  .currentUser
+                                  .read<AuthBloc>()
+                                  .state
+                                  .user
                                   .map((u) => u.id),
                             ),
                         onDislike: () =>
                             context.read<TaskBloc>().dislikeComment(
                                   comment.id,
                                   context
-                                      .read<AuthState>()
-                                      .currentUser
+                                      .read<AuthBloc>()
+                                      .state
+                                      .user
                                       .map((u) => u.id),
                                 ),
                       ),

@@ -8,10 +8,10 @@ abstract class Maybe<A> {
   const Maybe();
 
   /// Creates a [Maybe] with nothing value.
-  factory Maybe.nothing() => Nothing();
+  const factory Maybe.nothing() = Nothing;
 
   /// Creates a [Maybe] with just value.
-  factory Maybe.just(A a) => Just(a);
+  const factory Maybe.just(A a) = Just;
 
   /// Apply a transformation to the just side value if this is
   /// a [Just], or else to the nothing side value if this is a [Nothing]
