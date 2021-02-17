@@ -624,7 +624,7 @@ packages:
     source: hosted
     version: "4.0.0-nullsafety.4"
   provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: provider
       url: "https://pub.dartlang.org"
