@@ -6,9 +6,9 @@ import 'package:tasky/domain/values/user_values.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepository {
-  Maybe<User> get lastSignedInUser;
+  Future<Maybe<User>> getSignedInUser();
 
   Future<Either<Failure, User>> login(EmailAddress email, Password password);
 
-  Future<Either<Failure, Unit>> logout();
+  Future<void> logout();
 }
