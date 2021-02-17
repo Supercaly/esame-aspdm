@@ -1,22 +1,17 @@
-import 'package:tasky/application/states/auth_state.dart';
-import 'package:tasky/core/maybe.dart';
-import 'package:tasky/domain/entities/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/domain/repositories/auth_repository.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/presentation/generated/gen_colors.g.dart';
-import 'package:tasky/presentation/pages/login/login_page.dart';
-import 'package:tasky/presentation/pages/main/main_page.dart';
 import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/presentation/theme.dart';
 import 'package:tasky/presentation/widgets/service_manager.dart';
 import 'package:tasky/presentation/widgets/stream_listener.dart';
 import 'package:tasky/services/connectivity_service.dart';
 import 'package:tasky/services/link_service.dart';
-import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:tasky/presentation/generated/codegen_loader.g.dart';
 
@@ -32,14 +27,9 @@ class AppWidget extends StatelessWidget {
       assetLoader: CodegenLoader(),
       fallbackLocale: Locale('en'),
       preloaderColor: EasyColors.primary,
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<AuthState>(
-            create: (context) => AuthState(
-              repository: locator<AuthRepository>(),
-            ),
-          ),
-        ],
+      child: BlocProvider(
+        create: (context) =>
+            AuthBloc(repository: locator<AuthRepository>())..checkAuth(),
         child: ServiceManager(
           notificationService: locator<NotificationService>(),
           linkService: locator<LinkService>(),
@@ -48,8 +38,8 @@ class AppWidget extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             navigatorKey: locator<NavigationService>().navigationKey,
-            initialRoute: Routes.main,
             onGenerateRoute: Routes.onGenerateRoute,
+            home: RootWidget(),
           ),
         ),
       ),
@@ -70,15 +60,19 @@ class RootWidget extends StatelessWidget {
           );
       },
       stream: locator<ConnectivityService>().onConnectionStateChange,
-      child: Selector<AuthState, Maybe<User>>(
-        selector: (_, state) => state.currentUser,
-        builder: (_, value, __) {
-          locator<LogService>().logBuild("Root $value");
-          if (value.isJust())
-            return MainPage();
-          else
-            return LoginPage();
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          print(state);
+          print(state.user);
+          state.map(
+            initial: (_) {},
+            authenticated: (_) =>
+                Navigator.of(context).pushReplacementNamed(Routes.main),
+            unauthenticated: (_) =>
+                Navigator.of(context).pushReplacementNamed(Routes.login),
+          );
         },
+        child: Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
     );
   }
