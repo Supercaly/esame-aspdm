@@ -1,6 +1,6 @@
+import 'package:tasky/application/bloc/login_bloc.dart';
 import 'package:tasky/domain/values/user_values.dart';
 import 'package:tasky/services/log_service.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
@@ -93,15 +93,10 @@ class _LoginFormState extends State<LoginForm> {
                 locator<LogService>().debug(
                     "Trying logging in with Email: ${_emailController.text} "
                     "and Password: ${_passwordController.text}");
-                (await context.read<AuthState>().login(
-                        EmailAddress(_emailController.text),
-                        Password(_passwordController.text)))
-                    .fold(
-                  (e) => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('login_error_msg').tr()),
-                  ),
-                  (_) {},
-                );
+                context.read<LoginBloc>().login(
+                      EmailAddress(_emailController.text),
+                      Password(_passwordController.text),
+                    );
               }
             },
           ),
