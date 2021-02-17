@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tasky/application/bloc/login_bloc.dart';
 import 'package:tasky/core/either.dart';
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:tasky/domain/repositories/auth_repository.dart';
@@ -42,14 +43,17 @@ void main() {
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
       expect: [
-        LoginState.loading(),
-        LoginState.result(
-          Either.right(
-            User(
-              id: UniqueId("user_id"),
-              name: UserName("User"),
-              email: EmailAddress("user@email.com"),
-              profileColor: null,
+        LoginState(true, Maybe.nothing()),
+        LoginState(
+          false,
+          Maybe.just(
+            Either.right(
+              User(
+                id: UniqueId("user_id"),
+                name: UserName("User"),
+                email: EmailAddress("user@email.com"),
+                profileColor: null,
+              ),
             ),
           ),
         ),
@@ -73,14 +77,17 @@ void main() {
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
       expect: [
-        LoginState.loading(),
-        LoginState.result(
-          Either.right(
-            User(
-              id: UniqueId("user_id"),
-              name: UserName("User"),
-              email: EmailAddress("user@email.com"),
-              profileColor: null,
+        LoginState(true, Maybe.nothing()),
+        LoginState(
+          false,
+          Maybe.just(
+            Either.right(
+              User(
+                id: UniqueId("user_id"),
+                name: UserName("User"),
+                email: EmailAddress("user@email.com"),
+                profileColor: null,
+              ),
             ),
           ),
         ),
@@ -96,8 +103,11 @@ void main() {
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
       expect: [
-        LoginState.loading(),
-        LoginState.result(Either.left(ServerFailure.unexpectedError(""))),
+        LoginState(true, Maybe.nothing()),
+        LoginState(
+          false,
+          Maybe.just(Either.left(ServerFailure.unexpectedError(""))),
+        ),
       ],
     );
   });

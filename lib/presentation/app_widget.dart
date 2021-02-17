@@ -27,7 +27,7 @@ class AppWidget extends StatelessWidget {
       assetLoader: CodegenLoader(),
       fallbackLocale: Locale('en'),
       preloaderColor: EasyColors.primary,
-      child: BlocProvider(
+      child: BlocProvider<AuthBloc>(
         create: (context) =>
             AuthBloc(repository: locator<AuthRepository>())..checkAuth(),
         child: ServiceManager(

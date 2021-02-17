@@ -14,13 +14,16 @@ class LoginBloc extends Cubit<LoginState> {
 
   LoginBloc({@required AuthRepository repository})
       : _repository = repository,
-        super(LoginState.initial());
+        super(LoginState(false, Maybe.nothing()));
 
   /// Tries to login an user with given [email] and [password].
   Future<void> login(EmailAddress email, Password password) async {
-    emit(LoginState.loading());
+    emit(state.copyWith(isLoading: true));
     final result = await _repository.login(email, password);
-    emit(LoginState.result(result));
+    emit(state.copyWith(
+      isLoading: false,
+      authFailureOrSuccessOption: Maybe.just(result),
+    ));
   }
 }
 
@@ -33,14 +36,16 @@ class LoginState extends Equatable {
   /// the login process.
   final Maybe<Either<Failure, User>> authFailureOrSuccessOption;
 
-  const LoginState._(this.isLoading, this.authFailureOrSuccessOption);
+  const LoginState(this.isLoading, this.authFailureOrSuccessOption);
 
-  factory LoginState.initial() => LoginState._(false, Maybe.nothing());
-
-  factory LoginState.loading() => LoginState._(true, Maybe.nothing());
-
-  factory LoginState.result(Either<Failure, User> result) =>
-      LoginState._(false, Maybe.just(result));
+  LoginState copyWith({
+    bool isLoading,
+    Maybe<Either<Failure, User>> authFailureOrSuccessOption,
+  }) =>
+      LoginState(
+        isLoading ?? this.isLoading,
+        authFailureOrSuccessOption ?? this.authFailureOrSuccessOption,
+      );
 
   @override
   List<Object> get props => [isLoading, authFailureOrSuccessOption];
