@@ -8,6 +8,7 @@ import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:tasky/services/navigation_service.dart';
 
 import '../../../locator.dart';
 import '../../routes.dart';
@@ -25,7 +26,7 @@ class LoginPage extends StatelessWidget {
               (failure) => ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('login_error_msg').tr())),
               (_) {
-                Navigator.of(context).pushReplacementNamed(Routes.main);
+                locator<NavigationService>().replaceWith(Routes.main);
                 context.read<AuthBloc>().checkAuth();
               },
             ),

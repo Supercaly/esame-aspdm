@@ -67,9 +67,9 @@ class RootWidget extends StatelessWidget {
           state.map(
             initial: (_) {},
             authenticated: (_) =>
-                Navigator.of(context).pushReplacementNamed(Routes.main),
+                locator<NavigationService>().replaceWith(Routes.main),
             unauthenticated: (_) =>
-                Navigator.of(context).pushReplacementNamed(Routes.login),
+                locator<NavigationService>().replaceWith(Routes.login),
           );
         },
         child: Scaffold(body: Center(child: CircularProgressIndicator())),

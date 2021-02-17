@@ -38,7 +38,7 @@ class _MainPageState extends State<MainPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.maybeMap(
         unauthenticated: (_) =>
-            Navigator.of(context).pushReplacementNamed(Routes.login),
+            locator<NavigationService>().replaceWith(Routes.login),
         orElse: () => null,
       ),
       child: BlocProvider(

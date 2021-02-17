@@ -31,4 +31,8 @@ class NavigationService {
         builder: builder,
         fullscreenDialog: fullscreenDialog,
       ));
+
+  /// Replaces the current page with the [routeName].
+  Future<void> replaceWith(String routeName) =>
+      _navigationKey.currentState.pushReplacementNamed(routeName);
 }
