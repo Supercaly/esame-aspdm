@@ -1,10 +1,10 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/services/app_info_service.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:tasky/presentation/pages/settings/widgets/settings_widget.dart';
 import 'package:tasky/presentation/pages/settings/widgets/user_info_card.dart';
@@ -107,7 +107,7 @@ class SettingsPage extends StatelessWidget {
                 icon: Icon(FeatherIcons.logOut, color: Colors.red),
                 textColor: Colors.red,
                 onTap: () async {
-                  await context.read<AuthState>().logout();
+                  await context.read<AuthBloc>().logOut();
                 },
               ),
             )

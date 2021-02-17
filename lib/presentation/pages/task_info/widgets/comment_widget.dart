@@ -1,14 +1,12 @@
-import 'package:tasky/core/maybe.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/domain/entities/comment.dart';
-import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/services/log_service.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/ago.dart';
 import 'package:tasky/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../../../locator.dart';
 
@@ -120,9 +118,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                       )
                     : Text(widget.comment?.content?.value?.getOrNull() ?? ""),
                 SizedBox(height: 10.0),
-                Selector<AuthState, Maybe<User>>(
-                  selector: (_, state) => state.currentUser,
-                  builder: (context, currentUser, _) => Wrap(
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) => Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     runSpacing: 6.0,
                     children: [
@@ -131,7 +128,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                           icon: FeatherIcons.thumbsUp,
                           value: widget.comment?.likes?.length ?? 0,
                           selected: widget.comment?.likes
-                              ?.contains(currentUser?.getOrNull()),
+                              ?.contains(state.user.getOrNull()),
                           onPressed: () => widget.onLike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -141,7 +138,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                           icon: FeatherIcons.thumbsDown,
                           value: widget.comment?.dislikes?.length ?? 0,
                           selected: widget.comment?.dislikes
-                              ?.contains(currentUser?.getOrNull()),
+                              ?.contains(state.user.getOrNull()),
                           onPressed: () => widget.onDislike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -154,10 +151,9 @@ class _CommentWidgetState extends State<CommentWidget> {
             ),
           ),
           if (_type == CommentWidgetType.normal)
-            Selector<AuthState, Maybe<User>>(
-              selector: (_, state) => state.currentUser,
-              builder: (context, currentUser, _) =>
-                  (currentUser?.getOrNull() == widget.comment?.author)
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) =>
+                  (state.user.getOrNull() == widget.comment?.author)
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: PopupMenuButton<CommentWidgetAction>(

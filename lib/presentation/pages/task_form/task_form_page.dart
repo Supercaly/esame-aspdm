@@ -1,3 +1,4 @@
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/application/bloc/task_form_bloc.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/core/maybe.dart';
@@ -24,7 +25,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:tasky/application/states/auth_state.dart';
 import 'package:tasky/presentation/pages/task_form/misc/date_time_extension.dart';
 import '../../theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -88,8 +88,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                 onPressed: () async {
                   if (_formKey.currentState.validate())
                     await context.read<TaskFormBloc>().saveTask(context
-                        .read<AuthState>()
-                        .currentUser
+                        .read<AuthBloc>()
+                        .state
+                        .user
                         .fold(() => null, (u) => u.id));
                 }),
           ),
@@ -106,8 +107,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
               onPressed: () async {
                 if (_formKey.currentState.validate())
                   await context.read<TaskFormBloc>().saveTask(context
-                      .read<AuthState>()
-                      .currentUser
+                      .read<AuthBloc>()
+                      .state
+                      .user
                       .fold(() => null, (u) => u.id));
               },
             ),

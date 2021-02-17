@@ -1,3 +1,4 @@
+import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/application/bloc/home_bloc.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/presentation/pages/main/widgets/main_page_content_desktop.dart';
@@ -34,27 +35,34 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(
-        repository: locator<HomeRepository>(),
-      )..fetch(),
-      child: Builder(
-        builder: (context) {
-          locator<LogService>()
-              .logBuild("Main Page - open page at index $_currentIdx");
-          return Responsive(
-            small: MainPageContentMobile(
-              currentIndex: _currentIdx,
-              pages: _pages,
-              navigateTo: _navigateTo,
-            ),
-            large: MainPageContentDesktop(
-              currentIndex: _currentIdx,
-              pages: _pages,
-              navigateTo: _navigateTo,
-            ),
-          );
-        },
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) => state.maybeMap(
+        unauthenticated: (_) =>
+            Navigator.of(context).pushReplacementNamed(Routes.login),
+        orElse: () => null,
+      ),
+      child: BlocProvider(
+        create: (context) => HomeBloc(
+          repository: locator<HomeRepository>(),
+        )..fetch(),
+        child: Builder(
+          builder: (context) {
+            locator<LogService>()
+                .logBuild("Main Page - open page at index $_currentIdx");
+            return Responsive(
+              small: MainPageContentMobile(
+                currentIndex: _currentIdx,
+                pages: _pages,
+                navigateTo: _navigateTo,
+              ),
+              large: MainPageContentDesktop(
+                currentIndex: _currentIdx,
+                pages: _pages,
+                navigateTo: _navigateTo,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
