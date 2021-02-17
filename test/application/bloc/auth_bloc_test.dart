@@ -73,8 +73,7 @@ void main() {
       "logout emits unauthenticated state",
       build: () => AuthBloc(repository: repository),
       act: (AuthBloc cubit) {
-        when(repository.logout())
-            .thenAnswer((_) async => Maybe.nothing());
+        when(repository.logout()).thenAnswer((_) async => Maybe.nothing());
         cubit.logOut();
       },
       expect: [
