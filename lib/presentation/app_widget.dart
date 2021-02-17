@@ -9,7 +9,6 @@ import 'package:tasky/presentation/widgets/service_manager.dart';
 import 'package:tasky/presentation/widgets/stream_listener.dart';
 import 'package:tasky/services/connectivity_service.dart';
 import 'package:tasky/services/link_service.dart';
-import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
@@ -34,45 +33,28 @@ class AppWidget extends StatelessWidget {
         child: ServiceManager(
           notificationService: locator<NotificationService>(),
           linkService: locator<LinkService>(),
-          child: MaterialApp(
-            title: "Tasky App",
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            navigatorKey: locator<NavigationService>().navigationKey,
-            onGenerateRoute: Routes.onGenerateRoute,
-            home: RootWidget(),
+          child: StreamListener<bool>(
+            // TODO: Move listener for connection state inside MainPage
+            // Calling ScaffoldMessenger from here throws an error since there's not a Scaffold yet.
+            stream: locator<ConnectivityService>().onConnectionStateChange,
+            listener: (context, snapshot) {
+              if (snapshot.hasData && !snapshot.data)
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('device_offline_msg').tr(),
+                  ),
+                );
+            },
+            child: MaterialApp(
+              title: "Tasky App",
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              navigatorKey: locator<NavigationService>().navigationKey,
+              onGenerateRoute: Routes.onGenerateRoute,
+              initialRoute: Routes.splash,
+            ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class RootWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StreamListener<bool>(
-      listener: (_, status) {
-        if (status.hasData && !status.data)
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('device_offline_msg').tr(),
-            ),
-          );
-      },
-      stream: locator<ConnectivityService>().onConnectionStateChange,
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          locator<LogService>().info("Auth state - $state");
-          state.map(
-            initial: (_) {},
-            authenticated: (_) =>
-                locator<NavigationService>().replaceWith(Routes.main),
-            unauthenticated: (_) =>
-                locator<NavigationService>().replaceWith(Routes.login),
-          );
-        },
-        child: Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
     );
   }
