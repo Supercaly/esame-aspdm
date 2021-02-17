@@ -11,7 +11,7 @@ part 'auth_bloc.freezed.dart';
 class AuthBloc extends Cubit<AuthState> {
   final AuthRepository _repository;
 
-  AuthBloc({AuthRepository repository})
+  AuthBloc({@required AuthRepository repository})
       : _repository = repository,
         super(AuthState.initial(Maybe.nothing()));
 

@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
@@ -10,7 +12,7 @@ import 'package:tasky/core/either.dart';
 class LoginBloc extends Cubit<LoginState> {
   final AuthRepository _repository;
 
-  LoginBloc({AuthRepository repository})
+  LoginBloc({@required AuthRepository repository})
       : _repository = repository,
         super(LoginState.initial());
 
@@ -23,7 +25,7 @@ class LoginBloc extends Cubit<LoginState> {
 }
 
 /// Class representing the state of the [LoginBloc].
-class LoginState {
+class LoginState extends Equatable {
   /// Show a loading while the login is in progress
   final bool isLoading;
 
@@ -39,4 +41,7 @@ class LoginState {
 
   factory LoginState.result(Either<Failure, User> result) =>
       LoginState._(false, Maybe.just(result));
+
+  @override
+  List<Object> get props => [isLoading, authFailureOrSuccessOption];
 }
