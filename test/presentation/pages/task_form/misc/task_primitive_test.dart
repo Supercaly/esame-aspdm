@@ -466,52 +466,5 @@ void main() {
       expect(c1 == c4, isFalse);
       expect(c2 == c4, isFalse);
     });
-
-    test("to string return the correct representation", () {
-      expect(
-        TaskPrimitive(
-          id: UniqueId("task_id"),
-          title: "title",
-          description: "description",
-          expireDate: Maybe.just(DateTime.parse("2021-01-01")),
-          labels: IList.from([
-            Label(
-              id: UniqueId("label"),
-              color: Colors.red,
-              label: LabelName("label"),
-            )
-          ]),
-          members: IList.from([
-            User(
-              id: UniqueId("user_id_2"),
-              name: UserName("user 2"),
-              email: EmailAddress("user2@email.com"),
-              profileColor: null,
-            ),
-          ]),
-          checklists: IList.from([
-            ChecklistPrimitive(
-              title: "Checklist 1",
-              items: IList.from([ItemText("Item 1")]),
-            ),
-          ]),
-          author: User(
-            id: UniqueId("user_id"),
-            name: UserName("user 1"),
-            email: EmailAddress("user1@email.com"),
-            profileColor: null,
-          ),
-        ).toString(),
-        equals("TaskPrimitive{"
-            "id: UniqueId(task_id), "
-            "title: title, "
-            "description: description, "
-            "expireDate: Just(2021-01-01 00:00:00.000), "
-            "labels: [Label{id: UniqueId(label), color: MaterialColor(primary value: Color(0xfff44336)), label: LabelName(label)}], "
-            "members: [User {id: UniqueId(user_id_2), name: UserName(user 2), email: EmailAddress(user2@email.com), profileColor: null], "
-            "checklists: [ChecklistPrimitive{title: Checklist 1, items: [ItemText(Item 1)]}], "
-            "author: User {id: UniqueId(user_id), name: UserName(user 1), email: EmailAddress(user1@email.com), profileColor: null}"),
-      );
-    });
   });
 }

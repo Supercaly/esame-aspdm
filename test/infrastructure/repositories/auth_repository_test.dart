@@ -36,14 +36,14 @@ void main() {
     preferenceService = null;
   });
 
-  test("get last signed in user returns a user", () {
+  test("get signed in user returns a user", () async {
     when(preferenceService.getLastSignedInUser()).thenReturn(Maybe.just(User(
       id: UniqueId("mock_id"),
       name: UserName("Mock User"),
       email: EmailAddress("mock@email.com"),
       profileColor: null,
     )));
-    final user = repository.lastSignedInUser;
+    final user = await repository.getSignedInUser();
 
     expect(user.isJust(), isTrue);
     expect(user.getOrNull(), isNotNull);
@@ -94,9 +94,7 @@ void main() {
   });
 
   test("logout logs out the user", () async {
-    final res = await repository.logout();
-
+    await repository.logout();
     verify(preferenceService.storeSignedInUser(any)).called(1);
-    expect(res.isRight(), isTrue);
   });
 }
