@@ -9,6 +9,7 @@ import 'package:tasky/presentation/widgets/service_manager.dart';
 import 'package:tasky/presentation/widgets/stream_listener.dart';
 import 'package:tasky/services/connectivity_service.dart';
 import 'package:tasky/services/link_service.dart';
+import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +63,7 @@ class RootWidget extends StatelessWidget {
       stream: locator<ConnectivityService>().onConnectionStateChange,
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          print(state);
-          print(state.user);
+          locator<LogService>().info("Auth state - $state");
           state.map(
             initial: (_) {},
             authenticated: (_) =>

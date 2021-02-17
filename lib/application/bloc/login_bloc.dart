@@ -18,7 +18,10 @@ class LoginBloc extends Cubit<LoginState> {
 
   /// Tries to login an user with given [email] and [password].
   Future<void> login(EmailAddress email, Password password) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(
+      isLoading: true,
+      authFailureOrSuccessOption: Maybe.nothing(),
+    ));
     final result = await _repository.login(email, password);
     emit(state.copyWith(
       isLoading: false,
