@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
+      body: BlocProvider<LoginBloc>(
         create: (context) => LoginBloc(repository: locator<AuthRepository>()),
         child: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) => state.authFailureOrSuccessOption.fold(
