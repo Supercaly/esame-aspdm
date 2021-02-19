@@ -26,6 +26,7 @@ class MembersPickerItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Theme.of(context).cardColor,
       child: InkWell(
         onTap: () => onSelected?.call(!selected),
         child: Container(

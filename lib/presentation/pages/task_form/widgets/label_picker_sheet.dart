@@ -33,7 +33,6 @@ Future<IList<Label>> showLabelPickerSheet(
       cornerRadius: 16.0,
       avoidStatusBar: true,
       cornerRadiusOnFullscreen: 0.0,
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       snapSpec: SnapSpec(
         snap: true,
         initialSnap: 0.6,
@@ -42,7 +41,9 @@ Future<IList<Label>> showLabelPickerSheet(
       ),
       headerBuilder: (context, state) => Padding(
         padding: const EdgeInsets.only(
-          top: 16,
+          top: 16.0,
+          left: 16.0,
+          right: 16.0
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -72,47 +73,50 @@ Future<IList<Label>> showLabelPickerSheet(
         ),
       ),
       builder: (context, sheetState) {
-        return BlocBuilder<LabelsBloc, LabelsState>(
-          builder: (context, state) {
-            if (state.isLoading)
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            else if (state.hasError || state.labels.isEmpty)
-              return Material(
-                color: Theme.of(context).cardColor,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 250.0,
-                    minHeight: 100.0,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: BlocBuilder<LabelsBloc, LabelsState>(
+            builder: (context, state) {
+              if (state.isLoading)
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              else if (state.hasError || state.labels.isEmpty)
+                return Material(
+                  color: Theme.of(context).cardColor,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: 250.0,
+                      minHeight: 100.0,
+                    ),
+                    child: Center(
+                      child: Text('no_label_to_display_msg').tr(),
+                    ),
                   ),
-                  child: Center(
-                    child: Text('no_label_to_display_msg').tr(),
+                );
+              else
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => LabelPickerItemWidget(
+                    label: state.labels[index],
+                    selected: state.selected.contains(state.labels[index]),
+                    onSelected: (selected) {
+                      if (selected)
+                        context
+                            .read<LabelsBloc>()
+                            .selectLabel(state.labels[index]);
+                      else
+                        context
+                            .read<LabelsBloc>()
+                            .deselectLabel(state.labels[index]);
+                    },
                   ),
-                ),
-              );
-            else
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => LabelPickerItemWidget(
-                  label: state.labels[index],
-                  selected: state.selected.contains(state.labels[index]),
-                  onSelected: (selected) {
-                    if (selected)
-                      context
-                          .read<LabelsBloc>()
-                          .selectLabel(state.labels[index]);
-                    else
-                      context
-                          .read<LabelsBloc>()
-                          .deselectLabel(state.labels[index]);
-                  },
-                ),
-                itemCount: state.labels.length,
-              );
-          },
+                  itemCount: state.labels.length,
+                );
+            },
+          ),
         );
       },
     ),
