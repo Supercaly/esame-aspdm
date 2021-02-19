@@ -1,31 +1,23 @@
 import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/application/bloc/task_form_bloc.dart';
-import 'package:tasky/core/ilist.dart';
 import 'package:tasky/core/maybe.dart';
-import 'package:tasky/domain/entities/label.dart';
 import 'package:tasky/domain/entities/task.dart';
-import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/domain/repositories/task_form_repository.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/checklist_form_dialog.dart';
-import 'package:tasky/presentation/pages/task_form/widgets/label_picker_dialog.dart';
-import 'package:tasky/presentation/pages/task_form/widgets/members_picker_dialog.dart';
+import 'package:tasky/presentation/pages/task_form/widgets/date_picker_widget.dart';
+import 'package:tasky/presentation/pages/task_form/widgets/label_picker_widget.dart';
 import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:tasky/presentation/pages/task_form/checklist_form_page.dart';
-import 'package:tasky/presentation/pages/task_form/widgets/label_picker_sheet.dart';
-import 'package:tasky/presentation/pages/task_form/widgets/members_picker_sheet.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/edit_checklist.dart';
-import 'package:tasky/presentation/widgets/label_widget.dart';
+import 'package:tasky/presentation/pages/task_form/widgets/members_picker_widget.dart';
 import 'package:tasky/presentation/widgets/responsive.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/task_form_input_widget.dart';
-import 'package:tasky/presentation/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:tasky/presentation/pages/task_form/misc/date_time_extension.dart';
 import '../../theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -139,125 +131,9 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       Card(
                         child: Column(
                           children: [
-                            BlocBuilder<TaskFormBloc, TaskFormState>(
-                              buildWhen: (p, c) =>
-                                  p.taskPrimitive.expireDate !=
-                                  c.taskPrimitive.expireDate,
-                              builder: (context, state) => ListTile(
-                                leading: Icon(FeatherIcons.calendar),
-                                title: (state.taskPrimitive.expireDate
-                                            .getOrNull() !=
-                                        null)
-                                    ? Text(DateFormat("dd MMM y HH:mm").format(
-                                        state.taskPrimitive.expireDate
-                                            .getOrNull()))
-                                    : Text('expiration_date_text').tr(),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () => context
-                                      .read<TaskFormBloc>()
-                                      .dateChanged(Maybe.nothing()),
-                                ),
-                                onTap: () async {
-                                  final pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: state.taskPrimitive.expireDate
-                                        .getOrElse(() => DateTime.now()),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2030),
-                                  );
-                                  if (pickedDate != null) {
-                                    // Pick the time
-                                    final pickedTime = await showTimePicker(
-                                      context: context,
-                                      initialTime: state
-                                          .taskPrimitive.expireDate
-                                          .getOrElse(() => DateTime.now())
-                                          .toTime(),
-                                    );
-                                    if (pickedTime != null) {
-                                      context.read<TaskFormBloc>().dateChanged(
-                                            Maybe.just(
-                                              pickedDate.combine(pickedTime),
-                                            ),
-                                          );
-                                    }
-                                  }
-                                },
-                              ),
-                            ),
-                            BlocBuilder<TaskFormBloc, TaskFormState>(
-                              buildWhen: (p, c) =>
-                                  p.taskPrimitive.members !=
-                                  c.taskPrimitive.members,
-                              builder: (context, state) => ListTile(
-                                leading: Icon(FeatherIcons.users),
-                                title: (state.taskPrimitive.members != null &&
-                                        state.taskPrimitive.members.isNotEmpty)
-                                    ? Wrap(
-                                        spacing: 8.0,
-                                        runSpacing: 4.0,
-                                        children: state.taskPrimitive.members
-                                            .map((e) => UserAvatar(
-                                                  user: e,
-                                                  size: 32.0,
-                                                ))
-                                            .asList())
-                                    : Text('members_text').tr(),
-                                onTap: () async {
-                                  IList<User> selectedMembers;
-                                  if (Responsive.isSmall(context))
-                                    selectedMembers =
-                                        await showMembersPickerSheet(
-                                      context,
-                                      state.taskPrimitive.members,
-                                    );
-                                  else
-                                    selectedMembers =
-                                        await showMembersPickerDialog(
-                                      context,
-                                      state.taskPrimitive.members,
-                                    );
-                                  if (selectedMembers != null)
-                                    context
-                                        .read<TaskFormBloc>()
-                                        .membersChanged(selectedMembers);
-                                },
-                              ),
-                            ),
-                            BlocBuilder<TaskFormBloc, TaskFormState>(
-                              builder: (context, state) => ListTile(
-                                leading: Icon(FeatherIcons.tag),
-                                title: (state.taskPrimitive.labels != null &&
-                                        state.taskPrimitive.labels.isNotEmpty)
-                                    ? Wrap(
-                                        spacing: 8.0,
-                                        runSpacing: 4.0,
-                                        children: state.taskPrimitive.labels
-                                            .map((e) => LabelWidget(label: e))
-                                            .asList(),
-                                      )
-                                    : Text('labels_text').tr(),
-                                onTap: () async {
-                                  IList<Label> selectedLabels;
-                                  if (Responsive.isSmall(context))
-                                    selectedLabels = await showLabelPickerSheet(
-                                      context,
-                                      state.taskPrimitive.labels,
-                                    );
-                                  else
-                                    selectedLabels =
-                                        await showLabelPickerDialog(
-                                      context,
-                                      state.taskPrimitive.labels,
-                                    );
-                                  if (selectedLabels != null)
-                                    context
-                                        .read<TaskFormBloc>()
-                                        .labelsChanged(selectedLabels);
-                                },
-                              ),
-                            ),
+                            DatePickerWidget(),
+                            MembersPickerWidget(),
+                            LabelPickerWidget(),
                             ListTile(
                               leading: Icon(FeatherIcons.checkCircle),
                               title: Text('add_checklist_text').tr(),
