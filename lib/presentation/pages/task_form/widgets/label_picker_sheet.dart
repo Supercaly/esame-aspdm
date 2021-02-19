@@ -40,11 +40,7 @@ Future<IList<Label>> showLabelPickerSheet(
         positioning: SnapPositioning.relativeToAvailableSpace,
       ),
       headerBuilder: (context, state) => Padding(
-        padding: const EdgeInsets.only(
-          top: 16.0,
-          left: 16.0,
-          right: 16.0
-        ),
+        padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
