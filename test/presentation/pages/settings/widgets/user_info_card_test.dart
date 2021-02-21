@@ -19,7 +19,7 @@ void main() {
 
     when(authBloc.state).thenReturn(AuthState.authenticated(
       Maybe.just(
-        User(
+        User.test(
           id: UniqueId("mock_id"),
           name: UserName("Mock User"),
           email: EmailAddress("mock.user@email.com"),

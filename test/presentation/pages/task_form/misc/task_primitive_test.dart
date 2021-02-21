@@ -43,11 +43,10 @@ void main() {
       final t3 = t1.copyWith(description: "new description");
       final t4 = t1.copyWith(
           members: IList.from([
-        User(
+        User.test(
           id: UniqueId("user1"),
           name: UserName("User 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         )
       ]));
       final t5 = t1.copyWith(
@@ -89,11 +88,10 @@ void main() {
       expect(
         t4.members.asList(),
         equals([
-          User(
+          User.test(
             id: UniqueId("user1"),
             name: UserName("User 1"),
             email: EmailAddress("user1@email.com"),
-            profileColor: null,
           )
         ]),
       );
@@ -150,18 +148,16 @@ void main() {
             label: LabelName("label"),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
@@ -200,11 +196,10 @@ void main() {
       expect(t1.members, hasLength(1));
       expect(
         t1.members[0],
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id_2"),
           name: UserName("user 2"),
           email: EmailAddress("user2@email.com"),
-          profileColor: null,
         )),
       );
       expect(t1.checklists, hasLength(1));
@@ -219,11 +214,10 @@ void main() {
       expect(t1.expireDate.getOrNull(), equals(DateTime.parse("2021-01-01")));
       expect(
         t1.author,
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         )),
       );
     });
@@ -242,11 +236,10 @@ void main() {
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.from([
@@ -255,11 +248,10 @@ void main() {
             items: IList.from([ItemText("Item 1")]),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
 
@@ -276,18 +268,16 @@ void main() {
             label: LabelName("label"),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
@@ -327,11 +317,10 @@ void main() {
       expect(tk.members.length, equals(1));
       expect(
         tk.members[0],
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id_2"),
           name: UserName("user 2"),
           email: EmailAddress("user2@email.com"),
-          profileColor: null,
         )),
       );
       expect(tk.checklists.length, equals(1));
@@ -354,11 +343,10 @@ void main() {
           equals(ExpireDate(DateTime.parse("2021-01-01"))));
       expect(
         tk.author,
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         )),
       );
     });
@@ -377,11 +365,10 @@ void main() {
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.from([
@@ -390,11 +377,10 @@ void main() {
             items: IList.from([ItemText("Item 1")]),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
       final c2 = TaskPrimitive(
@@ -410,11 +396,10 @@ void main() {
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.from([
@@ -423,11 +408,10 @@ void main() {
             items: IList.from([ItemText("Item 1")]),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
       final c3 = TaskPrimitive(
@@ -443,19 +427,17 @@ void main() {
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.empty(),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
       final c4 = TaskPrimitive.empty();

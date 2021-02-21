@@ -18,12 +18,29 @@ class User extends Equatable {
   /// User's profile color.
   final Maybe<ProfileColor> profileColor;
 
+  /// Create a new [User] from all his values.
   const User({
     @required this.id,
     @required this.name,
     @required this.email,
     @required this.profileColor,
   });
+
+  /// Create a new [User] with some of his values.
+  /// If a value is not specified a safe default
+  /// will be used instead.
+  factory User.test({
+    UniqueId id,
+    UserName name,
+    EmailAddress email,
+    Maybe<ProfileColor> profileColor,
+  }) =>
+      User(
+        id: id ?? UniqueId.empty(),
+        name: name ?? UserName(null),
+        email: email ?? EmailAddress(null),
+        profileColor: profileColor ?? Maybe.nothing(),
+      );
 
   @override
   List<Object> get props => [id];

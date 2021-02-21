@@ -14,7 +14,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id"),
               name: UserName("Mock User"),
               email: EmailAddress("mock@email.com"),
@@ -41,7 +41,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id"),
               name: UserName("Mock User"),
               email: EmailAddress("mock@email.com"),
@@ -99,7 +99,7 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             key: key,
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id"),
               name: UserName("Mock User"),
               email: EmailAddress("mock@email.com"),
@@ -120,7 +120,7 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             key: key,
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id_2"),
               name: UserName("New Mocked User"),
               email: EmailAddress("mock2@email.com"),

@@ -37,11 +37,10 @@ void main() {
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
           labels: IList.empty(),
-          author: User(
+          author: User.test(
             id: UniqueId("user_di"),
             name: UserName("Mock User"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
           members: IList.empty(),
           checklists: IList.empty(),
@@ -64,11 +63,10 @@ void main() {
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
           labels: IList.empty(),
-          author: User(
+          author: User.test(
             id: UniqueId("user_di"),
             name: UserName("Mock User"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
           members: IList.empty(),
           checklists: IList.empty(),
@@ -90,11 +88,10 @@ void main() {
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
           labels: IList.empty(),
-          author: User(
+          author: User.test(
             id: UniqueId("user_di"),
             name: UserName("Mock User"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
           members: IList.empty(),
           checklists: IList.empty(),
@@ -117,11 +114,10 @@ void main() {
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
           labels: IList.empty(),
-          author: User(
+          author: User.test(
             id: UniqueId("user_di"),
             name: UserName("Mock User"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
           members: IList.empty(),
           expireDate: null,

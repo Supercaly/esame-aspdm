@@ -93,11 +93,10 @@ void main() {
                 ),
               ]),
               members: IList.from([
-                User(
+                User.test(
                   id: UniqueId("mock_user"),
                   name: UserName("Mock User"),
                   email: EmailAddress("mock.user@email.com"),
-                  profileColor: null,
                 )
               ]),
               expireDate: Maybe.just(ExpireDate(DateTime.now())),
@@ -154,11 +153,10 @@ void main() {
                 Comment(
                   id: UniqueId("c1"),
                   content: CommentContent("comment 1"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("mock_user"),
                     name: UserName("Mock User"),
                     email: EmailAddress("mock.user@email.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -167,11 +165,10 @@ void main() {
                 Comment(
                   id: UniqueId("c2"),
                   content: CommentContent("comment 2"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("mock_user"),
                     name: UserName("Mock User"),
                     email: EmailAddress("mock.user@email.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -180,11 +177,10 @@ void main() {
                 Comment(
                   id: UniqueId("c3"),
                   content: CommentContent("comment 3"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("mock_user"),
                     name: UserName("Mock User"),
                     email: EmailAddress("mock.user@email.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),

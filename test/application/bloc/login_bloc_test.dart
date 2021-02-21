@@ -32,11 +32,10 @@ void main() {
       act: (LoginBloc cubit) {
         when(repository.login(any, any)).thenAnswer(
           (_) async => Either.right(
-            User(
+            User.test(
               id: UniqueId("user_id"),
               name: UserName("User"),
               email: EmailAddress("user@email.com"),
-              profileColor: null,
             ),
           ),
         );
@@ -48,11 +47,10 @@ void main() {
           false,
           Maybe.just(
             Either.right(
-              User(
+              User.test(
                 id: UniqueId("user_id"),
                 name: UserName("User"),
                 email: EmailAddress("user@email.com"),
-                profileColor: null,
               ),
             ),
           ),
@@ -66,11 +64,10 @@ void main() {
       act: (LoginBloc cubit) {
         when(repository.login(any, any)).thenAnswer(
           (_) async => Either.right(
-            User(
+            User.test(
               id: UniqueId("user_id"),
               name: UserName("User"),
               email: EmailAddress("user@email.com"),
-              profileColor: null,
             ),
           ),
         );
@@ -82,11 +79,10 @@ void main() {
           false,
           Maybe.just(
             Either.right(
-              User(
+              User.test(
                 id: UniqueId("user_id"),
                 name: UserName("User"),
                 email: EmailAddress("user@email.com"),
-                profileColor: null,
               ),
             ),
           ),

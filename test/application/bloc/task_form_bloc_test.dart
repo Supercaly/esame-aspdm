@@ -118,17 +118,15 @@ void main() {
       ),
       act: (TaskFormBloc cubit) {
         cubit.membersChanged(IList.from([
-          User(
+          User.test(
             id: UniqueId("user1"),
             name: UserName("User 1"),
             email: EmailAddress("user1@email.com"),
-            profileColor: null,
           ),
-          User(
+          User.test(
             id: UniqueId("user2"),
             name: UserName("User 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]));
         cubit.membersChanged(IList.empty());
@@ -137,17 +135,15 @@ void main() {
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             members: IList.from([
-              User(
+              User.test(
                 id: UniqueId("user1"),
                 name: UserName("User 1"),
                 email: EmailAddress("user1@email.com"),
-                profileColor: null,
               ),
-              User(
+              User.test(
                 id: UniqueId("user2"),
                 name: UserName("User 2"),
                 email: EmailAddress("user2@email.com"),
-                profileColor: null,
               ),
             ]),
           ),

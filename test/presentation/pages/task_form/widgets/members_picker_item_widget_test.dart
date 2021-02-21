@@ -13,7 +13,7 @@ void main() {
     User member;
 
     setUpAll(() {
-      member = User(
+      member = User.test(
         id: UniqueId.empty(),
         name: UserName("User Name"),
         email: EmailAddress("user@email.com"),
