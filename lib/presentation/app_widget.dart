@@ -34,7 +34,7 @@ class AppWidget extends StatelessWidget {
           notificationService: locator<NotificationService>(),
           linkService: locator<LinkService>(),
           child: StreamListener<bool>(
-            // TODO: Move listener for connection state inside MainPage
+            // TODO(#120): Move listener for connection state inside MainPage
             // Calling ScaffoldMessenger from here throws an error since there's not a Scaffold yet.
             stream: locator<ConnectivityService>().onConnectionStateChange,
             listener: (context, snapshot) {
