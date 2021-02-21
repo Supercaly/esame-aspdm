@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
@@ -34,7 +35,7 @@ class Task extends Equatable {
   /// Date when the task will expire.
   /// Note: after the expiration nothing will
   /// happen other that the application marking it.
-  final ExpireDate expireDate;
+  final Maybe<ExpireDate> expireDate;
 
   /// [Checklist]s associated with the task.
   final IList<Checklist> checklists;

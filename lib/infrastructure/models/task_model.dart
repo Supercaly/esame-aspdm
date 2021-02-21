@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/infrastructure/models/checklist_model.dart';
 import 'package:tasky/infrastructure/models/comment_model.dart';
 import 'package:tasky/infrastructure/models/label_model.dart';
@@ -74,16 +75,16 @@ class TaskModel extends Equatable {
         id: task.id.value.getOrNull(),
         title: task.title.value.getOrNull(),
         description: task.description.value.getOrNull(),
-        labels: task.labels?.map((e) => LabelModel.fromDomain(e))?.asList(),
+        labels: task.labels.map((e) => LabelModel.fromDomain(e)).asList(),
         author: UserModel.fromDomain(task.author),
-        members: task.members?.map((e) => UserModel.fromDomain(e))?.asList(),
-        expireDate: task.expireDate?.value?.getOrNull(),
+        members: task.members.map((e) => UserModel.fromDomain(e)).asList(),
+        expireDate: task.expireDate
+            .fold(() => null, (value) => value.value.getOrNull()),
         checklists:
-            task.checklists?.map((e) => ChecklistModel.fromDomain(e))?.asList(),
-        comments:
-            task.comments?.map((e) => CommentModel.fromDomain(e))?.asList(),
+            task.checklists.map((e) => ChecklistModel.fromDomain(e)).asList(),
+        comments: task.comments.map((e) => CommentModel.fromDomain(e)).asList(),
         archived: task.archived.value.getOrElse((_) => false),
-        creationDate: task.creationDate?.value?.getOrNull(),
+        creationDate: task.creationDate.value.getOrNull(),
       );
 
   Task toDomain() => Task(
@@ -94,7 +95,9 @@ class TaskModel extends Equatable {
         // TODO: The author could be null but we assume it can't
         author: author?.toDomain(),
         members: IList.from(members?.map((e) => e.toDomain())),
-        expireDate: ExpireDate(expireDate),
+        expireDate: expireDate != null
+            ? Maybe.just(ExpireDate(expireDate))
+            : Maybe.nothing(),
         checklists: IList.from(checklists?.map((e) => e.toDomain())),
         comments: IList.from(comments?.map((e) => e.toDomain())),
         archived: Toggle(archived),

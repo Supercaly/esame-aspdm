@@ -71,13 +71,11 @@ class TaskPrimitive extends Equatable {
         id: task.id,
         title: task.title.value.getOrNull(),
         description: task.description.value.getOrNull(),
-        expireDate: (task.expireDate != null && task.expireDate.value.isRight())
-            ? Maybe.just(task.expireDate.value.getOrCrash())
-            : Maybe.nothing(),
-        labels: task.labels ?? IList.empty(),
-        members: task.members ?? IList.empty(),
+        expireDate: task.expireDate.flatMap((value) => value.value.toMaybe()),
+        labels: task.labels,
+        members: task.members,
         checklists:
-            task.checklists?.map((e) => ChecklistPrimitive.fromChecklist(e)),
+            task.checklists.map((e) => ChecklistPrimitive.fromChecklist(e)),
         author: task.author,
       );
 
@@ -89,12 +87,11 @@ class TaskPrimitive extends Equatable {
         labels: labels,
         author: author,
         members: members,
-        expireDate:
-            expireDate.isJust() ? ExpireDate(expireDate.getOrNull()) : null,
-        checklists: checklists?.map((e) => e.toChecklist()),
-        comments: null,
+        expireDate: expireDate.map((value) => ExpireDate(value)),
+        checklists: checklists.map((e) => e.toChecklist()),
+        comments: IList.empty(),
         archived: Toggle(false),
-        creationDate: null,
+        creationDate: CreationDate(null),
       );
 
   @override

@@ -30,8 +30,13 @@ class TaskCard extends StatelessWidget {
     final hasChecklists = task.checklists.isNotEmpty;
     final hasMembers = task.members.isNotEmpty;
     final hasComments = task.comments.isNotEmpty;
-    final hasExpiration =
-        task.expireDate != null && task.expireDate.value.isRight();
+    final hasExpiration = task.expireDate.fold(
+      () => false,
+      (value) => value.value.fold(
+        (_) => false,
+        (_) => true,
+      ),
+    );
 
     final isLarge = Responsive.isLarge(context);
 
@@ -95,7 +100,9 @@ class TaskCard extends StatelessWidget {
               ),
               if (hasExpiration) SizedBox(height: 10.0),
               if (hasExpiration)
-                ExpirationBadge(date: task.expireDate.value.getOrNull()),
+                ExpirationBadge(
+                  date: task.expireDate.getOrCrash().value.getOrCrash(),
+                ),
             ],
           ),
         ),
