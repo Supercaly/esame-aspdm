@@ -141,11 +141,10 @@ void main() {
 
     test("get or crash returns the correct value", () {
       final e1 = Either.right(123);
-      expect(e1.getOrNull(), equals(123));
+      expect(e1.getOrCrash(), equals(123));
 
       try {
         Either.left(123).getOrCrash();
-        expect(e1.getOrElse((left) => 456), equals(456));
         fail("This should throw an exception!");
       } catch (e) {
         expect(e, isA<Exception>());

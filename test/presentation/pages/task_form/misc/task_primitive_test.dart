@@ -43,16 +43,15 @@ void main() {
       final t3 = t1.copyWith(description: "new description");
       final t4 = t1.copyWith(
           members: IList.from([
-        User(
+        User.test(
           id: UniqueId("user1"),
           name: UserName("User 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         )
       ]));
       final t5 = t1.copyWith(
           labels: IList.from([
-        Label(
+        Label.test(
           id: UniqueId("label"),
           color: LabelColor(Colors.red),
           label: LabelName("label"),
@@ -89,11 +88,10 @@ void main() {
       expect(
         t4.members.asList(),
         equals([
-          User(
+          User.test(
             id: UniqueId("user1"),
             name: UserName("User 1"),
             email: EmailAddress("user1@email.com"),
-            profileColor: null,
           )
         ]),
       );
@@ -107,7 +105,7 @@ void main() {
       expect(
         t5.labels.asList(),
         equals([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -139,38 +137,36 @@ void main() {
     });
 
     test("from task creates a primitive correctly", () {
-      final tk = Task(
+      final tk = Task.test(
         id: UniqueId("task_id"),
         title: TaskTitle("title"),
         description: TaskDescription("description"),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
-        expireDate: ExpireDate(DateTime.parse("2021-01-01")),
+        expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
         checklists: IList.from([
-          Checklist(
+          Checklist.test(
             id: UniqueId("checklist_id"),
             title: ChecklistTitle("Checklist 1"),
             items: IList.from([
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_1"),
                 item: ItemText("Item 1"),
                 complete: Toggle(true),
@@ -191,7 +187,7 @@ void main() {
       expect(
         t1.labels[0],
         equals(
-          Label(
+          Label.test(
               id: UniqueId("label"),
               color: LabelColor(Colors.red),
               label: LabelName("label")),
@@ -200,11 +196,10 @@ void main() {
       expect(t1.members, hasLength(1));
       expect(
         t1.members[0],
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id_2"),
           name: UserName("user 2"),
           email: EmailAddress("user2@email.com"),
-          profileColor: null,
         )),
       );
       expect(t1.checklists, hasLength(1));
@@ -219,11 +214,10 @@ void main() {
       expect(t1.expireDate.getOrNull(), equals(DateTime.parse("2021-01-01")));
       expect(
         t1.author,
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         )),
       );
     });
@@ -235,18 +229,17 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.from([
@@ -255,48 +248,45 @@ void main() {
             items: IList.from([ItemText("Item 1")]),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
 
       final tk = t1.toTask();
 
-      Task(
+      Task.test(
         id: UniqueId("task_id"),
         title: TaskTitle("title"),
         description: TaskDescription("description"),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
-        expireDate: ExpireDate(DateTime.parse("2021-01-01")),
+        expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
         checklists: IList.from([
-          Checklist(
+          Checklist.test(
             id: UniqueId("checklist_id"),
             title: ChecklistTitle("Checklist 1"),
             items: IList.from([
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_1"),
                 item: ItemText("Item 1"),
                 complete: Toggle(true),
@@ -318,7 +308,7 @@ void main() {
       expect(
         tk.labels[0],
         equals(
-          Label(
+          Label.test(
               id: UniqueId("label"),
               color: LabelColor(Colors.red),
               label: LabelName("label")),
@@ -327,21 +317,20 @@ void main() {
       expect(tk.members.length, equals(1));
       expect(
         tk.members[0],
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id_2"),
           name: UserName("user 2"),
           email: EmailAddress("user2@email.com"),
-          profileColor: null,
         )),
       );
       expect(tk.checklists.length, equals(1));
       expect(
         tk.checklists[0],
-        equals(Checklist(
+        equals(Checklist.test(
           id: UniqueId.empty(),
           title: ChecklistTitle("Checklist 1"),
           items: IList.from([
-            ChecklistItem(
+            ChecklistItem.test(
               id: UniqueId.empty(),
               item: ItemText("Item 1"),
               complete: Toggle(false),
@@ -350,14 +339,14 @@ void main() {
         )),
       );
       expect(tk.expireDate, isNotNull);
-      expect(tk.expireDate, equals(ExpireDate(DateTime.parse("2021-01-01"))));
+      expect(tk.expireDate.getOrCrash(),
+          equals(ExpireDate(DateTime.parse("2021-01-01"))));
       expect(
         tk.author,
-        equals(User(
+        equals(User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         )),
       );
     });
@@ -369,18 +358,17 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.from([
@@ -389,11 +377,10 @@ void main() {
             items: IList.from([ItemText("Item 1")]),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
       final c2 = TaskPrimitive(
@@ -402,18 +389,17 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.from([
@@ -422,11 +408,10 @@ void main() {
             items: IList.from([ItemText("Item 1")]),
           ),
         ]),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
       final c3 = TaskPrimitive(
@@ -435,26 +420,24 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
         members: IList.from([
-          User(
+          User.test(
             id: UniqueId("user_id_2"),
             name: UserName("user 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         ]),
         checklists: IList.empty(),
-        author: User(
+        author: User.test(
           id: UniqueId("user_id"),
           name: UserName("user 1"),
           email: EmailAddress("user1@email.com"),
-          profileColor: null,
         ),
       );
       final c4 = TaskPrimitive.empty();

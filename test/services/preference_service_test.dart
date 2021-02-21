@@ -41,11 +41,11 @@ void main() {
     expect(
       user.getOrNull(),
       equals(
-        User(
+        User.test(
           id: UniqueId("mock_id"),
           name: UserName("mock user"),
           email: EmailAddress("mock.user@email.com"),
-          profileColor: ProfileColor(Colors.red),
+          profileColor: Maybe.just(ProfileColor(Colors.red)),
         ),
       ),
     );
@@ -97,11 +97,11 @@ void main() {
     Maybe<User> user = service.getLastSignedInUser();
     expect(user.isNothing(), isTrue);
 
-    await service.storeSignedInUser(Maybe.just(User(
+    await service.storeSignedInUser(Maybe.just(User.test(
       id: UniqueId("mock_id"),
       name: UserName("mock user"),
       email: EmailAddress("mock.user@email.com"),
-      profileColor: ProfileColor(Colors.yellow),
+      profileColor: Maybe.just(ProfileColor(Colors.yellow)),
     )));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));

@@ -1,3 +1,4 @@
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/infrastructure/color_parser.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -42,14 +43,16 @@ class UserModel extends Equatable {
         id: user.id.value.getOrNull(),
         name: user.name.value.getOrNull(),
         email: user.email.value.getOrNull(),
-        profileColor: user.profileColor?.value?.getOrNull(),
+        profileColor: user.profileColor?.getOrNull()?.value?.getOrNull(),
       );
 
   User toDomain() => User(
         id: UniqueId(id),
         name: UserName(name),
         email: EmailAddress(email),
-        profileColor: ProfileColor(profileColor),
+        profileColor: profileColor != null
+            ? Maybe.just(ProfileColor(profileColor))
+            : Maybe.nothing(),
       );
 
   @override

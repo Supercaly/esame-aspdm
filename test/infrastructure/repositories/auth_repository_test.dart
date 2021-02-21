@@ -37,11 +37,11 @@ void main() {
   });
 
   test("get signed in user returns a user", () async {
-    when(preferenceService.getLastSignedInUser()).thenReturn(Maybe.just(User(
+    when(preferenceService.getLastSignedInUser())
+        .thenReturn(Maybe.just(User.test(
       id: UniqueId("mock_id"),
       name: UserName("Mock User"),
       email: EmailAddress("mock@email.com"),
-      profileColor: null,
     )));
     final user = await repository.getSignedInUser();
 

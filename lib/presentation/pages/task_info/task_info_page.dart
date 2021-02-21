@@ -202,8 +202,11 @@ class HeaderCard extends StatelessWidget {
                       .asList(),
                 ),
               ),
-            if (task?.expireDate != null && task.expireDate.value.isRight())
-              ExpirationText(date: task.expireDate.value.getOrNull()),
+            if (task.expireDate.fold(() => false,
+                (value) => value.value.fold((_) => false, (_) => true)))
+              ExpirationText(
+                date: task.expireDate.getOrCrash().value.getOrCrash(),
+              ),
           ],
         ),
       ),
@@ -219,8 +222,11 @@ class DescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (task?.description?.value?.getOrNull() != null &&
-        task.description.value.getOrNull().isNotEmpty)
+    if (task?.description?.value?.fold(
+          (_) => false,
+          (_) => true,
+        ) ??
+        false)
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

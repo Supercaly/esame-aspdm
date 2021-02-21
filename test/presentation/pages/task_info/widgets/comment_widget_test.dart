@@ -147,14 +147,13 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("user_id"),
                     name: UserName("User 1"),
                     email: EmailAddress("user@mock.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -175,11 +174,10 @@ void main() {
     testWidgets("show comment of this user", (tester) async {
       when(authBloc.state).thenReturn(AuthState.authenticated(
         Maybe.just(
-          User(
+          User.test(
             id: UniqueId("user_id"),
             name: UserName("User 1"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
         ),
       ));
@@ -189,14 +187,13 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("user_id"),
                     name: UserName("User 1"),
                     email: EmailAddress("user@mock.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -218,11 +215,10 @@ void main() {
       CommentContent editedComment;
       when(authBloc.state).thenReturn(AuthState.authenticated(
         Maybe.just(
-          User(
+          User.test(
             id: UniqueId("user_id"),
             name: UserName("User 1"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
         ),
       ));
@@ -233,14 +229,13 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("user_id"),
                     name: UserName("User 1"),
                     email: EmailAddress("user@mock.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -292,11 +287,10 @@ void main() {
       bool deleteComment = false;
       when(authBloc.state).thenReturn(AuthState.authenticated(
         Maybe.just(
-          User(
+          User.test(
             id: UniqueId("user_id"),
             name: UserName("User 1"),
             email: EmailAddress("user@mock.com"),
-            profileColor: null,
           ),
         ),
       ));
@@ -307,14 +301,13 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("user_id"),
                     name: UserName("User 1"),
                     email: EmailAddress("user@mock.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -358,14 +351,13 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("user_id"),
                     name: UserName("User 1"),
                     email: EmailAddress("user@mock.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),

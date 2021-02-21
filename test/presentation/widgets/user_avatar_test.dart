@@ -1,3 +1,4 @@
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/domain/values/user_values.dart';
@@ -13,11 +14,11 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id"),
               name: UserName("Mock User"),
               email: EmailAddress("mock@email.com"),
-              profileColor: ProfileColor(Colors.red),
+              profileColor: Maybe.just(ProfileColor(Colors.red)),
             ),
             size: 48.0,
           ),
@@ -40,11 +41,11 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: UserAvatar(
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id"),
               name: UserName("Mock User"),
               email: EmailAddress("mock@email.com"),
-              profileColor: ProfileColor(Colors.blue),
+              profileColor: Maybe.just(ProfileColor(Colors.blue)),
             ),
             size: 48.0,
             rectangle: true,
@@ -98,11 +99,11 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             key: key,
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id"),
               name: UserName("Mock User"),
               email: EmailAddress("mock@email.com"),
-              profileColor: ProfileColor(Colors.blue),
+              profileColor: Maybe.just(ProfileColor(Colors.blue)),
             ),
             size: 48.0,
           ),
@@ -119,11 +120,11 @@ void main() {
         home: Scaffold(
           body: UserAvatar(
             key: key,
-            user: User(
+            user: User.test(
               id: UniqueId("mock_id_2"),
               name: UserName("New Mocked User"),
               email: EmailAddress("mock2@email.com"),
-              profileColor: ProfileColor(Colors.green),
+              profileColor: Maybe.just(ProfileColor(Colors.green)),
             ),
             size: 48.0,
           ),

@@ -30,11 +30,10 @@ void main() {
       act: (AuthBloc cubit) {
         when(repository.getSignedInUser()).thenAnswer(
           (_) async => Maybe.just(
-            User(
+            User.test(
               id: UniqueId("user_id"),
               name: UserName("User"),
               email: EmailAddress("user@email.com"),
-              profileColor: null,
             ),
           ),
         );
@@ -43,11 +42,10 @@ void main() {
       expect: [
         AuthState.authenticated(
           Maybe.just(
-            User(
+            User.test(
               id: UniqueId("user_id"),
               name: UserName("User"),
               email: EmailAddress("user@email.com"),
-              profileColor: null,
             ),
           ),
         ),

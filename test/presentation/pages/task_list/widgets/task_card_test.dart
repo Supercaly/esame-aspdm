@@ -1,4 +1,5 @@
 import 'package:tasky/core/ilist.dart';
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/entities/comment.dart';
 import 'package:tasky/domain/entities/label.dart';
@@ -26,18 +27,9 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              expireDate: null,
-              creationDate: null,
             ),
           ),
         ),
@@ -53,29 +45,21 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: null,
               labels: IList.from([
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.red),
                   label: LabelName("label"),
                 ),
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.blue),
                   label: LabelName("label"),
                 ),
               ]),
-              author: null,
-              members: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-              expireDate: null,
             ),
           ),
         ),
@@ -92,74 +76,72 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
               description: TaskDescription("mock description"),
               labels: IList.from([
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.red),
                   label: LabelName("label"),
                 ),
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.blue),
                   label: LabelName("label"),
                 ),
               ]),
-              author: null,
               members: IList.from([
-                User(
+                User.test(
                   id: UniqueId("mock_user"),
                   name: UserName("Mock User"),
                   email: EmailAddress("mock.user@email.com"),
-                  profileColor: null,
                 )
               ]),
-              expireDate: ExpireDate(DateTime.now()),
+              expireDate: Maybe.just(ExpireDate(DateTime.now())),
               checklists: IList.from([
-                Checklist(
+                Checklist.test(
                   id: UniqueId("mock_id"),
                   title: ChecklistTitle("checklist1"),
                   items: IList.from([
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(true),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(true),
                     ),
                   ]),
                 ),
-                Checklist(
+                Checklist.test(
                   id: UniqueId("mock_id"),
                   title: ChecklistTitle("checklist1"),
                   items: IList.from([
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(true),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
@@ -168,40 +150,37 @@ void main() {
                 ),
               ]),
               comments: IList.from([
-                Comment(
+                Comment.test(
                   id: UniqueId("c1"),
                   content: CommentContent("comment 1"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("mock_user"),
                     name: UserName("Mock User"),
                     email: EmailAddress("mock.user@email.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
                   creationDate: CreationDate(DateTime.now()),
                 ),
-                Comment(
+                Comment.test(
                   id: UniqueId("c2"),
                   content: CommentContent("comment 2"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("mock_user"),
                     name: UserName("Mock User"),
                     email: EmailAddress("mock.user@email.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
                   creationDate: CreationDate(DateTime.now()),
                 ),
-                Comment(
+                Comment.test(
                   id: UniqueId("c3"),
                   content: CommentContent("comment 3"),
-                  author: User(
+                  author: User.test(
                     id: UniqueId("mock_user"),
                     name: UserName("Mock User"),
                     email: EmailAddress("mock.user@email.com"),
-                    profileColor: null,
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
@@ -209,7 +188,6 @@ void main() {
                 ),
               ]),
               archived: Toggle(false),
-              creationDate: null,
             ),
           ),
         ),
@@ -238,18 +216,9 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              expireDate: null,
-              creationDate: null,
             ),
           ),
         ),

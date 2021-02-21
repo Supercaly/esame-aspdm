@@ -61,33 +61,29 @@ void main() {
       act: (MembersBloc bloc) async {
         when(repository.getUsers()).thenAnswer((_) async => Either.right(
               IList.from([
-                User(
+                User.test(
                   id: UniqueId("user1"),
                   name: UserName("User 1"),
                   email: EmailAddress("user1@email.com"),
-                  profileColor: null,
                 ),
-                User(
+                User.test(
                   id: UniqueId("user2"),
                   name: UserName("User 2"),
                   email: EmailAddress("user2@email.com"),
-                  profileColor: null,
                 ),
-                User(
+                User.test(
                   id: UniqueId("user3"),
                   name: UserName("User 3"),
                   email: EmailAddress("user3@email.com"),
-                  profileColor: null,
                 ),
               ]),
             ));
         await bloc.fetch();
         bloc.selectMember(
-          User(
+          User.test(
             id: UniqueId("user2"),
             name: UserName("User 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         );
       },
@@ -96,54 +92,47 @@ void main() {
         MembersState(
             IList.empty(),
             IList.from([
-              User(
+              User.test(
                 id: UniqueId("user1"),
                 name: UserName("User 1"),
                 email: EmailAddress("user1@email.com"),
-                profileColor: null,
               ),
-              User(
+              User.test(
                 id: UniqueId("user2"),
                 name: UserName("User 2"),
                 email: EmailAddress("user2@email.com"),
-                profileColor: null,
               ),
-              User(
+              User.test(
                 id: UniqueId("user3"),
                 name: UserName("User 3"),
                 email: EmailAddress("user3@email.com"),
-                profileColor: null,
               ),
             ]),
             false,
             false),
         MembersState(
             IList.from([
-              User(
+              User.test(
                 id: UniqueId("user2"),
                 name: UserName("User 2"),
                 email: EmailAddress("user2@email.com"),
-                profileColor: null,
               ),
             ]),
             IList.from([
-              User(
+              User.test(
                 id: UniqueId("user1"),
                 name: UserName("User 1"),
                 email: EmailAddress("user1@email.com"),
-                profileColor: null,
               ),
-              User(
+              User.test(
                 id: UniqueId("user2"),
                 name: UserName("User 2"),
                 email: EmailAddress("user2@email.com"),
-                profileColor: null,
               ),
-              User(
+              User.test(
                 id: UniqueId("user3"),
                 name: UserName("User 3"),
                 email: EmailAddress("user3@email.com"),
-                profileColor: null,
               ),
             ]),
             false,
@@ -155,51 +144,45 @@ void main() {
       "emits on deselect",
       build: () => MembersBloc(
         initialValue: IList.from([
-          User(
+          User.test(
             id: UniqueId("user1"),
             name: UserName("User 1"),
             email: EmailAddress("user1@email.com"),
-            profileColor: null,
           ),
-          User(
+          User.test(
             id: UniqueId("user2"),
             name: UserName("User 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
-          User(
+          User.test(
             id: UniqueId("user3"),
             name: UserName("User 3"),
             email: EmailAddress("user3@email.com"),
-            profileColor: null,
           ),
         ]),
         repository: repository,
       ),
       act: (MembersBloc bloc) {
         bloc.deselectMember(
-          User(
+          User.test(
             id: UniqueId("user2"),
             name: UserName("User 2"),
             email: EmailAddress("user2@email.com"),
-            profileColor: null,
           ),
         );
       },
       expect: [
         MembersState(
             IList.from([
-              User(
+              User.test(
                 id: UniqueId("user1"),
                 name: UserName("User 1"),
                 email: EmailAddress("user1@email.com"),
-                profileColor: null,
               ),
-              User(
+              User.test(
                 id: UniqueId("user3"),
                 name: UserName("User 3"),
                 email: EmailAddress("user3@email.com"),
-                profileColor: null,
               ),
             ]),
             IList.empty(),

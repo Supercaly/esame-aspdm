@@ -35,6 +35,28 @@ void main() {
       expect(m2.getOrNull(), isNull);
     });
 
+    test("flatMap returns the correct value", () {
+      final ret = Maybe<String>.just("mock_value")
+          .flatMap((value) => Maybe<String>.just("mock_value_2"));
+      expect(ret, isA<Maybe<String>>());
+      expect(ret.isJust(), isTrue);
+      expect(ret.getOrCrash(), equals("mock_value_2"));
+
+      final ret2 = Maybe.nothing().flatMap((value) => Maybe<String>.nothing());
+      expect(ret2, isA<Maybe<String>>());
+      expect(ret2.isNothing(), isTrue);
+
+      final ret3 = Maybe<int>.nothing()
+          .flatMap((value) => Maybe<String>.just("mock_value_2"));
+      expect(ret3, isA<Maybe<String>>());
+      expect(ret3.isNothing(), isTrue);
+
+      final ret4 = Maybe<String>.just("mock_value")
+          .flatMap((value) => Maybe<int>.nothing());
+      expect(ret4, isA<Maybe<int>>());
+      expect(ret4.isNothing(), isTrue);
+    });
+
     test("get or null returns the correct value", () {
       expect(Maybe.just(123).getOrNull(), 123);
       expect(Maybe.nothing().getOrNull(), isNull);
@@ -43,6 +65,18 @@ void main() {
     test("get or else returns the correct value", () {
       expect(Maybe.just(123).getOrElse(() => 456), 123);
       expect(Maybe.nothing().getOrElse(() => 456), 456);
+    });
+
+    test("get or crash returns the correct value", () {
+      final m1 = Maybe.just(123);
+      expect(m1.getOrCrash(), equals(123));
+
+      try {
+        Maybe.nothing().getOrCrash();
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<Exception>());
+      }
     });
 
     test("is nothing returns correctly", () {

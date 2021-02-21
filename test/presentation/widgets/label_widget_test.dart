@@ -22,7 +22,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: LabelWidget(
-            label: Label(
+            label: Label.test(
               id: UniqueId("mock_id"),
               color: LabelColor(Colors.red),
               label: LabelName("mock_label"),
@@ -43,7 +43,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: LabelWidget(
-            label: Label(
+            label: Label.test(
               id: UniqueId("mock_id"),
               color: LabelColor(Colors.red),
               label: LabelName("mock_label"),
