@@ -22,6 +22,10 @@ abstract class Maybe<A> {
   /// [f] or otherwise a [Nothing].
   Maybe<R> map<R>(R Function(A value) f);
 
+  /// Returns a [Just] containing the result of applying a transformation
+  /// [f] or otherwise a [Nothing].
+  Maybe<R> flatMap<R>(Maybe<R> Function(A value) f);
+
   /// Returns the value contained by the [Just] or [null].
   A getOrNull();
 
@@ -63,6 +67,9 @@ class Nothing<A> extends Maybe<A> {
   Maybe<R> map<R>(R Function(A value) f) => Nothing<R>();
 
   @override
+  Maybe<R> flatMap<R>(Maybe<R> Function(A value) f) => Nothing<R>();
+
+  @override
   bool operator ==(Object other) => other is Nothing<A>;
 
   @override
@@ -90,6 +97,9 @@ class Just<A> extends Maybe<A> {
 
   @override
   Maybe<R> map<R>(R Function(A value) f) => Just(f(_value));
+
+  @override
+  Maybe<R> flatMap<R>(Maybe<R> Function(A value) f) => f(_value);
 
   @override
   bool operator ==(Object other) => other is Just<A> && other._value == _value;
