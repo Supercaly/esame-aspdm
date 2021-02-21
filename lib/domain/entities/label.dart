@@ -11,7 +11,7 @@ class Label extends Equatable {
   final UniqueId id;
 
   /// Color of the label.
-  final Color color;
+  final LabelColor color;
 
   /// Label's text.
   final LabelName label;

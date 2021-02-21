@@ -64,17 +64,17 @@ void main() {
               IList.from([
                 Label(
                   id: UniqueId("label1"),
-                  color: Colors.red,
+                  color: LabelColor(Colors.red),
                   label: LabelName("Label 1"),
                 ),
                 Label(
                   id: UniqueId("label2"),
-                  color: Colors.green,
+                  color: LabelColor(Colors.green),
                   label: LabelName("Label 2"),
                 ),
                 Label(
                   id: UniqueId("label3"),
-                  color: Colors.blue,
+                  color: LabelColor(Colors.blue),
                   label: LabelName("Label 3"),
                 ),
               ]),
@@ -83,7 +83,7 @@ void main() {
         bloc.selectLabel(
           Label(
             id: UniqueId("label2"),
-            color: Colors.green,
+            color: LabelColor(Colors.green),
             label: LabelName("Label 2"),
           ),
         );
@@ -95,17 +95,17 @@ void main() {
             IList.from([
               Label(
                 id: UniqueId("label1"),
-                color: Colors.red,
+                color: LabelColor(Colors.red),
                 label: LabelName("Label 1"),
               ),
               Label(
                 id: UniqueId("label2"),
-                color: Colors.green,
+                color: LabelColor(Colors.green),
                 label: LabelName("Label 2"),
               ),
               Label(
                 id: UniqueId("label3"),
-                color: Colors.blue,
+                color: LabelColor(Colors.blue),
                 label: LabelName("Label 3"),
               ),
             ]),
@@ -115,24 +115,24 @@ void main() {
             IList.from([
               Label(
                 id: UniqueId("label2"),
-                color: Colors.green,
+                color: LabelColor(Colors.green),
                 label: LabelName("Label 2"),
               )
             ]),
             IList.from([
               Label(
                 id: UniqueId("label1"),
-                color: Colors.red,
+                color: LabelColor(Colors.red),
                 label: LabelName("Label 1"),
               ),
               Label(
                 id: UniqueId("label2"),
-                color: Colors.green,
+                color: LabelColor(Colors.green),
                 label: LabelName("Label 2"),
               ),
               Label(
                 id: UniqueId("label3"),
-                color: Colors.blue,
+                color: LabelColor(Colors.blue),
                 label: LabelName("Label 3"),
               ),
             ]),
@@ -147,17 +147,17 @@ void main() {
         initialValue: IList.from([
           Label(
             id: UniqueId("label1"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("Label 1"),
           ),
           Label(
             id: UniqueId("label2"),
-            color: Colors.green,
+            color: LabelColor(Colors.green),
             label: LabelName("Label 2"),
           ),
           Label(
             id: UniqueId("label3"),
-            color: Colors.blue,
+            color: LabelColor(Colors.blue),
             label: LabelName("Label 3"),
           ),
         ]),
@@ -167,7 +167,7 @@ void main() {
         bloc.deselectLabel(
           Label(
             id: UniqueId("label2"),
-            color: Colors.green,
+            color: LabelColor(Colors.green),
             label: LabelName("Label 2"),
           ),
         );
@@ -177,12 +177,12 @@ void main() {
             IList.from([
               Label(
                 id: UniqueId("label1"),
-                color: Colors.red,
+                color: LabelColor(Colors.red),
                 label: LabelName("Label 1"),
               ),
               Label(
                 id: UniqueId("label3"),
-                color: Colors.blue,
+                color: LabelColor(Colors.blue),
                 label: LabelName("Label 3"),
               ),
             ]),

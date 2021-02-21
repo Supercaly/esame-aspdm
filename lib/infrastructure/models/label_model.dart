@@ -41,13 +41,13 @@ class LabelModel extends Equatable {
 
   factory LabelModel.fromDomain(Label label) => LabelModel(
         id: label.id.value.getOrNull(),
-        color: label.color,
+        color: label.color.value.getOrNull(),
         label: label.label.value.getOrNull(),
       );
 
   Label toDomain() => Label(
         id: UniqueId(id),
-        color: color,
+        color: LabelColor(color),
         label: LabelName(label),
       );
 

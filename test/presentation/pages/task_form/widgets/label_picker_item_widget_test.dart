@@ -15,7 +15,7 @@ void main() {
     setUpAll(() {
       label = Label(
         id: UniqueId.empty(),
-        color: Colors.red,
+        color: LabelColor(Colors.red),
         label: LabelName("label"),
       );
     });

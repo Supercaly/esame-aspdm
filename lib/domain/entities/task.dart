@@ -17,7 +17,7 @@ class Task extends Equatable {
   final TaskTitle title;
 
   /// Date when the task was created.
-  final DateTime creationDate;
+  final CreationDate creationDate;
 
   /// Description of the task.
   final TaskDescription description;
@@ -34,7 +34,7 @@ class Task extends Equatable {
   /// Date when the task will expire.
   /// Note: after the expiration nothing will
   /// happen other that the application marking it.
-  final DateTime expireDate;
+  final ExpireDate expireDate;
 
   /// [Checklist]s associated with the task.
   final IList<Checklist> checklists;

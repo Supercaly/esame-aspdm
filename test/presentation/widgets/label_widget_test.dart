@@ -24,7 +24,7 @@ void main() {
           body: LabelWidget(
             label: Label(
               id: UniqueId("mock_id"),
-              color: Colors.red,
+              color: LabelColor(Colors.red),
               label: LabelName("mock_label"),
             ),
             compact: true,
@@ -45,7 +45,7 @@ void main() {
           body: LabelWidget(
             label: Label(
               id: UniqueId("mock_id"),
-              color: Colors.red,
+              color: LabelColor(Colors.red),
               label: LabelName("mock_label"),
             ),
             compact: false,

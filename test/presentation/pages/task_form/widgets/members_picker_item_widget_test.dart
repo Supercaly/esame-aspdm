@@ -16,7 +16,7 @@ void main() {
         id: UniqueId.empty(),
         name: UserName("User Name"),
         email: EmailAddress("user@email.com"),
-        profileColor: Colors.red,
+        profileColor: ProfileColor(Colors.red),
       );
     });
 

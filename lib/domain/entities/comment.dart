@@ -24,7 +24,7 @@ class Comment extends Equatable {
   final IList<User> dislikes;
 
   /// Date when the comment was created.
-  final DateTime creationDate;
+  final CreationDate creationDate;
 
   const Comment({
     @required this.id,

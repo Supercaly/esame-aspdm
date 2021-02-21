@@ -15,7 +15,7 @@ class User extends Equatable {
   final EmailAddress email;
 
   /// User's profile color.
-  final Color profileColor;
+  final ProfileColor profileColor;
 
   const User({
     @required this.id,

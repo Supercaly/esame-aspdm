@@ -45,7 +45,7 @@ void main() {
           id: UniqueId("mock_id"),
           name: UserName("mock user"),
           email: EmailAddress("mock.user@email.com"),
-          profileColor: Colors.red,
+          profileColor: ProfileColor(Colors.red),
         ),
       ),
     );
@@ -101,7 +101,7 @@ void main() {
       id: UniqueId("mock_id"),
       name: UserName("mock user"),
       email: EmailAddress("mock.user@email.com"),
-      profileColor: Colors.yellow,
+      profileColor: ProfileColor(Colors.yellow),
     )));
 
     expect(mockPreferences.getString("user_id"), equals("mock_id"));

@@ -60,12 +60,12 @@ void main() {
               labels: IList.from([
                 Label(
                   id: UniqueId("mock_id"),
-                  color: Colors.red,
+                  color: LabelColor(Colors.red),
                   label: LabelName("label"),
                 ),
                 Label(
                   id: UniqueId("mock_id"),
-                  color: Colors.blue,
+                  color: LabelColor(Colors.blue),
                   label: LabelName("label"),
                 ),
               ]),
@@ -99,12 +99,12 @@ void main() {
               labels: IList.from([
                 Label(
                   id: UniqueId("mock_id"),
-                  color: Colors.red,
+                  color: LabelColor(Colors.red),
                   label: LabelName("label"),
                 ),
                 Label(
                   id: UniqueId("mock_id"),
-                  color: Colors.blue,
+                  color: LabelColor(Colors.blue),
                   label: LabelName("label"),
                 ),
               ]),
@@ -117,7 +117,7 @@ void main() {
                   profileColor: null,
                 )
               ]),
-              expireDate: DateTime.now(),
+              expireDate: ExpireDate(DateTime.now()),
               checklists: IList.from([
                 Checklist(
                   id: UniqueId("mock_id"),
@@ -179,7 +179,7 @@ void main() {
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
-                  creationDate: DateTime.now(),
+                  creationDate: CreationDate(DateTime.now()),
                 ),
                 Comment(
                   id: UniqueId("c2"),
@@ -192,7 +192,7 @@ void main() {
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
-                  creationDate: DateTime.now(),
+                  creationDate: CreationDate(DateTime.now()),
                 ),
                 Comment(
                   id: UniqueId("c3"),
@@ -205,7 +205,7 @@ void main() {
                   ),
                   likes: IList.empty(),
                   dislikes: IList.empty(),
-                  creationDate: DateTime.now(),
+                  creationDate: CreationDate(DateTime.now()),
                 ),
               ]),
               archived: Toggle(false),

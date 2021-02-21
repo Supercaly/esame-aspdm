@@ -63,7 +63,7 @@ class CommentModel extends Equatable {
         likes: comment.likes?.map((e) => UserModel.fromDomain(e))?.asList(),
         dislikes:
             comment.dislikes?.map((e) => UserModel.fromDomain(e))?.asList(),
-        creationDate: comment.creationDate,
+        creationDate: comment.creationDate.value.getOrNull(),
       );
 
   Comment toDomain() => Comment(
@@ -72,7 +72,7 @@ class CommentModel extends Equatable {
         author: author?.toDomain(),
         likes: IList.from(likes?.map((e) => e.toDomain())),
         dislikes: IList.from(dislikes?.map((e) => e.toDomain())),
-        creationDate: creationDate,
+        creationDate: CreationDate(creationDate),
       );
 
   @override

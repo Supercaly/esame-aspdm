@@ -176,12 +176,12 @@ void main() {
         cubit.labelsChanged(IList.from([
           Label(
             id: UniqueId("label1"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label 1"),
           ),
           Label(
             id: UniqueId("label2"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label 2"),
           ),
         ]));
@@ -193,12 +193,12 @@ void main() {
             labels: IList.from([
               Label(
                 id: UniqueId("label1"),
-                color: Colors.red,
+                color: LabelColor(Colors.red),
                 label: LabelName("label 1"),
               ),
               Label(
                 id: UniqueId("label2"),
-                color: Colors.red,
+                color: LabelColor(Colors.red),
                 label: LabelName("label 2"),
               ),
             ]),
