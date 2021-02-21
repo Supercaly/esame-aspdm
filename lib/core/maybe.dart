@@ -29,6 +29,10 @@ abstract class Maybe<A> {
   /// the result of applying [orElse].
   A getOrElse(A Function() orElse);
 
+  /// Returns the value contained in the [Just]
+  /// or crash with an [Exception].
+  A getOrCrash();
+
   /// Returns true if the [Maybe] is [Nothing].
   bool isNothing() => fold(() => true, (_) => false);
 
@@ -51,6 +55,9 @@ class Nothing<A> extends Maybe<A> {
 
   @override
   A getOrNull() => null;
+
+  @override
+  A getOrCrash() => throw Exception("Trying to access Nothing value of Maybe!");
 
   @override
   Maybe<R> map<R>(R Function(A value) f) => Nothing<R>();
@@ -77,6 +84,9 @@ class Just<A> extends Maybe<A> {
 
   @override
   A getOrNull() => _value;
+
+  @override
+  A getOrCrash() => _value;
 
   @override
   Maybe<R> map<R>(R Function(A value) f) => Just(f(_value));

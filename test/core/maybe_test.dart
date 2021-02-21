@@ -45,6 +45,18 @@ void main() {
       expect(Maybe.nothing().getOrElse(() => 456), 456);
     });
 
+    test("get or crash returns the correct value", () {
+      final m1 = Maybe.just(123);
+      expect(m1.getOrCrash(), equals(123));
+
+      try {
+        Maybe.nothing().getOrCrash();
+        fail("This should throw an exception!");
+      } catch (e) {
+        expect(e, isA<Exception>());
+      }
+    });
+
     test("is nothing returns correctly", () {
       expect(Maybe.just(123).isNothing(), isFalse);
       expect(Maybe.nothing().isNothing(), isTrue);
