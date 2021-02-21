@@ -92,7 +92,7 @@ class TaskModel extends Equatable {
         title: TaskTitle(title),
         description: TaskDescription(description),
         labels: IList.from(labels?.map((e) => e.toDomain())),
-        // TODO: The author could be null but we assume it can't
+        // TODO(#119): Task's user could be null, but it should not
         author: author?.toDomain(),
         members: IList.from(members?.map((e) => e.toDomain())),
         expireDate: expireDate != null
