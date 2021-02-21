@@ -101,47 +101,47 @@ void main() {
               ]),
               expireDate: Maybe.just(ExpireDate(DateTime.now())),
               checklists: IList.from([
-                Checklist(
+                Checklist.test(
                   id: UniqueId("mock_id"),
                   title: ChecklistTitle("checklist1"),
                   items: IList.from([
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(true),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(true),
                     ),
                   ]),
                 ),
-                Checklist(
+                Checklist.test(
                   id: UniqueId("mock_id"),
                   title: ChecklistTitle("checklist1"),
                   items: IList.from([
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(true),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("mock_id"),
                       item: ItemText("item"),
                       complete: Toggle(false),

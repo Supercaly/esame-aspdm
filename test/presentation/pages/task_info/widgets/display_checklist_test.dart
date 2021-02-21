@@ -23,22 +23,22 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: DisplayChecklist(
-              checklist: Checklist(
+              checklist: Checklist.test(
                 id: UniqueId("checklist_id"),
                 title: ChecklistTitle("Checklist"),
                 items: IList.from(
                   [
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_1"),
                       item: ItemText("Item 1"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_2"),
                       item: ItemText("Item 2"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_3"),
                       item: ItemText("Item 3"),
                       complete: Toggle(true),
@@ -63,22 +63,22 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: DisplayChecklist(
-              checklist: Checklist(
+              checklist: Checklist.test(
                 id: UniqueId("checklist_id"),
                 title: ChecklistTitle("Checklist"),
                 items: IList.from(
                   [
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_1"),
                       item: ItemText("Item 1"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_2"),
                       item: ItemText("Item 2"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_3"),
                       item: ItemText("Item 3"),
                       complete: Toggle(true),
@@ -119,22 +119,22 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: DisplayChecklist(
-              checklist: Checklist(
+              checklist: Checklist.test(
                 id: UniqueId("checklist_id"),
                 title: ChecklistTitle("Checklist"),
                 items: IList.from(
                   [
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_1"),
                       item: ItemText("Item 1"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_2"),
                       item: ItemText("Item 2"),
                       complete: Toggle(false),
                     ),
-                    ChecklistItem(
+                    ChecklistItem.test(
                       id: UniqueId("item_3"),
                       item: ItemText("Item 3"),
                       complete: Toggle(true),
@@ -161,7 +161,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         changedItem,
-        equals(ChecklistItem(
+        equals(ChecklistItem.test(
           id: UniqueId("item_1"),
           item: ItemText("Item 1"),
           complete: Toggle(false),
@@ -173,7 +173,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         changedItem,
-        equals(ChecklistItem(
+        equals(ChecklistItem.test(
           id: UniqueId("item_2"),
           item: ItemText("Item 2"),
           complete: Toggle(false),
@@ -185,7 +185,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         changedItem,
-        equals(ChecklistItem(
+        equals(ChecklistItem.test(
           id: UniqueId("item_3"),
           item: ItemText("Item 3"),
           complete: Toggle(true),
@@ -196,22 +196,22 @@ void main() {
 
     test("get checklist progress returns the correct amount", () {
       final widget = DisplayChecklist(
-        checklist: Checklist(
+        checklist: Checklist.test(
           id: UniqueId("checklist_id"),
           title: ChecklistTitle("Checklist"),
           items: IList.from(
             [
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_1"),
                 item: ItemText("Item 1"),
                 complete: Toggle(false),
               ),
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_2"),
                 item: ItemText("Item 2"),
                 complete: Toggle(false),
               ),
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_3"),
                 item: ItemText("Item 3"),
                 complete: Toggle(true),

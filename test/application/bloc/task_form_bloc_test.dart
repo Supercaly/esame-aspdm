@@ -222,11 +222,11 @@ void main() {
           title: TaskTitle.empty(),
           description: TaskDescription.empty(),
           checklists: IList.from([
-            Checklist(
+            Checklist.test(
               id: UniqueId("checklist_id"),
               title: ChecklistTitle("Checklist 1"),
               items: IList.from([
-                ChecklistItem(
+                ChecklistItem.test(
                   id: UniqueId("item_id"),
                   item: ItemText("item 1"),
                   complete: Toggle(false),
@@ -275,22 +275,22 @@ void main() {
           title: TaskTitle.empty(),
           description: TaskDescription.empty(),
           checklists: IList.from([
-            Checklist(
+            Checklist.test(
               id: UniqueId("checklist_1"),
               title: ChecklistTitle("Checklist 1"),
               items: IList.from([
-                ChecklistItem(
+                ChecklistItem.test(
                   id: UniqueId("item_id"),
                   item: ItemText("item 1"),
                   complete: Toggle(false),
                 )
               ]),
             ),
-            Checklist(
+            Checklist.test(
               id: UniqueId("checklist_2"),
               title: ChecklistTitle("Checklist 2"),
               items: IList.from([
-                ChecklistItem(
+                ChecklistItem.test(
                   id: UniqueId("item_id"),
                   item: ItemText("item 1"),
                   complete: Toggle(false),
@@ -347,22 +347,22 @@ void main() {
             title: TaskTitle.empty(),
             description: TaskDescription.empty(),
             checklists: IList.from([
-              Checklist(
+              Checklist.test(
                 id: UniqueId("checklist_1"),
                 title: ChecklistTitle("Checklist 1"),
                 items: IList.from([
-                  ChecklistItem(
+                  ChecklistItem.test(
                     id: UniqueId("item_id"),
                     item: ItemText("item 1"),
                     complete: Toggle(false),
                   )
                 ]),
               ),
-              Checklist(
+              Checklist.test(
                 id: UniqueId("checklist_2"),
                 title: ChecklistTitle("Checklist 2"),
                 items: IList.from([
-                  ChecklistItem(
+                  ChecklistItem.test(
                     id: UniqueId("item_id"),
                     item: ItemText("item 1"),
                     complete: Toggle(false),

@@ -162,11 +162,11 @@ void main() {
         ]),
         expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
         checklists: IList.from([
-          Checklist(
+          Checklist.test(
             id: UniqueId("checklist_id"),
             title: ChecklistTitle("Checklist 1"),
             items: IList.from([
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_1"),
                 item: ItemText("Item 1"),
                 complete: Toggle(true),
@@ -282,11 +282,11 @@ void main() {
         ]),
         expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
         checklists: IList.from([
-          Checklist(
+          Checklist.test(
             id: UniqueId("checklist_id"),
             title: ChecklistTitle("Checklist 1"),
             items: IList.from([
-              ChecklistItem(
+              ChecklistItem.test(
                 id: UniqueId("item_1"),
                 item: ItemText("Item 1"),
                 complete: Toggle(true),
@@ -326,11 +326,11 @@ void main() {
       expect(tk.checklists.length, equals(1));
       expect(
         tk.checklists[0],
-        equals(Checklist(
+        equals(Checklist.test(
           id: UniqueId.empty(),
           title: ChecklistTitle("Checklist 1"),
           items: IList.from([
-            ChecklistItem(
+            ChecklistItem.test(
               id: UniqueId.empty(),
               item: ItemText("Item 1"),
               complete: Toggle(false),

@@ -35,7 +35,7 @@ class Comment extends Equatable {
     @required this.creationDate,
   });
 
-  /// Create a new [Label] with some of his values.
+  /// Create a new [Comment] with some of his values.
   /// If a value is not specified a safe default
   /// will be used instead.
   @visibleForTesting
