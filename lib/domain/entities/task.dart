@@ -47,7 +47,8 @@ class Task extends Equatable {
   /// otherwise it's still accessible.
   final Toggle archived;
 
-  Task({
+  /// Create a new [Task] with all of his values.
+  const Task({
     @required this.id,
     @required this.title,
     @required this.description,
@@ -61,6 +62,9 @@ class Task extends Equatable {
     @required this.creationDate,
   });
 
+  /// Create a new [Task] with some of his values.
+  /// If a value is not specified a safe default
+  /// will be used instead.
   @visibleForTesting
   factory Task.test({
     UniqueId id,
