@@ -150,7 +150,7 @@ void main() {
                 ),
               ]),
               comments: IList.from([
-                Comment(
+                Comment.test(
                   id: UniqueId("c1"),
                   content: CommentContent("comment 1"),
                   author: User.test(
@@ -162,7 +162,7 @@ void main() {
                   dislikes: IList.empty(),
                   creationDate: CreationDate(DateTime.now()),
                 ),
-                Comment(
+                Comment.test(
                   id: UniqueId("c2"),
                   content: CommentContent("comment 2"),
                   author: User.test(
@@ -174,7 +174,7 @@ void main() {
                   dislikes: IList.empty(),
                   creationDate: CreationDate(DateTime.now()),
                 ),
-                Comment(
+                Comment.test(
                   id: UniqueId("c3"),
                   content: CommentContent("comment 3"),
                   author: User.test(

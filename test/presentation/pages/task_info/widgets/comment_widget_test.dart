@@ -147,7 +147,7 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
                   author: User.test(
@@ -187,7 +187,7 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
                   author: User.test(
@@ -229,7 +229,7 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
                   author: User.test(
@@ -301,7 +301,7 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
                   author: User.test(
@@ -351,7 +351,7 @@ void main() {
             body: BlocProvider<AuthBloc>.value(
               value: authBloc,
               child: CommentWidget(
-                comment: Comment(
+                comment: Comment.test(
                   id: UniqueId("comment_id"),
                   content: CommentContent("Mock comment content"),
                   author: User.test(

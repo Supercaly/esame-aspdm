@@ -1,8 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tasky/domain/values/label_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 /// Class representing a label.
 /// A label is an information associated with a task
@@ -24,7 +23,7 @@ class Label extends Equatable {
     @required this.label,
   });
 
-  /// Create a new [User] with some of his values.
+  /// Create a new [Label] with some of his values.
   /// If a value is not specified a safe default
   /// will be used instead.
   @visibleForTesting
