@@ -42,14 +42,14 @@ class UserModel extends Equatable {
         id: user.id.value.getOrNull(),
         name: user.name.value.getOrNull(),
         email: user.email.value.getOrNull(),
-        profileColor: user.profileColor,
+        profileColor: user.profileColor?.value?.getOrNull(),
       );
 
   User toDomain() => User(
         id: UniqueId(id),
         name: UserName(name),
         email: EmailAddress(email),
-        profileColor: profileColor,
+        profileColor: ProfileColor(profileColor),
       );
 
   @override

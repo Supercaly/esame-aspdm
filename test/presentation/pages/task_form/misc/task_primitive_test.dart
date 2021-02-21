@@ -54,7 +54,7 @@ void main() {
           labels: IList.from([
         Label(
           id: UniqueId("label"),
-          color: Colors.red,
+          color: LabelColor(Colors.red),
           label: LabelName("label"),
         )
       ]));
@@ -109,7 +109,7 @@ void main() {
         equals([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
@@ -146,7 +146,7 @@ void main() {
         labels: IList.from([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           ),
         ]),
@@ -164,7 +164,7 @@ void main() {
             profileColor: null,
           ),
         ]),
-        expireDate: DateTime.parse("2021-01-01"),
+        expireDate: ExpireDate(DateTime.parse("2021-01-01")),
         checklists: IList.from([
           Checklist(
             id: UniqueId("checklist_id"),
@@ -180,7 +180,7 @@ void main() {
         ]),
         comments: IList.empty(),
         archived: Toggle(false),
-        creationDate: DateTime.parse("2020-12-30"),
+        creationDate: CreationDate(DateTime.parse("2020-12-30")),
       );
 
       final t1 = TaskPrimitive.fromTask(tk);
@@ -193,7 +193,7 @@ void main() {
         equals(
           Label(
               id: UniqueId("label"),
-              color: Colors.red,
+              color: LabelColor(Colors.red),
               label: LabelName("label")),
         ),
       );
@@ -237,7 +237,7 @@ void main() {
         labels: IList.from([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
@@ -272,7 +272,7 @@ void main() {
         labels: IList.from([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           ),
         ]),
@@ -290,7 +290,7 @@ void main() {
             profileColor: null,
           ),
         ]),
-        expireDate: DateTime.parse("2021-01-01"),
+        expireDate: ExpireDate(DateTime.parse("2021-01-01")),
         checklists: IList.from([
           Checklist(
             id: UniqueId("checklist_id"),
@@ -306,7 +306,7 @@ void main() {
         ]),
         comments: IList.empty(),
         archived: Toggle(false),
-        creationDate: DateTime.parse("2020-12-30"),
+        creationDate: CreationDate(DateTime.parse("2020-12-30")),
       );
 
       expect(tk.id, equals(t1.id));
@@ -320,7 +320,7 @@ void main() {
         equals(
           Label(
               id: UniqueId("label"),
-              color: Colors.red,
+              color: LabelColor(Colors.red),
               label: LabelName("label")),
         ),
       );
@@ -350,7 +350,7 @@ void main() {
         )),
       );
       expect(tk.expireDate, isNotNull);
-      expect(tk.expireDate, equals(DateTime.parse("2021-01-01")));
+      expect(tk.expireDate, equals(ExpireDate(DateTime.parse("2021-01-01"))));
       expect(
         tk.author,
         equals(User(
@@ -371,7 +371,7 @@ void main() {
         labels: IList.from([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
@@ -404,7 +404,7 @@ void main() {
         labels: IList.from([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),
@@ -437,7 +437,7 @@ void main() {
         labels: IList.from([
           Label(
             id: UniqueId("label"),
-            color: Colors.red,
+            color: LabelColor(Colors.red),
             label: LabelName("label"),
           )
         ]),

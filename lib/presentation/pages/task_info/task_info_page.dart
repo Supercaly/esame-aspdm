@@ -202,7 +202,8 @@ class HeaderCard extends StatelessWidget {
                       .asList(),
                 ),
               ),
-            if (task?.expireDate != null) ExpirationText(date: task.expireDate),
+            if (task?.expireDate != null && task.expireDate.value.isRight())
+              ExpirationText(date: task.expireDate.value.getOrNull()),
           ],
         ),
       ),

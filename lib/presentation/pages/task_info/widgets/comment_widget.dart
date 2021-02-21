@@ -143,7 +143,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                         ),
                       if (_type == CommentWidgetType.normal)
                         SizedBox(width: 6.0),
-                      Ago(time: widget.comment?.creationDate),
+                      Ago(
+                        time: widget.comment?.creationDate?.value?.getOrNull(),
+                      ),
                     ],
                   ),
                 )

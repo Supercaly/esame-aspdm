@@ -146,3 +146,43 @@ class Toggle extends ValueObject<bool> {
   String toString() =>
       "Toggle(${value.fold((left) => left, (right) => right)})";
 }
+
+/// Class representing a date when something was created.
+class CreationDate extends ValueObject<DateTime> {
+  @override
+  final Either<ValueFailure<DateTime>, DateTime> value;
+
+  const CreationDate._(this.value);
+
+  /// Create a [CreationDate] from a [DateTime] input.
+  /// The date can't be null.
+  factory CreationDate(DateTime input) {
+    if (input == null)
+      return CreationDate._(Either.left(ValueFailure.empty(input)));
+    return CreationDate._(Either.right(input));
+  }
+
+  @override
+  String toString() =>
+      "CreationDate(${value.fold((left) => left, (right) => right)})";
+}
+
+/// Class representing a task's expire date.
+class ExpireDate extends ValueObject<DateTime> {
+  @override
+  final Either<ValueFailure<DateTime>, DateTime> value;
+
+  const ExpireDate._(this.value);
+
+  /// Create a [ExpireDate] from a [DateTime] input.
+  /// The date can't be null.
+  factory ExpireDate(DateTime input) {
+    if (input == null)
+      return ExpireDate._(Either.left(ValueFailure.empty(input)));
+    return ExpireDate._(Either.right(input));
+  }
+
+  @override
+  String toString() =>
+      "ExpireDate(${value.fold((left) => left, (right) => right)})";
+}

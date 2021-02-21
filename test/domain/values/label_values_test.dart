@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:tasky/domain/values/label_values.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -34,6 +35,16 @@ void main() {
           LabelName(longLine.toString()).toString(),
           equals(
               "LabelName(ValueFailure<String>.tooLong(value: ${longLine.toString()}))"));
+    });
+  });
+
+  group("LabelColor tests", () {
+    test("create label color", () {
+      final u1 = LabelColor(Colors.red);
+      expect(u1.value.getOrCrash(), equals(Colors.red));
+
+      final u2 = LabelColor(null);
+      expect(u2.value.isLeft(), isTrue);
     });
   });
 }

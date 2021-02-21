@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/value_object.dart';
 
@@ -30,4 +33,24 @@ class LabelName extends ValueObject {
   @override
   String toString() =>
       "LabelName(${value.fold((left) => left, (right) => right)})";
+}
+
+/// Class representing a label's color.
+class LabelColor extends ValueObject<Color> {
+  @override
+  final Either<ValueFailure<Color>, Color> value;
+
+  LabelColor._(this.value);
+
+  /// Create a [LabelColor] from a [Color] input.
+  /// The color can't be null.
+  factory LabelColor(Color input) {
+    if (input == null)
+      return LabelColor._(Either.left(ValueFailure.empty(input)));
+    return LabelColor._(Either.right(input));
+  }
+
+  @override
+  String toString() =>
+      "LabelColor(${value.fold((left) => left, (right) => right)})";
 }

@@ -187,4 +187,24 @@ void main() {
       expect(Toggle(null).toString(), equals("Toggle(false)"));
     });
   });
+
+  group("CreationDate tests", () {
+    test("create creation date", () {
+      final u1 = CreationDate(DateTime.parse("2020-12-23"));
+      expect(u1.value.getOrCrash(), equals(DateTime.parse("2020-12-23")));
+
+      final u2 = CreationDate(null);
+      expect(u2.value.isLeft(), isTrue);
+    });
+  });
+
+  group("ExpireDate tests", () {
+    test("create creation date", () {
+      final u1 = ExpireDate(DateTime.parse("2020-12-23"));
+      expect(u1.value.getOrCrash(), equals(DateTime.parse("2020-12-23")));
+
+      final u2 = ExpireDate(null);
+      expect(u2.value.isLeft(), isTrue);
+    });
+  });
 }

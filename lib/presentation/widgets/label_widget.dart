@@ -30,7 +30,7 @@ class LabelWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           constraints: BoxConstraints(minWidth: 42.0),
           decoration: BoxDecoration(
-            color: label.color,
+            color: label.color.value.getOrElse((left) => Colors.transparent),
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: (!compact)

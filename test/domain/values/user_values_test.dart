@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:tasky/domain/values/user_values.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -67,6 +68,16 @@ void main() {
           Password(null).toString(),
           equals(
               "Password(ValueFailure<String>.invalidPassword(value: null))"));
+    });
+  });
+
+  group("ProfileColor tests", () {
+    test("create profile color", () {
+      final u1 = ProfileColor(Colors.red);
+      expect(u1.value.getOrCrash(), equals(Colors.red));
+
+      final u2 = ProfileColor(null);
+      expect(u2.value.isLeft(), isTrue);
     });
   });
 }

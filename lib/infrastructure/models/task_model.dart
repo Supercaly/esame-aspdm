@@ -78,13 +78,13 @@ class TaskModel extends Equatable {
         author:
             (task.author == null) ? null : UserModel.fromDomain(task.author),
         members: task.members?.map((e) => UserModel.fromDomain(e))?.asList(),
-        expireDate: task.expireDate,
+        expireDate: task.expireDate?.value?.getOrNull(),
         checklists:
             task.checklists?.map((e) => ChecklistModel.fromDomain(e))?.asList(),
         comments:
             task.comments?.map((e) => CommentModel.fromDomain(e))?.asList(),
         archived: task.archived.value.getOrElse((_) => false),
-        creationDate: task.creationDate,
+        creationDate: task.creationDate?.value?.getOrNull(),
       );
 
   Task toDomain() => Task(
@@ -94,11 +94,11 @@ class TaskModel extends Equatable {
         labels: IList.from(labels?.map((e) => e.toDomain())),
         author: author?.toDomain(),
         members: IList.from(members?.map((e) => e.toDomain())),
-        expireDate: expireDate,
+        expireDate: ExpireDate(expireDate),
         checklists: IList.from(checklists?.map((e) => e.toDomain())),
         comments: IList.from(comments?.map((e) => e.toDomain())),
         archived: Toggle(archived),
-        creationDate: creationDate,
+        creationDate: CreationDate(creationDate),
       );
 
   @override

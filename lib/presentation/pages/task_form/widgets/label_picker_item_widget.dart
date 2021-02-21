@@ -29,7 +29,7 @@ class LabelPickerItemWidget extends StatelessWidget {
       child: Container(
         width: double.maxFinite,
         child: Material(
-          color: label.color,
+          color: label.color.value.getOrNull(),
           borderRadius: BorderRadius.circular(8.0),
           child: InkWell(
             onTap: () => onSelected?.call(!selected),

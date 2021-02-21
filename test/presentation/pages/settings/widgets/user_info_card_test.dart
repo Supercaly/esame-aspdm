@@ -21,7 +21,7 @@ void main() {
       id: UniqueId("mock_id"),
       name: UserName("Mock User"),
       email: EmailAddress("mock.user@email.com"),
-      profileColor: Colors.green,
+      profileColor: ProfileColor(Colors.green),
     ))));
   });
 
