@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/value_object.dart';
 
@@ -71,4 +73,24 @@ class Password extends ValueObject<String> {
   @override
   String toString() =>
       "Password(${value.fold((left) => left, (right) => right)})";
+}
+
+/// Class representing a user's profile color.
+class ProfileColor extends ValueObject<Color> {
+  @override
+  final Either<ValueFailure<Color>, Color> value;
+
+  ProfileColor._(this.value);
+
+  /// Create a [ProfileColor] from a [Color] input.
+  /// The color can't be null.
+  factory ProfileColor(Color input) {
+    if (input == null)
+      return ProfileColor._(Either.left(ValueFailure.empty(input)));
+    return ProfileColor._(Either.right(input));
+  }
+
+  @override
+  String toString() =>
+      "ProfileColor(${value.fold((left) => left, (right) => right)})";
 }
