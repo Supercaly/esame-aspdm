@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/domain/values/user_values.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 /// Class representing a user using this app.
 class User extends Equatable {
@@ -29,6 +29,7 @@ class User extends Equatable {
   /// Create a new [User] with some of his values.
   /// If a value is not specified a safe default
   /// will be used instead.
+  @visibleForTesting
   factory User.test({
     UniqueId id,
     UserName name,

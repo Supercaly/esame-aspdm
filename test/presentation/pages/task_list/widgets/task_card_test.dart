@@ -49,12 +49,12 @@ void main() {
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
               labels: IList.from([
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.red),
                   label: LabelName("label"),
                 ),
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.blue),
                   label: LabelName("label"),
@@ -81,12 +81,12 @@ void main() {
               title: TaskTitle("mock title"),
               description: TaskDescription("mock description"),
               labels: IList.from([
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.red),
                   label: LabelName("label"),
                 ),
-                Label(
+                Label.test(
                   id: UniqueId("mock_id"),
                   color: LabelColor(Colors.blue),
                   label: LabelName("label"),

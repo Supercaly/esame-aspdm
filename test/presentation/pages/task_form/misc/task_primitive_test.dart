@@ -51,7 +51,7 @@ void main() {
       ]));
       final t5 = t1.copyWith(
           labels: IList.from([
-        Label(
+        Label.test(
           id: UniqueId("label"),
           color: LabelColor(Colors.red),
           label: LabelName("label"),
@@ -105,7 +105,7 @@ void main() {
       expect(
         t5.labels.asList(),
         equals([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -142,7 +142,7 @@ void main() {
         title: TaskTitle("title"),
         description: TaskDescription("description"),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -187,7 +187,7 @@ void main() {
       expect(
         t1.labels[0],
         equals(
-          Label(
+          Label.test(
               id: UniqueId("label"),
               color: LabelColor(Colors.red),
               label: LabelName("label")),
@@ -229,7 +229,7 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -262,7 +262,7 @@ void main() {
         title: TaskTitle("title"),
         description: TaskDescription("description"),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -308,7 +308,7 @@ void main() {
       expect(
         tk.labels[0],
         equals(
-          Label(
+          Label.test(
               id: UniqueId("label"),
               color: LabelColor(Colors.red),
               label: LabelName("label")),
@@ -358,7 +358,7 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -389,7 +389,7 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),
@@ -420,7 +420,7 @@ void main() {
         description: "description",
         expireDate: Maybe.just(DateTime.parse("2021-01-01")),
         labels: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label"),
             color: LabelColor(Colors.red),
             label: LabelName("label"),

@@ -170,12 +170,12 @@ void main() {
       ),
       act: (TaskFormBloc cubit) {
         cubit.labelsChanged(IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label1"),
             color: LabelColor(Colors.red),
             label: LabelName("label 1"),
           ),
-          Label(
+          Label.test(
             id: UniqueId("label2"),
             color: LabelColor(Colors.red),
             label: LabelName("label 2"),
@@ -187,12 +187,12 @@ void main() {
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             labels: IList.from([
-              Label(
+              Label.test(
                 id: UniqueId("label1"),
                 color: LabelColor(Colors.red),
                 label: LabelName("label 1"),
               ),
-              Label(
+              Label.test(
                 id: UniqueId("label2"),
                 color: LabelColor(Colors.red),
                 label: LabelName("label 2"),

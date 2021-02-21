@@ -62,17 +62,17 @@ void main() {
       act: (LabelsBloc bloc) async {
         when(repository.getLabels()).thenAnswer((_) async => Either.right(
               IList.from([
-                Label(
+                Label.test(
                   id: UniqueId("label1"),
                   color: LabelColor(Colors.red),
                   label: LabelName("Label 1"),
                 ),
-                Label(
+                Label.test(
                   id: UniqueId("label2"),
                   color: LabelColor(Colors.green),
                   label: LabelName("Label 2"),
                 ),
-                Label(
+                Label.test(
                   id: UniqueId("label3"),
                   color: LabelColor(Colors.blue),
                   label: LabelName("Label 3"),
@@ -81,7 +81,7 @@ void main() {
             ));
         await bloc.fetch();
         bloc.selectLabel(
-          Label(
+          Label.test(
             id: UniqueId("label2"),
             color: LabelColor(Colors.green),
             label: LabelName("Label 2"),
@@ -93,17 +93,17 @@ void main() {
         LabelsState(
             IList.empty(),
             IList.from([
-              Label(
+              Label.test(
                 id: UniqueId("label1"),
                 color: LabelColor(Colors.red),
                 label: LabelName("Label 1"),
               ),
-              Label(
+              Label.test(
                 id: UniqueId("label2"),
                 color: LabelColor(Colors.green),
                 label: LabelName("Label 2"),
               ),
-              Label(
+              Label.test(
                 id: UniqueId("label3"),
                 color: LabelColor(Colors.blue),
                 label: LabelName("Label 3"),
@@ -113,24 +113,24 @@ void main() {
             false),
         LabelsState(
             IList.from([
-              Label(
+              Label.test(
                 id: UniqueId("label2"),
                 color: LabelColor(Colors.green),
                 label: LabelName("Label 2"),
               )
             ]),
             IList.from([
-              Label(
+              Label.test(
                 id: UniqueId("label1"),
                 color: LabelColor(Colors.red),
                 label: LabelName("Label 1"),
               ),
-              Label(
+              Label.test(
                 id: UniqueId("label2"),
                 color: LabelColor(Colors.green),
                 label: LabelName("Label 2"),
               ),
-              Label(
+              Label.test(
                 id: UniqueId("label3"),
                 color: LabelColor(Colors.blue),
                 label: LabelName("Label 3"),
@@ -145,17 +145,17 @@ void main() {
       "emits on deselect",
       build: () => LabelsBloc(
         initialValue: IList.from([
-          Label(
+          Label.test(
             id: UniqueId("label1"),
             color: LabelColor(Colors.red),
             label: LabelName("Label 1"),
           ),
-          Label(
+          Label.test(
             id: UniqueId("label2"),
             color: LabelColor(Colors.green),
             label: LabelName("Label 2"),
           ),
-          Label(
+          Label.test(
             id: UniqueId("label3"),
             color: LabelColor(Colors.blue),
             label: LabelName("Label 3"),
@@ -165,7 +165,7 @@ void main() {
       ),
       act: (LabelsBloc bloc) {
         bloc.deselectLabel(
-          Label(
+          Label.test(
             id: UniqueId("label2"),
             color: LabelColor(Colors.green),
             label: LabelName("Label 2"),
@@ -175,12 +175,12 @@ void main() {
       expect: [
         LabelsState(
             IList.from([
-              Label(
+              Label.test(
                 id: UniqueId("label1"),
                 color: LabelColor(Colors.red),
                 label: LabelName("Label 1"),
               ),
-              Label(
+              Label.test(
                 id: UniqueId("label3"),
                 color: LabelColor(Colors.blue),
                 label: LabelName("Label 3"),

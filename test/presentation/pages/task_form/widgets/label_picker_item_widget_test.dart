@@ -13,7 +13,7 @@ void main() {
     Label label;
 
     setUpAll(() {
-      label = Label(
+      label = Label.test(
         id: UniqueId.empty(),
         color: LabelColor(Colors.red),
         label: LabelName("label"),
