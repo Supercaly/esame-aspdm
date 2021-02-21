@@ -1,4 +1,5 @@
 import 'package:tasky/core/ilist.dart';
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/entities/comment.dart';
 import 'package:tasky/domain/entities/label.dart';
@@ -26,18 +27,9 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              expireDate: null,
-              creationDate: null,
             ),
           ),
         ),
@@ -53,10 +45,9 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: null,
               labels: IList.from([
                 Label(
                   id: UniqueId("mock_id"),
@@ -69,13 +60,6 @@ void main() {
                   label: LabelName("label"),
                 ),
               ]),
-              author: null,
-              members: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-              expireDate: null,
             ),
           ),
         ),
@@ -92,7 +76,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
               description: TaskDescription("mock description"),
@@ -108,7 +92,6 @@ void main() {
                   label: LabelName("label"),
                 ),
               ]),
-              author: null,
               members: IList.from([
                 User(
                   id: UniqueId("mock_user"),
@@ -117,7 +100,7 @@ void main() {
                   profileColor: null,
                 )
               ]),
-              expireDate: ExpireDate(DateTime.now()),
+              expireDate: Maybe.just(ExpireDate(DateTime.now())),
               checklists: IList.from([
                 Checklist(
                   id: UniqueId("mock_id"),
@@ -209,7 +192,6 @@ void main() {
                 ),
               ]),
               archived: Toggle(false),
-              creationDate: null,
             ),
           ),
         ),
@@ -238,18 +220,9 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: TaskCard(
-            task: Task(
+            task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              expireDate: null,
-              creationDate: null,
             ),
           ),
         ),

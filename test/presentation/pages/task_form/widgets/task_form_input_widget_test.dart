@@ -35,18 +35,10 @@ void main() {
     });
 
     testWidgets("create with some initial data", (tester) async {
-      final task = Task(
+      final task = Task.test(
         id: UniqueId.empty(),
         title: TaskTitle("Mock Title"),
         description: TaskDescription("Mock Description"),
-        author: null,
-        labels: null,
-        members: null,
-        checklists: null,
-        comments: null,
-        expireDate: null,
-        archived: null,
-        creationDate: null,
       );
       final bloc = MockTaskFormBloc();
       when(bloc.state).thenReturn(TaskFormState.initial(Maybe.just(task)));

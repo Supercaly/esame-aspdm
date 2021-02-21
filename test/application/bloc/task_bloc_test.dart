@@ -52,19 +52,7 @@ void main() {
           when(repository.watchTask(any)).thenAnswer(
             (_) => Stream.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -72,24 +60,7 @@ void main() {
         },
         expect: [
           TaskState(null, false, true, false, null),
-          TaskState(
-              Task(
-                id: UniqueId("mock_id"),
-                title: TaskTitle("mock title"),
-                description: null,
-                author: null,
-                labels: null,
-                members: null,
-                expireDate: null,
-                checklists: null,
-                comments: null,
-                archived: null,
-                creationDate: null,
-              ),
-              false,
-              false,
-              false,
-              null),
+          TaskState(Task.test(), false, false, false, null),
         ]);
 
     blocTest(
@@ -123,19 +94,7 @@ void main() {
         when(repository.watchTask(any)).thenAnswer(
           (_) => Stream.value(
             Either.right(
-              Task(
-                id: UniqueId("mock_id"),
-                title: TaskTitle("mock title"),
-                description: null,
-                author: null,
-                labels: null,
-                members: null,
-                expireDate: null,
-                checklists: null,
-                comments: null,
-                archived: null,
-                creationDate: null,
-              ),
+              Task.test(),
             ),
           ),
         );
@@ -143,19 +102,7 @@ void main() {
       },
       expect: [
         TaskState(
-          Task(
-            id: UniqueId("mock_id"),
-            title: TaskTitle("mock title"),
-            description: null,
-            author: null,
-            labels: null,
-            members: null,
-            expireDate: null,
-            checklists: null,
-            comments: null,
-            archived: null,
-            creationDate: null,
-          ),
+          Task.test(),
           false,
           false,
           false,
@@ -175,19 +122,7 @@ void main() {
           when(repository.deleteComment(any, any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -198,19 +133,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -248,19 +171,7 @@ void main() {
           when(repository.editComment(any, any, any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -272,19 +183,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -323,19 +222,7 @@ void main() {
           when(repository.likeComment(any, any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -346,19 +233,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -396,19 +271,7 @@ void main() {
           when(repository.dislikeComment(any, any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -419,19 +282,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -469,19 +320,7 @@ void main() {
           when(repository.addComment(any, any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -490,19 +329,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -540,19 +367,7 @@ void main() {
           when(repository.archiveTask(any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -560,19 +375,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -607,19 +410,7 @@ void main() {
           when(repository.unarchiveTask(any, any)).thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -627,19 +418,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,
@@ -675,19 +454,7 @@ void main() {
               .thenAnswer(
             (_) => Future.value(
               Either.right(
-                Task(
-                  id: UniqueId("mock_id"),
-                  title: TaskTitle("mock title"),
-                  description: null,
-                  author: null,
-                  labels: null,
-                  members: null,
-                  expireDate: null,
-                  checklists: null,
-                  comments: null,
-                  archived: null,
-                  creationDate: null,
-                ),
+                Task.test(),
               ),
             ),
           );
@@ -700,19 +467,7 @@ void main() {
         },
         expect: [
           TaskState(
-            Task(
-              id: UniqueId("mock_id"),
-              title: TaskTitle("mock title"),
-              description: null,
-              author: null,
-              labels: null,
-              members: null,
-              expireDate: null,
-              checklists: null,
-              comments: null,
-              archived: null,
-              creationDate: null,
-            ),
+            Task.test(),
             false,
             false,
             false,

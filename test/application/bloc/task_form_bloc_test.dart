@@ -221,14 +221,10 @@ void main() {
     blocTest(
       "add checklist emit state",
       build: () => TaskFormBloc(
-        oldTask: Maybe.just(Task(
+        oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
           description: TaskDescription.empty(),
-          author: null,
-          labels: null,
-          members: null,
-          expireDate: null,
           checklists: IList.from([
             Checklist(
               id: UniqueId("checklist_id"),
@@ -242,9 +238,7 @@ void main() {
               ]),
             )
           ]),
-          comments: null,
           archived: Toggle(false),
-          creationDate: null,
         )),
         repository: repository,
       ),
@@ -280,14 +274,10 @@ void main() {
     blocTest(
       "remove checklist emit state",
       build: () => TaskFormBloc(
-        oldTask: Maybe.just(Task(
+        oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
           description: TaskDescription.empty(),
-          author: null,
-          labels: null,
-          members: null,
-          expireDate: null,
           checklists: IList.from([
             Checklist(
               id: UniqueId("checklist_1"),
@@ -312,9 +302,7 @@ void main() {
               ]),
             ),
           ]),
-          comments: null,
           archived: Toggle(false),
-          creationDate: null,
         )),
         repository: repository,
       ),
@@ -358,14 +346,10 @@ void main() {
     blocTest(
       "edit checklist emit state",
       build: () => TaskFormBloc(
-          oldTask: Maybe.just(Task(
+          oldTask: Maybe.just(Task.test(
             id: UniqueId.empty(),
             title: TaskTitle.empty(),
             description: TaskDescription.empty(),
-            author: null,
-            labels: null,
-            members: null,
-            expireDate: null,
             checklists: IList.from([
               Checklist(
                 id: UniqueId("checklist_1"),
@@ -390,9 +374,7 @@ void main() {
                 ]),
               ),
             ]),
-            comments: null,
             archived: Toggle(false),
-            creationDate: null,
           )),
           repository: repository),
       act: (TaskFormBloc cubit) {
@@ -497,18 +479,12 @@ void main() {
     blocTest(
       "save emit success state when in editing mode",
       build: () => TaskFormBloc(
-        oldTask: Maybe.just(Task(
+        oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
           description: TaskDescription.empty(),
-          author: null,
-          labels: null,
-          members: null,
-          expireDate: null,
           checklists: IList.empty(),
-          comments: null,
           archived: Toggle(false),
-          creationDate: null,
         )),
         repository: repository,
       ),
@@ -539,18 +515,12 @@ void main() {
     blocTest(
       "save emit error state when in editing mode",
       build: () => TaskFormBloc(
-        oldTask: Maybe.just(Task(
+        oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
           description: TaskDescription.empty(),
-          author: null,
-          labels: null,
-          members: null,
-          expireDate: null,
           checklists: IList.empty(),
-          comments: null,
           archived: Toggle(false),
-          creationDate: null,
         )),
         repository: repository,
       ),

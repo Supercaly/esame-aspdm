@@ -139,7 +139,7 @@ void main() {
     });
 
     test("from task creates a primitive correctly", () {
-      final tk = Task(
+      final tk = Task.test(
         id: UniqueId("task_id"),
         title: TaskTitle("title"),
         description: TaskDescription("description"),
@@ -164,7 +164,7 @@ void main() {
             profileColor: null,
           ),
         ]),
-        expireDate: ExpireDate(DateTime.parse("2021-01-01")),
+        expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
         checklists: IList.from([
           Checklist(
             id: UniqueId("checklist_id"),
@@ -265,7 +265,7 @@ void main() {
 
       final tk = t1.toTask();
 
-      Task(
+      Task.test(
         id: UniqueId("task_id"),
         title: TaskTitle("title"),
         description: TaskDescription("description"),
@@ -290,7 +290,7 @@ void main() {
             profileColor: null,
           ),
         ]),
-        expireDate: ExpireDate(DateTime.parse("2021-01-01")),
+        expireDate: Maybe.just(ExpireDate(DateTime.parse("2021-01-01"))),
         checklists: IList.from([
           Checklist(
             id: UniqueId("checklist_id"),
@@ -350,7 +350,8 @@ void main() {
         )),
       );
       expect(tk.expireDate, isNotNull);
-      expect(tk.expireDate, equals(ExpireDate(DateTime.parse("2021-01-01"))));
+      expect(tk.expireDate.getOrCrash(),
+          equals(ExpireDate(DateTime.parse("2021-01-01"))));
       expect(
         tk.author,
         equals(User(

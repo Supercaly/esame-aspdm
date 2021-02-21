@@ -32,7 +32,7 @@ void main() {
       when(dataSource.postTask(any, any))
           .thenAnswer((_) async => Either.right(null));
       final res = await repository.saveNewTask(
-        Task(
+        Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
@@ -44,11 +44,9 @@ void main() {
             profileColor: null,
           ),
           members: IList.empty(),
-          expireDate: null,
           checklists: IList.empty(),
           comments: IList.empty(),
           archived: Toggle(false),
-          creationDate: null,
         ),
         UniqueId("mock_id"),
       );
@@ -61,7 +59,7 @@ void main() {
       when(dataSource.postTask(any, any)).thenAnswer(
           (_) async => Either.left(ServerFailure.unexpectedError("")));
       final res = await repository.saveNewTask(
-        Task(
+        Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
@@ -73,11 +71,9 @@ void main() {
             profileColor: null,
           ),
           members: IList.empty(),
-          expireDate: null,
           checklists: IList.empty(),
           comments: IList.empty(),
           archived: Toggle(false),
-          creationDate: null,
         ),
         UniqueId("mock_id"),
       );
@@ -89,7 +85,7 @@ void main() {
       when(dataSource.patchTask(any, any))
           .thenAnswer((_) async => Either.right(null));
       final res = await repository.updateTask(
-        Task(
+        Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),
@@ -101,11 +97,9 @@ void main() {
             profileColor: null,
           ),
           members: IList.empty(),
-          expireDate: null,
           checklists: IList.empty(),
           comments: IList.empty(),
           archived: Toggle(false),
-          creationDate: null,
         ),
         UniqueId("mock_id"),
       );
@@ -118,7 +112,7 @@ void main() {
       when(dataSource.patchTask(any, any)).thenAnswer(
           (_) async => Either.left(ServerFailure.unexpectedError("")));
       final res = await repository.updateTask(
-        Task(
+        Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
           description: TaskDescription.empty(),

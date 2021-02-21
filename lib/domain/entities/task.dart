@@ -61,6 +61,34 @@ class Task extends Equatable {
     @required this.creationDate,
   });
 
+  @visibleForTesting
+  factory Task.test({
+    UniqueId id,
+    TaskTitle title,
+    TaskDescription description,
+    IList<Label> labels,
+    User author,
+    IList<User> members,
+    Maybe<ExpireDate> expireDate,
+    IList<Checklist> checklists,
+    IList<Comment> comments,
+    Toggle archived,
+    CreationDate creationDate,
+  }) =>
+      Task(
+        id: id ?? UniqueId.empty(),
+        title: title ?? TaskTitle.empty(),
+        description: description ?? TaskDescription.empty(),
+        labels: labels ?? IList.empty(),
+        author: author,
+        members: members ?? IList.empty(),
+        expireDate: expireDate ?? Maybe.nothing(),
+        checklists: checklists ?? IList.empty(),
+        comments: comments ?? IList.empty(),
+        archived: archived ?? Toggle(false),
+        creationDate: creationDate ?? CreationDate(null),
+      );
+
   @override
   List<Object> get props => [
         id,
