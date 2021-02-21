@@ -17,12 +17,16 @@ void main() {
   setUpAll(() {
     authBloc = MockAuthBloc();
 
-    when(authBloc.state).thenReturn(AuthState.authenticated(Maybe.just(User(
-      id: UniqueId("mock_id"),
-      name: UserName("Mock User"),
-      email: EmailAddress("mock.user@email.com"),
-      profileColor: ProfileColor(Colors.green),
-    ))));
+    when(authBloc.state).thenReturn(AuthState.authenticated(
+      Maybe.just(
+        User(
+          id: UniqueId("mock_id"),
+          name: UserName("Mock User"),
+          email: EmailAddress("mock.user@email.com"),
+          profileColor: Maybe.just(ProfileColor(Colors.green)),
+        ),
+      ),
+    ));
   });
 
   tearDownAll(() {

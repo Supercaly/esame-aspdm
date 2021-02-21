@@ -1,3 +1,4 @@
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/domain/values/user_values.dart';
 import 'package:equatable/equatable.dart';
@@ -15,7 +16,7 @@ class User extends Equatable {
   final EmailAddress email;
 
   /// User's profile color.
-  final ProfileColor profileColor;
+  final Maybe<ProfileColor> profileColor;
 
   const User({
     @required this.id,

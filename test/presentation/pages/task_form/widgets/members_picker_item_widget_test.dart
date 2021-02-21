@@ -1,3 +1,4 @@
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/domain/values/user_values.dart';
@@ -16,7 +17,7 @@ void main() {
         id: UniqueId.empty(),
         name: UserName("User Name"),
         email: EmailAddress("user@email.com"),
-        profileColor: ProfileColor(Colors.red),
+        profileColor: Maybe.just(ProfileColor(Colors.red)),
       );
     });
 

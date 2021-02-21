@@ -34,7 +34,9 @@ class PreferenceService {
         value?.email?.value?.getOrNull(),
       );
       await _preferences.setInt(
-          "user_color", value?.profileColor?.value?.getOrNull()?.value);
+        "user_color",
+        value?.profileColor?.getOrNull()?.value?.getOrNull()?.value,
+      );
     }
   }
 
@@ -49,7 +51,9 @@ class PreferenceService {
       id: id,
       name: UserName(_preferences.getString("user_name")),
       email: EmailAddress(_preferences.getString("user_email")),
-      profileColor: colorValue != null ? ProfileColor(Color(colorValue)) : null,
+      profileColor: colorValue != null
+          ? Maybe.just(ProfileColor(Color(colorValue)))
+          : Maybe.nothing(),
     ));
   }
 }

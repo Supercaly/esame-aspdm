@@ -32,13 +32,16 @@ class UserAvatar extends StatefulWidget {
 class _UserAvatarState extends State<UserAvatar> {
   Color boxColor;
 
+  Color _colorFromUser() =>
+      widget.user?.profileColor?.getOrNull()?.value?.getOrNull();
+
   @override
   void initState() {
     super.initState();
 
     // If the user doesn't have a profile color
     // pick one at random.
-    boxColor = widget.user?.profileColor?.value?.getOrNull() ??
+    boxColor = _colorFromUser() ??
         Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
   }
 
@@ -47,7 +50,7 @@ class _UserAvatarState extends State<UserAvatar> {
     // This widget now has a different user
     if (oldWidget.user != widget.user) {
       // Change the boxColor with the new user's color
-      boxColor = widget.user?.profileColor?.value?.getOrNull() ??
+      boxColor = _colorFromUser() ??
           Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
     }
     super.didUpdateWidget(oldWidget);
