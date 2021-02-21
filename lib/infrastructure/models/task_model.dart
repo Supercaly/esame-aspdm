@@ -75,8 +75,7 @@ class TaskModel extends Equatable {
         title: task.title.value.getOrNull(),
         description: task.description.value.getOrNull(),
         labels: task.labels?.map((e) => LabelModel.fromDomain(e))?.asList(),
-        author:
-            (task.author == null) ? null : UserModel.fromDomain(task.author),
+        author: UserModel.fromDomain(task.author),
         members: task.members?.map((e) => UserModel.fromDomain(e))?.asList(),
         expireDate: task.expireDate?.value?.getOrNull(),
         checklists:
@@ -92,6 +91,7 @@ class TaskModel extends Equatable {
         title: TaskTitle(title),
         description: TaskDescription(description),
         labels: IList.from(labels?.map((e) => e.toDomain())),
+        // TODO: The author could be null but we assume it can't
         author: author?.toDomain(),
         members: IList.from(members?.map((e) => e.toDomain())),
         expireDate: ExpireDate(expireDate),

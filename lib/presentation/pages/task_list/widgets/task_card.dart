@@ -25,11 +25,11 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasDescription = task.description?.value?.getOrNull() != null &&
-        task.description.value.getOrNull().isNotEmpty;
-    final hasChecklists = task.checklists != null && task.checklists.isNotEmpty;
-    final hasMembers = task.members != null && task.members.isNotEmpty;
-    final hasComments = task.comments != null && task.comments.isNotEmpty;
+    final hasDescription =
+        task.description.value.fold((_) => false, (_) => true);
+    final hasChecklists = task.checklists.isNotEmpty;
+    final hasMembers = task.members.isNotEmpty;
+    final hasComments = task.comments.isNotEmpty;
     final hasExpiration =
         task.expireDate != null && task.expireDate.value.isRight();
 
