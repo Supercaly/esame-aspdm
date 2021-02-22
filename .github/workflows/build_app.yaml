@@ -18,18 +18,15 @@ jobs:
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: beta
-      - run: flutter pub get
+      - run: |
+          flutter config --enable-web
+          flutter pub get
       - name: Build part files
         run: ./scripts/linux/build_ci.sh
 
       # Build Android
       - name: Build Debug Android App Bundle
         run: flutter build appbundle --debug
-
-      # Build Web
-      - run: flutter config --enable-web
-      - name: Build Web Release
-        run: flutter build web --release
 
       # Upload build Artifacts
       - name: Upload Android build
@@ -38,3 +35,14 @@ jobs:
           name: android-debug
           path: build/app/outputs/bundle/debug/app-debug.aab
 
+      # Build Web
+      - name: Build Web Release
+        run: flutter build web --release
+
+      # Upload Webapp to Firebase Hosting
+      - name: Upload Webapp to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ASPDM_PROJECT }}"
+          channelId: live
