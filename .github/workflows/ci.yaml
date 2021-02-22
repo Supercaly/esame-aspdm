@@ -1,5 +1,6 @@
-name: ASPDM Project CI
-
+# Workflow that format, analyze and runs tests.
+# This workflow run on push and pull requests in every branch.
+name: Tasky CI
 on: [push, pull_request]
 
 jobs:
@@ -39,7 +40,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/lcov.info
-  
+
   build_windows:
     name: Build on Windows
     runs-on: windows-2019
