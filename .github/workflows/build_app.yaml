@@ -27,6 +27,7 @@ jobs:
         run: flutter build appbundle --debug
 
       # Build Web
+      - run flutter config --enable-web
       - name: Build Web Release
         run: flutter build web --release
 
