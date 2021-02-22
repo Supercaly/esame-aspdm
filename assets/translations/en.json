@@ -7,6 +7,9 @@
   "retry_btn": "RETRY",
   "edit_btn": "Edit",
   "delete_btn": "Delete",
+  "cancel_btn": "Cancel",
+  "archive_btn": "Archive",
+  "unarchive_btn": "Unarchive",
 
   "unknown_error_msg": "Unknown error occurred!",
   "nothing_to_show_msg": "Nothing to show here!",
@@ -62,6 +65,11 @@
   "description_title": "Description",
   "comments_title": "Comments",
   "title_hint": "Title...",
+
+  "archive_dialog_title": "Archive task",
+  "archive_dialog_msg": "Once you archive this task it will no longer be visible on the tasks page by anyone.",
+  "unarchive_dialog_title": "Unarchive task",
+  "unarchive_dialog_msg": "Once this task is unarchived it will be visible on the tasks page by anyone.",
 
   "description_hint": "Description",
   "email_label": "Email",

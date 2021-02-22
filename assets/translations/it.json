@@ -7,6 +7,9 @@
   "retry_btn": "RIPROVA",
   "edit_btn": "Modifica",
   "delete_btn": "Elimina",
+  "cancel_btn": "Cancella",
+  "archive_btn": "Archivia",
+  "unarchive_btn": "De-Archivia",
 
   "unknown_error_msg": "Errore sconosciuto!",
   "nothing_to_show_msg": "Nulla da vedere qui!",
@@ -33,6 +36,11 @@
   "new_task_page": "Nuovo Task",
   "settings_page": "Impostazioni",
   "archive_title": "Task Archiviati",
+
+  "archive_dialog_title": "Archivia task",
+  "archive_dialog_msg": "Una volta archiviato, questo task non sarà più visibile nella pagina dei task da nessuno.",
+  "unarchive_dialog_title": "De-Archivia task",
+  "unarchive_dialog_msg": "Una volta rimosso dall'archivio, questo task sarà visibile nella pagina dei task da chiunque.",
 
   "settings_notifications_title": "notifiche",
   "settings_notifications_msg": "Mostra impostazioni di notifica",
