@@ -3,6 +3,7 @@ import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/application/bloc/task_bloc.dart';
 import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/presentation/pages/task_info/widgets/archive_confirm_dialog.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/task_info_page_content_desktop.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/task_info_page_content_mobile.dart';
 import 'package:tasky/domain/repositories/task_repository.dart';
@@ -102,18 +103,26 @@ class TaskInfoPageWidget extends StatelessWidget {
                 if (canModify && !state.data.archived.value.getOrCrash())
                   IconButton(
                     icon: Icon(FeatherIcons.sunset),
-                    onPressed: () => context
-                        .read<TaskBloc>()
-                        .archive(currentUser.map((u) => u.id)),
+                    onPressed: () async {
+                      final res = await showArchiveConfirmDialog(context);
+                      if (res != null && res)
+                        context
+                            .read<TaskBloc>()
+                            .archive(currentUser.map((u) => u.id));
+                    },
                     tooltip: 'archive_tooltip'.tr(),
                   ),
                 if (canModify && state.data.archived.value.getOrCrash())
                   IconButton(
                     icon: Icon(FeatherIcons.sunrise),
                     tooltip: 'unarchive_tooltip'.tr(),
-                    onPressed: () => context
-                        .read<TaskBloc>()
-                        .unarchive(currentUser.map((u) => u.id)),
+                    onPressed: () async {
+                      final res = await showUnarchiveConfirmDialog(context);
+                      if (res != null && res)
+                        context
+                            .read<TaskBloc>()
+                            .unarchive(currentUser.map((u) => u.id));
+                    },
                   ),
               ],
             ),
