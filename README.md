@@ -17,7 +17,7 @@ L'applicazione permette ai propri utenti di creare un piccolo promemoria, detto 
 
 Un esempio di task per cui tasky è stata creata è quello di tracciare la realizzazione di una determiata funzionalità a cui la compagnia sta lavorando; in questo caso torna molto utile poter inserire una data di scadenza entro la quale il lavoro dev'essere completato, delle label per marcare l'alta priorità del progetto e una lista di utenti **membri** indicati come i responsabili di questa feature, inoltre è possibile inserire una o più checklist con delle liste di cose da fare che possono essere spuntate man mano che il lavoro procede. Infine, sapendo quanto i feedback dei propri colleghi siano importanti, ogni utente ha la possibilità di aggiungere un proprio commento sotto ogni task, creando un'area di discussione vera e propia.
 
-## 💡 [Prova l'applicazione web qui](https://supercaly.github.io/ASPDM-Project/webapp/index.html)
+## 💡 [Prova l'applicazione web qui](https://aspdm-project.web.app/index.html)
 
 ## Getting Started
 
