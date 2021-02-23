@@ -70,7 +70,7 @@ class TaskPrimitive extends Equatable {
   factory TaskPrimitive.fromTask(Task task) => TaskPrimitive(
         id: task.id,
         title: task.title.value.getOrNull(),
-        description: task.description.value.getOrNull(),
+        description: task.description.getOrNull()?.value?.getOrNull(),
         expireDate: task.expireDate.flatMap((value) => value.value.toMaybe()),
         labels: task.labels,
         members: task.members,
@@ -83,7 +83,9 @@ class TaskPrimitive extends Equatable {
   Task toTask() => Task(
         id: id,
         title: TaskTitle(title),
-        description: TaskDescription(description),
+        description: (description != null && description.isNotEmpty)
+            ? Maybe.just(TaskDescription(description))
+            : Maybe.nothing(),
         labels: labels,
         author: author,
         members: members,

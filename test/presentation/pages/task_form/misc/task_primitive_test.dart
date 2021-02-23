@@ -140,7 +140,7 @@ void main() {
       final tk = Task.test(
         id: UniqueId("task_id"),
         title: TaskTitle("title"),
-        description: TaskDescription("description"),
+        description: Maybe.just(TaskDescription("description")),
         labels: IList.from([
           Label.test(
             id: UniqueId("label"),
@@ -260,7 +260,7 @@ void main() {
       Task.test(
         id: UniqueId("task_id"),
         title: TaskTitle("title"),
-        description: TaskDescription("description"),
+        description: Maybe.just(TaskDescription("description")),
         labels: IList.from([
           Label.test(
             id: UniqueId("label"),
@@ -302,8 +302,8 @@ void main() {
       expect(tk.id, equals(t1.id));
       expect(tk.title.value.isRight(), isTrue);
       expect(tk.title.value.getOrNull(), "title");
-      expect(tk.description.value.isRight(), isTrue);
-      expect(tk.description.value.getOrNull(), "description");
+      expect(tk.description.getOrCrash().value.isRight(), isTrue);
+      expect(tk.description.getOrCrash().value.getOrNull(), "description");
       expect(tk.labels.length, equals(1));
       expect(
         tk.labels[0],

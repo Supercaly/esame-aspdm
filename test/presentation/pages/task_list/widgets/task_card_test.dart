@@ -79,7 +79,7 @@ void main() {
             task: Task.test(
               id: UniqueId("mock_id"),
               title: TaskTitle("mock title"),
-              description: TaskDescription("mock description"),
+              description: Maybe.just(TaskDescription("mock description")),
               labels: IList.from([
                 Label.test(
                   id: UniqueId("mock_id"),

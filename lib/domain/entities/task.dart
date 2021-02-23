@@ -21,7 +21,7 @@ class Task extends Equatable {
   final CreationDate creationDate;
 
   /// Description of the task.
-  final TaskDescription description;
+  final Maybe<TaskDescription> description;
 
   /// [Label]s associated with the task.
   final IList<Label> labels;
@@ -69,7 +69,7 @@ class Task extends Equatable {
   factory Task.test({
     UniqueId id,
     TaskTitle title,
-    TaskDescription description,
+    Maybe<TaskDescription> description,
     IList<Label> labels,
     User author,
     IList<User> members,
@@ -82,7 +82,7 @@ class Task extends Equatable {
       Task(
         id: id ?? UniqueId.empty(),
         title: title ?? TaskTitle.empty(),
-        description: description ?? TaskDescription.empty(),
+        description: description ?? Maybe.nothing(),
         labels: labels ?? IList.empty(),
         author: author,
         members: members ?? IList.empty(),
