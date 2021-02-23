@@ -1,3 +1,4 @@
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
@@ -31,7 +32,7 @@ void main() {
       expect(find.text("Item 1"), findsOneWidget);
       expect(find.text("Item 2"), findsOneWidget);
       expect(find.text("Item 3"), findsOneWidget);
-      expect(find.byType(Checkbox), findsNWidgets(3));
+      expect(find.byType(CircularCheckBox), findsNWidgets(3));
     });
 
     testWidgets("tap call edit correctly", (tester) async {
