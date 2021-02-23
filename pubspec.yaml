@@ -46,6 +46,9 @@ dependencies:
   easy_localization: ^2.3.3+1
   flutter_feather_icons: ^1.0.3
   sliding_sheet: ^0.4.1
+  circular_check_box:
+    git:
+      url: https://github.com/Supercaly/circular_check_box.git
 
 dev_dependencies:
   flutter_test:

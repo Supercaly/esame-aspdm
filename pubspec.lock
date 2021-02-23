@@ -141,6 +141,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  circular_check_box:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: bacdd9225da7a04a10a80c081272f3d987f7caae
+      url: "https://github.com/Supercaly/circular_check_box.git"
+    source: git
+    version: "1.0.3"
   cli_util:
     dependency: transitive
     description:

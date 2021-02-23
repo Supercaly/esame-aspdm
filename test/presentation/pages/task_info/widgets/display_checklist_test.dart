@@ -1,3 +1,4 @@
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/values/task_values.dart';
@@ -55,7 +56,7 @@ void main() {
       expect(find.text("Item 1"), findsOneWidget);
       expect(find.text("Item 2"), findsOneWidget);
       expect(find.text("Item 3"), findsOneWidget);
-      expect(find.byType(Checkbox), findsNWidgets(3));
+      expect(find.byType(CircularCheckBox), findsNWidgets(3));
     });
 
     testWidgets("show/hide content works correctly", (tester) async {
@@ -155,9 +156,9 @@ void main() {
       expect(find.text("Item 1"), findsOneWidget);
       expect(find.text("Item 2"), findsOneWidget);
       expect(find.text("Item 3"), findsOneWidget);
-      expect(find.byType(Checkbox), findsNWidgets(3));
+      expect(find.byType(CircularCheckBox), findsNWidgets(3));
 
-      await tester.tap(find.byType(Checkbox).first);
+      await tester.tap(find.byType(CircularCheckBox).first);
       await tester.pumpAndSettle();
       expect(
         changedItem,
@@ -169,7 +170,7 @@ void main() {
       );
       expect(checked, isTrue);
 
-      await tester.tap(find.byType(Checkbox).at(1));
+      await tester.tap(find.byType(CircularCheckBox).at(1));
       await tester.pumpAndSettle();
       expect(
         changedItem,
@@ -181,7 +182,7 @@ void main() {
       );
       expect(checked, isTrue);
 
-      await tester.tap(find.byType(Checkbox).at(2));
+      await tester.tap(find.byType(CircularCheckBox).at(2));
       await tester.pumpAndSettle();
       expect(
         changedItem,

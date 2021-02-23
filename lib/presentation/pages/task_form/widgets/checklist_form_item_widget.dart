@@ -1,3 +1,4 @@
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:tasky/application/bloc/checklist_form_bloc.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +130,7 @@ class _ChecklistFormItemState extends State<ChecklistFormItem> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(width: 8.0),
-          Checkbox(value: false, onChanged: (_) {}),
+          CircularCheckBox(value: false, onChanged: null),
           SizedBox(width: 16.0),
           Expanded(
             child: TextFormField(
