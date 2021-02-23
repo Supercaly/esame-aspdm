@@ -1,3 +1,4 @@
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -84,13 +85,14 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                 children: widget.checklist.items
                     .map((item) => Row(
                           children: [
-                            Checkbox(
+                            CircularCheckBox(
                               value: item.complete.value.getOrCrash(),
                               onChanged: (widget.onItemChange != null)
                                   ? (value) => widget.onItemChange
                                       ?.call(item, Toggle(value))
                                   : null,
                             ),
+                            SizedBox(width: 8.0),
                             Text(
                               item.item.value.getOrElse((_) => "-"),
                               style: Theme.of(context)

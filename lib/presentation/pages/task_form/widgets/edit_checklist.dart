@@ -1,3 +1,4 @@
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -53,7 +54,7 @@ class EditChecklist extends StatelessWidget {
                 children: primitive.items
                     .map((e) => Row(
                           children: [
-                            Checkbox(
+                            CircularCheckBox(
                               value: false,
                               onChanged: null,
                             ),
