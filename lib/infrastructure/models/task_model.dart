@@ -74,12 +74,17 @@ class TaskModel extends Equatable {
   factory TaskModel.fromDomain(Task task) => TaskModel(
         id: task.id.value.getOrNull(),
         title: task.title.value.getOrNull(),
-        description: task.description.value.getOrNull(),
+        description: task.description.fold(
+          () => null,
+          (value) => value.value.getOrNull(),
+        ),
         labels: task.labels.map((e) => LabelModel.fromDomain(e)).asList(),
         author: UserModel.fromDomain(task.author),
         members: task.members.map((e) => UserModel.fromDomain(e)).asList(),
-        expireDate: task.expireDate
-            .fold(() => null, (value) => value.value.getOrNull()),
+        expireDate: task.expireDate.fold(
+          () => null,
+          (value) => value.value.getOrNull(),
+        ),
         checklists:
             task.checklists.map((e) => ChecklistModel.fromDomain(e)).asList(),
         comments: task.comments.map((e) => CommentModel.fromDomain(e)).asList(),
@@ -90,7 +95,9 @@ class TaskModel extends Equatable {
   Task toDomain() => Task(
         id: UniqueId(id),
         title: TaskTitle(title),
-        description: TaskDescription(description),
+        description: (description != null && description.isNotEmpty)
+            ? Maybe.just(TaskDescription(description))
+            : Maybe.nothing(),
         labels: IList.from(labels?.map((e) => e.toDomain())),
         // TODO(#119): Task's user could be null, but it should not
         author: author?.toDomain(),

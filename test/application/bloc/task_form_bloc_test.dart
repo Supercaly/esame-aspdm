@@ -220,7 +220,6 @@ void main() {
         oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
-          description: TaskDescription.empty(),
           checklists: IList.from([
             Checklist.test(
               id: UniqueId("checklist_id"),
@@ -247,7 +246,7 @@ void main() {
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            description: "",
+            description: null,
             checklists: IList.from([
               ChecklistPrimitive(
                 title: "Checklist 1",
@@ -273,7 +272,6 @@ void main() {
         oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
-          description: TaskDescription.empty(),
           checklists: IList.from([
             Checklist.test(
               id: UniqueId("checklist_1"),
@@ -345,7 +343,6 @@ void main() {
           oldTask: Maybe.just(Task.test(
             id: UniqueId.empty(),
             title: TaskTitle.empty(),
-            description: TaskDescription.empty(),
             checklists: IList.from([
               Checklist.test(
                 id: UniqueId("checklist_1"),
@@ -478,7 +475,6 @@ void main() {
         oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
-          description: TaskDescription.empty(),
           checklists: IList.empty(),
           archived: Toggle(false),
         )),
@@ -514,7 +510,6 @@ void main() {
         oldTask: Maybe.just(Task.test(
           id: UniqueId.empty(),
           title: TaskTitle.empty(),
-          description: TaskDescription.empty(),
           checklists: IList.empty(),
           archived: Toggle(false),
         )),

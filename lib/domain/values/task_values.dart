@@ -43,14 +43,19 @@ class TaskDescription extends ValueObject<String> {
 
   /// Creates a [TaskDescription] from an input [String] that has
   /// at most [maxLength] characters.
+  /// The input can't be null, empty or longer than [maxLength].
+  /// To represent a nullable [TaskDescription] use it with Maybe.
   factory TaskDescription(String input) {
-    if (input != null && input.length > maxLength)
+    if (input == null || input.isEmpty)
+      return TaskDescription._(Either.left(ValueFailure.empty(input)));
+    if (input.length > maxLength)
       return TaskDescription._(Either.left(ValueFailure.tooLong(input)));
     return TaskDescription._(Either.right(input));
   }
 
   /// Creates a [TaskDescription] with empty content.
-  factory TaskDescription.empty() => TaskDescription._(Either.right(""));
+  factory TaskDescription.empty() =>
+      TaskDescription._(Either.left(ValueFailure.empty(null)));
 
   @override
   String toString() =>

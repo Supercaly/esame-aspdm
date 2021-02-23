@@ -35,7 +35,6 @@ void main() {
         Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
-          description: TaskDescription.empty(),
           labels: IList.empty(),
           author: User.test(
             id: UniqueId("user_di"),
@@ -61,7 +60,6 @@ void main() {
         Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
-          description: TaskDescription.empty(),
           labels: IList.empty(),
           author: User.test(
             id: UniqueId("user_di"),
@@ -86,7 +84,6 @@ void main() {
         Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
-          description: TaskDescription.empty(),
           labels: IList.empty(),
           author: User.test(
             id: UniqueId("user_di"),
@@ -112,7 +109,6 @@ void main() {
         Task.test(
           id: UniqueId("task_id"),
           title: TaskTitle("Mock Title"),
-          description: TaskDescription.empty(),
           labels: IList.empty(),
           author: User.test(
             id: UniqueId("user_di"),

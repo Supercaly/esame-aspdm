@@ -231,9 +231,12 @@ class DescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (task?.description?.value?.fold(
-          (_) => false,
-          (_) => true,
+    if (task?.description?.fold(
+          () => false,
+          (value) => value.value.fold(
+            (_) => false,
+            (_) => true,
+          ),
         ) ??
         false)
       return Card(
@@ -255,7 +258,7 @@ class DescriptionCard extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                task.description.value.getOrCrash(),
+                task.description.getOrCrash().value.getOrCrash(),
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],

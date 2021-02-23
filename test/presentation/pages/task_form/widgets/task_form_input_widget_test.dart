@@ -38,7 +38,7 @@ void main() {
       final task = Task.test(
         id: UniqueId.empty(),
         title: TaskTitle("Mock Title"),
-        description: TaskDescription("Mock Description"),
+        description: Maybe.just(TaskDescription("Mock Description")),
       );
       final bloc = MockTaskFormBloc();
       when(bloc.state).thenReturn(TaskFormState.initial(Maybe.just(task)));
@@ -55,7 +55,10 @@ void main() {
       );
 
       expect(find.text(task.title.value.getOrNull()), findsOneWidget);
-      expect(find.text(task.description.value.getOrNull()), findsOneWidget);
+      expect(
+        find.text(task.description.getOrNull()?.value?.getOrNull()),
+        findsOneWidget,
+      );
     });
 
     testWidgets("edit fields changes calls bloc", (tester) async {

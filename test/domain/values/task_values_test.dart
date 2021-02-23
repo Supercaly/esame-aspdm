@@ -44,8 +44,7 @@ void main() {
       expect(u1.value.getOrCrash(), equals("Mock Description"));
 
       final u2 = TaskDescription(null);
-      expect(u2.value.isRight(), isTrue);
-      expect(u2.value.getOrCrash(), isNull);
+      expect(u2.value.isLeft(), isTrue);
 
       final longLine = StringBuffer();
       for (var i = 0; i < 1500; i++) longLine.write("a");
@@ -53,13 +52,12 @@ void main() {
       expect(u3.value.isLeft(), isTrue);
 
       final u4 = TaskDescription("");
-      expect(u4.value.isRight(), isTrue);
+      expect(u4.value.isLeft(), isTrue);
     });
 
     test("create empty task description", () {
       final u1 = TaskDescription.empty();
-      expect(u1.value.isRight(), isTrue);
-      expect(u1.value.getOrCrash(), isEmpty);
+      expect(u1.value.isLeft(), isTrue);
     });
 
     test("to string returns the correct representation", () {
