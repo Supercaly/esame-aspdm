@@ -65,5 +65,8 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 
+# Firebase files
+.firebase/
+
 # Coverage
 coverage/
