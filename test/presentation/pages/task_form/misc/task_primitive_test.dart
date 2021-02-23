@@ -20,7 +20,7 @@ void main() {
 
       expect(t1.id, isNotNull);
       expect(t1.title, isNull);
-      expect(t1.description, isEmpty);
+      expect(t1.description, isNull);
       expect(t1.labels.isEmpty, isTrue);
       expect(t1.members.isEmpty, isTrue);
       expect(t1.checklists.isEmpty, isTrue);

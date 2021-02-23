@@ -246,7 +246,7 @@ void main() {
       expect: [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
-            description: "",
+            description: null,
             checklists: IList.from([
               ChecklistPrimitive(
                 title: "Checklist 1",

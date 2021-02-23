@@ -58,7 +58,7 @@ class TaskPrimitive extends Equatable {
   factory TaskPrimitive.empty() => TaskPrimitive(
         id: UniqueId.empty(),
         title: null,
-        description: "",
+        description: null,
         expireDate: Maybe.nothing(),
         labels: IList<Label>.empty(),
         members: IList<User>.empty(),
