@@ -26,6 +26,16 @@ class User extends Equatable {
     @required this.profileColor,
   });
 
+  /// Create an empty [User].
+  /// Note: The user created this way has all
+  /// fields invalid, so be careful when using!
+  factory User.empty() => User(
+        id: UniqueId.empty(),
+        name: UserName(null),
+        email: EmailAddress(null),
+        profileColor: Maybe.just(ProfileColor(null)),
+      );
+
   /// Create a new [User] with some of his values.
   /// If a value is not specified a safe default
   /// will be used instead.

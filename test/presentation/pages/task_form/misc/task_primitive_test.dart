@@ -25,7 +25,7 @@ void main() {
       expect(t1.members.isEmpty, isTrue);
       expect(t1.checklists.isEmpty, isTrue);
       expect(t1.expireDate.isNothing(), isTrue);
-      expect(t1.author, isNull);
+      expect(t1.author, isA<User>());
     });
 
     test("copyWith copies a primitive correctly", () {

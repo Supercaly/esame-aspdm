@@ -84,7 +84,7 @@ class Task extends Equatable {
         title: title ?? TaskTitle.empty(),
         description: description ?? Maybe.nothing(),
         labels: labels ?? IList.empty(),
-        author: author,
+        author: author ?? User.empty(),
         members: members ?? IList.empty(),
         expireDate: expireDate ?? Maybe.nothing(),
         checklists: checklists ?? IList.empty(),
