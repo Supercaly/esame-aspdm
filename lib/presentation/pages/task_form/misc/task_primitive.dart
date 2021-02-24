@@ -63,7 +63,7 @@ class TaskPrimitive extends Equatable {
         labels: IList<Label>.empty(),
         members: IList<User>.empty(),
         checklists: IList<ChecklistPrimitive>.empty(),
-        author: null,
+        author: User.empty(),
       );
 
   /// Creates a [TaskPrimitive] form a [Task].
