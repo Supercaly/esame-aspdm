@@ -19,7 +19,10 @@ void main() {
       when(mockConnectivity.onConnectivityChanged).thenAnswer(
         (_) => Stream.value(ConnectivityResult.wifi),
       );
-      expect(connectivityService.onConnectionStateChange, emits(true));
+      expect(
+        connectivityService.onConnectionStateChange,
+        emits(ConnectivityState.connected),
+      );
     });
 
     test("onConnectionStateChange emits false if the connection is not active",
@@ -27,7 +30,10 @@ void main() {
       when(mockConnectivity.onConnectivityChanged).thenAnswer(
         (_) => Stream.value(ConnectivityResult.none),
       );
-      expect(connectivityService.onConnectionStateChange, emits(false));
+      expect(
+        connectivityService.onConnectionStateChange,
+        emits(ConnectivityState.none),
+      );
     });
 
     test("onConnectionStateChange emits when connection status changes", () {
@@ -42,10 +48,10 @@ void main() {
       expect(
           connectivityService.onConnectionStateChange,
           emitsInOrder([
-            false,
-            true,
-            true,
-            false,
+            ConnectivityState.none,
+            ConnectivityState.connected,
+            ConnectivityState.connected,
+            ConnectivityState.none,
           ]));
     });
 
@@ -53,7 +59,10 @@ void main() {
       when(mockConnectivity.onConnectivityChanged).thenAnswer(
         (_) => Stream.error("Error"),
       );
-      expect(connectivityService.onConnectionStateChange, emitsError("Error"));
+      expect(
+        connectivityService.onConnectionStateChange,
+        emits(ConnectivityState.unknown),
+      );
     });
   });
 }
