@@ -6,8 +6,6 @@ import 'package:tasky/presentation/generated/gen_colors.g.dart';
 import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/presentation/theme.dart';
 import 'package:tasky/presentation/widgets/service_manager.dart';
-import 'package:tasky/presentation/widgets/stream_listener.dart';
-import 'package:tasky/services/connectivity_service.dart';
 import 'package:tasky/services/link_service.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:tasky/services/notification_service.dart';
@@ -33,26 +31,13 @@ class AppWidget extends StatelessWidget {
         child: ServiceManager(
           notificationService: locator<NotificationService>(),
           linkService: locator<LinkService>(),
-          child: StreamListener<bool>(
-            // TODO(#120): Move listener for connection state inside MainPage
-            // Calling ScaffoldMessenger from here throws an error since there's not a Scaffold yet.
-            stream: locator<ConnectivityService>().onConnectionStateChange,
-            listener: (context, snapshot) {
-              if (snapshot.hasData && !snapshot.data)
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('device_offline_msg').tr(),
-                  ),
-                );
-            },
-            child: MaterialApp(
-              title: "Tasky App",
-              theme: lightTheme,
-              darkTheme: darkTheme,
-              navigatorKey: locator<NavigationService>().navigationKey,
-              onGenerateRoute: Routes.onGenerateRoute,
-              initialRoute: Routes.splash,
-            ),
+          child: MaterialApp(
+            title: "Tasky App",
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            navigatorKey: locator<NavigationService>().navigationKey,
+            onGenerateRoute: Routes.onGenerateRoute,
+            initialRoute: Routes.splash,
           ),
         ),
       ),
