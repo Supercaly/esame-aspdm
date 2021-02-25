@@ -7,6 +7,8 @@ import 'package:tasky/presentation/pages/settings/settings_page.dart';
 import 'package:tasky/presentation/pages/task_list/tasks_page.dart';
 import 'package:tasky/domain/repositories/home_repository.dart';
 import 'package:tasky/presentation/routes.dart';
+import 'package:tasky/presentation/widgets/connection_state_listener.dart';
+import 'package:tasky/services/connectivity_service.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/navigation_service.dart';
 import 'package:tasky/presentation/widgets/responsive.dart';
@@ -35,33 +37,36 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) => state.maybeMap(
-        unauthenticated: (_) =>
-            locator<NavigationService>().replaceWith(Routes.login),
-        orElse: () => null,
-      ),
-      child: BlocProvider(
-        create: (context) => HomeBloc(
-          repository: locator<HomeRepository>(),
-        )..fetch(),
-        child: Builder(
-          builder: (context) {
-            locator<LogService>()
-                .logBuild("Main Page - open page at index $_currentIdx");
-            return Responsive(
-              small: MainPageContentMobile(
-                currentIndex: _currentIdx,
-                pages: _pages,
-                navigateTo: _navigateTo,
-              ),
-              large: MainPageContentDesktop(
-                currentIndex: _currentIdx,
-                pages: _pages,
-                navigateTo: _navigateTo,
-              ),
-            );
-          },
+    return ConnectionStateListener(
+      connectivityService: locator<ConnectivityService>(),
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) => state.maybeMap(
+          unauthenticated: (_) =>
+              locator<NavigationService>().replaceWith(Routes.login),
+          orElse: () => null,
+        ),
+        child: BlocProvider(
+          create: (context) => HomeBloc(
+            repository: locator<HomeRepository>(),
+          )..fetch(),
+          child: Builder(
+            builder: (context) {
+              locator<LogService>()
+                  .logBuild("Main Page - open page at index $_currentIdx");
+              return Responsive(
+                small: MainPageContentMobile(
+                  currentIndex: _currentIdx,
+                  pages: _pages,
+                  navigateTo: _navigateTo,
+                ),
+                large: MainPageContentDesktop(
+                  currentIndex: _currentIdx,
+                  pages: _pages,
+                  navigateTo: _navigateTo,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
