@@ -1,14 +1,13 @@
 import 'package:tasky/application/bloc/archive_bloc.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/domain/repositories/archive_repository.dart';
+import 'package:tasky/presentation/pages/task_list/widgets/content_widget.dart';
+import 'package:tasky/presentation/pages/task_list/widgets/empty_or_error_widget.dart';
 import 'package:tasky/services/log_service.dart';
-import 'package:tasky/presentation/widgets/responsive.dart';
-import 'package:tasky/presentation/pages/task_list/widgets/task_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../theme.dart';
 
 class ArchivePage extends StatelessWidget {
   @override
@@ -35,43 +34,12 @@ class ArchivePage extends StatelessWidget {
               child: RefreshIndicator(
                 onRefresh: () =>
                     context.read<ArchiveBloc>().fetch(showLoading: false),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
+                child: Builder(
+                  builder: (context) {
                     locator<LogService>().logBuild("ArchivePage - $state");
                     if (!state.isLoading && state.data.isEmpty)
-                      return SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: constraints.maxHeight,
-                          ),
-                          child: Center(
-                            child: Text('nothing_to_show_msg').tr(),
-                          ),
-                        ),
-                      );
-                    return Theme(
-                      data: Responsive.isLarge(context)
-                          ? Theme.of(context).brightness == Brightness.light
-                              ? lightThemeDesktop
-                              : darkThemeDesktop
-                          : Theme.of(context),
-                      child: Center(
-                        child: Container(
-                          width: Responsive.isLarge(context)
-                              ? 500
-                              : double.maxFinite,
-                          padding: Responsive.isLarge(context)
-                              ? const EdgeInsets.only(top: 24.0)
-                              : null,
-                          child: ListView.builder(
-                            itemBuilder: (_, index) =>
-                                TaskCard(task: state.data[index]),
-                            itemCount: state.data.length,
-                          ),
-                        ),
-                      ),
-                    );
+                      return EmptyOrErrorWidget();
+                    return ContentWidget(tasks: state.data);
                   },
                 ),
               ),
