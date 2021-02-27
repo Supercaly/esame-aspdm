@@ -4,10 +4,11 @@ import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/presentation/pages/login/login_page.dart';
 import 'package:tasky/presentation/pages/main/main_page.dart';
 import 'package:tasky/presentation/pages/splash/splash_page.dart';
-import 'package:tasky/presentation/pages/task_list/archive_page.dart';
 import 'package:tasky/presentation/pages/task_form/task_form_page.dart';
+import 'package:tasky/presentation/pages/task_list/archive_page.dart';
 import 'package:tasky/presentation/pages/task_info/task_info_page.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Static class containing all the route related logic.
 class Routes {
@@ -60,7 +61,10 @@ class Routes {
           fullscreenDialog: true,
         );
       default:
-        throw InvalidRouteException(settings.name);
+        return MaterialPageRoute(
+          builder: (context) => InvalidPageRoute(),
+          settings: settings,
+        );
     }
   }
 
@@ -78,13 +82,19 @@ class Routes {
   }
 }
 
-/// Class representing an [Exception] thrown when accessing an
-/// unknown route.
-class InvalidRouteException implements Exception {
-  final String name;
-
-  const InvalidRouteException(this.name);
-
+/// Widget that is displayed if we are trying to navigate to
+/// an invalid named route.
+class InvalidPageRoute extends StatelessWidget {
   @override
-  String toString() => "Unknown route with name: $name!";
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Text(
+          'invalid_route_msg',
+          style: Theme.of(context).textTheme.headline6,
+        ).tr(),
+      ),
+    );
+  }
 }

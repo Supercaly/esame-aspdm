@@ -24,6 +24,7 @@
   "item_cant_be_empty": "Item can't be empty!",
   "item_cant_be_longer": "Item can't be longer than {}!",
   "device_offline_msg": "The device is offline!",
+  "invalid_route_msg": "Hey, you shouldn't be here!",
 
   "select_labels_title": "Select Labels",
   "no_label_to_display_msg": "No label to display!",

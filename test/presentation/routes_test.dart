@@ -43,12 +43,10 @@ void main() {
         isA<MaterialPageRoute>(),
       );
 
-      try {
-        Routes.onGenerateRoute(RouteSettings(name: "/unknown"));
-      } catch (e) {
-        expect(e, isA<InvalidRouteException>());
-        expect((e as InvalidRouteException).name, equals("/unknown"));
-      }
+      expect(
+        Routes.onGenerateRoute(RouteSettings(name: "/unknown")),
+        isA<MaterialPageRoute>(),
+      );
     });
   });
 }
