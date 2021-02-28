@@ -1,36 +1,37 @@
 import 'dart:async';
+import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
-import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/services/log_service.dart';
-import 'package:tasky/services/navigation_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
+/// Class that manage the notifications sent and received
+/// by the application.
 class NotificationService {
   final LogService _logService;
-  final NavigationService _navigationService;
   final FirebaseMessaging _messaging;
   StreamSubscription<RemoteMessage> _onMessageOpenedAppSub;
   bool _initialized;
 
   NotificationService({
-    @required NavigationService navigationService,
     @required LogService logService,
-  })  : _navigationService = navigationService,
-        _logService = logService,
+  })  : _logService = logService,
         _messaging = FirebaseMessaging.instance,
         _initialized = false;
 
   @visibleForTesting
   NotificationService.private(
     this._messaging,
-    this._navigationService,
     this._logService,
   ) : _initialized = false;
 
   /// Initialize the [NotificationService].
-  Future<void> init() async {
-    // If already initialized return directly
+  Future<void> init({
+    @required void Function(Maybe<UniqueId> id) onTaskOpen,
+  }) async {
+    assert(onTaskOpen != null);
+
+    // If already initialized return immediately
     if (_initialized) return;
 
     // If the device is web skip the initialization
@@ -53,12 +54,13 @@ class NotificationService {
 
     // Catch the message that started the app.
     final initialMessage = await _messaging.getInitialMessage();
-    if (initialMessage != null) _handleNotification(initialMessage);
+    if (initialMessage != null)
+      onTaskOpen(_getTaskFromNotification(initialMessage));
 
     // Listen to all messages that resume the app from background
     _onMessageOpenedAppSub =
         FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      if (message != null) _handleNotification(message);
+      if (message != null) onTaskOpen(_getTaskFromNotification(message));
     });
 
     // Sub to the topic
@@ -73,13 +75,15 @@ class NotificationService {
     _initialized = false;
   }
 
-  /// This method will navigate to [Routes.task] if the message has
-  /// a valid task id.
-  void _handleNotification(RemoteMessage message) {
+  /// This method will return [Maybe] an [UniqueId] with the task id extracted
+  /// from the notification message.
+  Maybe<UniqueId> _getTaskFromNotification(RemoteMessage message) {
     final rawTaskId = (message?.data != null) ? message?.data["task_id"] : null;
     final taskId = UniqueId(rawTaskId);
-    _logService.info("NotificationService: Open info page for task $taskId");
+    _logService.info("NotificationService: Received task with id $taskId");
     if (taskId.value.isRight())
-      _navigationService.navigateTo(Routes.task, arguments: taskId);
+      return Maybe.just(taskId);
+    else
+      return Maybe.nothing();
   }
 }
