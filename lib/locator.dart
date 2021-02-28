@@ -31,11 +31,9 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<NavigationService>(() => NavigationService());
   locator.registerLazySingleton<LogService>(() => LogService());
   locator.registerLazySingleton<NotificationService>(() => NotificationService(
-        navigationService: locator<NavigationService>(),
         logService: locator<LogService>(),
       ));
   locator.registerLazySingleton<LinkService>(() => LinkService(
-        navigationService: locator<NavigationService>(),
         logService: locator<LogService>(),
       ));
 

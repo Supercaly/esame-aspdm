@@ -37,8 +37,8 @@ void main() {
         ),
       );
 
-      verify(notificationService.init()).called(1);
-      verify(linkService.init()).called(1);
+      verify(notificationService.init(onTaskOpen: (id) {})).called(1);
+      verify(linkService.init(onTaskOpen: (id) {})).called(1);
     });
 
     testWidgets("disposing widget calls close on the notification service",
@@ -54,8 +54,8 @@ void main() {
           ),
         ),
       );
-      verify(notificationService.init()).called(1);
-      verify(linkService.init()).called(1);
+      verify(notificationService.init(onTaskOpen: (id) {})).called(1);
+      verify(linkService.init(onTaskOpen: (id) {})).called(1);
 
       await tester.pumpWidget(Container());
       verify(notificationService.close()).called(1);
