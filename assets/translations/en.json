@@ -56,7 +56,7 @@
 
   "new_task_title": "New Task",
   "edit_task_title": "Edit Task",
-  "expiration_date_text": "Expiration Date...",
+  "expiration_date_text": "Due Date...",
   "members_text": "Members...",
   "labels_text": "Labels...",
   "add_checklist_text": "Add checklist...",
