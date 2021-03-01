@@ -1,4 +1,4 @@
 import 'package:tasky/application/bloc/login_bloc.dart';
-import 'package:mockito/mockito.dart';
+import 'package:bloc_test/bloc_test.dart';
 
-class MockLoginBloc extends Mock implements LoginBloc {}
+class MockLoginBloc extends MockCubit<LoginState> implements LoginBloc {}

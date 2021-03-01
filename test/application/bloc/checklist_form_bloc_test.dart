@@ -10,7 +10,7 @@ void main() {
     blocTest(
       "emits nothing when created with no initial value",
       build: () => ChecklistFormBloc(initialValue: null),
-      expect: [],
+      expect: () => [],
       verify: (ChecklistFormBloc cubit) => expect(
         cubit.state,
         ChecklistFormState(
@@ -31,7 +31,7 @@ void main() {
           ]),
         ),
       ),
-      expect: [],
+      expect: () => [],
       verify: (ChecklistFormBloc cubit) => expect(
         cubit.state,
         ChecklistFormState(
@@ -51,7 +51,7 @@ void main() {
       "emits on title changed",
       build: () => ChecklistFormBloc(initialValue: null),
       act: (ChecklistFormBloc cubit) => cubit.titleChanged("Mock Title"),
-      expect: [
+      expect: () => [
         ChecklistFormState(
           ChecklistPrimitive(title: "Mock Title", items: IList.empty()),
           false,
@@ -72,7 +72,7 @@ void main() {
       act: (ChecklistFormBloc cubit) {
         cubit.addItem(ItemText("Mock Item 2"));
       },
-      expect: [
+      expect: () => [
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
@@ -101,7 +101,7 @@ void main() {
       act: (ChecklistFormBloc cubit) {
         cubit.removeItem(ItemText("Mock Item 2"));
       },
-      expect: [
+      expect: () => [
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
@@ -133,7 +133,7 @@ void main() {
           ItemText("Mock Item 2 (Edited)"),
         );
       },
-      expect: [
+      expect: () => [
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",
@@ -163,7 +163,7 @@ void main() {
       act: (ChecklistFormBloc cubit) {
         cubit.save();
       },
-      expect: [
+      expect: () => [
         ChecklistFormState(
           ChecklistPrimitive(
             title: "Mock Title",

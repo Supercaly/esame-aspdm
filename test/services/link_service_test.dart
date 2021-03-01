@@ -3,7 +3,8 @@ import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/services/link_service.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:tasky/services/log_service.dart';
 
 import '../mocks/mock_log_service.dart';
 
@@ -19,17 +20,23 @@ void main() {
     LinkService service;
     FirebaseDynamicLinks dynamicLinks;
     PendingDynamicLinkData pendingDynamicLinkData;
+    LogService logService;
 
     setUp(() {
       dynamicLinks = MockFirebaseDynamicLinks();
+      logService = MockLogService();
       service = LinkService.private(
         dynamicLinks,
-        MockLogService(),
+        logService,
       );
 
       pendingDynamicLinkData = MockPendingDynamicLinkData();
-      when(dynamicLinks.getInitialLink())
+      when(logService).calls(#info).thenReturn();
+      when(dynamicLinks)
+          .calls(#getInitialLink)
           .thenAnswer((_) async => pendingDynamicLinkData);
+      when(dynamicLinks).calls(#onLink).thenReturn();
+      when(pendingDynamicLinkData).calls(#link).thenReturn();
     });
 
     tearDown(() {
@@ -40,18 +47,19 @@ void main() {
     test("calling init multiple times has no effect", () async {
       await service.init(onTaskOpen: (id) {});
       await service.init(onTaskOpen: (id) {});
-      verify(dynamicLinks.getInitialLink()).called(1);
+      verify(dynamicLinks).called(#getInitialLink).once();
     });
 
     test("null initial message has no effect", () async {
-      when(pendingDynamicLinkData.link).thenReturn(null);
+      when(pendingDynamicLinkData).calls(#link).thenReturn(null);
       bool opened = false;
       await service.init(onTaskOpen: (id) => opened = id.isJust());
       expect(opened, isFalse);
     });
 
     test("incorrect initial message has no effect", () async {
-      when(pendingDynamicLinkData.link)
+      when(pendingDynamicLinkData)
+          .calls(#link)
           .thenReturn(Uri.parse("https://mock.link.com/not_task"));
 
       bool opened = false;
@@ -60,7 +68,8 @@ void main() {
     });
 
     test("correct initial message fires the on task open callback", () async {
-      when(pendingDynamicLinkData.link)
+      when(pendingDynamicLinkData)
+          .calls(#link)
           .thenReturn(Uri.parse("https://mock.link.com/task?id=mock_task_id"));
 
       bool opened = false;
@@ -77,7 +86,7 @@ void main() {
       await service.init(onTaskOpen: (id) {});
       service.close();
       await service.init(onTaskOpen: (id) {});
-      verify(dynamicLinks.getInitialLink()).called(2);
+      verify(dynamicLinks).called(#getInitialLink).times(2);
     });
 
     test("create link for post returns correctly", () async {

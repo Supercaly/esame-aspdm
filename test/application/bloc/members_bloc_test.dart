@@ -24,7 +24,7 @@ void main() {
     blocTest(
       "emits nothing when created",
       build: () => MembersBloc(initialValue: null, repository: repository),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest(
@@ -35,7 +35,7 @@ void main() {
             .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         MembersState(IList.empty(), IList.empty(), true, false),
         MembersState(IList.empty(), IList.empty(), false, false),
       ],
@@ -49,7 +49,7 @@ void main() {
             .thenAnswer((_) => Future.value(Either.left(MockFailure())));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         MembersState(IList.empty(), IList.empty(), true, false),
         MembersState(IList.empty(), IList.empty(), false, true),
       ],
@@ -87,7 +87,7 @@ void main() {
           ),
         );
       },
-      expect: [
+      expect: () => [
         MembersState(IList.empty(), IList.empty(), true, false),
         MembersState(
             IList.empty(),
@@ -171,7 +171,7 @@ void main() {
           ),
         );
       },
-      expect: [
+      expect: () => [
         MembersState(
             IList.from([
               User.test(

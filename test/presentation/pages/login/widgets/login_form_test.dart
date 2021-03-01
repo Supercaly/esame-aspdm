@@ -5,7 +5,7 @@ import 'package:tasky/services/log_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:tasky/core/either.dart';
 import '../../../../mocks/mock_login_bloc.dart';
 import '../../../../mocks/mock_log_service.dart';
@@ -20,10 +20,16 @@ void main() {
       logService = MockLogService();
       loginBloc = MockLoginBloc();
 
+      when(logService).calls(#debug).thenReturn();
       GetIt.I.registerSingleton(logService);
     });
 
+    tearDown(() {
+      reset(loginBloc);
+    });
+
     tearDownAll(() {
+      loginBloc.close();
       logService = null;
       loginBloc = null;
     });
@@ -43,8 +49,9 @@ void main() {
     });
 
     testWidgets("login with correct data", (tester) async {
-      when(loginBloc.login(any, any))
-          .thenAnswer((realInvocation) async => Either.right(Unit()));
+      when(loginBloc)
+          .calls(#login)
+          .thenAnswer((_) async => Either.right(Unit()));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -62,14 +69,12 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text("Log In"));
       await tester.pumpAndSettle();
-
-      verify(logService.debug(any)).called(1);
-      verify(loginBloc.login(any, any)).called(1);
+      verify(loginBloc).called(#login).once();
     });
 
     testWidgets("login with invalid data", (tester) async {
-      when(loginBloc.login(any, any))
-          .thenAnswer((realInvocation) async => Either.right(Unit()));
+      when(loginBloc).calls(#login).withArgs(
+          positional: [any, any]).thenAnswer((_) async => Either.right(Unit()));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -88,8 +93,7 @@ void main() {
 
       expect(find.text("Email is not valid!"), findsOneWidget);
       expect(find.text("Password can't be empty!"), findsOneWidget);
-      verifyNever(logService.debug(any));
-      verifyNever(loginBloc.login(any, any));
+      verify(loginBloc).called(#login).never();
     });
   });
 }

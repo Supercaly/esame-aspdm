@@ -6,10 +6,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import '../../../../widget_tester_extension.dart';
 
-class MockChecklistFormBloc extends MockBloc<ChecklistFormState>
+class MockChecklistFormBloc extends MockCubit<ChecklistFormState>
     implements ChecklistFormBloc {}
 
 void main() {
@@ -22,9 +22,11 @@ void main() {
 
     testWidgets("changing title calls bloc", (tester) async {
       final form = GlobalKey<FormState>();
-      when(bloc.state).thenReturn(
-        ChecklistFormState.initial(ChecklistPrimitive.empty()),
-      );
+      when(bloc).calls(#titleChanged).thenReturn();
+      when(bloc)
+          .calls(#state)
+          .thenReturn(ChecklistFormState.initial(ChecklistPrimitive.empty()));
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -42,17 +44,20 @@ void main() {
       await tester.enterText(find.byType(TextFormField), "Mock title");
       await tester.pumpAndSettle();
       expect(find.text("Mock title"), findsOneWidget);
-      verify(bloc.titleChanged("Mock title")).called(1);
+      verify(bloc).called(#titleChanged).once();
     });
 
     testWidgets("when editing displays the existing title", (tester) async {
       final form = GlobalKey<FormState>();
-      when(bloc.state).thenReturn(
-        ChecklistFormState.initial(ChecklistPrimitive(
-          title: "Mock title",
-          items: null,
-        )),
-      );
+      when(bloc).calls(#state).thenReturn(
+            ChecklistFormState.initial(
+              ChecklistPrimitive(
+                title: "Mock title",
+                items: null,
+              ),
+            ),
+          );
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -72,9 +77,10 @@ void main() {
 
     testWidgets("validate works correctly", (tester) async {
       final form = GlobalKey<FormState>();
-      when(bloc.state).thenReturn(
-        ChecklistFormState.initial(ChecklistPrimitive.empty()),
-      );
+      when(bloc)
+          .calls(#state)
+          .thenReturn(ChecklistFormState.initial(ChecklistPrimitive.empty()));
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -112,6 +118,12 @@ void main() {
 
     testWidgets("displays hind when started", (tester) async {
       final form = GlobalKey<FormState>();
+      whenListen(
+        bloc,
+        Stream<ChecklistFormState>.empty(),
+        initialState: ChecklistFormState.initial(ChecklistPrimitive.empty()),
+      );
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -131,9 +143,11 @@ void main() {
 
     testWidgets("calls bloc on insertion completed", (tester) async {
       final form = GlobalKey<FormState>();
-      when(bloc.state).thenReturn(
-        ChecklistFormState.initial(ChecklistPrimitive.empty()),
-      );
+      when(bloc)
+          .calls(#state)
+          .thenReturn(ChecklistFormState.initial(ChecklistPrimitive.empty()));
+      when(bloc).calls(#addItem).thenReturn();
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -152,7 +166,9 @@ void main() {
       expect(find.text("Mock item"), findsOneWidget);
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
-      verify(bloc.addItem(ItemText("Mock item"))).called(1);
+      verify(bloc)
+          .called(#addItem)
+          .withArgs(positional: [ItemText("Mock item")]).once();
       expect(find.text("Mock item"), findsNothing);
     });
   });
@@ -186,6 +202,8 @@ void main() {
 
     testWidgets("editing item calls bloc", (tester) async {
       final form = GlobalKey<FormState>();
+      when(bloc).calls(#editItem).thenReturn();
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -206,14 +224,16 @@ void main() {
       await tester.enterText(find.byType(TextFormField), "Mock item(edited)");
       await tester.pumpAndSettle();
       expect(find.text("Mock item(edited)"), findsOneWidget);
-      verify(bloc.editItem(any, any)).called(1);
+      verify(bloc).called(#editItem).once();
     });
 
     testWidgets("validate works correctly", (tester) async {
       final form = GlobalKey<FormState>();
-      when(bloc.state).thenReturn(
-        ChecklistFormState.initial(ChecklistPrimitive.empty()),
-      );
+      when(bloc)
+          .calls(#state)
+          .thenReturn(ChecklistFormState.initial(ChecklistPrimitive.empty()));
+      when(bloc).calls(#editItem).thenReturn();
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(

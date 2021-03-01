@@ -25,7 +25,7 @@ void main() {
     blocTest(
       "emits nothing when created",
       build: () => LabelsBloc(initialValue: null, repository: repository),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest(
@@ -36,7 +36,7 @@ void main() {
             .thenAnswer((_) => Future.value(Either.right(IList.empty())));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         LabelsState(IList.empty(), IList.empty(), true, false),
         LabelsState(IList.empty(), IList.empty(), false, false),
       ],
@@ -50,7 +50,7 @@ void main() {
             .thenAnswer((_) => Future.value(Either.left(MockFailure())));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         LabelsState(IList.empty(), IList.empty(), true, false),
         LabelsState(IList.empty(), IList.empty(), false, true),
       ],
@@ -88,7 +88,7 @@ void main() {
           ),
         );
       },
-      expect: [
+      expect: () => [
         LabelsState(IList.empty(), IList.empty(), true, false),
         LabelsState(
             IList.empty(),
@@ -172,7 +172,7 @@ void main() {
           ),
         );
       },
-      expect: [
+      expect: () => [
         LabelsState(
             IList.from([
               Label.test(

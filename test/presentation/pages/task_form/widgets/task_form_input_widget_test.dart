@@ -8,17 +8,19 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import '../../../../widget_tester_extension.dart';
 
-class MockTaskFormBloc extends MockBloc<TaskFormState> implements TaskFormBloc {
-}
+class MockTaskFormBloc extends MockCubit<TaskFormState>
+    implements TaskFormBloc {}
 
 void main() {
   group("TaskFormInputWidget tests", () {
     testWidgets("create with null initial data", (tester) async {
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
+      when(bloc)
+          .calls(#state)
+          .thenReturn(TaskFormState.initial(Maybe.nothing()));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -32,6 +34,7 @@ void main() {
 
       expect(find.text("Title..."), findsOneWidget);
       expect(find.text("Description"), findsOneWidget);
+      bloc.close();
     });
 
     testWidgets("create with some initial data", (tester) async {
@@ -41,7 +44,9 @@ void main() {
         description: Maybe.just(TaskDescription("Mock Description")),
       );
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.just(task)));
+      when(bloc)
+          .calls(#state)
+          .thenReturn(TaskFormState.initial(Maybe.just(task)));
 
       await tester.pumpLocalizedWidget(
         MaterialApp(
@@ -59,11 +64,22 @@ void main() {
         find.text(task.description.getOrNull()?.value?.getOrNull()),
         findsOneWidget,
       );
+      bloc.close();
     });
 
     testWidgets("edit fields changes calls bloc", (tester) async {
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
+      when(bloc)
+          .calls(#state)
+          .thenReturn(TaskFormState.initial(Maybe.nothing()));
+      when(bloc)
+          .calls(#titleChanged)
+          .withArgs(positional: [any]).thenReturn(null);
+      when(bloc)
+          .calls(#descriptionChanged)
+          .withArgs(positional: [any]).thenReturn(null);
+
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -78,19 +94,30 @@ void main() {
       await tester.enterText(find.byType(TextFormField).first, "Mock Title");
       expect(find.text("Mock Title"), findsOneWidget);
       expect(find.text("Description"), findsOneWidget);
-      verify(bloc.titleChanged(any)).called(1);
-      verifyNever(bloc.descriptionChanged(any));
+      verify(bloc).called(#titleChanged).withArgs(positional: [any]).times(1);
+      verify(bloc)
+          .called(#descriptionChanged)
+          .withArgs(positional: [any]).never();
 
       await tester.enterText(
           find.byType(TextFormField).at(1), "Mock Description");
       expect(find.text("Mock Description"), findsOneWidget);
-      verify(bloc.descriptionChanged(any)).called(1);
+      verify(bloc)
+          .called(#descriptionChanged)
+          .withArgs(positional: [any]).times(1);
+      bloc.close();
     });
 
     testWidgets("validate fields ", (tester) async {
       final formKey = GlobalKey<FormState>();
       final bloc = MockTaskFormBloc();
-      when(bloc.state).thenReturn(TaskFormState.initial(Maybe.nothing()));
+      when(bloc)
+          .calls(#state)
+          .thenReturn(TaskFormState.initial(Maybe.nothing()));
+      when(bloc)
+          .calls(#titleChanged)
+          .withArgs(positional: [any]).thenReturn(null);
+
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -109,18 +136,19 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text("Title can't be empty!"), findsOneWidget);
 
-      when(bloc.state).thenReturn(
-        bloc.state.copyWith(
-          taskPrimitive: bloc.state.taskPrimitive.copyWith(
-            title: "Mock Title",
-          ),
-        ),
-      );
+      when(bloc).calls(#state).thenReturn(
+            bloc.state.copyWith(
+              taskPrimitive: bloc.state.taskPrimitive.copyWith(
+                title: "Mock Title",
+              ),
+            ),
+          );
       await tester.enterText(find.byType(TextFormField).first, "Mock Title");
       expect(find.text("Mock Title"), findsOneWidget);
       expect(formKey.currentState.validate(), isTrue);
       await tester.pumpAndSettle();
       expect(find.text("Title can't be empty!"), findsNothing);
+      bloc.close();
     });
   });
 }
