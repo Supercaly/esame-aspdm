@@ -504,7 +504,7 @@ class RemoteDataSource {
   @visibleForTesting
   ServerFailure getFailure(DioError e) {
     switch (e.type) {
-      case DioErrorType.RESPONSE:
+      case DioErrorType.response:
         switch (e.response?.statusCode) {
           case 400:
             return ServerFailure.badRequest(e.response?.data);
@@ -515,7 +515,7 @@ class RemoteDataSource {
                 "Received status code: ${e.response?.statusCode}");
         }
         break;
-      case DioErrorType.DEFAULT:
+      case DioErrorType.other:
         if (e.error != null && e.error is SocketException)
           return ServerFailure.noInternet();
         else if (e.error != null && e.error is FormatException)

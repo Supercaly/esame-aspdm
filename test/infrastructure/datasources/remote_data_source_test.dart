@@ -19,6 +19,12 @@ import '../../mocks/mock_log_service.dart';
 
 class MockDio extends Mock implements Dio {}
 
+Response<T> testResponse<T>({T data, int statusCode}) => Response<T>(
+      data: data,
+      statusCode: statusCode,
+      request: RequestOptions(path: "mock_request_path"),
+    );
+
 void main() {
   group("Internal requests tests", () {
     Dio dio;
@@ -47,59 +53,59 @@ void main() {
     test("get failure returns the correct server failure", () {
       expect(
         source.getFailure(DioError(
-          type: DioErrorType.RESPONSE,
-          response: Response(statusCode: 400, data: "error_msg"),
+          type: DioErrorType.response,
+          response: testResponse(statusCode: 400, data: "error_msg"),
         )),
         equals(ServerFailure.badRequest("error_msg")),
       );
       expect(
         source.getFailure(DioError(
-          type: DioErrorType.RESPONSE,
-          response: Response(statusCode: 500, data: "error_msg"),
+          type: DioErrorType.response,
+          response: testResponse(statusCode: 500, data: "error_msg"),
         )),
         equals(ServerFailure.internalError("error_msg")),
       );
       expect(
         source.getFailure(DioError(
-          type: DioErrorType.RESPONSE,
-          response: Response(statusCode: 404, data: "error_msg"),
+          type: DioErrorType.response,
+          response: testResponse(statusCode: 404, data: "error_msg"),
         )),
         equals(ServerFailure.unexpectedError("Received status code: 404")),
       );
       expect(
         source.getFailure(DioError(
-          type: DioErrorType.DEFAULT,
+          type: DioErrorType.other,
           error: SocketException(""),
         )),
         equals(ServerFailure.noInternet()),
       );
       expect(
         source.getFailure(DioError(
-          type: DioErrorType.DEFAULT,
+          type: DioErrorType.other,
           error: FormatException("format_exception"),
         )),
         equals(ServerFailure.formatError("format_exception")),
       );
       expect(
-        source.getFailure(DioError(type: DioErrorType.CANCEL)),
+        source.getFailure(DioError(type: DioErrorType.cancel)),
         equals(ServerFailure.unexpectedError("")),
       );
       expect(
-        source.getFailure(DioError(type: DioErrorType.CONNECT_TIMEOUT)),
+        source.getFailure(DioError(type: DioErrorType.connectTimeout)),
         equals(ServerFailure.unexpectedError("")),
       );
       expect(
-        source.getFailure(DioError(type: DioErrorType.SEND_TIMEOUT)),
+        source.getFailure(DioError(type: DioErrorType.sendTimeout)),
         equals(ServerFailure.unexpectedError("")),
       );
       expect(
-        source.getFailure(DioError(type: DioErrorType.RECEIVE_TIMEOUT)),
+        source.getFailure(DioError(type: DioErrorType.receiveTimeout)),
         equals(ServerFailure.unexpectedError("")),
       );
     });
 
     test("get returns data", () async {
-      when(dio).calls(#get).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#get).thenAnswer((_) async => testResponse());
       final res = await source.get("mock_get_url");
       expect(res.isRight(), isTrue);
 
@@ -109,7 +115,7 @@ void main() {
     });
 
     test("post returns data", () async {
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res = await source.post("mock_post_url", {});
       expect(res.isRight(), isTrue);
 
@@ -119,7 +125,7 @@ void main() {
     });
 
     test("patch returns data", () async {
-      when(dio).calls(#patch).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#patch).thenAnswer((_) async => testResponse());
       final res = await source.patch("mock_patch_url", {});
       expect(res.isRight(), isTrue);
 
@@ -129,7 +135,7 @@ void main() {
     });
 
     test("delete returns data", () async {
-      when(dio).calls(#delete).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#delete).thenAnswer((_) async => testResponse());
       final res = await source.delete("mock_delete_url", {});
       expect(res.isRight(), isTrue);
 
@@ -158,7 +164,7 @@ void main() {
 
     test("get users works correctly", () async {
       when(dio).calls(#get).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: [
                 {
                   "_id": "mock_id_1",
@@ -200,7 +206,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#get).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#get).thenAnswer((_) async => testResponse());
       final res2 = await source.getUsers();
       expect(res2.isRight(), isTrue);
       expect(res2.getOrNull(), isEmpty);
@@ -208,7 +214,7 @@ void main() {
 
     test("authentication works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_id",
                 "name": "Mock User",
@@ -233,7 +239,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.authenticate(
           EmailAddress("mock@email.com"), Password("mock_password"));
       expect(res2.isLeft(), isTrue);
@@ -241,7 +247,7 @@ void main() {
 
     test("get labels works correctly", () async {
       when(dio).calls(#get).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: [
                 {
                   "_id": "mock_id_1",
@@ -289,7 +295,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#get).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#get).thenAnswer((_) async => testResponse());
       final res2 = await source.getLabels();
       expect(res2.isRight(), isTrue);
       expect(res2.getOrNull(), isEmpty);
@@ -297,7 +303,7 @@ void main() {
 
     test("list un-archived tasks works correctly", () async {
       when(dio).calls(#get).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: [
                 {
                   "_id": "mock_task_id",
@@ -344,7 +350,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#get).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#get).thenAnswer((_) async => testResponse());
       final res2 = await source.getUnarchivedTasks();
       expect(res2.isRight(), isTrue);
       expect(res2.getOrNull(), isEmpty);
@@ -352,7 +358,7 @@ void main() {
 
     test("list archived tasks works correctly", () async {
       when(dio).calls(#get).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: [
                 {
                   "_id": "mock_task_id",
@@ -399,7 +405,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#get).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#get).thenAnswer((_) async => testResponse());
       final res2 = await source.getArchivedTasks();
       expect(res2.isRight(), isTrue);
       expect(res2.getOrNull(), isEmpty);
@@ -407,7 +413,7 @@ void main() {
 
     test("get tasks works correctly", () async {
       when(dio).calls(#get).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -448,7 +454,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#get).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#get).thenAnswer((_) async => testResponse());
       final res2 = await source.getTask(UniqueId("mock_task_id"));
       expect(res2.isRight(), isTrue);
       expect(res2.getOrNull(), isNull);
@@ -456,7 +462,7 @@ void main() {
 
     test("post task works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -586,7 +592,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.postTask(
         TaskModel(
           id: null,
@@ -613,7 +619,7 @@ void main() {
 
     test("patch task works correctly", () async {
       when(dio).calls(#patch).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -744,7 +750,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#patch).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#patch).thenAnswer((_) async => testResponse());
       final res2 = await source.patchTask(
         TaskModel(
           id: "mock_task_id",
@@ -771,7 +777,7 @@ void main() {
 
     test("post comment works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -845,7 +851,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.postComment(
         UniqueId("mock_task_id"),
         UniqueId("mock_user_id"),
@@ -856,7 +862,7 @@ void main() {
 
     test("delete comment works correctly", () async {
       when(dio).calls(#delete).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -930,7 +936,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#delete).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#delete).thenAnswer((_) async => testResponse());
       final res2 = await source.deleteComment(
         UniqueId("mock_task_id"),
         UniqueId("mock_comment_id"),
@@ -941,7 +947,7 @@ void main() {
 
     test("patch comment works correctly", () async {
       when(dio).calls(#patch).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -1016,7 +1022,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#patch).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#patch).thenAnswer((_) async => testResponse());
       final res2 = await source.patchComment(
         UniqueId("mock_task_id"),
         UniqueId("mock_comment_id"),
@@ -1028,7 +1034,7 @@ void main() {
 
     test("like comment works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -1115,7 +1121,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.likeComment(
         UniqueId("mock_task_id"),
         UniqueId("mock_comment_id"),
@@ -1126,7 +1132,7 @@ void main() {
 
     test("dislike comment works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -1214,7 +1220,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.dislikeComment(
         UniqueId("mock_task_id"),
         UniqueId("mock_comment_id"),
@@ -1225,7 +1231,7 @@ void main() {
 
     test("archive works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -1271,7 +1277,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.archive(
         UniqueId("mock_task_id"),
         UniqueId("mock_user_id"),
@@ -1282,7 +1288,7 @@ void main() {
 
     test("check works correctly", () async {
       when(dio).calls(#post).thenAnswer(
-            (_) async => Response(
+            (_) async => testResponse(
               data: {
                 "_id": "mock_task_id",
                 "title": "Mock Title",
@@ -1354,7 +1360,7 @@ void main() {
         ),
       );
 
-      when(dio).calls(#post).thenAnswer((_) async => Response(data: null));
+      when(dio).calls(#post).thenAnswer((_) async => testResponse());
       final res2 = await source.check(
         UniqueId("mock_task_id"),
         UniqueId("mock_user_id"),
