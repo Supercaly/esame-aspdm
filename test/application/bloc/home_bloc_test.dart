@@ -21,7 +21,7 @@ void main() {
     blocTest(
       "emits nothing when created",
       build: () => HomeBloc(repository: repository),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest(
@@ -32,7 +32,7 @@ void main() {
             .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         HomeState(IList.empty(), false, true),
         HomeState(IList.empty(), false, false),
       ],
@@ -46,7 +46,7 @@ void main() {
             .thenAnswer((_) => Stream.value(Either.left(MockFailure())));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         HomeState(IList.empty(), false, true),
         HomeState(IList.empty(), true, false),
       ],
@@ -60,7 +60,7 @@ void main() {
             .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
         bloc.fetch(showLoading: false);
       },
-      expect: [
+      expect: () => [
         HomeState(IList.empty(), false, false),
       ],
     );

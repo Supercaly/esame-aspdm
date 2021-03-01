@@ -1,6 +1,7 @@
 import 'package:tasky/application/bloc/task_bloc.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -10,7 +11,7 @@ import 'package:tasky/services/link_service.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_log_service.dart';
 
@@ -28,6 +29,8 @@ void main() {
       repository = MockTaskRepository();
       logService = MockLogService();
       linkService = MockLinkService();
+
+      when(logService).calls(#error).thenReturn();
     });
 
     blocTest(
@@ -38,7 +41,7 @@ void main() {
         logService: logService,
         linkService: linkService,
       ),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest("emits data on fetch success",
@@ -49,19 +52,19 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.watchTask(any)).thenAnswer(
-            (_) => Stream.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#watchTask).thenAnswer(
+                (_) => Stream<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.fetch();
         },
-        expect: [
-          TaskState(null, false, true, false, null),
-          TaskState(Task.test(), false, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, false, true, false, null),
+              TaskState(Task.test(), false, false, false, null),
+            ]);
 
     blocTest(
       "emits error on fetch error",
@@ -72,11 +75,12 @@ void main() {
         linkService: linkService,
       ),
       act: (TaskBloc bloc) {
-        when(repository.watchTask(any)).thenAnswer((_) =>
-            Stream.value(Either.left(ServerFailure.unexpectedError(""))));
+        when(repository).calls(#watchTask).thenAnswer((_) =>
+            Stream<Either<Failure, Task>>.value(
+                Either.left(ServerFailure.unexpectedError(""))));
         bloc.fetch();
       },
-      expect: [
+      expect: () => [
         TaskState(null, false, true, false, null),
         TaskState(null, true, false, false, null),
       ],
@@ -91,16 +95,16 @@ void main() {
         linkService: linkService,
       ),
       act: (TaskBloc bloc) {
-        when(repository.watchTask(any)).thenAnswer(
-          (_) => Stream.value(
-            Either.right(
-              Task.test(),
-            ),
-          ),
-        );
+        when(repository).calls(#watchTask).thenAnswer(
+              (_) => Stream<Either<Failure, Task>>.value(
+                Either.right(
+                  Task.test(),
+                ),
+              ),
+            );
         bloc.fetch(showLoading: false);
       },
-      expect: [
+      expect: () => [
         TaskState(
           Task.test(),
           false,
@@ -119,27 +123,27 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.deleteComment(any, any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#deleteComment).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.deleteComment(
             UniqueId("commentId"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on comment delete error",
         build: () => TaskBloc(
@@ -149,16 +153,17 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.deleteComment(any, any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#deleteComment).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.deleteComment(
             UniqueId("commentId"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on comment edit success",
         build: () => TaskBloc(
@@ -168,28 +173,28 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.editComment(any, any, any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#editComment).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.editComment(
             UniqueId("commentId"),
             CommentContent("newContent"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on comment edit error",
         build: () => TaskBloc(
@@ -199,17 +204,18 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.editComment(any, any, any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#editComment).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.editComment(
             UniqueId("commentId"),
             CommentContent("newContent"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on comment like success",
         build: () => TaskBloc(
@@ -219,27 +225,27 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.likeComment(any, any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#likeComment).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.likeComment(
             UniqueId("commentId"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on comment like error",
         build: () => TaskBloc(
@@ -249,16 +255,17 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.likeComment(any, any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#likeComment).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.likeComment(
             UniqueId("commentId"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on comment dislike success",
         build: () => TaskBloc(
@@ -268,27 +275,27 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.dislikeComment(any, any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#dislikeComment).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.dislikeComment(
             UniqueId("commentId"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on comment dislike error",
         build: () => TaskBloc(
@@ -298,16 +305,17 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.dislikeComment(any, any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#dislikeComment).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.dislikeComment(
             UniqueId("commentId"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on add comment success",
         build: () => TaskBloc(
@@ -317,25 +325,25 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.addComment(any, any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#addComment).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.addComment(
               CommentContent("content"), Maybe.just(UniqueId("userId")));
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on add comment error",
         build: () => TaskBloc(
@@ -345,16 +353,17 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.addComment(any, any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#addComment).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.addComment(
             CommentContent("content"),
             Maybe.just(UniqueId("userId")),
           );
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on archive success",
         build: () => TaskBloc(
@@ -364,24 +373,24 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.archiveTask(any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#archiveTask).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.archive(Maybe.just(UniqueId("userId")));
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on archive error",
         build: () => TaskBloc(
@@ -391,13 +400,14 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.archiveTask(any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#archiveTask).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.archive(Maybe.just(UniqueId("userId")));
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on unarchive success",
         build: () => TaskBloc(
@@ -407,24 +417,24 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.unarchiveTask(any, any)).thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#unarchiveTask).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.unarchive(Maybe.just(UniqueId("userId")));
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on unarchive error",
         build: () => TaskBloc(
@@ -434,13 +444,14 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.unarchiveTask(any, any)).thenAnswer((_) =>
-              Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#unarchiveTask).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.unarchive(Maybe.just(UniqueId("userId")));
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits data on complete checklist success",
         build: () => TaskBloc(
@@ -450,14 +461,13 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.completeChecklist(any, any, any, any, any))
-              .thenAnswer(
-            (_) => Future.value(
-              Either.right(
-                Task.test(),
-              ),
-            ),
-          );
+          when(repository).calls(#completeChecklist).thenAnswer(
+                (_) => Future<Either<Failure, Task>>.value(
+                  Either.right(
+                    Task.test(),
+                  ),
+                ),
+              );
           bloc.completeChecklist(
             Maybe.just(UniqueId("userId")),
             UniqueId("checklistId"),
@@ -465,15 +475,15 @@ void main() {
             Toggle(true),
           );
         },
-        expect: [
-          TaskState(
-            Task.test(),
-            false,
-            false,
-            false,
-            null,
-          ),
-        ]);
+        expect: () => [
+              TaskState(
+                Task.test(),
+                false,
+                false,
+                false,
+                null,
+              ),
+            ]);
 
     blocTest("emits error on complete checklist error",
         build: () => TaskBloc(
@@ -483,9 +493,9 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc bloc) {
-          when(repository.completeChecklist(any, any, any, any, any))
-              .thenAnswer((_) =>
-                  Future.value(Either.left(ServerFailure.unexpectedError(""))));
+          when(repository).calls(#completeChecklist).thenAnswer((_) =>
+              Future<Either<Failure, Task>>.value(
+                  Either.left(ServerFailure.unexpectedError(""))));
           bloc.completeChecklist(
             Maybe.just(UniqueId("userId")),
             UniqueId("checklistId"),
@@ -493,9 +503,9 @@ void main() {
             Toggle(true),
           );
         },
-        expect: [
-          TaskState(null, true, false, false, null),
-        ]);
+        expect: () => [
+              TaskState(null, true, false, false, null),
+            ]);
 
     blocTest("emits link on share success",
         build: () => TaskBloc(
@@ -505,13 +515,14 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc cubit) {
-          when(linkService.createLinkForPost(any)).thenAnswer(
+          when(linkService).calls(#createLinkForPost).thenAnswer(
               (_) async => Maybe.just(Uri.parse("https://mock.link.com/mock")));
           cubit.share();
         },
-        expect: [
-          TaskState(null, false, false, false, "https://mock.link.com/mock"),
-        ]);
+        expect: () => [
+              TaskState(
+                  null, false, false, false, "https://mock.link.com/mock"),
+            ]);
 
     blocTest("emits error on share error",
         build: () => TaskBloc(
@@ -521,12 +532,13 @@ void main() {
               linkService: linkService,
             ),
         act: (TaskBloc cubit) {
-          when(linkService.createLinkForPost(any))
-              .thenAnswer((_) async => Maybe.nothing());
+          when(linkService)
+              .calls(#createLinkForPost)
+              .thenAnswer((_) async => Maybe<Uri>.nothing());
           cubit.share();
         },
-        expect: [
-          TaskState(null, false, false, true, null),
-        ]);
+        expect: () => [
+              TaskState(null, false, false, true, null),
+            ]);
   });
 }

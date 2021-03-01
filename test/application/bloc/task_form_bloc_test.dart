@@ -37,7 +37,7 @@ void main() {
         oldTask: Maybe.nothing(),
         repository: repository,
       ),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest(
@@ -47,7 +47,7 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) => cubit.titleChanged("new title"),
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(title: "new title"),
           mode: TaskFormMode.creating,
@@ -65,7 +65,7 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) => cubit.descriptionChanged("new description"),
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             description: "new description",
@@ -88,7 +88,7 @@ void main() {
         cubit.dateChanged(Maybe.just(DateTime.fromMillisecondsSinceEpoch(0)));
         cubit.dateChanged(Maybe.nothing());
       },
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             expireDate: Maybe.just(DateTime.fromMillisecondsSinceEpoch(0)),
@@ -131,7 +131,7 @@ void main() {
         ]));
         cubit.membersChanged(IList.empty());
       },
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             members: IList.from([
@@ -183,7 +183,7 @@ void main() {
         ]));
         cubit.labelsChanged(IList.empty());
       },
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             labels: IList.from([
@@ -243,7 +243,7 @@ void main() {
           items: IList.from([ItemText("item 2")]),
         ));
       },
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             description: null,
@@ -310,7 +310,7 @@ void main() {
           items: IList.from([ItemText("item 1")]),
         ));
       },
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             checklists: IList.from([
@@ -384,7 +384,7 @@ void main() {
               ]),
             ));
       },
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty().copyWith(
             checklists: IList.from([
@@ -421,7 +421,7 @@ void main() {
         cubit.saveTask(UniqueId("mock_id"));
       },
       verify: (cubit) => verify(repository.saveNewTask(any, any)).called(1),
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
           mode: TaskFormMode.creating,
@@ -451,7 +451,7 @@ void main() {
         cubit.saveTask(UniqueId("mock_id"));
       },
       verify: (cubit) => verify(repository.saveNewTask(any, any)).called(1),
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
           mode: TaskFormMode.creating,
@@ -486,7 +486,7 @@ void main() {
         cubit.saveTask(UniqueId("mock_id"));
       },
       verify: (cubit) => verify(repository.updateTask(any, any)).called(1),
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
           mode: TaskFormMode.editing,
@@ -521,7 +521,7 @@ void main() {
         cubit.saveTask(UniqueId("mock_id"));
       },
       verify: (cubit) => verify(repository.updateTask(any, any)).called(1),
-      expect: [
+      expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
           mode: TaskFormMode.editing,

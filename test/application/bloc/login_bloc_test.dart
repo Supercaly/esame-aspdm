@@ -23,7 +23,7 @@ void main() {
     blocTest(
       "emits initial state",
       build: () => LoginBloc(repository: repository),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest(
@@ -41,7 +41,7 @@ void main() {
         );
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
-      expect: [
+      expect: () => [
         LoginState(true, Maybe.nothing()),
         LoginState(
           false,
@@ -73,7 +73,7 @@ void main() {
         );
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
-      expect: [
+      expect: () => [
         LoginState(true, Maybe.nothing()),
         LoginState(
           false,
@@ -98,7 +98,7 @@ void main() {
             (_) async => Either.left(ServerFailure.unexpectedError("")));
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
-      expect: [
+      expect: () => [
         LoginState(true, Maybe.nothing()),
         LoginState(
           false,

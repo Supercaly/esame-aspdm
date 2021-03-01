@@ -21,7 +21,7 @@ void main() {
     blocTest(
       "emits initial state",
       build: () => AuthBloc(repository: repository),
-      expect: [],
+      expect: () => [],
     );
 
     blocTest(
@@ -39,7 +39,7 @@ void main() {
         );
         cubit.checkAuth();
       },
-      expect: [
+      expect: () => [
         AuthState.authenticated(
           Maybe.just(
             User.test(
@@ -60,7 +60,7 @@ void main() {
             .thenAnswer((_) async => Maybe.nothing());
         cubit.checkAuth();
       },
-      expect: [
+      expect: () => [
         AuthState.unauthenticated(
           Maybe.nothing(),
         ),
@@ -74,7 +74,7 @@ void main() {
         when(repository.logout()).thenAnswer((_) async => Maybe.nothing());
         cubit.logOut();
       },
-      expect: [
+      expect: () => [
         AuthState.unauthenticated(
           Maybe.nothing(),
         ),

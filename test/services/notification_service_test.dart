@@ -1,8 +1,9 @@
 import 'package:tasky/domain/values/unique_id.dart';
+import 'package:tasky/services/log_service.dart';
 import 'package:tasky/services/notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../mocks/mock_log_service.dart';
 
@@ -13,12 +14,14 @@ void main() {
     NotificationService service;
     FirebaseMessaging messaging;
     NotificationSettings permission;
+    LogService logService;
 
     setUp(() {
       messaging = MockFirebaseMessaging();
+      logService = MockLogService();
       service = NotificationService.private(
         messaging,
-        MockLogService(),
+        logService,
       );
       permission = NotificationSettings(
         authorizationStatus: AuthorizationStatus.authorized,
@@ -31,6 +34,8 @@ void main() {
         showPreviews: AppleShowPreviewSetting.never,
         sound: AppleNotificationSetting.disabled,
       );
+      when(messaging).calls(#subscribeToTopic).thenReturn();
+      when(logService).calls(#info).thenReturn();
     });
 
     tearDown(() {
@@ -40,36 +45,45 @@ void main() {
     });
 
     test("calling init multiple times has no effect", () async {
-      when(messaging.requestPermission()).thenAnswer((_) async => permission);
+      when(messaging)
+          .calls(#requestPermission)
+          .thenAnswer((_) async => permission);
+      when(messaging).calls(#getInitialMessage).thenAnswer((_) async => null);
+
       await service.init(onTaskOpen: (id) {});
       await service.init(onTaskOpen: (id) {});
-      verify(messaging.requestPermission()).called(1);
-      verify(messaging.getInitialMessage()).called(1);
+      verify(messaging).called(#requestPermission).once();
+      verify(messaging).called(#getInitialMessage).once();
     });
 
     test("null initial message has no effect", () async {
-      when(messaging.requestPermission()).thenAnswer((_) async => permission);
-      when(messaging.getInitialMessage()).thenAnswer((_) async => null);
+      when(messaging)
+          .calls(#requestPermission)
+          .thenAnswer((_) async => permission);
+      when(messaging).calls(#getInitialMessage).thenAnswer((_) async => null);
+      when(messaging).calls(#subscribeToTopic).thenReturn();
       bool opened = false;
       await service.init(onTaskOpen: (id) => opened = id.isJust());
       expect(opened, isFalse);
     });
 
     test("incorrect initial message has no effect", () async {
-      when(messaging.requestPermission()).thenAnswer((_) async => permission);
-      when(messaging.getInitialMessage()).thenAnswer((_) async =>
+      when(messaging)
+          .calls(#requestPermission)
+          .thenAnswer((_) async => permission);
+      when(messaging).calls(#getInitialMessage).thenAnswer((_) async =>
           RemoteMessage(notification: RemoteNotification(title: "Mock Title")));
-
       bool opened = false;
       await service.init(onTaskOpen: (id) => opened = id.isJust());
       expect(opened, isFalse);
     });
 
     test("correct initial message navigates to the task page", () async {
-      when(messaging.requestPermission()).thenAnswer((_) async => permission);
-      when(messaging.getInitialMessage()).thenAnswer(
+      when(messaging)
+          .calls(#requestPermission)
+          .thenAnswer((_) async => permission);
+      when(messaging).calls(#getInitialMessage).thenAnswer(
           (_) async => RemoteMessage(data: {"task_id": "mock_task_id"}));
-
       bool opened = true;
       UniqueId taskId;
       await service.init(onTaskOpen: (id) {
@@ -81,12 +95,15 @@ void main() {
     });
 
     test("calling close un-initialize the service", () async {
-      when(messaging.requestPermission()).thenAnswer((_) async => permission);
+      when(messaging)
+          .calls(#requestPermission)
+          .thenAnswer((_) async => permission);
+      when(messaging).calls(#getInitialMessage).thenAnswer((_) async => null);
       await service.init(onTaskOpen: (id) {});
       service.close();
       await service.init(onTaskOpen: (id) {});
-      verify(messaging.requestPermission()).called(2);
-      verify(messaging.getInitialMessage()).called(2);
+      verify(messaging).called(#requestPermission).times(2);
+      verify(messaging).called(#getInitialMessage).times(2);
     });
   });
 }

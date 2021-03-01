@@ -7,7 +7,7 @@ import 'package:tasky/domain/values/user_values.dart';
 import 'package:tasky/presentation/pages/settings/widgets/user_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import '../../../../finders/container_by_color_finder.dart';
 import '../../../../mocks/mock_auth_bloc.dart';
 
@@ -17,19 +17,22 @@ void main() {
   setUpAll(() {
     authBloc = MockAuthBloc();
 
-    when(authBloc.state).thenReturn(AuthState.authenticated(
-      Maybe.just(
-        User.test(
-          id: UniqueId("mock_id"),
-          name: UserName("Mock User"),
-          email: EmailAddress("mock.user@email.com"),
-          profileColor: Maybe.just(ProfileColor(Colors.green)),
-        ),
-      ),
-    ));
+    when(authBloc).calls(#state).thenReturn(
+          AuthState.authenticated(
+            Maybe.just(
+              User.test(
+                id: UniqueId("mock_id"),
+                name: UserName("Mock User"),
+                email: EmailAddress("mock.user@email.com"),
+                profileColor: Maybe.just(ProfileColor(Colors.green)),
+              ),
+            ),
+          ),
+        );
   });
 
   tearDownAll(() {
+    authBloc.close();
     authBloc = null;
   });
 

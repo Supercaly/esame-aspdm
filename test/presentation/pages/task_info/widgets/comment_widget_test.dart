@@ -11,7 +11,7 @@ import 'package:tasky/presentation/pages/task_info/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import '../../../../mocks/mock_auth_bloc.dart';
 import '../../../../widget_tester_extension.dart';
 
@@ -136,11 +136,14 @@ void main() {
     });
 
     tearDownAll(() {
+      authBloc.close();
       authBloc = null;
     });
 
     testWidgets("show comment of another user", (tester) async {
-      when(authBloc.state).thenReturn(AuthState.initial(Maybe.nothing()));
+      when(authBloc)
+          .calls(#state)
+          .thenReturn(AuthState.initial(Maybe.nothing()));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -172,15 +175,15 @@ void main() {
     });
 
     testWidgets("show comment of this user", (tester) async {
-      when(authBloc.state).thenReturn(AuthState.authenticated(
-        Maybe.just(
-          User.test(
-            id: UniqueId("user_id"),
-            name: UserName("User 1"),
-            email: EmailAddress("user@mock.com"),
-          ),
-        ),
-      ));
+      when(authBloc).calls(#state).thenReturn(AuthState.authenticated(
+            Maybe.just(
+              User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
+              ),
+            ),
+          ));
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
@@ -213,15 +216,15 @@ void main() {
 
     testWidgets("edit comment", (tester) async {
       CommentContent editedComment;
-      when(authBloc.state).thenReturn(AuthState.authenticated(
-        Maybe.just(
-          User.test(
-            id: UniqueId("user_id"),
-            name: UserName("User 1"),
-            email: EmailAddress("user@mock.com"),
-          ),
-        ),
-      ));
+      when(authBloc).calls(#state).thenReturn(AuthState.authenticated(
+            Maybe.just(
+              User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
+              ),
+            ),
+          ));
 
       await tester.pumpLocalizedWidget(
         MaterialApp(
@@ -285,15 +288,15 @@ void main() {
 
     testWidgets("delete comment", (tester) async {
       bool deleteComment = false;
-      when(authBloc.state).thenReturn(AuthState.authenticated(
-        Maybe.just(
-          User.test(
-            id: UniqueId("user_id"),
-            name: UserName("User 1"),
-            email: EmailAddress("user@mock.com"),
-          ),
-        ),
-      ));
+      when(authBloc).calls(#state).thenReturn(AuthState.authenticated(
+            Maybe.just(
+              User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
+              ),
+            ),
+          ));
 
       await tester.pumpLocalizedWidget(
         MaterialApp(
