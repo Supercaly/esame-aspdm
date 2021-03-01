@@ -12,14 +12,14 @@ dependencies:
   cupertino_icons: ^1.0.0
 
   # Dependency injection
-  get_it: ^5.0.1
+  get_it: ^6.0.0
 
   # State management
   flutter_bloc: ^7.0.0-nullsafety.2
   bloc_test: ^8.0.0-nullsafety.0
 
   # Equality
-  equatable: ^1.2.5
+  equatable: ^2.0.0-nullsafety.4
 
   # Remote API
   dio: ^3.0.10
