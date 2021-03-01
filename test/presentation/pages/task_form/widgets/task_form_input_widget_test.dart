@@ -79,7 +79,6 @@ void main() {
           .calls(#descriptionChanged)
           .withArgs(positional: [any]).thenReturn(null);
 
-
       await tester.pumpLocalizedWidget(
         MaterialApp(
           home: Scaffold(
