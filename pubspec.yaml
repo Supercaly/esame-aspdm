@@ -15,8 +15,8 @@ dependencies:
   get_it: ^5.0.1
 
   # State management
-  flutter_bloc: ^6.1.1
-  bloc_test: ^7.1.0
+  flutter_bloc: ^7.0.0-nullsafety.2
+  bloc_test: ^8.0.0-nullsafety.0
 
   # Equality
   equatable: ^1.2.5
