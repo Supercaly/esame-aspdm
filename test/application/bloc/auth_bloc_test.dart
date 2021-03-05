@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
@@ -28,20 +28,20 @@ void main() {
       "check auth emits authenticated state",
       build: () => AuthBloc(repository: repository),
       act: (AuthBloc cubit) {
-        when(repository.getSignedInUser()).thenAnswer(
-          (_) async => Maybe.just(
-            User.test(
-              id: UniqueId("user_id"),
-              name: UserName("User"),
-              email: EmailAddress("user@email.com"),
-            ),
-          ),
-        );
+        when(repository).calls(#getSignedInUser).thenAnswer(
+              (_) async => Maybe<User>.just(
+                User.test(
+                  id: UniqueId("user_id"),
+                  name: UserName("User"),
+                  email: EmailAddress("user@email.com"),
+                ),
+              ),
+            );
         cubit.checkAuth();
       },
       expect: () => [
         AuthState.authenticated(
-          Maybe.just(
+          Maybe<User>.just(
             User.test(
               id: UniqueId("user_id"),
               name: UserName("User"),
@@ -56,13 +56,14 @@ void main() {
       "check auth emits unauthenticated state",
       build: () => AuthBloc(repository: repository),
       act: (AuthBloc cubit) {
-        when(repository.getSignedInUser())
-            .thenAnswer((_) async => Maybe.nothing());
+        when(repository)
+            .calls(#getSignedInUser)
+            .thenAnswer((_) async => Maybe<User>.nothing());
         cubit.checkAuth();
       },
       expect: () => [
         AuthState.unauthenticated(
-          Maybe.nothing(),
+          Maybe<User>.nothing(),
         ),
       ],
     );
@@ -71,12 +72,14 @@ void main() {
       "logout emits unauthenticated state",
       build: () => AuthBloc(repository: repository),
       act: (AuthBloc cubit) {
-        when(repository.logout()).thenAnswer((_) async => Maybe.nothing());
+        when(repository)
+            .calls(#logout)
+            .thenAnswer((_) async => Maybe<User>.nothing());
         cubit.logOut();
       },
       expect: () => [
         AuthState.unauthenticated(
-          Maybe.nothing(),
+          Maybe<User>.nothing(),
         ),
       ],
     );

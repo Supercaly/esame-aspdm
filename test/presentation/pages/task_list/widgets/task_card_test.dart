@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../../../mocks/mock_navigation_service.dart';
 
@@ -208,8 +208,7 @@ void main() {
 
   testWidgets("pressing on card navigates to route", (tester) async {
     final navService = MockNavigationService();
-    when(navService.navigateTo(any, arguments: anyNamed("arguments")))
-        .thenAnswer((_) => null);
+    when(navService).calls(#navigateTo).thenAnswer((_) => null);
     GetIt.I.registerSingleton<NavigationService>(navService);
 
     await tester.pumpWidget(
@@ -229,8 +228,7 @@ void main() {
     await tester.tap(find.byType(Card));
     await tester.pumpAndSettle();
 
-    verify(navService.navigateTo(any, arguments: anyNamed("arguments")))
-        .called(1);
+    verify(navService).called(#navigateTo).once();
   });
 
   test("create task with null arguments throws an error", () {

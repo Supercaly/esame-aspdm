@@ -1,7 +1,7 @@
 import 'package:tasky/services/app_info_service.dart';
 import 'package:tasky/services/log_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:package_info/package_info.dart';
 
 import '../mocks/mock_log_service.dart';
@@ -19,10 +19,10 @@ void main() {
       logService = MockLogService();
       packageInfo = MockPackageInfo();
 
-      when(packageInfo.appName).thenReturn("mock_app_name");
-      when(packageInfo.packageName).thenReturn("mock.app.name");
-      when(packageInfo.version).thenReturn("0.0.1");
-      when(packageInfo.buildNumber).thenReturn("1");
+      when(packageInfo).calls(#appName).thenReturn("mock_app_name");
+      when(packageInfo).calls(#packageName).thenReturn("mock.app.name");
+      when(packageInfo).calls(#version).thenReturn("0.0.1");
+      when(packageInfo).calls(#buildNumber).thenReturn("1");
     });
 
     tearDownAll(() {

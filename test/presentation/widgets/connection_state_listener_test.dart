@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:tasky/presentation/widgets/connection_state_listener.dart';
 import 'package:tasky/services/connectivity_service.dart';
 import '../../widget_tester_extension.dart';
@@ -16,7 +16,8 @@ void main() {
     });
 
     testWidgets("init with connected don't show the snack bar", (tester) async {
-      when(service.onConnectionStateChange)
+      when(service)
+          .calls(#onConnectionStateChange)
           .thenAnswer((_) => Stream.value(ConnectivityState.connected));
 
       await tester.pumpLocalizedWidget(
@@ -35,7 +36,8 @@ void main() {
     });
 
     testWidgets("init with unknown don't show the snack bar", (tester) async {
-      when(service.onConnectionStateChange)
+      when(service)
+          .calls(#onConnectionStateChange)
           .thenAnswer((_) => Stream.value(ConnectivityState.unknown));
 
       await tester.pumpLocalizedWidget(
@@ -54,7 +56,8 @@ void main() {
     });
 
     testWidgets("init with none show the snack bar", (tester) async {
-      when(service.onConnectionStateChange)
+      when(service)
+          .calls(#onConnectionStateChange)
           .thenAnswer((_) => Stream.value(ConnectivityState.none));
 
       await tester.pumpLocalizedWidget(
@@ -73,12 +76,12 @@ void main() {
     });
 
     testWidgets("state changes show the snack bar", (tester) async {
-      when(service.onConnectionStateChange).thenAnswer(
-        (_) => Stream.fromIterable([
-          ConnectivityState.connected,
-          ConnectivityState.none,
-        ]),
-      );
+      when(service).calls(#onConnectionStateChange).thenAnswer(
+            (_) => Stream.fromIterable([
+              ConnectivityState.connected,
+              ConnectivityState.none,
+            ]),
+          );
 
       await tester.pumpLocalizedWidget(
         MaterialApp(

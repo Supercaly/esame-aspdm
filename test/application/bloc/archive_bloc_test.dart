@@ -1,10 +1,12 @@
 import 'package:tasky/core/either.dart';
 import 'package:tasky/application/bloc/archive_bloc.dart';
 import 'package:tasky/core/ilist.dart';
+import 'package:tasky/domain/entities/task.dart';
+import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/repositories/archive_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_failure.dart';
 
@@ -28,8 +30,8 @@ void main() {
       "emits data on success",
       build: () => ArchiveBloc(repository: repository),
       act: (ArchiveBloc bloc) {
-        when(repository.watchArchivedTasks())
-            .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
+        when(repository).calls(#watchArchivedTasks).thenAnswer((_) =>
+            Stream.value(Either<Failure, IList<Task>>.right(IList.empty())));
         bloc.fetch();
       },
       expect: () => [
@@ -42,8 +44,8 @@ void main() {
       "emits error on error",
       build: () => ArchiveBloc(repository: repository),
       act: (ArchiveBloc bloc) {
-        when(repository.watchArchivedTasks())
-            .thenAnswer((_) => Stream.value(Either.left(MockFailure())));
+        when(repository).calls(#watchArchivedTasks).thenAnswer((_) =>
+            Stream.value(Either<Failure, IList<Task>>.left(MockFailure())));
         bloc.fetch();
       },
       expect: () => [
@@ -56,8 +58,8 @@ void main() {
       "don't emits loading when fetch has showLoading false",
       build: () => ArchiveBloc(repository: repository),
       act: (ArchiveBloc bloc) {
-        when(repository.watchArchivedTasks())
-            .thenAnswer((_) => Stream.value(Either.right(IList.empty())));
+        when(repository).calls(#watchArchivedTasks).thenAnswer((_) =>
+            Stream.value(Either<Failure, IList<Task>>.right(IList.empty())));
         bloc.fetch(showLoading: false);
       },
       expect: () => [

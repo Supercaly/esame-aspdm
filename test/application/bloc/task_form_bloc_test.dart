@@ -16,7 +16,7 @@ import 'package:tasky/presentation/pages/task_form/misc/task_primitive.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:tasky/core/either.dart';
 
 import '../../mocks/mock_failure.dart';
@@ -416,11 +416,12 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.saveNewTask(any, any))
+        when(repository)
+            .calls(#saveNewTask)
             .thenAnswer((_) async => Either<Failure, Unit>.right(const Unit()));
         cubit.saveTask(UniqueId("mock_id"));
       },
-      verify: (cubit) => verify(repository.saveNewTask(any, any)).called(1),
+      verify: (cubit) => verify(repository).called(#saveNewTask).once(),
       expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
@@ -446,11 +447,12 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.saveNewTask(any, any))
+        when(repository)
+            .calls(#saveNewTask)
             .thenAnswer((_) async => Either<Failure, Unit>.left(MockFailure()));
         cubit.saveTask(UniqueId("mock_id"));
       },
-      verify: (cubit) => verify(repository.saveNewTask(any, any)).called(1),
+      verify: (cubit) => verify(repository).called(#saveNewTask).once(),
       expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
@@ -481,11 +483,12 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.updateTask(any, any))
+        when(repository)
+            .calls(#updateTask)
             .thenAnswer((_) async => Either<Failure, Unit>.right(const Unit()));
         cubit.saveTask(UniqueId("mock_id"));
       },
-      verify: (cubit) => verify(repository.updateTask(any, any)).called(1),
+      verify: (cubit) => verify(repository).called(#updateTask).once(),
       expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),
@@ -516,11 +519,12 @@ void main() {
         repository: repository,
       ),
       act: (TaskFormBloc cubit) {
-        when(repository.updateTask(any, any))
+        when(repository)
+            .calls(#updateTask)
             .thenAnswer((_) async => Either<Failure, Unit>.left(MockFailure()));
         cubit.saveTask(UniqueId("mock_id"));
       },
-      verify: (cubit) => verify(repository.updateTask(any, any)).called(1),
+      verify: (cubit) => verify(repository).called(#updateTask).once(),
       expect: () => [
         TaskFormState(
           taskPrimitive: TaskPrimitive.empty(),

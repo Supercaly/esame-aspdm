@@ -1,15 +1,43 @@
 import 'package:tasky/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
-class MockNavigatorObserver extends Mock implements NavigatorObserver {}
+class MockNavigatorObserver extends NavigatorObserver {
+  bool _pop = false;
+  bool _push = false;
+  bool _replace = false;
+
+  bool get pop => _pop;
+
+  bool get push => _push;
+
+  bool get replace => _replace;
+
+  void clear() {
+    _pop = false;
+    _push = false;
+    _replace = false;
+  }
+
+  @override
+  void didPop(Route route, Route previousRoute) => _pop = true;
+
+  @override
+  void didPush(Route route, Route previousRoute) => _push = true;
+
+  @override
+  void didReplace({Route newRoute, Route oldRoute}) => _replace = true;
+}
 
 void main() {
   group("NavigationService Tests", () {
     NavigationService navigationService;
     GlobalKey<NavigatorState> mockKey;
-    NavigatorObserver mockNavigatorObserver;
+    MockNavigatorObserver mockNavigatorObserver;
+
+    tearDown(() {
+      mockNavigatorObserver.clear();
+    });
 
     setUpAll(() {
       mockKey = GlobalKey<NavigatorState>();
@@ -67,7 +95,7 @@ void main() {
 
       expect(find.text("First Screen"), findsNothing);
       expect(find.text("Second Screen"), findsOneWidget);
-      verify(mockNavigatorObserver.didPush(secondRoute, firstRoute));
+      expect(mockNavigatorObserver.push, isTrue);
     });
 
     testWidgets("pop remove the current route onto the navigation stack",
@@ -109,14 +137,14 @@ void main() {
 
       expect(find.text("First Screen"), findsNothing);
       expect(find.text("Second Screen"), findsOneWidget);
-      verify(mockNavigatorObserver.didPush(secondRoute, firstRoute));
+      expect(mockNavigatorObserver.push, isTrue);
 
       navigationService.pop();
       await tester.pumpAndSettle();
 
       expect(find.text("First Screen"), findsOneWidget);
       expect(find.text("Second Screen"), findsNothing);
-      verify(mockNavigatorObserver.didPop(secondRoute, firstRoute));
+      expect(mockNavigatorObserver.pop, isTrue);
     });
 
     testWidgets("navigate to material route push the correct page to the stack",
@@ -144,7 +172,7 @@ void main() {
 
       expect(find.text("First Screen"), findsNothing);
       expect(find.text("Second Screen"), findsOneWidget);
-      verify(mockNavigatorObserver.didPush(any, any));
+      expect(mockNavigatorObserver.push, isTrue);
     });
 
     testWidgets(
@@ -187,10 +215,7 @@ void main() {
 
       expect(find.text("First Screen"), findsNothing);
       expect(find.text("Second Screen"), findsOneWidget);
-      verify(mockNavigatorObserver.didReplace(
-        newRoute: secondRoute,
-        oldRoute: firstRoute,
-      ));
+      expect(mockNavigatorObserver.replace, isTrue);
     });
   });
 }

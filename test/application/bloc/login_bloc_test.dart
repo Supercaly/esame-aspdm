@@ -1,10 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:tasky/application/bloc/login_bloc.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:tasky/domain/repositories/auth_repository.dart';
 import 'package:tasky/domain/values/unique_id.dart';
@@ -30,15 +31,15 @@ void main() {
       "login emits loading state",
       build: () => LoginBloc(repository: repository),
       act: (LoginBloc cubit) {
-        when(repository.login(any, any)).thenAnswer(
-          (_) async => Either.right(
-            User.test(
-              id: UniqueId("user_id"),
-              name: UserName("User"),
-              email: EmailAddress("user@email.com"),
-            ),
-          ),
-        );
+        when(repository).calls(#login).thenAnswer(
+              (_) async => Either<Failure, User>.right(
+                User.test(
+                  id: UniqueId("user_id"),
+                  name: UserName("User"),
+                  email: EmailAddress("user@email.com"),
+                ),
+              ),
+            );
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
       expect: () => [
@@ -46,7 +47,7 @@ void main() {
         LoginState(
           false,
           Maybe.just(
-            Either.right(
+            Either<Failure, User>.right(
               User.test(
                 id: UniqueId("user_id"),
                 name: UserName("User"),
@@ -62,15 +63,15 @@ void main() {
       "login emits success state",
       build: () => LoginBloc(repository: repository),
       act: (LoginBloc cubit) {
-        when(repository.login(any, any)).thenAnswer(
-          (_) async => Either.right(
-            User.test(
-              id: UniqueId("user_id"),
-              name: UserName("User"),
-              email: EmailAddress("user@email.com"),
-            ),
-          ),
-        );
+        when(repository).calls(#login).thenAnswer(
+              (_) async => Either<Failure, User>.right(
+                User.test(
+                  id: UniqueId("user_id"),
+                  name: UserName("User"),
+                  email: EmailAddress("user@email.com"),
+                ),
+              ),
+            );
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
       expect: () => [
@@ -78,7 +79,7 @@ void main() {
         LoginState(
           false,
           Maybe.just(
-            Either.right(
+            Either<Failure, User>.right(
               User.test(
                 id: UniqueId("user_id"),
                 name: UserName("User"),
@@ -94,15 +95,16 @@ void main() {
       "login emits failure state",
       build: () => LoginBloc(repository: repository),
       act: (LoginBloc cubit) {
-        when(repository.login(any, any)).thenAnswer(
-            (_) async => Either.left(ServerFailure.unexpectedError("")));
+        when(repository).calls(#login).thenAnswer((_) async =>
+            Either<Failure, User>.left(ServerFailure.unexpectedError("")));
         cubit.login(EmailAddress("user@email.com"), Password("password"));
       },
       expect: () => [
         LoginState(true, Maybe.nothing()),
         LoginState(
           false,
-          Maybe.just(Either.left(ServerFailure.unexpectedError(""))),
+          Maybe.just(
+              Either<Failure, User>.left(ServerFailure.unexpectedError(""))),
         ),
       ],
     );

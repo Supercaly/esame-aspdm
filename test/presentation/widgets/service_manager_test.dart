@@ -3,7 +3,7 @@ import 'package:tasky/services/link_service.dart';
 import 'package:tasky/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 class MockNotificationService extends Mock implements NotificationService {}
 
@@ -25,6 +25,9 @@ void main() {
 
     testWidgets("creating widget initializes the notification service",
         (tester) async {
+      when(notificationService).calls(#init).thenReturn();
+      when(notificationService).calls(#close).thenReturn();
+      when(linkService).calls(#init).thenReturn();
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -37,13 +40,15 @@ void main() {
         ),
       );
 
-      verify(notificationService.init(onTaskOpen: anyNamed("onTaskOpen")))
-          .called(1);
-      verify(linkService.init(onTaskOpen: anyNamed("onTaskOpen"))).called(1);
+      verify(notificationService).called(#init).once();
+      verify(linkService).called(#init).once();
     });
 
     testWidgets("disposing widget calls close on the notification service",
         (tester) async {
+      when(notificationService).calls(#init).thenReturn();
+      when(notificationService).calls(#close).thenReturn();
+      when(linkService).calls(#init).thenReturn();
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -55,12 +60,11 @@ void main() {
           ),
         ),
       );
-      verify(notificationService.init(onTaskOpen: anyNamed("onTaskOpen")))
-          .called(1);
-      verify(linkService.init(onTaskOpen: anyNamed("onTaskOpen"))).called(1);
+      verify(notificationService).called(#init).once();
+      verify(linkService).called(#init).once();
 
       await tester.pumpWidget(Container());
-      verify(notificationService.close()).called(1);
+      verify(notificationService).called(#close).once();
     });
 
     test("create widget with null child throws an exception", () {

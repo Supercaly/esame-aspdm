@@ -1,7 +1,7 @@
 import 'package:tasky/services/connectivity_service.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 class MockConnectivity extends Mock implements Connectivity {}
 
@@ -16,9 +16,9 @@ void main() {
     });
 
     test("onConnectionStateChange emits true if the connection is active", () {
-      when(mockConnectivity.onConnectivityChanged).thenAnswer(
-        (_) => Stream.value(ConnectivityResult.wifi),
-      );
+      when(mockConnectivity).calls(#onConnectivityChanged).thenAnswer(
+            (_) => Stream.value(ConnectivityResult.wifi),
+          );
       expect(
         connectivityService.onConnectionStateChange,
         emits(ConnectivityState.connected),
@@ -27,9 +27,9 @@ void main() {
 
     test("onConnectionStateChange emits false if the connection is not active",
         () {
-      when(mockConnectivity.onConnectivityChanged).thenAnswer(
-        (_) => Stream.value(ConnectivityResult.none),
-      );
+      when(mockConnectivity).calls(#onConnectivityChanged).thenAnswer(
+            (_) => Stream.value(ConnectivityResult.none),
+          );
       expect(
         connectivityService.onConnectionStateChange,
         emits(ConnectivityState.none),
@@ -37,14 +37,14 @@ void main() {
     });
 
     test("onConnectionStateChange emits when connection status changes", () {
-      when(mockConnectivity.onConnectivityChanged).thenAnswer(
-        (_) => Stream.fromIterable([
-          ConnectivityResult.none,
-          ConnectivityResult.mobile,
-          ConnectivityResult.wifi,
-          ConnectivityResult.none,
-        ]),
-      );
+      when(mockConnectivity).calls(#onConnectivityChanged).thenAnswer(
+            (_) => Stream.fromIterable([
+              ConnectivityResult.none,
+              ConnectivityResult.mobile,
+              ConnectivityResult.wifi,
+              ConnectivityResult.none,
+            ]),
+          );
       expect(
           connectivityService.onConnectionStateChange,
           emitsInOrder([
@@ -56,9 +56,9 @@ void main() {
     });
 
     test("onConnectionStateChange emits error if there's an error", () {
-      when(mockConnectivity.onConnectivityChanged).thenAnswer(
-        (_) => Stream.error("Error"),
-      );
+      when(mockConnectivity).calls(#onConnectivityChanged).thenAnswer(
+            (_) => Stream<ConnectivityResult>.error("Error"),
+          );
       expect(
         connectivityService.onConnectionStateChange,
         emits(ConnectivityState.unknown),
