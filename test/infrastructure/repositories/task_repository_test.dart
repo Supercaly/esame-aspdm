@@ -1,5 +1,6 @@
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
+import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/failures/server_failure.dart';
 import 'package:tasky/domain/failures/task_failure.dart';
 import 'package:tasky/infrastructure/datasources/remote_data_source.dart';
@@ -11,7 +12,7 @@ import 'package:tasky/domain/repositories/task_repository.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_remote_data_source.dart';
 
@@ -31,28 +32,28 @@ void main() {
 
   group("General test", () {
     test("get task returns the task", () async {
-      when(dataSource.getTask(any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#getTask).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.watchTask(Maybe.just(UniqueId("id"))).first;
 
       expect(res.isRight(), isTrue);
@@ -61,7 +62,9 @@ void main() {
     });
 
     test("get task returns null task", () async {
-      when(dataSource.getTask(any)).thenAnswer((_) async => Either.right(null));
+      when(dataSource)
+          .calls(#getTask)
+          .thenAnswer((_) async => Either<Failure, TaskModel>.right(null));
       final res = await repository.watchTask(Maybe.just(UniqueId("id"))).first;
 
       expect(res.isRight(), isTrue);
@@ -72,36 +75,36 @@ void main() {
       final res = await repository.watchTask(Maybe.nothing()).first;
       expect(res.isLeft(), isTrue);
 
-      when(dataSource.getTask(any)).thenAnswer(
-          (_) async => Either.left(ServerFailure.unexpectedError("")));
+      when(dataSource).calls(#getTask).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(ServerFailure.unexpectedError("")));
       final res2 =
           await repository.watchTask(Maybe.just(UniqueId("mock_id"))).first;
       expect(res2.isLeft(), isTrue);
     });
 
     test("complete checklist returns the updated task", () async {
-      when(dataSource.check(any, any, any, any, any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#check).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.completeChecklist(
         Maybe.just(UniqueId("taskId")),
         Maybe.just(UniqueId("userId")),
@@ -116,8 +119,9 @@ void main() {
     });
 
     test("complete checklist return error", () async {
-      when(dataSource.check(any, any, any, any, any)).thenAnswer((_) async =>
-          Either.left(TaskFailure.itemCompleteFailure(UniqueId("itemId"))));
+      when(dataSource).calls(#check).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(
+              TaskFailure.itemCompleteFailure(UniqueId("itemId"))));
       final res = await repository.completeChecklist(
         Maybe.just(UniqueId("taskId")),
         Maybe.just(UniqueId("userId")),
@@ -131,8 +135,10 @@ void main() {
 
   group("Archive test", () {
     test("archive task returns the updated task", () async {
-      when(dataSource.archive(any, any, Toggle(true))).thenAnswer(
-        (_) async => Either.right(
+      when(dataSource)
+          .calls(#archive)
+          .withArgs(positional: [any, any, Toggle(true)]).thenAnswer(
+        (_) async => Either<Failure, TaskModel>.right(
           TaskModel(
             id: "mock_id_1",
             title: "title",
@@ -164,8 +170,11 @@ void main() {
     });
 
     test("archive task return error", () async {
-      when(dataSource.archive(any, any, Toggle(true))).thenAnswer((_) async =>
-          Either.left(TaskFailure.archiveFailure(UniqueId("taskId"))));
+      when(dataSource)
+          .calls(#archive)
+          .withArgs(positional: [any, any, Toggle(true)]).thenAnswer(
+              (_) async => Either<Failure, TaskModel>.left(
+                  TaskFailure.archiveFailure(UniqueId("taskId"))));
       final res = await repository.archiveTask(
         Maybe.just(UniqueId("taskId")),
         Maybe.just(UniqueId("userId")),
@@ -174,8 +183,10 @@ void main() {
     });
 
     test("unarchive task returns the updated task", () async {
-      when(dataSource.archive(any, any, Toggle(false))).thenAnswer(
-        (_) async => Either.right(
+      when(dataSource)
+          .calls(#archive)
+          .withArgs(positional: [any, any, Toggle(false)]).thenAnswer(
+        (_) async => Either<Failure, TaskModel>.right(
           TaskModel(
             id: "mock_id_1",
             title: "title",
@@ -207,8 +218,11 @@ void main() {
     });
 
     test("unarchive task return error", () async {
-      when(dataSource.archive(any, any, Toggle(false))).thenAnswer((_) async =>
-          Either.left(TaskFailure.unarchiveFailure(UniqueId("taskId"))));
+      when(dataSource)
+          .calls(#archive)
+          .withArgs(positional: [any, any, Toggle(false)]).thenAnswer(
+              (_) async => Either<Failure, TaskModel>.left(
+                  TaskFailure.unarchiveFailure(UniqueId("taskId"))));
       final res = await repository.unarchiveTask(
         Maybe.just(UniqueId("taskId")),
         Maybe.just(UniqueId("userId")),
@@ -219,28 +233,28 @@ void main() {
 
   group("Comments test", () {
     test("delete comment returns the updated task", () async {
-      when(dataSource.deleteComment(any, any, any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#deleteComment).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.deleteComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -253,8 +267,9 @@ void main() {
     });
 
     test("delete comment return error", () async {
-      when(dataSource.deleteComment(any, any, any)).thenAnswer((_) async =>
-          Either.left(TaskFailure.deleteCommentFailure(UniqueId("commentId"))));
+      when(dataSource).calls(#deleteComment).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(
+              TaskFailure.deleteCommentFailure(UniqueId("commentId"))));
       final res = await repository.deleteComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -264,28 +279,28 @@ void main() {
     });
 
     test("edit comment returns the updated task", () async {
-      when(dataSource.patchComment(any, any, any, any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#patchComment).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.editComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -299,8 +314,9 @@ void main() {
     });
 
     test("edit comment return error", () async {
-      when(dataSource.patchComment(any, any, any, any)).thenAnswer((_) async =>
-          Either.left(TaskFailure.editCommentFailure(UniqueId("commentId"))));
+      when(dataSource).calls(#patchComment).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(
+              TaskFailure.editCommentFailure(UniqueId("commentId"))));
       final res = await repository.editComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -311,28 +327,28 @@ void main() {
     });
 
     test("add comment returns the updated task", () async {
-      when(dataSource.postComment(any, any, any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#postComment).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.addComment(
         Maybe.just(UniqueId("taskId")),
         CommentContent("content"),
@@ -345,8 +361,8 @@ void main() {
     });
 
     test("add comment return error", () async {
-      when(dataSource.postComment(any, any, any)).thenAnswer(
-          (_) async => Either.left(TaskFailure.newCommentFailure()));
+      when(dataSource).calls(#postComment).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(TaskFailure.newCommentFailure()));
       final res = await repository.addComment(
         Maybe.just(UniqueId("taskId")),
         CommentContent("content"),
@@ -356,28 +372,28 @@ void main() {
     });
 
     test("like comment returns the updated task", () async {
-      when(dataSource.likeComment(any, any, any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#likeComment).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.likeComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -390,8 +406,9 @@ void main() {
     });
 
     test("like comment return error", () async {
-      when(dataSource.likeComment(any, any, any)).thenAnswer((_) async =>
-          Either.left(TaskFailure.likeFailure(UniqueId("commentId"))));
+      when(dataSource).calls(#likeComment).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(
+              TaskFailure.likeFailure(UniqueId("commentId"))));
       final res = await repository.likeComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -401,28 +418,28 @@ void main() {
     });
 
     test("dislike comment returns the updated task", () async {
-      when(dataSource.dislikeComment(any, any, any)).thenAnswer(
-        (_) async => Either.right(
-          TaskModel(
-            id: "mock_id_1",
-            title: "title",
-            description: "description",
-            labels: null,
-            author: UserModel(
-              id: "mock_id_1",
-              name: "Mock User 1",
-              email: "mock1@email.com",
-              profileColor: null,
+      when(dataSource).calls(#dislikeComment).thenAnswer(
+            (_) async => Either<Failure, TaskModel>.right(
+              TaskModel(
+                id: "mock_id_1",
+                title: "title",
+                description: "description",
+                labels: null,
+                author: UserModel(
+                  id: "mock_id_1",
+                  name: "Mock User 1",
+                  email: "mock1@email.com",
+                  profileColor: null,
+                ),
+                members: null,
+                checklists: null,
+                comments: null,
+                expireDate: null,
+                archived: false,
+                creationDate: DateTime.parse("2020-12-01"),
+              ),
             ),
-            members: null,
-            checklists: null,
-            comments: null,
-            expireDate: null,
-            archived: false,
-            creationDate: DateTime.parse("2020-12-01"),
-          ),
-        ),
-      );
+          );
       final res = await repository.dislikeComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),
@@ -435,8 +452,9 @@ void main() {
     });
 
     test("dislike comment return error", () async {
-      when(dataSource.dislikeComment(any, any, any)).thenAnswer((_) async =>
-          Either.left(TaskFailure.dislikeFailure(UniqueId("commentId"))));
+      when(dataSource).calls(#dislikeComment).thenAnswer((_) async =>
+          Either<Failure, TaskModel>.left(
+              TaskFailure.dislikeFailure(UniqueId("commentId"))));
       final res = await repository.dislikeComment(
         Maybe.just(UniqueId("taskId")),
         UniqueId("commentId"),

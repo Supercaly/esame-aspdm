@@ -1,6 +1,7 @@
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/label.dart';
+import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/repositories/label_repository.dart';
 import 'package:tasky/application/bloc/labels_bloc.dart';
 import 'package:tasky/domain/values/label_values.dart';
@@ -8,7 +9,7 @@ import 'package:tasky/domain/values/unique_id.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_failure.dart';
 
@@ -32,8 +33,8 @@ void main() {
       "emits data on success",
       build: () => LabelsBloc(initialValue: null, repository: repository),
       act: (LabelsBloc bloc) {
-        when(repository.getLabels())
-            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
+        when(repository).calls(#getLabels).thenAnswer((_) =>
+            Future.value(Either<Failure, IList<Label>>.right(IList.empty())));
         bloc.fetch();
       },
       expect: () => [
@@ -46,8 +47,8 @@ void main() {
       "emits error on error",
       build: () => LabelsBloc(initialValue: null, repository: repository),
       act: (LabelsBloc bloc) {
-        when(repository.getLabels())
-            .thenAnswer((_) => Future.value(Either.left(MockFailure())));
+        when(repository).calls(#getLabels).thenAnswer((_) =>
+            Future.value(Either<Failure, IList<Label>>.left(MockFailure())));
         bloc.fetch();
       },
       expect: () => [
@@ -60,25 +61,27 @@ void main() {
       "emits on select",
       build: () => LabelsBloc(initialValue: null, repository: repository),
       act: (LabelsBloc bloc) async {
-        when(repository.getLabels()).thenAnswer((_) async => Either.right(
-              IList.from([
-                Label.test(
-                  id: UniqueId("label1"),
-                  color: LabelColor(Colors.red),
-                  label: LabelName("Label 1"),
-                ),
-                Label.test(
-                  id: UniqueId("label2"),
-                  color: LabelColor(Colors.green),
-                  label: LabelName("Label 2"),
-                ),
-                Label.test(
-                  id: UniqueId("label3"),
-                  color: LabelColor(Colors.blue),
-                  label: LabelName("Label 3"),
-                ),
-              ]),
-            ));
+        when(repository)
+            .calls(#getLabels)
+            .thenAnswer((_) async => Either<Failure, IList<Label>>.right(
+                  IList.from([
+                    Label.test(
+                      id: UniqueId("label1"),
+                      color: LabelColor(Colors.red),
+                      label: LabelName("Label 1"),
+                    ),
+                    Label.test(
+                      id: UniqueId("label2"),
+                      color: LabelColor(Colors.green),
+                      label: LabelName("Label 2"),
+                    ),
+                    Label.test(
+                      id: UniqueId("label3"),
+                      color: LabelColor(Colors.blue),
+                      label: LabelName("Label 3"),
+                    ),
+                  ]),
+                ));
         await bloc.fetch();
         bloc.selectLabel(
           Label.test(

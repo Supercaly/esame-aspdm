@@ -2,12 +2,13 @@ import 'package:tasky/application/bloc/members_bloc.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/user.dart';
+import 'package:tasky/domain/failures/failures.dart';
 import 'package:tasky/domain/repositories/members_repository.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/domain/values/user_values.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_failure.dart';
 
@@ -31,8 +32,8 @@ void main() {
       "emits data on success",
       build: () => MembersBloc(initialValue: null, repository: repository),
       act: (MembersBloc bloc) {
-        when(repository.getUsers())
-            .thenAnswer((_) => Future.value(Either.right(IList.empty())));
+        when(repository).calls(#getUsers).thenAnswer((_) =>
+            Future.value(Either<Failure, IList<User>>.right(IList.empty())));
         bloc.fetch();
       },
       expect: () => [
@@ -45,8 +46,8 @@ void main() {
       "emits error on error",
       build: () => MembersBloc(initialValue: null, repository: repository),
       act: (MembersBloc bloc) {
-        when(repository.getUsers())
-            .thenAnswer((_) => Future.value(Either.left(MockFailure())));
+        when(repository).calls(#getUsers).thenAnswer((_) =>
+            Future.value(Either<Failure, IList<User>>.left(MockFailure())));
         bloc.fetch();
       },
       expect: () => [
@@ -59,25 +60,27 @@ void main() {
       "emits on select",
       build: () => MembersBloc(initialValue: null, repository: repository),
       act: (MembersBloc bloc) async {
-        when(repository.getUsers()).thenAnswer((_) async => Either.right(
-              IList.from([
-                User.test(
-                  id: UniqueId("user1"),
-                  name: UserName("User 1"),
-                  email: EmailAddress("user1@email.com"),
-                ),
-                User.test(
-                  id: UniqueId("user2"),
-                  name: UserName("User 2"),
-                  email: EmailAddress("user2@email.com"),
-                ),
-                User.test(
-                  id: UniqueId("user3"),
-                  name: UserName("User 3"),
-                  email: EmailAddress("user3@email.com"),
-                ),
-              ]),
-            ));
+        when(repository)
+            .calls(#getUsers)
+            .thenAnswer((_) async => Either<Failure, IList<User>>.right(
+                  IList.from([
+                    User.test(
+                      id: UniqueId("user1"),
+                      name: UserName("User 1"),
+                      email: EmailAddress("user1@email.com"),
+                    ),
+                    User.test(
+                      id: UniqueId("user2"),
+                      name: UserName("User 2"),
+                      email: EmailAddress("user2@email.com"),
+                    ),
+                    User.test(
+                      id: UniqueId("user3"),
+                      name: UserName("User 3"),
+                      email: EmailAddress("user3@email.com"),
+                    ),
+                  ]),
+                ));
         await bloc.fetch();
         bloc.selectMember(
           User.test(
