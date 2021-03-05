@@ -37,7 +37,7 @@ dependencies:
   freezed_annotation: ^0.12.0
 
   # Misc. dependencies
-  mockito: ^4.1.3
+  mocktail: ^0.0.1-dev.12
   connectivity: ^3.0.0
   loading_overlay: ^0.2.1
   package_info: ^2.0.0
