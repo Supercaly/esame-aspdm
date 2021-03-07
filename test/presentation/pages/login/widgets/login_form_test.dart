@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/application/bloc/login_bloc.dart';
 import 'package:tasky/presentation/pages/login/widgets/login_form.dart';
@@ -12,6 +13,8 @@ import '../../../../mocks/mock_log_service.dart';
 import '../../../../widget_tester_extension.dart';
 
 void main() {
+  EasyLocalization.ensureInitialized();
+
   group("LoginForm test", () {
     LogService logService;
     LoginBloc loginBloc;
