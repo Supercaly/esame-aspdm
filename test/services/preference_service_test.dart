@@ -15,12 +15,7 @@ void main() {
   PreferenceService service;
 
   test("get stored user", () async {
-    SharedPreferences.setMockInitialValues({
-      "user_id": null,
-      "user_name": null,
-      "user_email": null,
-      "user_color": null,
-    });
+    SharedPreferences.setMockInitialValues({});
     service = PreferenceService();
     await service.init();
 
@@ -52,12 +47,7 @@ void main() {
   });
 
   test("store null user", () async {
-    SharedPreferences.setMockInitialValues({
-      "user_id": null,
-      "user_name": null,
-      "user_email": null,
-      "user_color": null,
-    });
+    SharedPreferences.setMockInitialValues({});
     mockPreferences = await SharedPreferences.getInstance();
     service = PreferenceService();
     await service.init();
@@ -79,12 +69,7 @@ void main() {
   });
 
   test("store real user", () async {
-    SharedPreferences.setMockInitialValues({
-      "user_id": null,
-      "user_name": null,
-      "user_email": null,
-      "user_color": null,
-    });
+    SharedPreferences.setMockInitialValues({});
     mockPreferences = await SharedPreferences.getInstance();
     service = PreferenceService();
     await service.init();

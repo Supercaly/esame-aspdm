@@ -1,12 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:tasky/locator.dart';
 import 'package:tasky/presentation/app_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart' as intl;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await intl.initializeDateFormatting("en");
+  await EasyLocalization.ensureInitialized();
 
   // Initialize Firebase
   await Firebase.initializeApp();

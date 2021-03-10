@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/application/bloc/login_bloc.dart';
 import 'package:tasky/presentation/pages/login/widgets/login_form.dart';
@@ -11,7 +12,10 @@ import '../../../../mocks/mock_login_bloc.dart';
 import '../../../../mocks/mock_log_service.dart';
 import '../../../../widget_tester_extension.dart';
 
-void main() {
+void main() async {
+  EasyLocalization.logger.enableBuildModes = [];
+  await EasyLocalization.ensureInitialized();
+
   group("LoginForm test", () {
     LogService logService;
     LoginBloc loginBloc;
@@ -35,13 +39,7 @@ void main() {
     });
 
     testWidgets("create widget with success", (tester) async {
-      await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: LoginForm(),
-          ),
-        ),
-      );
+      await tester.pumpLocalizedWidget(LoginForm());
 
       expect(find.text("Email"), findsOneWidget);
       expect(find.text("Password"), findsOneWidget);
@@ -53,13 +51,9 @@ void main() {
           .calls(#login)
           .thenAnswer((_) async => Either.right(Unit()));
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<LoginBloc>.value(
-              value: loginBloc,
-              child: LoginForm(),
-            ),
-          ),
+        BlocProvider<LoginBloc>.value(
+          value: loginBloc,
+          child: LoginForm(),
         ),
       );
 
@@ -76,13 +70,9 @@ void main() {
       when(loginBloc).calls(#login).withArgs(
           positional: [any, any]).thenAnswer((_) async => Either.right(Unit()));
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<LoginBloc>.value(
-              value: loginBloc,
-              child: LoginForm(),
-            ),
-          ),
+        BlocProvider<LoginBloc>.value(
+          value: loginBloc,
+          child: LoginForm(),
         ),
       );
 
