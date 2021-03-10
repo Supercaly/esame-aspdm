@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -7,7 +8,10 @@ import '../../widget_tester_extension.dart';
 
 class MockConnectivityService extends Mock implements ConnectivityService {}
 
-void main() {
+void main() async {
+  EasyLocalization.logger.enableBuildModes = [];
+  await EasyLocalization.ensureInitialized();
+
   group("ConnectionStateListener test", () {
     ConnectivityService service;
 
@@ -21,13 +25,9 @@ void main() {
           .thenAnswer((_) => Stream.value(ConnectivityState.connected));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ConnectionStateListener(
-              child: Text("body"),
-              connectivityService: service,
-            ),
-          ),
+        ConnectionStateListener(
+          child: Text("body"),
+          connectivityService: service,
         ),
       );
 
@@ -41,13 +41,9 @@ void main() {
           .thenAnswer((_) => Stream.value(ConnectivityState.unknown));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ConnectionStateListener(
-              child: Text("body"),
-              connectivityService: service,
-            ),
-          ),
+        ConnectionStateListener(
+          child: Text("body"),
+          connectivityService: service,
         ),
       );
 
@@ -61,13 +57,9 @@ void main() {
           .thenAnswer((_) => Stream.value(ConnectivityState.none));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ConnectionStateListener(
-              child: Text("body"),
-              connectivityService: service,
-            ),
-          ),
+        ConnectionStateListener(
+          child: Text("body"),
+          connectivityService: service,
         ),
       );
 
@@ -84,13 +76,9 @@ void main() {
           );
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ConnectionStateListener(
-              child: Text("body"),
-              connectivityService: service,
-            ),
-          ),
+        ConnectionStateListener(
+          child: Text("body"),
+          connectivityService: service,
         ),
       );
 

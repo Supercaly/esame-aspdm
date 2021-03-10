@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:tasky/application/bloc/checklist_form_bloc.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
@@ -12,7 +13,10 @@ import '../../../../widget_tester_extension.dart';
 class MockChecklistFormBloc extends MockCubit<ChecklistFormState>
     implements ChecklistFormBloc {}
 
-void main() {
+void main() async {
+  EasyLocalization.logger.enableBuildModes = [];
+  await EasyLocalization.ensureInitialized();
+
   group("ChecklistFormTitleWidget test", () {
     ChecklistFormBloc bloc;
 
@@ -28,15 +32,11 @@ void main() {
           .thenReturn(ChecklistFormState.initial(ChecklistPrimitive.empty()));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormTitleWidget(),
-              ),
-            ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormTitleWidget(),
           ),
         ),
       );
@@ -59,15 +59,11 @@ void main() {
           );
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormTitleWidget(),
-              ),
-            ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormTitleWidget(),
           ),
         ),
       );
@@ -82,15 +78,11 @@ void main() {
           .thenReturn(ChecklistFormState.initial(ChecklistPrimitive.empty()));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormTitleWidget(),
-              ),
-            ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormTitleWidget(),
           ),
         ),
       );
@@ -125,15 +117,11 @@ void main() {
       );
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormNewItemWidget(),
-              ),
-            ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormNewItemWidget(),
           ),
         ),
       );
@@ -149,15 +137,11 @@ void main() {
       when(bloc).calls(#addItem).thenReturn();
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormNewItemWidget(),
-              ),
-            ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormNewItemWidget(),
           ),
         ),
       );
@@ -183,16 +167,12 @@ void main() {
     testWidgets("display item correctly", (tester) async {
       final form = GlobalKey<FormState>();
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormItem(
-                  item: ItemText("Mock item"),
-                ),
-              ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormItem(
+              item: ItemText("Mock item"),
             ),
           ),
         ),
@@ -205,16 +185,12 @@ void main() {
       when(bloc).calls(#editItem).thenReturn();
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormItem(
-                  item: ItemText("Mock item"),
-                ),
-              ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormItem(
+              item: ItemText("Mock item"),
             ),
           ),
         ),
@@ -235,15 +211,11 @@ void main() {
       when(bloc).calls(#editItem).thenReturn();
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: form,
-              child: BlocProvider<ChecklistFormBloc>.value(
-                value: bloc,
-                child: ChecklistFormItem(item: ItemText("Mock item")),
-              ),
-            ),
+        Form(
+          key: form,
+          child: BlocProvider<ChecklistFormBloc>.value(
+            value: bloc,
+            child: ChecklistFormItem(item: ItemText("Mock item")),
           ),
         ),
       );

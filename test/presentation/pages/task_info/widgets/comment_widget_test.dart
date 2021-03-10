@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/core/ilist.dart';
@@ -15,7 +16,10 @@ import 'package:mocktail/mocktail.dart';
 import '../../../../mocks/mock_auth_bloc.dart';
 import '../../../../widget_tester_extension.dart';
 
-void main() {
+void main() async {
+  EasyLocalization.logger.enableBuildModes = [];
+  await EasyLocalization.ensureInitialized();
+
   group("LikeButton test", () {
     testWidgets("create button successfully", (tester) async {
       await tester.pumpWidget(
@@ -102,15 +106,11 @@ void main() {
       CommentContent contentSent;
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AddCommentWidget(
-              onNewComment: (comment) {
-                commentSent = true;
-                contentSent = comment;
-              },
-            ),
-          ),
+        AddCommentWidget(
+          onNewComment: (comment) {
+            commentSent = true;
+            contentSent = comment;
+          },
         ),
       );
 
@@ -145,24 +145,20 @@ void main() {
           .calls(#state)
           .thenReturn(AuthState.initial(Maybe.nothing()));
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<AuthBloc>.value(
-              value: authBloc,
-              child: CommentWidget(
-                comment: Comment.test(
-                  id: UniqueId("comment_id"),
-                  content: CommentContent("Mock comment content"),
-                  author: User.test(
-                    id: UniqueId("user_id"),
-                    name: UserName("User 1"),
-                    email: EmailAddress("user@mock.com"),
-                  ),
-                  likes: IList.empty(),
-                  dislikes: IList.empty(),
-                  creationDate: CreationDate(DateTime.now()),
-                ),
+        BlocProvider<AuthBloc>.value(
+          value: authBloc,
+          child: CommentWidget(
+            comment: Comment.test(
+              id: UniqueId("comment_id"),
+              content: CommentContent("Mock comment content"),
+              author: User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
               ),
+              likes: IList.empty(),
+              dislikes: IList.empty(),
+              creationDate: CreationDate(DateTime.now()),
             ),
           ),
         ),
@@ -185,24 +181,20 @@ void main() {
             ),
           ));
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<AuthBloc>.value(
-              value: authBloc,
-              child: CommentWidget(
-                comment: Comment.test(
-                  id: UniqueId("comment_id"),
-                  content: CommentContent("Mock comment content"),
-                  author: User.test(
-                    id: UniqueId("user_id"),
-                    name: UserName("User 1"),
-                    email: EmailAddress("user@mock.com"),
-                  ),
-                  likes: IList.empty(),
-                  dislikes: IList.empty(),
-                  creationDate: CreationDate(DateTime.now()),
-                ),
+        BlocProvider<AuthBloc>.value(
+          value: authBloc,
+          child: CommentWidget(
+            comment: Comment.test(
+              id: UniqueId("comment_id"),
+              content: CommentContent("Mock comment content"),
+              author: User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
               ),
+              likes: IList.empty(),
+              dislikes: IList.empty(),
+              creationDate: CreationDate(DateTime.now()),
             ),
           ),
         ),
@@ -227,26 +219,22 @@ void main() {
           ));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<AuthBloc>.value(
-              value: authBloc,
-              child: CommentWidget(
-                comment: Comment.test(
-                  id: UniqueId("comment_id"),
-                  content: CommentContent("Mock comment content"),
-                  author: User.test(
-                    id: UniqueId("user_id"),
-                    name: UserName("User 1"),
-                    email: EmailAddress("user@mock.com"),
-                  ),
-                  likes: IList.empty(),
-                  dislikes: IList.empty(),
-                  creationDate: CreationDate(DateTime.now()),
-                ),
-                onEdit: (comment) => editedComment = comment,
+        BlocProvider<AuthBloc>.value(
+          value: authBloc,
+          child: CommentWidget(
+            comment: Comment.test(
+              id: UniqueId("comment_id"),
+              content: CommentContent("Mock comment content"),
+              author: User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
               ),
+              likes: IList.empty(),
+              dislikes: IList.empty(),
+              creationDate: CreationDate(DateTime.now()),
             ),
+            onEdit: (comment) => editedComment = comment,
           ),
         ),
       );
@@ -299,26 +287,22 @@ void main() {
           ));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<AuthBloc>.value(
-              value: authBloc,
-              child: CommentWidget(
-                comment: Comment.test(
-                  id: UniqueId("comment_id"),
-                  content: CommentContent("Mock comment content"),
-                  author: User.test(
-                    id: UniqueId("user_id"),
-                    name: UserName("User 1"),
-                    email: EmailAddress("user@mock.com"),
-                  ),
-                  likes: IList.empty(),
-                  dislikes: IList.empty(),
-                  creationDate: CreationDate(DateTime.now()),
-                ),
-                onDelete: () => deleteComment = true,
+        BlocProvider<AuthBloc>.value(
+          value: authBloc,
+          child: CommentWidget(
+            comment: Comment.test(
+              id: UniqueId("comment_id"),
+              content: CommentContent("Mock comment content"),
+              author: User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
               ),
+              likes: IList.empty(),
+              dislikes: IList.empty(),
+              creationDate: CreationDate(DateTime.now()),
             ),
+            onDelete: () => deleteComment = true,
           ),
         ),
       );
@@ -349,33 +333,29 @@ void main() {
       bool commentDisliked = false;
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<AuthBloc>.value(
-              value: authBloc,
-              child: CommentWidget(
-                comment: Comment.test(
-                  id: UniqueId("comment_id"),
-                  content: CommentContent("Mock comment content"),
-                  author: User.test(
-                    id: UniqueId("user_id"),
-                    name: UserName("User 1"),
-                    email: EmailAddress("user@mock.com"),
-                  ),
-                  likes: IList.empty(),
-                  dislikes: IList.empty(),
-                  creationDate: CreationDate(DateTime.now()),
-                ),
-                onLike: () {
-                  commentLiked = true;
-                  commentDisliked = false;
-                },
-                onDislike: () {
-                  commentLiked = false;
-                  commentDisliked = true;
-                },
+        BlocProvider<AuthBloc>.value(
+          value: authBloc,
+          child: CommentWidget(
+            comment: Comment.test(
+              id: UniqueId("comment_id"),
+              content: CommentContent("Mock comment content"),
+              author: User.test(
+                id: UniqueId("user_id"),
+                name: UserName("User 1"),
+                email: EmailAddress("user@mock.com"),
               ),
+              likes: IList.empty(),
+              dislikes: IList.empty(),
+              creationDate: CreationDate(DateTime.now()),
             ),
+            onLike: () {
+              commentLiked = true;
+              commentDisliked = false;
+            },
+            onDislike: () {
+              commentLiked = false;
+              commentDisliked = true;
+            },
           ),
         ),
       );

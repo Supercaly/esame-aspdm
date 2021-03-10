@@ -1,18 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:tasky/presentation/pages/task_info/widgets/ago.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../../widget_tester_extension.dart';
 
-void main() {
+void main() async {
+  EasyLocalization.logger.enableBuildModes = [];
+  await EasyLocalization.ensureInitialized();
+
   group("AgoTest test", () {
     testWidgets("create widget with valid time", (tester) async {
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Ago(
-              time: DateTime.now().subtract(Duration(hours: 1)),
-            ),
-          ),
+        Ago(
+          time: DateTime.now().subtract(Duration(hours: 1)),
         ),
       );
       expect(find.text("about an hour ago"), findsOneWidget);
@@ -20,12 +19,8 @@ void main() {
 
     testWidgets("create widget with no time", (tester) async {
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Ago(
-              placeholder: "no time",
-            ),
-          ),
+        Ago(
+          placeholder: "no time",
         ),
       );
       expect(find.text("no time"), findsOneWidget);

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:tasky/application/bloc/task_form_bloc.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/task.dart';
@@ -14,7 +15,10 @@ import '../../../../widget_tester_extension.dart';
 class MockTaskFormBloc extends MockCubit<TaskFormState>
     implements TaskFormBloc {}
 
-void main() {
+void main() async {
+  EasyLocalization.logger.enableBuildModes = [];
+  await EasyLocalization.ensureInitialized();
+
   group("TaskFormInputWidget tests", () {
     testWidgets("create with null initial data", (tester) async {
       final bloc = MockTaskFormBloc();
@@ -22,13 +26,9 @@ void main() {
           .calls(#state)
           .thenReturn(TaskFormState.initial(Maybe.nothing()));
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<TaskFormBloc>.value(
-              value: bloc,
-              child: TaskFormInputWidget(),
-            ),
-          ),
+        BlocProvider<TaskFormBloc>.value(
+          value: bloc,
+          child: TaskFormInputWidget(),
         ),
       );
 
@@ -49,13 +49,9 @@ void main() {
           .thenReturn(TaskFormState.initial(Maybe.just(task)));
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<TaskFormBloc>.value(
-              value: bloc,
-              child: TaskFormInputWidget(),
-            ),
-          ),
+        BlocProvider<TaskFormBloc>.value(
+          value: bloc,
+          child: TaskFormInputWidget(),
         ),
       );
 
@@ -80,13 +76,9 @@ void main() {
           .withArgs(positional: [any]).thenReturn(null);
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider<TaskFormBloc>.value(
-              value: bloc,
-              child: TaskFormInputWidget(),
-            ),
-          ),
+        BlocProvider<TaskFormBloc>.value(
+          value: bloc,
+          child: TaskFormInputWidget(),
         ),
       );
 
@@ -118,15 +110,11 @@ void main() {
           .withArgs(positional: [any]).thenReturn(null);
 
       await tester.pumpLocalizedWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Form(
-              key: formKey,
-              child: BlocProvider<TaskFormBloc>.value(
-                value: bloc,
-                child: TaskFormInputWidget(),
-              ),
-            ),
+        Form(
+          key: formKey,
+          child: BlocProvider<TaskFormBloc>.value(
+            value: bloc,
+            child: TaskFormInputWidget(),
           ),
         ),
       );

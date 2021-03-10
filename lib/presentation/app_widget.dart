@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/application/bloc/auth_bloc.dart';
 import 'package:tasky/domain/repositories/auth_repository.dart';
 import 'package:tasky/locator.dart';
-import 'package:tasky/presentation/generated/gen_colors.g.dart';
 import 'package:tasky/presentation/routes.dart';
 import 'package:tasky/presentation/theme.dart';
 import 'package:tasky/presentation/widgets/service_manager.dart';
@@ -24,22 +23,28 @@ class AppWidget extends StatelessWidget {
       path: "assets/translations",
       assetLoader: CodegenLoader(),
       fallbackLocale: Locale('en'),
-      preloaderColor: EasyColors.primary,
-      child: BlocProvider<AuthBloc>(
-        create: (context) =>
-            AuthBloc(repository: locator<AuthRepository>())..checkAuth(),
-        child: ServiceManager(
-          notificationService: locator<NotificationService>(),
-          linkService: locator<LinkService>(),
-          child: MaterialApp(
-            title: "Tasky App",
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            navigatorKey: locator<NavigationService>().navigationKey,
-            onGenerateRoute: Routes.onGenerateRoute,
-            initialRoute: Routes.splash,
-          ),
-        ),
+      child: Builder(
+        builder: (context) =>
+            BlocProvider<AuthBloc>(
+              create: (context) =>
+              AuthBloc(repository: locator<AuthRepository>())
+                ..checkAuth(),
+              child: ServiceManager(
+                notificationService: locator<NotificationService>(),
+                linkService: locator<LinkService>(),
+                child: MaterialApp(
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+                  localizationsDelegates: context.localizationDelegates,
+                  title: "Tasky App",
+                  theme: lightTheme,
+                  darkTheme: darkTheme,
+                  navigatorKey: locator<NavigationService>().navigationKey,
+                  onGenerateRoute: Routes.onGenerateRoute,
+                  initialRoute: Routes.splash,
+                ),
+              ),
+            ),
       ),
     );
   }
