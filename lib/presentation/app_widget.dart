@@ -24,27 +24,25 @@ class AppWidget extends StatelessWidget {
       assetLoader: CodegenLoader(),
       fallbackLocale: Locale('en'),
       child: Builder(
-        builder: (context) =>
-            BlocProvider<AuthBloc>(
-              create: (context) =>
-              AuthBloc(repository: locator<AuthRepository>())
-                ..checkAuth(),
-              child: ServiceManager(
-                notificationService: locator<NotificationService>(),
-                linkService: locator<LinkService>(),
-                child: MaterialApp(
-                  supportedLocales: context.supportedLocales,
-                  locale: context.locale,
-                  localizationsDelegates: context.localizationDelegates,
-                  title: "Tasky App",
-                  theme: lightTheme,
-                  darkTheme: darkTheme,
-                  navigatorKey: locator<NavigationService>().navigationKey,
-                  onGenerateRoute: Routes.onGenerateRoute,
-                  initialRoute: Routes.splash,
-                ),
-              ),
+        builder: (context) => BlocProvider<AuthBloc>(
+          create: (context) =>
+              AuthBloc(repository: locator<AuthRepository>())..checkAuth(),
+          child: ServiceManager(
+            notificationService: locator<NotificationService>(),
+            linkService: locator<LinkService>(),
+            child: MaterialApp(
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              localizationsDelegates: context.localizationDelegates,
+              title: "Tasky App",
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              navigatorKey: locator<NavigationService>().navigationKey,
+              onGenerateRoute: Routes.onGenerateRoute,
+              initialRoute: Routes.splash,
             ),
+          ),
+        ),
       ),
     );
   }
