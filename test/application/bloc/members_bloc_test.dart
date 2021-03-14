@@ -16,7 +16,7 @@ class MockMembersRepository extends Mock implements MembersRepository {}
 
 void main() {
   group("MembersBloc Tests", () {
-    MembersRepository repository;
+    late MembersRepository repository;
 
     setUp(() {
       repository = MockMembersRepository();

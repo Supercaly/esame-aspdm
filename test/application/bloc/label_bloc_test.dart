@@ -17,7 +17,7 @@ class MockLabelRepository extends Mock implements LabelRepository {}
 
 void main() {
   group("LabelsBloc Tests", () {
-    LabelRepository repository;
+    late LabelRepository repository;
 
     setUp(() {
       repository = MockLabelRepository();

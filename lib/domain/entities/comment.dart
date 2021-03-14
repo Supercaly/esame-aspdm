@@ -27,12 +27,12 @@ class Comment extends Equatable {
 
   /// Create a new [Comment] with all his values.
   const Comment({
-    @required this.id,
-    @required this.content,
-    @required this.author,
-    @required this.likes,
-    @required this.dislikes,
-    @required this.creationDate,
+    required this.id,
+    required this.content,
+    required this.author,
+    required this.likes,
+    required this.dislikes,
+    required this.creationDate,
   });
 
   /// Create a new [Comment] with some of his values.
@@ -40,17 +40,17 @@ class Comment extends Equatable {
   /// will be used instead.
   @visibleForTesting
   factory Comment.test({
-    UniqueId id,
-    CommentContent content,
-    User author,
-    IList<User> likes,
-    IList<User> dislikes,
-    CreationDate creationDate,
+    UniqueId? id,
+    CommentContent? content,
+    User? author,
+    IList<User>? likes,
+    IList<User>? dislikes,
+    CreationDate? creationDate,
   }) =>
       Comment(
         id: id ?? UniqueId.empty(),
         content: content ?? CommentContent(null),
-        author: author,
+        author: author ?? User.empty(),
         likes: likes ?? IList.empty(),
         dislikes: dislikes ?? IList.empty(),
         creationDate: creationDate ?? CreationDate(null),
@@ -68,6 +68,6 @@ class Comment extends Equatable {
 
   @override
   String toString() => 'Comment{id: $id, content: $content, author: $author, '
-      'likes: ${likes?.length}, dislikes: ${dislikes?.length}, '
+      'likes: ${likes.length}, dislikes: ${dislikes.length}, '
       'creationDate: $creationDate}';
 }

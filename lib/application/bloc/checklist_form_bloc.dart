@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Cubit class used to manage the state of the checklist form page and dialog.
 class ChecklistFormBloc extends Cubit<ChecklistFormState> {
-  ChecklistFormBloc({@required ChecklistPrimitive initialValue})
+  ChecklistFormBloc({required ChecklistPrimitive? initialValue})
       : super(ChecklistFormState.initial(initialValue));
 
   /// Called when the title of the checklist changes.
@@ -63,7 +63,7 @@ class ChecklistFormState extends Equatable {
   ChecklistFormState(this.primitive, this.isSave);
 
   /// Constructor for the initial state.
-  factory ChecklistFormState.initial(ChecklistPrimitive value) =>
+  factory ChecklistFormState.initial(ChecklistPrimitive? value) =>
       ChecklistFormState(
         value ?? ChecklistPrimitive(title: "Checklist", items: IList.empty()),
         false,
@@ -71,8 +71,8 @@ class ChecklistFormState extends Equatable {
 
   /// Returns a copy of [MembersState] with some field changed.
   ChecklistFormState copyWith({
-    ChecklistPrimitive primitive,
-    bool isSave,
+    ChecklistPrimitive? primitive,
+    bool? isSave,
   }) =>
       ChecklistFormState(
         primitive ?? this.primitive,

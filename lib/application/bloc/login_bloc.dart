@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/entities/user.dart';
@@ -12,7 +11,7 @@ import 'package:tasky/core/either.dart';
 class LoginBloc extends Cubit<LoginState> {
   final AuthRepository _repository;
 
-  LoginBloc({@required AuthRepository repository})
+  LoginBloc({required AuthRepository repository})
       : _repository = repository,
         super(LoginState(false, Maybe.nothing()));
 
@@ -42,8 +41,8 @@ class LoginState extends Equatable {
   const LoginState(this.isLoading, this.authFailureOrSuccessOption);
 
   LoginState copyWith({
-    bool isLoading,
-    Maybe<Either<Failure, User>> authFailureOrSuccessOption,
+    bool? isLoading,
+    Maybe<Either<Failure, User>>? authFailureOrSuccessOption,
   }) =>
       LoginState(
         isLoading ?? this.isLoading,

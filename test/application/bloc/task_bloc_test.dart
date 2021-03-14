@@ -21,9 +21,9 @@ class MockLinkService extends Mock implements LinkService {}
 
 void main() {
   group("TaskBloc Tests", () {
-    TaskRepository repository;
-    LogService logService;
-    LinkService linkService;
+    late TaskRepository repository;
+    late LogService logService;
+    late LinkService linkService;
 
     setUp(() {
       repository = MockTaskRepository();

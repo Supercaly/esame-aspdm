@@ -17,16 +17,16 @@ class TaskBloc extends Cubit<TaskState> {
   final TaskRepository _repository;
   final LogService _logService;
   final LinkService _linkService;
-  StreamSubscription<Either<Failure, Task>> _taskSubscription;
+  StreamSubscription<Either<Failure, Task?>>? _taskSubscription;
 
   /// Id of the task that we want to display.
   final Maybe<UniqueId> _taskId;
 
   TaskBloc({
-    @required Maybe<UniqueId> taskId,
-    @required TaskRepository repository,
-    @required LogService logService,
-    @required LinkService linkService,
+    required Maybe<UniqueId>? taskId,
+    required TaskRepository repository,
+    required LogService logService,
+    required LinkService linkService,
   })  : _taskId = taskId ?? Maybe<UniqueId>.nothing(),
         _repository = repository,
         _logService = logService,
@@ -223,10 +223,10 @@ class TaskState extends Equatable {
   final bool hasError;
 
   /// The task to display.
-  final Task data;
+  final Task? data;
 
   /// The generated sharable link.
-  final String shareLink;
+  final String? shareLink;
 
   /// Tells the widget that there was an error sharing.
   final bool shareError;
@@ -245,11 +245,11 @@ class TaskState extends Equatable {
 
   /// Returns a copy of [TaskState] with some field changed.
   TaskState copyWith({
-    Task data,
-    bool isLoading,
-    bool hasError,
-    bool shareError,
-    Maybe<String> shareLink,
+    Task? data,
+    bool? isLoading,
+    bool? hasError,
+    bool? shareError,
+    Maybe<String>? shareLink,
   }) =>
       TaskState(
         data ?? this.data,
@@ -267,5 +267,5 @@ class TaskState extends Equatable {
       "shareError: $shareError}";
 
   @override
-  List<Object> get props => [isLoading, hasError, data, shareLink, shareError];
+  List<Object?> get props => [isLoading, hasError, data, shareLink, shareError];
 }
