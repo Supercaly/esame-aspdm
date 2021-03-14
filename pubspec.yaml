@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -33,21 +33,21 @@ dependencies:
   firebase_dynamic_links: ^0.8.0
 
   # Annotations
-  json_annotation: ^3.0.0 #^4.0.0
-  freezed_annotation: ^0.12.0 #^0.14.0
+  json_annotation: ^4.0.0
+  freezed_annotation: ^0.14.0
 
   # Misc. dependencies
   mocktail: ^0.0.1-dev.12
   connectivity: ^3.0.0
-  loading_overlay: ^0.2.1 #^0.3.0
+  loading_overlay: ^0.3.0
   package_info: ^2.0.0
   app_settings: ^4.1.0
   share: ^2.0.0
   easy_localization: ^3.0.0
-  flutter_feather_icons: ^1.0.3
-    #git:
-     # url: https://github.com/II11II/flutter_feather_icons.git
-  sliding_sheet: ^0.4.1
+  flutter_feather_icons:
+    git:
+      url: https://github.com/II11II/flutter_feather_icons.git
+  sliding_sheet: ^0.5.0
   circular_check_box:
     git:
       url: https://github.com/Supercaly/circular_check_box.git
@@ -58,9 +58,9 @@ dev_dependencies:
 
   easy_colors: ^0.0.2
   build_runner: ^1.0.0
-  freezed: ^0.12.7
-  json_serializable: ^3.2.0 #^4.0.2
-  flutter_launcher_icons: ^0.9.0 #^0.14.0+1
+  freezed: ^0.14.0+1
+  json_serializable: ^4.0.2
+  flutter_launcher_icons: ^0.9.0
 
 flutter:
   uses-material-design: true
