@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/entities/checklist.dart';
 import 'package:tasky/domain/values/task_values.dart';
@@ -15,16 +14,16 @@ class ChecklistModel extends Equatable {
     required: true,
     disallowNullValue: true,
   )
-  final String id;
+  final String? id;
 
-  final String title;
+  final String? title;
 
-  final List<ChecklistItemModel> items;
+  final List<ChecklistItemModel>? items;
 
   ChecklistModel({
-    @required this.id,
-    @required this.title,
-    @required this.items,
+    required this.id,
+    required this.title,
+    required this.items,
   });
 
   factory ChecklistModel.fromJson(Map<String, dynamic> json) =>
@@ -36,8 +35,8 @@ class ChecklistModel extends Equatable {
         id: checklist.id.value.getOrNull(),
         title: checklist.title.value.getOrNull(),
         items: checklist.items
-            ?.map((e) => ChecklistItemModel.fromDomain(e))
-            ?.asList(),
+            .map((e) => ChecklistItemModel.fromDomain(e))
+            .asList(),
       );
 
   Checklist toDomain() => Checklist(
@@ -47,7 +46,7 @@ class ChecklistModel extends Equatable {
       );
 
   @override
-  List<Object> get props => [id, title, items];
+  List<Object?> get props => [id, title, items];
 }
 
 @JsonSerializable()
@@ -57,17 +56,17 @@ class ChecklistItemModel extends Equatable {
     required: true,
     disallowNullValue: true,
   )
-  final String id;
+  final String? id;
 
-  final String item;
+  final String? item;
 
   @JsonKey(defaultValue: false)
-  final bool complete;
+  final bool? complete;
 
   ChecklistItemModel({
-    @required this.id,
-    @required this.item,
-    @required this.complete,
+    required this.id,
+    required this.item,
+    required this.complete,
   });
 
   factory ChecklistItemModel.fromJson(Map<String, dynamic> json) =>
@@ -89,5 +88,5 @@ class ChecklistItemModel extends Equatable {
       );
 
   @override
-  List<Object> get props => [id, item, complete];
+  List<Object?> get props => [id, item, complete];
 }

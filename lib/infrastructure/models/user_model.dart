@@ -12,26 +12,26 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel extends Equatable {
   @JsonKey(name: "_id", required: true, disallowNullValue: true)
-  final String id;
+  final String? id;
 
   @JsonKey(required: true, disallowNullValue: true)
-  final String name;
+  final String? name;
 
   @JsonKey(required: true, disallowNullValue: true)
-  final String email;
+  final String? email;
 
   @JsonKey(
     name: "profile_color",
     toJson: colorToJson,
     fromJson: colorFromJson,
   )
-  final Color profileColor;
+  final Color? profileColor;
 
   UserModel({
-    @required this.id,
-    @required this.name,
-    @required this.email,
-    @required this.profileColor,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.profileColor,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -43,7 +43,7 @@ class UserModel extends Equatable {
         id: user.id.value.getOrNull(),
         name: user.name.value.getOrNull(),
         email: user.email.value.getOrNull(),
-        profileColor: user.profileColor?.getOrNull()?.value?.getOrNull(),
+        profileColor: user.profileColor.getOrNull()?.value.getOrNull(),
       );
 
   User toDomain() => User(
@@ -56,5 +56,5 @@ class UserModel extends Equatable {
       );
 
   @override
-  List<Object> get props => [id, name, email, profileColor];
+  List<Object?> get props => [id, name, email, profileColor];
 }

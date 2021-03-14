@@ -61,9 +61,6 @@ class RemoteDataSource {
     EmailAddress email,
     Password password,
   ) async {
-    assert(email != null);
-    assert(password != null);
-
     final res = await post("/authenticate", {
       "email": email.value.getOrCrash(),
       "password": password.value.getOrCrash(),
@@ -125,12 +122,9 @@ class RemoteDataSource {
   }
 
   /// Returns a [Either] with a [Failure] or a [TaskModel] with given [taskId].
-  Future<Either<Failure, TaskModel>> getTask(UniqueId taskId) async {
-    assert(taskId != null);
-
+  Future<Either<Failure, TaskModel?>> getTask(UniqueId taskId) async {
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
 
     final res = await get("/task/${taskId.value.getOrCrash()}");
     return res.flatMap((right) {
@@ -147,19 +141,12 @@ class RemoteDataSource {
     UniqueId userId,
     Toggle archive,
   ) async {
-    assert(taskId != null);
-    assert(userId != null);
-    assert(archive != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
     if (archive.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("archive", received: archive));
+      return Either.left(ServerFailure.invalidArgument("archive", archive));
 
     final res = await post("/task/archive", {
       "task": taskId.value.getOrCrash(),
@@ -179,17 +166,15 @@ class RemoteDataSource {
   /// Creates a new task from a given [TaskModel].
   /// Returns a [Either] with a [Failure] or the new [TaskModel].
   Future<Either<Failure, TaskModel>> postTask(
-    TaskModel newTask,
-    UniqueId userId,
+    TaskModel? newTask,
+    UniqueId? userId,
   ) async {
-    assert(userId != null);
-
+    if (userId == null)
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
     if (newTask == null)
-      return Either.left(
-          ServerFailure.invalidArgument("newTask", received: newTask));
+      return Either.left(ServerFailure.invalidArgument("newTask", newTask));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
 
     final jsonTask = newTask.toJson();
     final params = {
@@ -202,9 +187,9 @@ class RemoteDataSource {
       "checklists": newTask.checklists
           ?.map((e) => {
                 "title": e.title,
-                "items": e.items?.map((i) => i.item)?.toList(),
+                "items": e.items?.map((i) => i.item).toList(),
               })
-          ?.toList(),
+          .toList(),
     };
     final res = await post("/task", params);
     return res.flatMap((right) {
@@ -217,17 +202,15 @@ class RemoteDataSource {
   /// Updates an existing task from a given [TaskModel].
   /// Returns a [Either] with a [Failure] or the new [TaskModel].
   Future<Either<Failure, TaskModel>> patchTask(
-    TaskModel updatedTask,
-    UniqueId userId,
+    TaskModel? updatedTask,
+    UniqueId? userId,
   ) async {
-    assert(userId != null);
-
+    if (userId == null)
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
     if (updatedTask == null)
-      return Either.left(
-          ServerFailure.invalidArgument("newTask", received: updatedTask));
+      return Either.left(ServerFailure.invalidArgument("newTask", updatedTask));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
 
     final jsonTask = updatedTask.toJson();
     final params = {
@@ -269,19 +252,12 @@ class RemoteDataSource {
     UniqueId userId,
     CommentContent content,
   ) async {
-    assert(taskId != null);
-    assert(userId != null);
-    assert(content != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
     if (content.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("content", received: content));
+      return Either.left(ServerFailure.invalidArgument("content", content));
 
     final res = await post("/comment", {
       "task": taskId.value.getOrCrash(),
@@ -305,19 +281,12 @@ class RemoteDataSource {
     UniqueId commentId,
     UniqueId userId,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (commentId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("commentId", received: commentId));
+      return Either.left(ServerFailure.invalidArgument("commentId", commentId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
 
     final res = await delete("/comment", {
       "task": taskId.value.getOrCrash(),
@@ -340,23 +309,15 @@ class RemoteDataSource {
     UniqueId userId,
     CommentContent newContent,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
-    assert(newContent != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (commentId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("commentId", received: commentId));
+      return Either.left(ServerFailure.invalidArgument("commentId", commentId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
     if (newContent.value.isLeft())
       return Either.left(
-          ServerFailure.invalidArgument("newContent", received: newContent));
+          ServerFailure.invalidArgument("newContent", newContent));
 
     final res = await patch("/comment", {
       "task": taskId.value.getOrCrash(),
@@ -379,19 +340,12 @@ class RemoteDataSource {
     UniqueId commentId,
     UniqueId userId,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (commentId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("commentId", received: commentId));
+      return Either.left(ServerFailure.invalidArgument("commentId", commentId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
 
     final res = await post("/comment/like", {
       "task": taskId.value.getOrCrash(),
@@ -413,19 +367,12 @@ class RemoteDataSource {
     UniqueId commentId,
     UniqueId userId,
   ) async {
-    assert(taskId != null);
-    assert(commentId != null);
-    assert(userId != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (commentId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("commentId", received: commentId));
+      return Either.left(ServerFailure.invalidArgument("commentId", commentId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
 
     final res = await post("/comment/dislike", {
       "task": taskId.value.getOrCrash(),
@@ -449,27 +396,17 @@ class RemoteDataSource {
     UniqueId itemId,
     Toggle checked,
   ) async {
-    assert(taskId != null);
-    assert(userId != null);
-    assert(checklistId != null);
-    assert(itemId != null);
-    assert(checked != null);
-
     if (taskId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("taskId", received: taskId));
+      return Either.left(ServerFailure.invalidArgument("taskId", taskId));
     if (userId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("userId", received: userId));
+      return Either.left(ServerFailure.invalidArgument("userId", userId));
     if (checklistId.value.isLeft())
       return Either.left(
-          ServerFailure.invalidArgument("checklistId", received: checklistId));
+          ServerFailure.invalidArgument("checklistId", checklistId));
     if (itemId.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("itemId", received: itemId));
+      return Either.left(ServerFailure.invalidArgument("itemId", itemId));
     if (checked.value.isLeft())
-      return Either.left(
-          ServerFailure.invalidArgument("checked", received: checked));
+      return Either.left(ServerFailure.invalidArgument("checked", checked));
 
     final res = await post("/task/check", {
       "task": taskId.value.getOrCrash(),
@@ -514,7 +451,6 @@ class RemoteDataSource {
             return ServerFailure.unexpectedError(
                 "Received status code: ${e.response?.statusCode}");
         }
-        break;
       case DioErrorType.other:
         if (e.error != null && e.error is SocketException)
           return ServerFailure.noInternet();
@@ -522,10 +458,8 @@ class RemoteDataSource {
           return ServerFailure.formatError(
               (e.error as FormatException).message);
         return ServerFailure.unexpectedError(e.message);
-        break;
       default:
         return ServerFailure.unexpectedError(e.message);
-        break;
     }
   }
 

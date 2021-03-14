@@ -12,18 +12,14 @@ import 'package:mocktail/mocktail.dart';
 import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
-  HomeRepository repository;
-  RemoteDataSource dataSource;
+  late HomeRepository repository;
+  late RemoteDataSource dataSource;
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
     repository = HomeRepositoryImpl(dataSource: dataSource);
   });
 
-  tearDownAll(() {
-    repository = null;
-    dataSource = null;
-  });
 
   test("get tasks returns some data", () async {
     when(dataSource)

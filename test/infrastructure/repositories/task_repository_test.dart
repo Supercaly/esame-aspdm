@@ -17,17 +17,12 @@ import 'package:mocktail/mocktail.dart';
 import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
-  TaskRepository repository;
-  RemoteDataSource dataSource;
+  late TaskRepository repository;
+  late RemoteDataSource dataSource;
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
     repository = TaskRepositoryImpl(dataSource: dataSource);
-  });
-
-  tearDownAll(() {
-    repository = null;
-    dataSource = null;
   });
 
   group("General test", () {
@@ -64,7 +59,7 @@ void main() {
     test("get task returns null task", () async {
       when(dataSource)
           .calls(#getTask)
-          .thenAnswer((_) async => Either<Failure, TaskModel>.right(null));
+          .thenAnswer((_) async => Either<Failure, TaskModel?>.right(null));
       final res = await repository.watchTask(Maybe.just(UniqueId("id"))).first;
 
       expect(res.isRight(), isTrue);

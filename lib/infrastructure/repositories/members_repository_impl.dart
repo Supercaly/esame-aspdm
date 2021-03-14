@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/core/monad_task.dart';
@@ -11,7 +10,7 @@ import 'package:tasky/domain/failures/server_failure.dart';
 class MembersRepositoryImpl extends MembersRepository {
   final RemoteDataSource _dataSource;
 
-  MembersRepositoryImpl({@required RemoteDataSource dataSource})
+  MembersRepositoryImpl({required RemoteDataSource dataSource})
       : _dataSource = dataSource;
 
   @override

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/failures/failures.dart';
@@ -14,15 +13,15 @@ import 'package:tasky/domain/values/unique_id.dart';
 class TaskRepositoryImpl extends TaskRepository {
   final RemoteDataSource _dataSource;
 
-  TaskRepositoryImpl({@required RemoteDataSource dataSource})
+  TaskRepositoryImpl({required RemoteDataSource dataSource})
       : _dataSource = dataSource;
 
   @override
-  Stream<Either<Failure, Task>> watchTask(Maybe<UniqueId> id) {
+  Stream<Either<Failure, Task?>> watchTask(Maybe<UniqueId> id) {
     if (id.isNothing())
       return Stream.value(Either.left(TaskFailure.invalidId()));
     return Stream.fromFuture(
-        MonadTask(() => _dataSource.getTask(id.getOrNull()))
+        MonadTask(() => _dataSource.getTask(id.getOrCrash()))
             .map((value) => value?.toDomain())
             .attempt((e) => ServerFailure.unexpectedError(e))
             .run());
@@ -35,9 +34,9 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.deleteComment(
-                taskId.getOrNull(),
+                taskId.getOrCrash(),
                 commentId,
-                userId.getOrNull(),
+                userId.getOrCrash(),
               ))
           .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
@@ -51,9 +50,9 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.patchComment(
-                taskId.getOrNull(),
+                taskId.getOrCrash(),
                 commentId,
-                userId.getOrNull(),
+                userId.getOrCrash(),
                 content,
               ))
           .map((value) => value.toDomain())
@@ -67,8 +66,8 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.postComment(
-                taskId.getOrNull(),
-                userId.getOrNull(),
+                taskId.getOrCrash(),
+                userId.getOrCrash(),
                 content,
               ))
           .map((value) => value.toDomain())
@@ -82,9 +81,9 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.likeComment(
-                taskId.getOrNull(),
+                taskId.getOrCrash(),
                 commentId,
-                userId.getOrNull(),
+                userId.getOrCrash(),
               ))
           .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
@@ -97,9 +96,9 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.dislikeComment(
-                taskId.getOrNull(),
+                taskId.getOrCrash(),
                 commentId,
-                userId.getOrNull(),
+                userId.getOrCrash(),
               ))
           .map((value) => value.toDomain())
           .attempt((e) => ServerFailure.unexpectedError(e))
@@ -111,8 +110,8 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.archive(
-                taskId.getOrNull(),
-                userId.getOrNull(),
+                taskId.getOrCrash(),
+                userId.getOrCrash(),
                 Toggle(true),
               ))
           .map((value) => value.toDomain())
@@ -125,8 +124,8 @@ class TaskRepositoryImpl extends TaskRepository {
     Maybe<UniqueId> userId,
   ) =>
       MonadTask(() => _dataSource.archive(
-                taskId.getOrNull(),
-                userId.getOrNull(),
+                taskId.getOrCrash(),
+                userId.getOrCrash(),
                 Toggle(false),
               ))
           .map((value) => value.toDomain())
@@ -142,8 +141,8 @@ class TaskRepositoryImpl extends TaskRepository {
     Toggle complete,
   ) =>
       MonadTask(() => _dataSource.check(
-                taskId.getOrNull(),
-                userId.getOrNull(),
+                taskId.getOrCrash(),
+                userId.getOrCrash(),
                 checklistId,
                 itemId,
                 complete,

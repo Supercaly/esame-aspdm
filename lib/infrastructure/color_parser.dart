@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Converts a [String] to a [Color].
-Color colorFromJson(String colorStr) {
+Color? colorFromJson(String? colorStr) {
   if (colorStr != null && colorStr.isNotEmpty) {
     final buffer = StringBuffer();
     if (colorStr.length == 6 || colorStr.length == 7) buffer.write("FF");
@@ -12,7 +12,7 @@ Color colorFromJson(String colorStr) {
 }
 
 /// Converts a [Color] to a [String].
-String colorToJson(Color color) {
+String? colorToJson(Color? color) {
   if (color != null) {
     StringBuffer colorStr = StringBuffer();
     colorStr.write("#");
