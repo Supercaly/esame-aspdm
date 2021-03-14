@@ -1,27 +1,27 @@
 import 'dart:convert';
 
 class LogService {
-  void verbose(dynamic message, [dynamic error, StackTrace stackTrace]) {
+  void verbose(dynamic message, [dynamic? error, StackTrace? stackTrace]) {
     _log("[Verbose]", message, error, stackTrace);
   }
 
-  void debug(dynamic message, [dynamic error, StackTrace stackTrace]) {
+  void debug(dynamic message, [dynamic? error, StackTrace? stackTrace]) {
     _log("[Debug]", message, error, stackTrace);
   }
 
-  void info(dynamic message, [dynamic error, StackTrace stackTrace]) {
+  void info(dynamic message, [dynamic? error, StackTrace? stackTrace]) {
     _log("[Info]", message, error, stackTrace);
   }
 
-  void warning(dynamic message, [dynamic error, StackTrace stackTrace]) {
+  void warning(dynamic message, [dynamic? error, StackTrace? stackTrace]) {
     _log("[Warning]", message, error, stackTrace);
   }
 
-  void error(dynamic message, [dynamic error, StackTrace stackTrace]) {
+  void error(dynamic message, [dynamic? error, StackTrace? stackTrace]) {
     _log("[Error]", message, error, stackTrace);
   }
 
-  void wtf(dynamic message, [dynamic error, StackTrace stackTrace]) {
+  void wtf(dynamic message, [dynamic? error, StackTrace? stackTrace]) {
     _log("[WTF]", message, error, stackTrace);
   }
 
@@ -39,8 +39,8 @@ class LogService {
   void _log(
     String prefix,
     dynamic message,
-    dynamic error,
-    StackTrace stackTrace,
+    dynamic? error,
+    StackTrace? stackTrace,
   ) {
     if (error != null && error is StackTrace)
       throw ArgumentError("Error parameter cannot take a StackTrace!");

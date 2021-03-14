@@ -7,8 +7,8 @@ class MockConnectivity extends Mock implements Connectivity {}
 
 void main() {
   group("ConnectivityService Tests", () {
-    ConnectivityService connectivityService;
-    Connectivity mockConnectivity;
+    late ConnectivityService connectivityService;
+    late Connectivity mockConnectivity;
 
     setUpAll(() {
       mockConnectivity = MockConnectivity();

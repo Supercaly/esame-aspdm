@@ -12,27 +12,27 @@ class NavigationService {
   GlobalKey<NavigatorState> get navigationKey => _navigationKey;
 
   /// Navigates to the [routeName] and pass given [arguments]
-  Future<T> navigateTo<T>(String routeName, {dynamic arguments}) =>
-      _navigationKey.currentState.pushNamed<T>(
+  Future<T?>? navigateTo<T>(String routeName, {dynamic arguments}) =>
+      _navigationKey.currentState?.pushNamed<T>(
         routeName,
         arguments: arguments,
       );
 
   /// Pops the current route returning given [result]
-  void pop({dynamic result}) => _navigationKey.currentState.pop(result);
+  void pop({dynamic result}) => _navigationKey.currentState?.pop(result);
 
   /// Generate a [MaterialPageRoute] with the [builder] callback and
   /// navigates to it.
-  Future<T> navigateToMaterialRoute<T>(
+  Future<T?>? navigateToMaterialRoute<T>(
     Widget builder(BuildContext context), {
     bool fullscreenDialog = false,
   }) =>
-      _navigationKey.currentState.push<T>(MaterialPageRoute(
+      _navigationKey.currentState?.push<T>(MaterialPageRoute(
         builder: builder,
         fullscreenDialog: fullscreenDialog,
       ));
 
   /// Replaces the current page with the [routeName].
-  Future<void> replaceWith(String routeName) =>
-      _navigationKey.currentState.pushReplacementNamed(routeName);
+  Future<void>? replaceWith(String routeName) =>
+      _navigationKey.currentState?.pushReplacementNamed(routeName);
 }

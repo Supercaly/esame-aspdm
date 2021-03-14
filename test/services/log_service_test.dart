@@ -5,7 +5,7 @@ void main() {
   // NOTE: Those tests will always succeed. When run those tests will print
   // the logs to the console to demonstrate how the original logs will be.
   group("LogService Tests", () {
-    LogService service;
+    late LogService service;
 
     setUpAll(() {
       service = LogService();

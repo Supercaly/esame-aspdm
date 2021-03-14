@@ -12,8 +12,8 @@ void main() {
   group("AppInfoService Tests", () {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    PackageInfo packageInfo;
-    LogService logService;
+    late PackageInfo packageInfo;
+    late LogService logService;
 
     setUpAll(() {
       logService = MockLogService();
@@ -26,8 +26,6 @@ void main() {
     });
 
     tearDownAll(() {
-      packageInfo = null;
-      logService = null;
     });
 
     test("return all parameters", () {
@@ -35,14 +33,6 @@ void main() {
       expect(service.appName, equals("mock_app_name"));
       expect(service.packageName, equals("mock.app.name"));
       expect(service.version, equals("0.0.1"));
-      expect(service.buildNumber, equals("1"));
-    });
-
-    test("unsupported platform returns default values", () {
-      final service = AppInfoService.private(null, logService);
-      expect(service.appName, "Tasky");
-      expect(service.packageName, isNull);
-      expect(service.version, equals("1.0.0"));
       expect(service.buildNumber, equals("1"));
     });
   });

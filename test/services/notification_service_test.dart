@@ -11,10 +11,10 @@ class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
 void main() {
   group("NotificationService test", () {
-    NotificationService service;
-    FirebaseMessaging messaging;
-    NotificationSettings permission;
-    LogService logService;
+    late NotificationService service;
+    late FirebaseMessaging messaging;
+    late NotificationSettings permission;
+    late LogService logService;
 
     setUp(() {
       messaging = MockFirebaseMessaging();
@@ -34,14 +34,8 @@ void main() {
         showPreviews: AppleShowPreviewSetting.never,
         sound: AppleNotificationSetting.disabled,
       );
-      when(messaging).calls(#subscribeToTopic).thenReturn();
+      when(messaging).calls(#subscribeToTopic).thenAnswer((_) async {});
       when(logService).calls(#info).thenReturn();
-    });
-
-    tearDown(() {
-      messaging = null;
-      service = null;
-      permission = null;
     });
 
     test("calling init multiple times has no effect", () async {
@@ -85,7 +79,7 @@ void main() {
       when(messaging).calls(#getInitialMessage).thenAnswer(
           (_) async => RemoteMessage(data: {"task_id": "mock_task_id"}));
       bool opened = true;
-      UniqueId taskId;
+      UniqueId? taskId;
       await service.init(onTaskOpen: (id) {
         opened = id.isJust();
         taskId = id.getOrNull();

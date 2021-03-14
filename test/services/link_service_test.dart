@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/services/link_service.dart';
@@ -39,10 +40,7 @@ void main() {
       when(pendingDynamicLinkData).calls(#link).thenReturn();
     });
 
-    tearDown(() {
-      dynamicLinks = null;
-      service = null;
-    });
+    tearDown(() {});
 
     test("calling init multiple times has no effect", () async {
       await service.init(onTaskOpen: (id) {});
