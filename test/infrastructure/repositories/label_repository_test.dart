@@ -12,18 +12,14 @@ import 'package:mocktail/mocktail.dart';
 import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
-  LabelRepository repository;
-  RemoteDataSource dataSource;
+  late LabelRepository repository;
+  late RemoteDataSource dataSource;
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
     repository = LabelRepositoryImpl(dataSource: dataSource);
   });
 
-  tearDownAll(() {
-    repository = null;
-    dataSource = null;
-  });
 
   test("get labels returns some data", () async {
     when(dataSource)

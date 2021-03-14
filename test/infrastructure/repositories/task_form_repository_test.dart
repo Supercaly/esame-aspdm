@@ -17,23 +17,20 @@ import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
   group("TaskFormRepository test", () {
-    TaskFormRepository repository;
-    RemoteDataSource dataSource;
+    late TaskFormRepository repository;
+    late RemoteDataSource dataSource;
 
     setUpAll(() {
       dataSource = MockRemoteDataSource();
       repository = TaskFormRepositoryImpl(dataSource: dataSource);
     });
 
-    tearDownAll(() {
-      dataSource = null;
-      repository = null;
-    });
+
 
     test("save new task return unit", () async {
       when(dataSource)
           .calls(#postTask)
-          .thenAnswer((_) async => Either<Failure, TaskModel>.right(null));
+          .thenAnswer((_) async => Either<Failure, TaskModel?>.right(null));
       final res = await repository.saveNewTask(
         Task.test(
           id: UniqueId("task_id"),
@@ -83,7 +80,7 @@ void main() {
     test("update task return unit", () async {
       when(dataSource)
           .calls(#patchTask)
-          .thenAnswer((_) async => Either<Failure, TaskModel>.right(null));
+          .thenAnswer((_) async => Either<Failure, TaskModel?>.right(null));
       final res = await repository.updateTask(
         Task.test(
           id: UniqueId("task_id"),

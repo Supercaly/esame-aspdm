@@ -14,7 +14,7 @@ class MockArchiveRepository extends Mock implements ArchiveRepository {}
 
 void main() {
   group("ArchiveBloc Tests", () {
-    ArchiveRepository repository;
+    late ArchiveRepository repository;
 
     setUp(() {
       repository = MockArchiveRepository();

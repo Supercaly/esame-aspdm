@@ -10,12 +10,12 @@ import 'package:flutter/foundation.dart';
 class NotificationService {
   final LogService _logService;
   final FirebaseMessaging _messaging;
-  StreamSubscription<RemoteMessage> _onMessageOpenedAppSub;
+  StreamSubscription<RemoteMessage>? _onMessageOpenedAppSub;
   bool _initialized;
 
   NotificationService({
-    @required LogService logService,
-  })  : _logService = logService,
+    required LogService logService,
+  })   : _logService = logService,
         _messaging = FirebaseMessaging.instance,
         _initialized = false;
 
@@ -27,10 +27,8 @@ class NotificationService {
 
   /// Initialize the [NotificationService].
   Future<void> init({
-    @required void Function(Maybe<UniqueId> id) onTaskOpen,
+    required void Function(Maybe<UniqueId> id) onTaskOpen,
   }) async {
-    assert(onTaskOpen != null);
-
     // If already initialized return immediately
     if (_initialized) return;
 
@@ -60,11 +58,11 @@ class NotificationService {
     // Listen to all messages that resume the app from background
     _onMessageOpenedAppSub =
         FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      if (message != null) onTaskOpen(_getTaskFromNotification(message));
+      onTaskOpen(_getTaskFromNotification(message));
     });
 
     // Sub to the topic
-    _messaging.subscribeToTopic("newtask");
+    await _messaging.subscribeToTopic("newtask");
     _initialized = true;
   }
 
@@ -78,7 +76,7 @@ class NotificationService {
   /// This method will return [Maybe] an [UniqueId] with the task id extracted
   /// from the notification message.
   Maybe<UniqueId> _getTaskFromNotification(RemoteMessage message) {
-    final rawTaskId = (message?.data != null) ? message?.data["task_id"] : null;
+    final rawTaskId = message.data["task_id"];
     final taskId = UniqueId(rawTaskId);
     _logService.info("NotificationService: Received task with id $taskId");
     if (taskId.value.isRight())

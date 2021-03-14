@@ -15,7 +15,7 @@ class LabelModel extends Equatable {
     required: true,
     disallowNullValue: true,
   )
-  final String id;
+  final String? id;
 
   @JsonKey(
     required: true,
@@ -23,15 +23,15 @@ class LabelModel extends Equatable {
     fromJson: colorFromJson,
     toJson: colorToJson,
   )
-  final Color color;
+  final Color? color;
 
-  @JsonKey(nullable: true)
-  final String label;
+  @JsonKey()
+  final String? label;
 
   LabelModel({
-    @required this.id,
-    @required this.color,
-    @required this.label,
+    required this.id,
+    required this.color,
+    required this.label,
   });
 
   factory LabelModel.fromJson(Map<String, dynamic> json) =>
@@ -52,5 +52,5 @@ class LabelModel extends Equatable {
       );
 
   @override
-  List<Object> get props => [id, color, label];
+  List<Object?> get props => [id, color, label];
 }

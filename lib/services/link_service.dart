@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/services/log_service.dart';
@@ -12,8 +13,8 @@ class LinkService {
   bool _initialized;
 
   LinkService({
-    @required LogService logService,
-  })  : _dynamicLinks = FirebaseDynamicLinks.instance,
+    LogService logService,
+  })   : _dynamicLinks = FirebaseDynamicLinks.instance,
         _logService = logService,
         _initialized = false;
 
@@ -25,10 +26,8 @@ class LinkService {
 
   /// Initialize the [LinkService].
   Future<void> init({
-    @required void Function(Maybe<UniqueId> id) onTaskOpen,
+    void Function(Maybe<UniqueId> id) onTaskOpen,
   }) async {
-    assert(onTaskOpen != null);
-
     // If already initialized return immediately
     if (_initialized) return;
 
@@ -40,7 +39,7 @@ class LinkService {
     }
 
     // Catch the link that started the app.
-    final data = await _dynamicLinks.getInitialLink();
+    final PendingDynamicLinkData data = await _dynamicLinks.getInitialLink();
     if (data != null) onTaskOpen(_taskFromDynamicLink(data));
 
     // Listen to all links that resume the app from background
@@ -61,12 +60,12 @@ class LinkService {
   /// from the dynamic link.
   Maybe<UniqueId> _taskFromDynamicLink(PendingDynamicLinkData data) {
     if (data?.link == null) return Maybe.nothing();
-    final deepLink = data.link;
+    final deepLink = data?.link;
     _logService.info("LinkService: handling dynamic link: $deepLink");
 
     // The received link is for a task
-    if (deepLink.pathSegments.first == 'task') {
-      final String rawTaskId = deepLink.queryParameters['id'];
+    if (deepLink?.pathSegments?.first == 'task') {
+      final String rawTaskId = deepLink?.queryParameters['id'];
       final taskId = UniqueId(rawTaskId);
       if (taskId.value.isRight()) return Maybe.just(taskId);
     }

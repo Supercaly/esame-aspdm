@@ -10,7 +10,7 @@ import '../../../../finders/material_by_color_finder.dart';
 
 void main() {
   group("LabelPickerItemWidget tests", () {
-    Label label;
+    late Label label;
 
     setUpAll(() {
       label = Label.test(
@@ -77,25 +77,6 @@ void main() {
       expect(find.text("label"), findsOneWidget);
       expect(MaterialByColorFinder(Colors.red), findsOneWidget);
       expect(find.byIcon(FeatherIcons.check), findsOneWidget);
-    });
-
-    test("creating with missing parameters throws an error", () {
-      try {
-        LabelPickerItemWidget(label: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        LabelPickerItemWidget(
-          label: label,
-          selected: null,
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
     });
   });
 }

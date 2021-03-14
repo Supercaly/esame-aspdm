@@ -25,8 +25,8 @@ class TaskFormPage extends StatelessWidget {
   final Maybe<Task> task;
 
   const TaskFormPage({
-    Key key,
-    @required this.task,
+    Key? key,
+    required this.task,
   }) : super(key: key);
 
   @override
@@ -78,7 +78,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                       : 'update_btn',
                 ).tr(),
                 onPressed: () async {
-                  if (_formKey.currentState.validate())
+                  if (_formKey.currentState!.validate())
                     await context.read<TaskFormBloc>().saveTask(context
                         .read<AuthBloc>()
                         .state
@@ -97,7 +97,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
             action: SnackBarAction(
               label: 'retry_btn'.tr(),
               onPressed: () async {
-                if (_formKey.currentState.validate())
+                if (_formKey.currentState!.validate())
                   await context.read<TaskFormBloc>().saveTask(context
                       .read<AuthBloc>()
                       .state
@@ -138,7 +138,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                               leading: Icon(FeatherIcons.checkCircle),
                               title: Text('add_checklist_text').tr(),
                               onTap: () async {
-                                ChecklistPrimitive newChecklist;
+                                ChecklistPrimitive? newChecklist;
                                 if (Responsive.isLarge(context))
                                   newChecklist = await showChecklistFormDialog(
                                       context, null);
@@ -168,7 +168,7 @@ class _TaskFormPageScaffoldState extends State<TaskFormPageScaffold> {
                               .map((e) => EditChecklist(
                                     primitive: e,
                                     onTap: () async {
-                                      ChecklistPrimitive editedChecklist;
+                                      ChecklistPrimitive? editedChecklist;
                                       if (Responsive.isLarge(context))
                                         editedChecklist =
                                             await showChecklistFormDialog(

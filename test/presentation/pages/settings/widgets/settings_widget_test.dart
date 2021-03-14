@@ -8,23 +8,6 @@ void main() {
   group("SettingsGroup Tests", () {
     test("SettingsGroup with null title or children throws an error", () {
       try {
-        SettingsGroup(title: null, children: []);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        SettingsGroup(
-          title: "title",
-          children: null,
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
         SettingsGroup(
           title: "title",
           children: [],
@@ -86,15 +69,6 @@ void main() {
   });
 
   group("SettingsGroupItem Tests", () {
-    test("SettingsGroupItem with null text throws an error", () {
-      try {
-        SettingsGroupItem(text: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
     testWidgets("the item works correctly", (tester) async {
       final onTapCompleter = Completer<void>();
       final onLongPressCompleter = Completer<void>();
@@ -116,8 +90,10 @@ void main() {
 
       expect(find.byIcon(Icons.home), findsOneWidget);
       expect(find.text("mock_item"), findsOneWidget);
-      expect((tester.firstWidget(find.text("mock_item")) as Text).style.color,
-          equals(Colors.red));
+      expect(
+        (tester.firstWidget(find.text("mock_item")) as Text).style?.color,
+        equals(Colors.red),
+      );
 
       await tester.tap(find.text("mock_item"));
       await tester.pumpAndSettle();

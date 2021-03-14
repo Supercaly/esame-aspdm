@@ -19,7 +19,7 @@ import '../../mocks/mock_log_service.dart';
 
 class MockDio extends Mock implements Dio {}
 
-Response<T> testResponse<T>({T data, int statusCode}) => Response<T>(
+Response<T> testResponse<T>({T? data, int? statusCode}) => Response<T>(
       data: data,
       statusCode: statusCode,
       request: RequestOptions(path: "mock_request_path"),
@@ -27,21 +27,15 @@ Response<T> testResponse<T>({T data, int statusCode}) => Response<T>(
 
 void main() {
   group("Internal requests tests", () {
-    Dio dio;
-    LogService logService;
-    RemoteDataSource source;
+    late Dio dio;
+    late LogService logService;
+    late RemoteDataSource source;
 
     setUpAll(() {
       dio = MockDio();
       logService = MockLogService();
       source = RemoteDataSource.test(dio, logService);
       when(logService).calls(#error).thenReturn();
-    });
-
-    tearDownAll(() {
-      dio = null;
-      logService = null;
-      source = null;
     });
 
     test("call close dispose the http client", () {
@@ -146,20 +140,14 @@ void main() {
   });
 
   group("API methods tests", () {
-    Dio dio;
-    LogService logService;
-    RemoteDataSource source;
+    late Dio dio;
+    late LogService logService;
+    late RemoteDataSource source;
 
     setUpAll(() {
       dio = MockDio();
       logService = MockLogService();
       source = RemoteDataSource.test(dio, logService);
-    });
-
-    tearDownAll(() {
-      dio = null;
-      logService = null;
-      source = null;
     });
 
     test("get users works correctly", () async {
@@ -1371,48 +1359,9 @@ void main() {
       expect(res2.isLeft(), isTrue);
     });
 
-    test("get task throws an error with null parameters", () async {
-      try {
-        await source.getTask(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
-    test("archive throws an error with null parameters", () async {
-      try {
-        await source.archive(null, UniqueId("userId"), Toggle(true));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.archive(UniqueId("taskId"), null, Toggle(true));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.archive(UniqueId("taskId"), UniqueId("userId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
     test("post task throws an error with null parameters", () async {
       final res = await source.postTask(null, UniqueId("user_id"));
       expect(res.isLeft(), isTrue);
-
-      try {
-        await source.postTask(null, null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
 
       final res2 = await source.postTask(
           TaskModel(
@@ -1436,13 +1385,6 @@ void main() {
       final res = await source.patchTask(null, UniqueId("mock_id"));
       expect(res.isLeft(), isTrue);
 
-      try {
-        await source.patchTask(null, null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
       final res2 = await source.patchTask(
           TaskModel(
             id: null,
@@ -1459,184 +1401,6 @@ void main() {
           ),
           UniqueId(null));
       expect(res2.isLeft(), isTrue);
-    });
-
-    test("post comment throws an error with null parameters", () async {
-      try {
-        await source.postComment(
-            null, UniqueId("userId"), CommentContent("content"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.postComment(
-            UniqueId("taskId"), null, CommentContent("content"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.postComment(UniqueId("taskId"), UniqueId("userId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
-    test("delete comment throws an error with null parameters", () async {
-      try {
-        await source.deleteComment(
-            null, UniqueId("commentId"), UniqueId("userId"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.deleteComment(
-            UniqueId("taskId"), null, UniqueId("userId"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.deleteComment(
-            UniqueId("taskId"), UniqueId("commentId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
-    test("patch comment throws an error with null parameters", () async {
-      try {
-        await source.patchComment(null, UniqueId("commentId"),
-            UniqueId("userId"), CommentContent("content"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.patchComment(UniqueId("taskId"), null, UniqueId("userId"),
-            CommentContent("content"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.patchComment(UniqueId("taskId"), UniqueId("commentId"),
-            null, CommentContent("content"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.patchComment(UniqueId("taskId"), UniqueId("commentId"),
-            UniqueId("userId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
-    test("like comment throws an error with null parameters", () async {
-      try {
-        await source.likeComment(
-            null, UniqueId("commentId"), UniqueId("userId"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.likeComment(UniqueId("taskId"), null, UniqueId("userId"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.likeComment(
-            UniqueId("taskId"), UniqueId("commentId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
-    test("dislike comment throws an error with null parameters", () async {
-      try {
-        await source.dislikeComment(
-            null, UniqueId("commentId"), UniqueId("userId"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.dislikeComment(
-            UniqueId("taskId"), null, UniqueId("userId"));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.dislikeComment(
-            UniqueId("taskId"), UniqueId("commentId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
-    test("check throws an error with null parameters", () async {
-      try {
-        await source.check(null, UniqueId("userId"), UniqueId("checklistId"),
-            UniqueId("itemId"), Toggle(true));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.check(UniqueId("taskId"), null, UniqueId("checklistId"),
-            UniqueId("itemId"), Toggle(true));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.check(UniqueId("taskId"), UniqueId("userId"), null,
-            UniqueId("itemId"), Toggle(true));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.check(UniqueId("taskId"), UniqueId("userId"),
-            UniqueId("checklistId"), null, Toggle(true));
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        await source.check(UniqueId("taskId"), UniqueId("userId"),
-            UniqueId("checklistId"), UniqueId("itemId"), null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
     });
   });
 }

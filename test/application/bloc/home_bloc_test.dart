@@ -14,7 +14,7 @@ class MockHomeRepository extends Mock implements HomeRepository {}
 
 void main() {
   group("HomeBloc Tests", () {
-    HomeRepository repository;
+    late HomeRepository repository;
 
     setUp(() {
       repository = MockHomeRepository();

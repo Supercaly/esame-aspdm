@@ -6,19 +6,19 @@ import 'package:easy_localization/easy_localization.dart';
 class Ago extends StatelessWidget {
   /// The date to format in the form of [DateTime].
   /// If this is null [placeholder] will be displayed instead.
-  final DateTime time;
+  final DateTime? time;
 
   /// The point of reference for calculating the elapsed time.
-  final DateTime clock;
+  final DateTime? clock;
 
   /// String used as a placeholder when [time] is `null`.
-  final String placeholder;
+  final String? placeholder;
 
   /// [TextStyle] for the internal [Text] Widget.
-  final TextStyle style;
+  final TextStyle? style;
 
   const Ago({
-    Key key,
+    Key? key,
     this.time,
     this.clock,
     this.placeholder,
@@ -31,7 +31,7 @@ class Ago extends StatelessWidget {
   /// - [date] to format expressed in the form of [DateTime.millisecondsSinceEpoch]
   /// - If [clock] is passed this will be the point of reference for calculating
   ///   the elapsed time. Defaults to DateTime.now()
-  static String format(DateTime date, {DateTime clock}) {
+  static String format(DateTime date, {DateTime? clock}) {
     final _clock = clock ?? DateTime.now();
     var elapsed = _clock.millisecondsSinceEpoch - date.millisecondsSinceEpoch;
 
@@ -78,7 +78,7 @@ class Ago extends StatelessWidget {
       result = 'ago_years'.tr(args: [years.round().toString()]);
 
     return [prefix, result, suffix]
-        .where((str) => str != null && str.isNotEmpty)
+        .where((str) => str.isNotEmpty)
         .join(' ');
   }
 
@@ -86,9 +86,9 @@ class Ago extends StatelessWidget {
   Widget build(BuildContext context) {
     if (time != null)
       return Text(
-        format(time, clock: clock),
+        format(time!, clock: clock),
         style: style,
       );
-    return (placeholder != null) ? Text(placeholder) : SizedBox.shrink();
+    return (placeholder != null) ? Text(placeholder!) : SizedBox.shrink();
   }
 }

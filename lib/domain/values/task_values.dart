@@ -13,7 +13,7 @@ class TaskTitle extends ValueObject<String> {
   /// Creates a [TaskTitle] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory TaskTitle(String input) {
+  factory TaskTitle(String? input) {
     if (input == null || input.isEmpty)
       return TaskTitle._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -45,7 +45,7 @@ class TaskDescription extends ValueObject<String> {
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
   /// To represent a nullable [TaskDescription] use it with Maybe.
-  factory TaskDescription(String input) {
+  factory TaskDescription(String? input) {
     if (input == null || input.isEmpty)
       return TaskDescription._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -73,7 +73,7 @@ class ChecklistTitle extends ValueObject<String> {
   /// Creates a [ChecklistTitle] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory ChecklistTitle(String input) {
+  factory ChecklistTitle(String? input) {
     if (input == null || input.isEmpty)
       return ChecklistTitle._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -98,7 +98,7 @@ class ItemText extends ValueObject<String> {
   /// Creates a [ItemText] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory ItemText(String input) {
+  factory ItemText(String? input) {
     if (input == null || input.isEmpty)
       return ItemText._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -123,7 +123,7 @@ class CommentContent extends ValueObject<String> {
   /// Creates a [CommentContent] from a [String] content.
   /// The content can't be null, empty or more long than
   /// [maxLength].
-  factory CommentContent(String content) {
+  factory CommentContent(String? content) {
     if (content == null || content.isEmpty)
       return CommentContent._(Either.left(ValueFailure.empty(content)));
     if (content.length > maxLength)
@@ -145,7 +145,7 @@ class Toggle extends ValueObject<bool> {
 
   /// Creates a [Toggle] from a [bool] input.
   /// If the input is null `false` will be used instead.
-  factory Toggle(bool input) => Toggle._(Either.right(input ?? false));
+  factory Toggle(bool? input) => Toggle._(Either.right(input ?? false));
 
   @override
   String toString() =>
@@ -161,7 +161,7 @@ class CreationDate extends ValueObject<DateTime> {
 
   /// Create a [CreationDate] from a [DateTime] input.
   /// The date can't be null.
-  factory CreationDate(DateTime input) {
+  factory CreationDate(DateTime? input) {
     if (input == null)
       return CreationDate._(Either.left(ValueFailure.empty(input)));
     return CreationDate._(Either.right(input));
@@ -181,7 +181,7 @@ class ExpireDate extends ValueObject<DateTime> {
 
   /// Create a [ExpireDate] from a [DateTime] input.
   /// The date can't be null.
-  factory ExpireDate(DateTime input) {
+  factory ExpireDate(DateTime? input) {
     if (input == null)
       return ExpireDate._(Either.left(ValueFailure.empty(input)));
     return ExpireDate._(Either.right(input));

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:tasky/application/bloc/checklist_form_bloc.dart';
+import 'package:tasky/core/ilist.dart';
 import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:tasky/presentation/pages/task_form/widgets/checklist_form_item_widget.dart';
@@ -18,7 +19,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   group("ChecklistFormTitleWidget test", () {
-    ChecklistFormBloc bloc;
+    late ChecklistFormBloc bloc;
 
     setUpAll(() {
       bloc = MockChecklistFormBloc();
@@ -53,7 +54,7 @@ void main() async {
             ChecklistFormState.initial(
               ChecklistPrimitive(
                 title: "Mock title",
-                items: null,
+                items: IList.empty(),
               ),
             ),
           );
@@ -88,21 +89,21 @@ void main() async {
       );
 
       // Validate empty text returns error
-      form.currentState.validate();
+      form.currentState?.validate();
       await tester.pumpAndSettle();
       expect(find.text("Title can't be empty!"), findsOneWidget);
 
       // Validate non-empty text returns error
       await tester.enterText(find.byType(TextFormField), "Mock title");
       await tester.pumpAndSettle();
-      form.currentState.validate();
+      form.currentState?.validate();
       await tester.pumpAndSettle();
       expect(find.text("Title can't be empty!"), findsNothing);
     });
   });
 
   group("ChecklistFormNewItemWidget test", () {
-    ChecklistFormBloc bloc;
+    late ChecklistFormBloc bloc;
 
     setUpAll(() {
       bloc = MockChecklistFormBloc();
@@ -158,7 +159,7 @@ void main() async {
   });
 
   group("ChecklistFormItem test", () {
-    ChecklistFormBloc bloc;
+    late ChecklistFormBloc bloc;
 
     setUpAll(() {
       bloc = MockChecklistFormBloc();
@@ -221,14 +222,14 @@ void main() async {
       );
 
       // Validate non-empty text has no error
-      form.currentState.validate();
+      form.currentState?.validate();
       await tester.pumpAndSettle();
       expect(find.text("Item can't be empty!"), findsNothing);
 
       // Validate empty text returns error
       await tester.enterText(find.byType(TextFormField), "");
       await tester.pumpAndSettle();
-      form.currentState.validate();
+      form.currentState?.validate();
       await tester.pumpAndSettle();
       expect(find.text("Item can't be empty!"), findsOneWidget);
     });

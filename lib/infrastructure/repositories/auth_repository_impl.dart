@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/domain/failures/failures.dart';
@@ -15,8 +14,8 @@ class AuthRepositoryImpl extends AuthRepository {
   final PreferenceService _preferenceService;
 
   AuthRepositoryImpl({
-    @required RemoteDataSource dataSource,
-    @required PreferenceService preferenceService,
+    required RemoteDataSource dataSource,
+    required PreferenceService preferenceService,
   })  : _dataSource = dataSource,
         _preferenceService = preferenceService;
 
@@ -44,6 +43,5 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<void> logout() async {
     await _preferenceService.storeSignedInUser(Maybe.nothing());
-    return Either.right(const Unit());
   }
 }

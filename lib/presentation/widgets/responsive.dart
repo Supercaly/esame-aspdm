@@ -10,7 +10,7 @@ class Responsive extends StatelessWidget {
   final Widget small;
 
   /// Widget displayed when the device is medium.
-  final Widget medium;
+  final Widget? medium;
 
   /// Widget displayed when the device is large.
   final Widget large;
@@ -19,13 +19,11 @@ class Responsive extends StatelessWidget {
   /// [small], [medium] and [large] widget.
   /// [medium] could be omitted.
   Responsive({
-    Key key,
-    @required this.small,
+    Key? key,
+    required this.small,
     this.medium,
-    @required this.large,
-  })  : assert(small != null),
-        assert(large != null),
-        super(key: key);
+    required this.large,
+  })  : super(key: key);
 
   /// Returns `true` if the current device is small
   /// (a smartphone).

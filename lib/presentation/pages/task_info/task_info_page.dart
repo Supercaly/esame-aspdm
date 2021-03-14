@@ -29,8 +29,8 @@ class TaskInfoPage extends StatelessWidget {
   final Maybe<UniqueId> taskId;
 
   const TaskInfoPage({
-    Key key,
-    @required this.taskId,
+    Key? key,
+    required this.taskId,
   }) : super(key: key);
 
   @override
@@ -60,11 +60,11 @@ class TaskInfoPageWidget extends StatelessWidget {
             ),
         builder: (context, state) {
           final canModify = (currentUser.getOrNull() == state.data?.author) ||
-              (state.data?.members?.contains(currentUser.getOrNull()) ?? false);
+              (state.data?.members.contains(currentUser.getOrNull()!) ?? false);
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(state.data?.title?.value?.getOrNull() ?? ""),
+              title: Text(state.data?.title.value.getOrNull() ?? ""),
               centerTitle: true,
               actions: [
                 if (!kIsWeb)
@@ -77,7 +77,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('error_sharing_task_msg').tr()));
                       else if (state.shareLink != null)
-                        Share.share(state.shareLink);
+                        Share.share(state.shareLink!);
                     },
                     child: IconButton(
                       icon: Icon(FeatherIcons.share2),
@@ -100,7 +100,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                     },
                     tooltip: 'edit_tooltip'.tr(),
                   ),
-                if (canModify && !state.data.archived.value.getOrCrash())
+                if (canModify && !state.data!.archived.value.getOrCrash())
                   IconButton(
                     icon: Icon(FeatherIcons.sunset),
                     onPressed: () async {
@@ -112,7 +112,7 @@ class TaskInfoPageWidget extends StatelessWidget {
                     },
                     tooltip: 'archive_tooltip'.tr(),
                   ),
-                if (canModify && state.data.archived.value.getOrCrash())
+                if (canModify && state.data!.archived.value.getOrCrash())
                   IconButton(
                     icon: Icon(FeatherIcons.sunrise),
                     tooltip: 'unarchive_tooltip'.tr(),
@@ -168,9 +168,9 @@ class TaskInfoPageWidget extends StatelessWidget {
 
 /// Widget that displays a [Card] with header elements.
 class HeaderCard extends StatelessWidget {
-  final Task task;
+  final Task? task;
 
-  const HeaderCard({Key key, this.task}) : super(key: key);
+  const HeaderCard({Key? key, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +180,7 @@ class HeaderCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (task?.labels != null && task.labels.isNotEmpty)
+            if (task?.labels != null && task!.labels.isNotEmpty)
               ListTile(
                 leading: Icon(FeatherIcons.tag),
                 title: Wrap(
@@ -188,7 +188,7 @@ class HeaderCard extends StatelessWidget {
                   spacing: 8.0,
                   runSpacing: 4.0,
                   children:
-                      task.labels.map((l) => LabelWidget(label: l)).asList(),
+                      task!.labels.map((l) => LabelWidget(label: l)).asList(),
                 ),
               ),
             ListTile(
@@ -199,22 +199,23 @@ class HeaderCard extends StatelessWidget {
                 ],
               ),
             ),
-            if (task?.members != null && task.members.isNotEmpty)
+            if (task?.members != null && task!.members.isNotEmpty)
               ListTile(
                 leading: Icon(FeatherIcons.users),
                 title: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 8.0,
                   runSpacing: 4.0,
-                  children: task.members
+                  children: task!.members
                       .map((member) => UserAvatar(user: member, size: 32.0))
                       .asList(),
                 ),
               ),
-            if (task.expireDate.fold(() => false,
-                (value) => value.value.fold((_) => false, (_) => true)))
+            if (task?.expireDate.fold(() => false,
+                    (value) => value.value.fold((_) => false, (_) => true)) ??
+                false)
               ExpirationText(
-                date: task.expireDate.getOrCrash().value.getOrCrash(),
+                date: task!.expireDate.getOrCrash().value.getOrCrash(),
               ),
           ],
         ),
@@ -225,13 +226,13 @@ class HeaderCard extends StatelessWidget {
 
 /// Widget that displays a [Card] with the description.
 class DescriptionCard extends StatelessWidget {
-  final Task task;
+  final Task? task;
 
-  const DescriptionCard({Key key, this.task}) : super(key: key);
+  const DescriptionCard({Key? key, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (task?.description?.fold(
+    if (task?.description.fold(
           () => false,
           (value) => value.value.fold(
             (_) => false,
@@ -258,7 +259,7 @@ class DescriptionCard extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                task.description.getOrCrash().value.getOrCrash(),
+                task!.description.getOrCrash().value.getOrCrash(),
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],
@@ -272,9 +273,9 @@ class DescriptionCard extends StatelessWidget {
 
 /// Widget that displays a [Card] with the comments.
 class CommentsCard extends StatelessWidget {
-  final Task task;
+  final Task? task;
 
-  const CommentsCard({Key key, this.task}) : super(key: key);
+  const CommentsCard({Key? key, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -299,11 +300,11 @@ class CommentsCard extends StatelessWidget {
                     context.read<AuthBloc>().state.user.map((u) => u.id),
                   ),
             ),
-            if (task?.comments != null && task.comments.isNotEmpty)
+            if (task?.comments != null && task!.comments.isNotEmpty)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: task.comments
+                children: task!.comments
                     .map(
                       (comment) => CommentWidget(
                         comment: comment,

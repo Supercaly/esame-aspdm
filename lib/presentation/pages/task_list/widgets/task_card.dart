@@ -18,10 +18,9 @@ class TaskCard extends StatelessWidget {
   final Task task;
 
   TaskCard({
-    Key key,
-    @required this.task,
-  })  : assert(task != null),
-        super(key: key);
+    Key? key,
+    required this.task,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class TaskCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              (task.labels != null && task.labels.isNotEmpty)
+              (task.labels.isNotEmpty)
                   ? Wrap(
                       spacing: 10.0,
                       runSpacing: 5.0,
@@ -121,8 +120,8 @@ class TaskCard extends StatelessWidget {
   String _getChecklistCount() {
     int totalItems = 0;
     int checkedItems = 0;
-    task.checklists?.forEach((c) {
-      c?.items?.forEach((i) {
+    task.checklists.forEach((c) {
+      c.items.forEach((i) {
         totalItems++;
         if (i.complete.value.getOrElse((_) => false)) checkedItems++;
       });
@@ -134,16 +133,20 @@ class TaskCard extends StatelessWidget {
 /// Widget with an icon ad a text used in [TaskCard].
 class TaskIcon extends StatelessWidget {
   final IconData icon;
-  final String text;
+  final String? text;
 
-  TaskIcon({this.icon, this.text});
+  TaskIcon({
+    Key? key,
+    required this.icon,
+    this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(children: [
       Icon(icon),
       SizedBox(width: 4.0),
-      (text != null) ? Text(text) : SizedBox.shrink(),
+      (text != null) ? Text(text!) : SizedBox.shrink(),
     ]);
   }
 }

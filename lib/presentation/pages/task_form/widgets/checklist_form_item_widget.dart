@@ -49,7 +49,8 @@ class ChecklistFormNewItemWidget extends StatefulWidget {
 
 class _ChecklistFormNewItemWidgetState
     extends State<ChecklistFormNewItemWidget> {
-  TextEditingController _controller;
+  late TextEditingController _controller;
+
   @override
   void initState() {
     super.initState();
@@ -103,8 +104,8 @@ class ChecklistFormItem extends StatefulWidget {
   final ItemText item;
 
   ChecklistFormItem({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -112,8 +113,8 @@ class ChecklistFormItem extends StatefulWidget {
 }
 
 class _ChecklistFormItemState extends State<ChecklistFormItem> {
-  TextEditingController _controller;
-  ItemText _old;
+  late TextEditingController _controller;
+  late ItemText _old;
 
   @override
   void initState() {

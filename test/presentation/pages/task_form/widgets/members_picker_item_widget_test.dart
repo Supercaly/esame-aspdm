@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("MembersPickerItemWidget tests", () {
-    User member;
+    late User member;
 
     setUpAll(() {
       member = User.test(
@@ -82,25 +82,6 @@ void main() {
       expect(find.text("user@email.com"), findsOneWidget);
       expect(find.byType(UserAvatar), findsOneWidget);
       expect(find.byIcon(FeatherIcons.check), findsOneWidget);
-    });
-
-    test("creating with missing parameters throws an error", () {
-      try {
-        MembersPickerItemWidget(member: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        MembersPickerItemWidget(
-          member: member,
-          selected: null,
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
     });
   });
 }

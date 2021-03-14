@@ -12,7 +12,7 @@ import '../../../../finders/container_by_color_finder.dart';
 import '../../../../mocks/mock_auth_bloc.dart';
 
 void main() {
-  AuthBloc authBloc;
+  late AuthBloc authBloc;
 
   setUpAll(() {
     authBloc = MockAuthBloc();
@@ -33,7 +33,6 @@ void main() {
 
   tearDownAll(() {
     authBloc.close();
-    authBloc = null;
   });
 
   testWidgets("displayed correctly", (tester) async {

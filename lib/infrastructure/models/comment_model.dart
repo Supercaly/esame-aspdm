@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/infrastructure/models/user_model.dart';
 import 'package:tasky/domain/entities/comment.dart';
@@ -16,37 +15,37 @@ class CommentModel extends Equatable {
     required: true,
     disallowNullValue: true,
   )
-  final String id;
+  final String? id;
 
   @JsonKey(required: true, defaultValue: "")
-  final String content;
+  final String? content;
 
   @JsonKey(
     required: true,
     disallowNullValue: true,
   )
-  final UserModel author;
+  final UserModel? author;
 
   @JsonKey(name: "like_users")
-  final List<UserModel> likes;
+  final List<UserModel>? likes;
 
   @JsonKey(name: "dislike_users")
-  final List<UserModel> dislikes;
+  final List<UserModel>? dislikes;
 
   @JsonKey(
     name: "creation_date",
     required: true,
     disallowNullValue: true,
   )
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   CommentModel({
-    @required this.id,
-    @required this.content,
-    @required this.author,
-    @required this.likes,
-    @required this.dislikes,
-    @required this.creationDate,
+    required this.id,
+    required this.content,
+    required this.author,
+    required this.likes,
+    required this.dislikes,
+    required this.creationDate,
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) =>
@@ -57,26 +56,24 @@ class CommentModel extends Equatable {
   factory CommentModel.fromDomain(Comment comment) => CommentModel(
         id: comment.id.value.getOrNull(),
         content: comment.content.value.getOrNull(),
-        author: (comment.author == null)
-            ? null
-            : UserModel.fromDomain(comment.author),
-        likes: comment.likes?.map((e) => UserModel.fromDomain(e))?.asList(),
+        author: UserModel.fromDomain(comment.author),
+        likes: comment.likes.map((e) => UserModel.fromDomain(e)).asList(),
         dislikes:
-            comment.dislikes?.map((e) => UserModel.fromDomain(e))?.asList(),
+            comment.dislikes.map((e) => UserModel.fromDomain(e)).asList(),
         creationDate: comment.creationDate.value.getOrNull(),
       );
 
   Comment toDomain() => Comment(
         id: UniqueId(id),
         content: CommentContent(content),
-        author: author?.toDomain(),
+        author: author!.toDomain(),
         likes: IList.from(likes?.map((e) => e.toDomain())),
         dislikes: IList.from(dislikes?.map((e) => e.toDomain())),
         creationDate: CreationDate(creationDate),
       );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         content,
         author,

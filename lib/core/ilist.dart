@@ -7,7 +7,7 @@ abstract class IList<E> {
   const factory IList.empty() = EmptyIList<E>;
 
   /// Creates an [IList] from a given [Iterable].
-  factory IList.from(Iterable<E> elements) {
+  factory IList.from(Iterable<E>? elements) {
     if (elements == null || elements.isEmpty) return EmptyIList<E>();
     return ValueIList(elements);
   }
@@ -22,7 +22,7 @@ abstract class IList<E> {
   bool get isNotEmpty;
 
   /// Tests whether this list contains a given value as an element.
-  bool contains(E element);
+  bool contains(E? element);
 
   /// Returns the element at position [index].
   /// If [index] is outside the bound of the list it will throw
@@ -77,7 +77,7 @@ class EmptyIList<E> implements IList<E> {
   List<E> asList() => List<E>.unmodifiable(const []);
 
   @override
-  bool contains(E element) => false;
+  bool contains(E? element) => false;
 
   @override
   bool get isEmpty => true;
@@ -132,8 +132,7 @@ class ValueIList<E> implements IList<E> {
   ///
   /// Note: To create a list with value use [IList.from] instead.
   ValueIList(Iterable<E> elements)
-      : assert(elements != null),
-        assert(elements.isNotEmpty),
+      : assert(elements.isNotEmpty),
         _dartList = List.of(elements);
 
   @override
@@ -153,7 +152,7 @@ class ValueIList<E> implements IList<E> {
   List<E> asList() => List.unmodifiable(_dartList);
 
   @override
-  bool contains(E element) => _dartList.contains(element);
+  bool contains(E? element) => _dartList.contains(element);
 
   @override
   bool get isEmpty => _dartList.isEmpty;

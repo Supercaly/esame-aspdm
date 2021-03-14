@@ -11,7 +11,7 @@ part 'auth_bloc.freezed.dart';
 class AuthBloc extends Cubit<AuthState> {
   final AuthRepository _repository;
 
-  AuthBloc({@required AuthRepository repository})
+  AuthBloc({required AuthRepository repository})
       : _repository = repository,
         super(AuthState.initial(Maybe.nothing()));
 
@@ -37,7 +37,7 @@ class AuthBloc extends Cubit<AuthState> {
 /// - authenticated = the user is logged in
 /// - unauthenticated = the user is not logged in
 @freezed
-abstract class AuthState with _$AuthState {
+class AuthState with _$AuthState {
   const factory AuthState.initial(Maybe<User> user) = _Initial;
 
   const factory AuthState.authenticated(Maybe<User> user) = _Authenticated;

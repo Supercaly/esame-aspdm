@@ -10,8 +10,8 @@ class MembersBloc extends Cubit<MembersState> {
   final MembersRepository _repository;
 
   MembersBloc({
-    @required IList<User> initialValue,
-    @required MembersRepository repository,
+    required IList<User>? initialValue,
+    required MembersRepository repository,
   })  : _repository = repository,
         super(MembersState.initial(initialValue));
 
@@ -55,7 +55,7 @@ class MembersState extends Equatable {
   MembersState(this.selected, this.members, this.isLoading, this.hasError);
 
   /// Constructor for the initial state.
-  factory MembersState.initial(IList<User> oldMembers) => MembersState(
+  factory MembersState.initial(IList<User>? oldMembers) => MembersState(
         oldMembers ?? IList.empty(),
         IList.empty(),
         true,
@@ -64,10 +64,10 @@ class MembersState extends Equatable {
 
   /// Returns a copy of [MembersState] with some field changed.
   MembersState copyWith({
-    IList<User> selected,
-    IList<User> members,
-    bool hasError,
-    bool isLoading,
+    IList<User>? selected,
+    IList<User>? members,
+    bool? hasError,
+    bool? isLoading,
   }) =>
       MembersState(
         selected ?? this.selected,

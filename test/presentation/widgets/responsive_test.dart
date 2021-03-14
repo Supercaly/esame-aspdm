@@ -148,21 +148,5 @@ void main() {
       expect(find.text("medium"), findsNothing);
       expect(find.text("large"), findsOneWidget);
     });
-
-    test("create Responsive with null parameters throws an error", () {
-      try {
-        Responsive(small: null, large: Container());
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        Responsive(small: Container(), large: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
   });
 }

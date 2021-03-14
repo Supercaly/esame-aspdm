@@ -55,9 +55,9 @@ void main() async {
         ),
       );
 
-      expect(find.text(task.title.value.getOrNull()), findsOneWidget);
+      expect(find.text(task.title.value.getOrCrash()), findsOneWidget);
       expect(
-        find.text(task.description.getOrNull()?.value?.getOrNull()),
+        find.text(task.description.getOrCrash().value.getOrCrash()),
         findsOneWidget,
       );
       bloc.close();
@@ -119,7 +119,7 @@ void main() async {
         ),
       );
 
-      expect(formKey.currentState.validate(), isFalse);
+      expect(formKey.currentState?.validate(), isFalse);
       await tester.pumpAndSettle();
       expect(find.text("Title can't be empty!"), findsOneWidget);
 
@@ -132,7 +132,7 @@ void main() async {
           );
       await tester.enterText(find.byType(TextFormField).first, "Mock Title");
       expect(find.text("Mock Title"), findsOneWidget);
-      expect(formKey.currentState.validate(), isTrue);
+      expect(formKey.currentState?.validate(), isTrue);
       await tester.pumpAndSettle();
       expect(find.text("Title can't be empty!"), findsNothing);
       bloc.close();

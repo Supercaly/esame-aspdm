@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Service that manages the [SharedPreferences].
 class PreferenceService {
-  SharedPreferences _preferences;
+  late SharedPreferences _preferences;
 
   PreferenceService();
 
@@ -23,20 +23,25 @@ class PreferenceService {
       await _preferences.remove("user_email");
       await _preferences.remove("user_color");
     } else {
-      final User value = user.getOrNull();
-      await _preferences.setString("user_id", value?.id?.value?.getOrNull());
-      await _preferences.setString(
-        "user_name",
-        value?.name?.value?.getOrNull(),
-      );
-      await _preferences.setString(
-        "user_email",
-        value?.email?.value?.getOrNull(),
-      );
-      await _preferences.setInt(
-        "user_color",
-        value?.profileColor?.getOrNull()?.value?.getOrNull()?.value,
-      );
+      final User value = user.getOrCrash();
+      if (value.id.value.isRight())
+        await _preferences.setString("user_id", value.id.value.getOrCrash());
+      if (value.name.value.isRight())
+        await _preferences.setString(
+          "user_name",
+          value.name.value.getOrCrash(),
+        );
+      if (value.email.value.isRight())
+        await _preferences.setString(
+          "user_email",
+          value.email.value.getOrCrash(),
+        );
+      if (value.profileColor.isJust() &&
+          value.profileColor.getOrCrash().value.isRight())
+        await _preferences.setInt(
+          "user_color",
+          value.profileColor.getOrCrash().value.getOrCrash().value,
+        );
     }
   }
 

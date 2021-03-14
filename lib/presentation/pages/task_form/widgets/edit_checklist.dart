@@ -11,18 +11,17 @@ class EditChecklist extends StatelessWidget {
   final ChecklistPrimitive primitive;
 
   /// Callback called when the user taps on the card.
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// Callback called when the user taps on the remove button.
-  final VoidCallback onRemove;
+  final VoidCallback? onRemove;
 
   const EditChecklist({
-    Key key,
-    @required this.primitive,
+    Key? key,
+    required this.primitive,
     this.onTap,
     this.onRemove,
-  })  : assert(primitive != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {

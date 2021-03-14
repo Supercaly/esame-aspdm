@@ -226,7 +226,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   dart_style:
     dependency: transitive
     description:
@@ -361,10 +361,12 @@ packages:
   flutter_feather_icons:
     dependency: "direct main"
     description:
-      name: flutter_feather_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
+      path: "."
+      ref: HEAD
+      resolved-ref: "06c2da1e8e22a6b5b6c2fed7d479dee2a428862d"
+      url: "https://github.com/II11II/flutter_feather_icons.git"
+    source: git
+    version: "1.0.5-nullsafety.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -393,14 +395,14 @@ packages:
       name: freezed
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.7"
+    version: "0.14.0+1"
   freezed_annotation:
     dependency: "direct main"
     description:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0"
+    version: "0.14.0"
   get_it:
     dependency: "direct main"
     description:
@@ -470,21 +472,21 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "4.0.0"
   json_serializable:
     dependency: "direct dev"
     description:
       name: json_serializable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.1"
+    version: "4.0.2"
   loading_overlay:
     dependency: "direct main"
     description:
       name: loading_overlay
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "0.3.0"
   logging:
     dependency: transitive
     description:
@@ -748,7 +750,7 @@ packages:
       name: sliding_sheet
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.1"
+    version: "0.5.0"
   source_gen:
     dependency: transitive
     description:
@@ -911,5 +913,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.12.0-259.9.beta <3.0.0"
+  dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.20.0"

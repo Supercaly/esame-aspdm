@@ -12,9 +12,9 @@ import 'package:easy_localization/easy_localization.dart';
 /// Display a dialog that picks the labels.
 /// Passing an existing [List] of [labels] to mark them as already selected.
 /// Returns a [List] of all the selected [Label]s.
-Future<ChecklistPrimitive> showChecklistFormDialog(
+Future<ChecklistPrimitive?> showChecklistFormDialog(
   BuildContext context,
-  ChecklistPrimitive primitive,
+  ChecklistPrimitive? primitive,
 ) {
   return showDialog(
     context: context,
@@ -24,9 +24,9 @@ Future<ChecklistPrimitive> showChecklistFormDialog(
 
 /// Widget that display a dialog with a checklist form.
 class ChecklistFormDialog extends StatefulWidget {
-  final ChecklistPrimitive primitive;
+  final ChecklistPrimitive? primitive;
 
-  ChecklistFormDialog({Key key, this.primitive}) : super(key: key);
+  ChecklistFormDialog({Key? key, this.primitive}) : super(key: key);
 
   @override
   _ChecklistFormDialogState createState() => _ChecklistFormDialogState();
@@ -90,7 +90,7 @@ class _ChecklistFormDialogState extends State<ChecklistFormDialog>
                 builder: (context) => TextButton(
                   child: Text('save_btn').tr(),
                   onPressed: () {
-                    if (_formKey.currentState.validate())
+                    if (_formKey.currentState!.validate())
                       context.read<ChecklistFormBloc>().save();
                   },
                 ),

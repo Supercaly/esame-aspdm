@@ -13,7 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 /// Widget that lets the user pick the members.
 class MembersPickerWidget extends StatelessWidget {
   const MembersPickerWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,8 +22,7 @@ class MembersPickerWidget extends StatelessWidget {
       buildWhen: (p, c) => p.taskPrimitive.members != c.taskPrimitive.members,
       builder: (context, state) => ListTile(
         leading: Icon(FeatherIcons.users),
-        title: (state.taskPrimitive.members != null &&
-                state.taskPrimitive.members.isNotEmpty)
+        title: (state.taskPrimitive.members.isNotEmpty)
             ? Wrap(
                 spacing: 8.0,
                 runSpacing: 4.0,
@@ -35,7 +34,7 @@ class MembersPickerWidget extends StatelessWidget {
                     .asList())
             : Text('members_text').tr(),
         onTap: () async {
-          IList<User> selectedMembers;
+          IList<User>? selectedMembers;
           if (Responsive.isSmall(context))
             selectedMembers = await showMembersPickerSheet(
               context,

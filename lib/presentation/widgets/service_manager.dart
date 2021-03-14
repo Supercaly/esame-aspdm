@@ -12,17 +12,16 @@ import 'package:provider/provider.dart';
 /// Widget that inject a [NotificationService] and a [LinkService]
 /// into the widget tree.
 class ServiceManager extends StatefulWidget {
-  final NotificationService notificationService;
-  final LinkService linkService;
+  final NotificationService? notificationService;
+  final LinkService? linkService;
   final Widget child;
 
   const ServiceManager({
-    Key key,
-    @required this.notificationService,
-    @required this.linkService,
-    @required this.child,
-  })  : assert(child != null),
-        super(key: key);
+    Key? key,
+    required this.notificationService,
+    required this.linkService,
+    required this.child,
+  })  : super(key: key);
 
   @override
   _ServiceManagerState createState() => _ServiceManagerState();

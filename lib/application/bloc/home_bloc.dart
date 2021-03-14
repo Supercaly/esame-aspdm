@@ -12,9 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Class used to manage the state of the tasks page.
 class HomeBloc extends Cubit<HomeState> {
   final HomeRepository _repository;
-  StreamSubscription<Either<Failure, IList<Task>>> _tasksSubscription;
+  StreamSubscription<Either<Failure, IList<Task>>>? _tasksSubscription;
 
-  HomeBloc({@required HomeRepository repository})
+  HomeBloc({required HomeRepository repository})
       : _repository = repository,
         super(HomeState.initial());
 
@@ -59,9 +59,9 @@ class HomeState extends Equatable {
 
   /// Returns a copy of [HomeState] with some field changed.
   HomeState copyWith({
-    IList<Task> data,
-    bool hasError,
-    bool isLoading,
+    IList<Task>? data,
+    bool? hasError,
+    bool? isLoading,
   }) =>
       HomeState(
         data ?? this.data,

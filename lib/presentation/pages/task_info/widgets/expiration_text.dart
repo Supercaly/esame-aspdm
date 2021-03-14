@@ -14,15 +14,14 @@ class ExpirationText extends StatelessWidget {
   final DateTime date;
 
   ExpirationText({
-    Key key,
-    @required this.date,
-  })  : assert(date != null),
-        super(key: key);
+    Key? key,
+    required this.date,
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now().toUtc();
-    Color color;
+    Color? color;
 
     if (date.toUtc().isBefore(now)) {
       // The task has expired
@@ -32,14 +31,14 @@ class ExpirationText extends StatelessWidget {
       color = EasyColors.timeExpiring;
     } else {
       // The task is not expired yet
-      color = Theme.of(context).textTheme.caption.color;
+      color = Theme.of(context).textTheme.caption?.color;
     }
 
     return ListTile(
       leading: Icon(FeatherIcons.calendar, color: color),
       title: Text(
         DateFormat("dd MMM y HH:mm").format(date),
-        style: Theme.of(context).textTheme.caption.copyWith(color: color),
+        style: Theme.of(context).textTheme.caption?.copyWith(color: color),
       ),
     );
   }

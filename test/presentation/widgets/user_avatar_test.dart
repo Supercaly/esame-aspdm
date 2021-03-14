@@ -137,24 +137,9 @@ void main() {
     expect(ContainerByColorFinder(Colors.green), findsOneWidget);
   });
 
-  test("null size throws an error", () {
-    try {
-      UserAvatar(size: null, user: null);
-      fail("This should throw an exception!");
-    } catch (e) {
-      expect(e, isA<AssertionError>());
-    }
+  test("zero size throws an error", () {
     try {
       UserAvatar(size: 0.0, user: null);
-      fail("This should throw an exception!");
-    } catch (e) {
-      expect(e, isA<AssertionError>());
-    }
-  });
-
-  test("null rectangle throws an error", () {
-    try {
-      UserAvatar(size: 24, rectangle: null, user: null);
       fail("This should throw an exception!");
     } catch (e) {
       expect(e, isA<AssertionError>());

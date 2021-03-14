@@ -17,8 +17,8 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 
   /// Creates a [TaskFormBloc] form the old [Task].
   TaskFormBloc({
-    @required Maybe<Task> oldTask,
-    @required TaskFormRepository repository,
+    required Maybe<Task> oldTask,
+    required TaskFormRepository repository,
   })  : _repository = repository,
         super(TaskFormState.initial(oldTask));
 
@@ -101,7 +101,7 @@ class TaskFormBloc extends Cubit<TaskFormState> {
 
   /// Tells the [TaskFormBloc] to save the changes made to the [Task]
   /// or to create a new one depending on the mode.
-  Future<void> saveTask(UniqueId userId) async {
+  Future<void> saveTask(UniqueId? userId) async {
     emit(state.copyWith(isSaving: true, hasError: false));
     if (state.mode == TaskFormMode.creating) {
       (await _repository.saveNewTask(state.taskPrimitive.toTask(), userId))
@@ -152,11 +152,11 @@ class TaskFormState extends Equatable {
 
   @visibleForTesting
   TaskFormState({
-    @required this.taskPrimitive,
-    @required this.hasError,
-    @required this.isSaving,
-    @required this.saved,
-    @required this.mode,
+    required this.taskPrimitive,
+    required this.hasError,
+    required this.isSaving,
+    required this.saved,
+    required this.mode,
   });
 
   /// Creates a [TaskFormState] from the old [Task].
@@ -179,10 +179,10 @@ class TaskFormState extends Equatable {
 
   /// Creates a copy of a [TaskFormState] with some different fields.
   TaskFormState copyWith({
-    TaskPrimitive taskPrimitive,
-    bool isSaving,
-    bool saved,
-    bool hasError,
+    TaskPrimitive? taskPrimitive,
+    bool? isSaving,
+    bool? saved,
+    bool? hasError,
   }) =>
       TaskFormState(
         taskPrimitive: taskPrimitive ?? this.taskPrimitive,

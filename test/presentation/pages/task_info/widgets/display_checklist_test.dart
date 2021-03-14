@@ -10,15 +10,6 @@ import 'package:tasky/presentation/pages/task_info/widgets/display_checklist.dar
 
 void main() {
   group("DisplayChecklist test", () {
-    test("create widget with null parameter throws an exception", () {
-      try {
-        DisplayChecklist(checklist: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-    });
-
     testWidgets("show widget correctly", (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -113,8 +104,8 @@ void main() {
     });
 
     testWidgets("toggle items works correctly", (tester) async {
-      ChecklistItem changedItem;
-      bool checked;
+      ChecklistItem? changedItem;
+      bool? checked;
 
       await tester.pumpWidget(
         MaterialApp(

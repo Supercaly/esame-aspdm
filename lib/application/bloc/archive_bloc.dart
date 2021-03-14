@@ -12,9 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Cubit class used to manage the state of the archived tasks page.
 class ArchiveBloc extends Cubit<ArchiveState> {
   final ArchiveRepository _repository;
-  StreamSubscription<Either<Failure, IList<Task>>> _archivedSubscription;
+  StreamSubscription<Either<Failure, IList<Task>>>? _archivedSubscription;
 
-  ArchiveBloc({@required ArchiveRepository repository})
+  ArchiveBloc({required ArchiveRepository repository})
       : _repository = repository,
         super(ArchiveState.initial());
 
@@ -61,9 +61,9 @@ class ArchiveState extends Equatable {
 
   /// Returns a copy of [ArchiveState] with some field changed.
   ArchiveState copyWith({
-    IList<Task> data,
-    bool hasError,
-    bool isLoading,
+    IList<Task>? data,
+    bool? hasError,
+    bool? isLoading,
   }) =>
       ArchiveState(
         data ?? this.data,

@@ -25,21 +25,21 @@ abstract class ValueObject<T> {
 
 /// Class representing the invalid state of a ValueObject.
 @freezed
-abstract class ValueFailure<T> with _$ValueFailure<T> {
-  const factory ValueFailure.empty(@nullable T value) = ValueFailureEmpty<T>;
+class ValueFailure<T> with _$ValueFailure<T> {
+  const factory ValueFailure.empty(T? value) = ValueFailureEmpty<T>;
 
-  const factory ValueFailure.tooLong(@nullable T value) =
+  const factory ValueFailure.tooLong(T? value) =
       ValueFailureTooLong<T>;
 
-  const factory ValueFailure.invalidEmail(@nullable T value) =
+  const factory ValueFailure.invalidEmail(T? value) =
       ValueFailureInvalidEmail<T>;
 
-  const factory ValueFailure.invalidPassword(@nullable T value) =
+  const factory ValueFailure.invalidPassword(T? value) =
       ValueFailureInvalidPassword<T>;
 
-  const factory ValueFailure.invalidId(@nullable T value) =
+  const factory ValueFailure.invalidId(T? value) =
       ValueFailureInvalidId<T>;
 
-  const factory ValueFailure.unknown(@nullable T value) =
+  const factory ValueFailure.unknown(T? value) =
       ValueFailureUnknown<T>;
 }

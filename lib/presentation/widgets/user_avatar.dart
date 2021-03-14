@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// avatar for the given [user].
 class UserAvatar extends StatefulWidget {
   /// User to display.
-  final User user;
+  final User? user;
 
   /// Size of the widget.
   final double size;
@@ -17,12 +17,11 @@ class UserAvatar extends StatefulWidget {
   final bool rectangle;
 
   UserAvatar({
-    Key key,
-    @required this.user,
-    @required this.size,
+    Key? key,
+    required this.user,
+    required this.size,
     this.rectangle = false,
-  })  : assert(size != null && size > 0.0),
-        assert(rectangle != null),
+  })  : assert(size > 0.0),
         super(key: key);
 
   @override
@@ -30,10 +29,10 @@ class UserAvatar extends StatefulWidget {
 }
 
 class _UserAvatarState extends State<UserAvatar> {
-  Color boxColor;
+  Color? boxColor;
 
-  Color _colorFromUser() =>
-      widget.user?.profileColor?.getOrNull()?.value?.getOrNull();
+  Color? _colorFromUser() =>
+      widget.user?.profileColor.getOrNull()?.value.getOrNull();
 
   @override
   void initState() {
@@ -59,8 +58,7 @@ class _UserAvatarState extends State<UserAvatar> {
   @override
   Widget build(BuildContext context) {
     final userInitial =
-        widget.user?.name?.value?.getOrNull()?.substring(0, 1)?.toUpperCase() ??
-            "";
+        widget.user?.name.value.getOrNull()?.substring(0, 1).toUpperCase() ?? "";
     return Container(
       width: widget.size,
       height: widget.size,
@@ -75,7 +73,7 @@ class _UserAvatarState extends State<UserAvatar> {
           style: Theme.of(context)
               .textTheme
               .bodyText1
-              .copyWith(color: Colors.white),
+              ?.copyWith(color: Colors.white),
         ),
       ),
     );

@@ -12,18 +12,14 @@ import 'package:mocktail/mocktail.dart';
 import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
-  ArchiveRepository repository;
-  RemoteDataSource dataSource;
+  late ArchiveRepository repository;
+  late RemoteDataSource dataSource;
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
     repository = ArchiveRepositoryImpl(dataSource: dataSource);
   });
 
-  tearDownAll(() {
-    repository = null;
-    dataSource = null;
-  });
 
   test("get archived tasks returns some data", () async {
     when(dataSource)

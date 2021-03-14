@@ -21,8 +21,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentIdx;
-  List<Widget> _pages;
+  late int _currentIdx;
+  late List<Widget> _pages;
 
   @override
   void initState() {

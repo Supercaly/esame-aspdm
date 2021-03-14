@@ -49,17 +49,17 @@ class Task extends Equatable {
 
   /// Create a new [Task] with all of his values.
   const Task({
-    @required this.id,
-    @required this.title,
-    @required this.description,
-    @required this.labels,
-    @required this.author,
-    @required this.members,
-    @required this.expireDate,
-    @required this.checklists,
-    @required this.comments,
-    @required this.archived,
-    @required this.creationDate,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.labels,
+    required this.author,
+    required this.members,
+    required this.expireDate,
+    required this.checklists,
+    required this.comments,
+    required this.archived,
+    required this.creationDate,
   });
 
   /// Create a new [Task] with some of his values.
@@ -67,17 +67,17 @@ class Task extends Equatable {
   /// will be used instead.
   @visibleForTesting
   factory Task.test({
-    UniqueId id,
-    TaskTitle title,
-    Maybe<TaskDescription> description,
-    IList<Label> labels,
-    User author,
-    IList<User> members,
-    Maybe<ExpireDate> expireDate,
-    IList<Checklist> checklists,
-    IList<Comment> comments,
-    Toggle archived,
-    CreationDate creationDate,
+    UniqueId? id,
+    TaskTitle? title,
+    Maybe<TaskDescription>? description,
+    IList<Label>? labels,
+    User? author,
+    IList<User>? members,
+    Maybe<ExpireDate>? expireDate,
+    IList<Checklist>? checklists,
+    IList<Comment>? comments,
+    Toggle? archived,
+    CreationDate? creationDate,
   }) =>
       Task(
         id: id ?? UniqueId.empty(),

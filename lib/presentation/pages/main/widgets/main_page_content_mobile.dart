@@ -5,15 +5,15 @@ import 'package:easy_localization/easy_localization.dart';
 class MainPageContentMobile extends StatelessWidget {
   final int currentIndex;
   final List<Widget> pages;
-  final void Function(int) navigateTo;
+  final void Function(int)? navigateTo;
 
   MainPageContentMobile({
-    Key key,
-    @required this.currentIndex,
-    @required this.pages,
+    Key? key,
+    required this.currentIndex,
+    required this.pages,
     this.navigateTo,
-  })  : assert(currentIndex != null && currentIndex >= 0),
-        assert(pages != null && pages.isNotEmpty),
+  })  : assert(currentIndex >= 0),
+        assert(pages.isNotEmpty),
         super(key: key);
 
   @override

@@ -18,9 +18,9 @@ class Checklist extends Equatable {
 
   /// Create a new [Checklist] with all his values.
   const Checklist({
-    @required this.id,
-    @required this.title,
-    @required this.items,
+    required this.id,
+    required this.title,
+    required this.items,
   });
 
   /// Create a new [Checklist] with some of his values.
@@ -28,9 +28,9 @@ class Checklist extends Equatable {
   /// will be used instead.
   @visibleForTesting
   factory Checklist.test({
-    UniqueId id,
-    ChecklistTitle title,
-    IList<ChecklistItem> items,
+    UniqueId? id,
+    ChecklistTitle? title,
+    IList<ChecklistItem>? items,
   }) =>
       Checklist(
         id: id ?? UniqueId.empty(),
@@ -58,9 +58,9 @@ class ChecklistItem extends Equatable {
 
   /// Create a new [ChecklistItem] with all his values.
   const ChecklistItem({
-    @required this.id,
-    @required this.item,
-    @required this.complete,
+    required this.id,
+    required this.item,
+    required this.complete,
   });
 
   /// Create a new [ChecklistItem] with some of his values.
@@ -68,9 +68,9 @@ class ChecklistItem extends Equatable {
   /// will be used instead.
   @visibleForTesting
   factory ChecklistItem.test({
-    UniqueId id,
-    ItemText item,
-    Toggle complete,
+    UniqueId? id,
+    ItemText? item,
+    Toggle? complete,
   }) =>
       ChecklistItem(
         id: id ?? UniqueId.empty(),

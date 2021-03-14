@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/either.dart';
 import 'package:tasky/core/monad_task.dart';
 import 'package:tasky/domain/entities/task.dart';
@@ -12,11 +11,11 @@ import 'package:tasky/infrastructure/models/task_model.dart';
 class TaskFormRepositoryImpl extends TaskFormRepository {
   final RemoteDataSource _dataSource;
 
-  TaskFormRepositoryImpl({@required RemoteDataSource dataSource})
+  TaskFormRepositoryImpl({required RemoteDataSource dataSource})
       : _dataSource = dataSource;
 
   @override
-  Future<Either<Failure, Unit>> saveNewTask(Task task, UniqueId userId) {
+  Future<Either<Failure, Unit>> saveNewTask(Task task, UniqueId? userId) {
     return MonadTask(
             () => _dataSource.postTask(TaskModel.fromDomain(task), userId))
         .map((_) => const Unit())
@@ -25,7 +24,7 @@ class TaskFormRepositoryImpl extends TaskFormRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateTask(Task task, UniqueId userId) {
+  Future<Either<Failure, Unit>> updateTask(Task task, UniqueId? userId) {
     return MonadTask(
             () => _dataSource.patchTask(TaskModel.fromDomain(task), userId))
         .map((_) => const Unit())

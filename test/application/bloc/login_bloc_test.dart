@@ -15,7 +15,7 @@ import '../../mocks/mock_auth_repository.dart';
 
 void main() {
   group("LoginBloc test", () {
-    AuthRepository repository;
+    late AuthRepository repository;
 
     setUpAll(() {
       repository = MockAuthRepository();

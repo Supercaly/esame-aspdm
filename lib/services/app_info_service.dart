@@ -5,7 +5,7 @@ import 'package:package_info/package_info.dart';
 
 class AppInfoService {
   final LogService _logService;
-  PackageInfo _packageInfo;
+  late PackageInfo _packageInfo;
 
   Future<void> init() async {
     try {
@@ -16,20 +16,20 @@ class AppInfoService {
     }
   }
 
-  AppInfoService({@required LogService logService}) : _logService = logService;
+  AppInfoService({required LogService logService}) : _logService = logService;
 
   @visibleForTesting
   AppInfoService.private(this._packageInfo, this._logService);
 
   /// Returns the app name.
-  String get appName => _packageInfo?.appName ?? "Tasky";
+  String get appName => _packageInfo.appName;
 
   /// Returns the package name.
-  String get packageName => _packageInfo?.packageName;
+  String get packageName => _packageInfo.packageName;
 
   /// Returns the version.
-  String get version => _packageInfo?.version ?? "1.0.0";
+  String get version => _packageInfo.version;
 
   /// Returns the version code.
-  String get buildNumber => _packageInfo?.buildNumber ?? "1";
+  String get buildNumber => _packageInfo.buildNumber;
 }

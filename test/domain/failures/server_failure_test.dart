@@ -19,10 +19,10 @@ void main() {
           equals(ServerFailure.internalError("error_string")));
       expect(ServerFailure.internalError("error_string"),
           isNot(equals(ServerFailure.internalError("error_string_2"))));
-      expect(ServerFailure.invalidArgument("argument"),
-          ServerFailure.invalidArgument("argument"));
-      expect(ServerFailure.invalidArgument("argument"),
-          isNot(ServerFailure.invalidArgument("argument_2")));
+      expect(ServerFailure.invalidArgument("argument", null),
+          ServerFailure.invalidArgument("argument", null));
+      expect(ServerFailure.invalidArgument("argument", null),
+          isNot(ServerFailure.invalidArgument("argument_2", null)));
       expect(ServerFailure.uploadError(), ServerFailure.uploadError());
 
       expect(ServerFailure.noInternet(),
@@ -34,7 +34,7 @@ void main() {
       expect(ServerFailure.noInternet(),
           isNot(equals(ServerFailure.internalError("error_string"))));
       expect(ServerFailure.noInternet(),
-          isNot(equals(ServerFailure.invalidArgument("argument"))));
+          isNot(equals(ServerFailure.invalidArgument("argument", null))));
       expect(ServerFailure.noInternet(),
           isNot(equals(ServerFailure.uploadError())));
 
@@ -47,7 +47,7 @@ void main() {
       expect(ServerFailure.formatError("error_string"),
           isNot(equals(ServerFailure.internalError("error_string"))));
       expect(ServerFailure.formatError("error_string"),
-          isNot(equals(ServerFailure.invalidArgument("argument"))));
+          isNot(equals(ServerFailure.invalidArgument("argument", null))));
       expect(ServerFailure.formatError("error_string"),
           isNot(equals(ServerFailure.uploadError())));
 
@@ -60,7 +60,7 @@ void main() {
       expect(ServerFailure.unexpectedError("error_string"),
           isNot(equals(ServerFailure.internalError("error_string"))));
       expect(ServerFailure.unexpectedError("error_string"),
-          isNot(equals(ServerFailure.invalidArgument("argument"))));
+          isNot(equals(ServerFailure.invalidArgument("argument", null))));
       expect(ServerFailure.unexpectedError("error_string"),
           isNot(equals(ServerFailure.uploadError())));
 
@@ -73,7 +73,7 @@ void main() {
       expect(ServerFailure.badRequest("error_string"),
           isNot(equals(ServerFailure.internalError("error_string"))));
       expect(ServerFailure.badRequest("error_string"),
-          isNot(equals(ServerFailure.invalidArgument("argument"))));
+          isNot(equals(ServerFailure.invalidArgument("argument", null))));
       expect(ServerFailure.badRequest("error_string"),
           isNot(equals(ServerFailure.uploadError())));
 
@@ -86,21 +86,21 @@ void main() {
       expect(ServerFailure.internalError("error_string"),
           isNot(equals(ServerFailure.badRequest("error_string"))));
       expect(ServerFailure.internalError("error_string"),
-          isNot(equals(ServerFailure.invalidArgument("argument"))));
+          isNot(equals(ServerFailure.invalidArgument("argument", null))));
       expect(ServerFailure.internalError("error_string"),
           isNot(equals(ServerFailure.uploadError())));
 
-      expect(ServerFailure.invalidArgument("argument"),
+      expect(ServerFailure.invalidArgument("argument", null),
           isNot(equals(ServerFailure.noInternet())));
-      expect(ServerFailure.invalidArgument("argument"),
+      expect(ServerFailure.invalidArgument("argument", null),
           isNot(equals(ServerFailure.formatError("error_string"))));
-      expect(ServerFailure.invalidArgument("argument"),
+      expect(ServerFailure.invalidArgument("argument", null),
           isNot(equals(ServerFailure.unexpectedError("error_string"))));
-      expect(ServerFailure.invalidArgument("argument"),
+      expect(ServerFailure.invalidArgument("argument", null),
           isNot(equals(ServerFailure.badRequest("error_string"))));
-      expect(ServerFailure.invalidArgument("argument"),
+      expect(ServerFailure.invalidArgument("argument", null),
           isNot(equals(ServerFailure.internalError("error_string"))));
-      expect(ServerFailure.invalidArgument("argument"),
+      expect(ServerFailure.invalidArgument("argument", null),
           isNot(equals(ServerFailure.uploadError())));
 
       expect(ServerFailure.uploadError(),
@@ -114,7 +114,7 @@ void main() {
       expect(ServerFailure.uploadError(),
           isNot(equals(ServerFailure.internalError("error_string"))));
       expect(ServerFailure.uploadError(),
-          isNot(equals(ServerFailure.invalidArgument("argument"))));
+          isNot(equals(ServerFailure.invalidArgument("argument", null))));
     });
 
     test("when returns the result of the correct case", () {
@@ -163,7 +163,7 @@ void main() {
         invalidArgument: (arg, received) => false,
         uploadError: () => false,
       );
-      final r6 = ServerFailure.invalidArgument("argument").when(
+      final r6 = ServerFailure.invalidArgument("argument", null).when(
         noInternet: () => false,
         internalError: (msg) => false,
         formatError: (msg) => false,
@@ -172,7 +172,7 @@ void main() {
         invalidArgument: (arg, received) => true,
         uploadError: () => false,
       );
-      final r7 = ServerFailure.invalidArgument("argument").when(
+      final r7 = ServerFailure.invalidArgument("argument", null).when(
         noInternet: () => false,
         internalError: (msg) => false,
         formatError: (msg) => false,

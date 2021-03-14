@@ -20,20 +20,20 @@ class MockNavigatorObserver extends NavigatorObserver {
   }
 
   @override
-  void didPop(Route route, Route previousRoute) => _pop = true;
+  void didPop(Route route, Route? previousRoute) => _pop = true;
 
   @override
-  void didPush(Route route, Route previousRoute) => _push = true;
+  void didPush(Route route, Route? previousRoute) => _push = true;
 
   @override
-  void didReplace({Route newRoute, Route oldRoute}) => _replace = true;
+  void didReplace({Route? newRoute, Route? oldRoute}) => _replace = true;
 }
 
 void main() {
   group("NavigationService Tests", () {
-    NavigationService navigationService;
-    GlobalKey<NavigatorState> mockKey;
-    MockNavigatorObserver mockNavigatorObserver;
+    late NavigationService navigationService;
+    late GlobalKey<NavigatorState> mockKey;
+    late MockNavigatorObserver mockNavigatorObserver;
 
     tearDown(() {
       mockNavigatorObserver.clear();
@@ -43,12 +43,6 @@ void main() {
       mockKey = GlobalKey<NavigatorState>();
       mockNavigatorObserver = MockNavigatorObserver();
       navigationService = NavigationService.private(mockKey);
-    });
-
-    tearDownAll(() {
-      mockKey = null;
-      mockNavigatorObserver = null;
-      navigationService = null;
     });
 
     test("get navigation key", () {

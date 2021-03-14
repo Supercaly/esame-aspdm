@@ -25,7 +25,7 @@ class MockTaskFormRepository extends Mock implements TaskFormRepository {}
 
 void main() {
   group("TaskFormBloc tests", () {
-    TaskFormRepository repository;
+    late TaskFormRepository repository;
 
     setUp(() {
       repository = MockTaskFormRepository();

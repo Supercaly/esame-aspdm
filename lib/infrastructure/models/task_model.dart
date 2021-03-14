@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tasky/core/ilist.dart';
 import 'package:tasky/core/maybe.dart';
 import 'package:tasky/infrastructure/models/checklist_model.dart';
@@ -20,50 +19,50 @@ class TaskModel extends Equatable {
     required: true,
     disallowNullValue: true,
   )
-  final String id;
+  final String? id;
 
   @JsonKey(required: true, disallowNullValue: true)
-  final String title;
+  final String? title;
 
   @JsonKey(
     name: "creation_date",
     required: true,
     disallowNullValue: true,
   )
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
-  @JsonKey(nullable: true)
-  final String description;
+  @JsonKey()
+  final String? description;
 
-  final List<LabelModel> labels;
+  final List<LabelModel>? labels;
 
   @JsonKey(required: true, disallowNullValue: true)
-  final UserModel author;
+  final UserModel? author;
 
-  final List<UserModel> members;
+  final List<UserModel>? members;
 
   @JsonKey(name: "expire_date")
-  final DateTime expireDate;
+  final DateTime? expireDate;
 
-  final List<ChecklistModel> checklists;
+  final List<ChecklistModel>? checklists;
 
-  final List<CommentModel> comments;
+  final List<CommentModel>? comments;
 
   @JsonKey(defaultValue: false)
-  final bool archived;
+  final bool? archived;
 
   TaskModel({
-    @required this.id,
-    @required this.title,
-    @required this.description,
-    @required this.labels,
-    @required this.author,
-    @required this.members,
-    @required this.expireDate,
-    @required this.checklists,
-    @required this.comments,
-    @required this.archived,
-    @required this.creationDate,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.labels,
+    required this.author,
+    required this.members,
+    required this.expireDate,
+    required this.checklists,
+    required this.comments,
+    required this.archived,
+    required this.creationDate,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
@@ -95,12 +94,12 @@ class TaskModel extends Equatable {
   Task toDomain() => Task(
         id: UniqueId(id),
         title: TaskTitle(title),
-        description: (description != null && description.isNotEmpty)
+        description: (description != null && description!.isNotEmpty)
             ? Maybe.just(TaskDescription(description))
             : Maybe.nothing(),
         labels: IList.from(labels?.map((e) => e.toDomain())),
         // TODO(#119): Task's user could be null, but it should not
-        author: author?.toDomain(),
+        author: author!.toDomain(),
         members: IList.from(members?.map((e) => e.toDomain())),
         expireDate: expireDate != null
             ? Maybe.just(ExpireDate(expireDate))
@@ -112,7 +111,7 @@ class TaskModel extends Equatable {
       );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         title,
         description,

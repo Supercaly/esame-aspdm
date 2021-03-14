@@ -10,8 +10,8 @@ class ContentWidget extends StatelessWidget {
   final IList<Task> tasks;
 
   const ContentWidget({
-    Key key,
-    @required this.tasks,
+    Key? key,
+    required this.tasks,
   }) : super(key: key);
 
   @override

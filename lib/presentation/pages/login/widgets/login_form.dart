@@ -12,7 +12,7 @@ import '../../../../locator.dart';
 /// a login button. The password field has the ability to show the
 /// password or hide it with black dots.
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key}) : super(key: key);
+  LoginForm({Key? key}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -20,9 +20,9 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
-  bool _obscurePwd;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late bool _obscurePwd;
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             child: Text('login_btn').tr(),
             onPressed: () async {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 locator<LogService>().debug(
                     "Trying logging in with Email: ${_emailController.text} "
                     "and Password: ${_passwordController.text}");

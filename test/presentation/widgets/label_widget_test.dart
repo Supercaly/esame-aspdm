@@ -8,15 +8,6 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../finders/container_by_color_finder.dart';
 
 void main() {
-  test("create widget with null label throws an error", () {
-    try {
-      LabelWidget(label: null);
-      fail("This should throw an error!");
-    } catch (e) {
-      expect(e, isA<AssertionError>());
-    }
-  });
-
   testWidgets("show compact label", (tester) async {
     await tester.pumpWidget(
       MaterialApp(

@@ -25,13 +25,6 @@ void main() {
 
     test("create an empty ValueIList throws an error", () {
       try {
-        ValueIList(null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
         ValueIList([]);
         fail("This should throw an exception!");
       } catch (e) {

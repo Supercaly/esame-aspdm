@@ -10,8 +10,8 @@ class LabelsBloc extends Cubit<LabelsState> {
   final LabelRepository _repository;
 
   LabelsBloc({
-    @required IList<Label> initialValue,
-    @required LabelRepository repository,
+    required IList<Label>? initialValue,
+    required LabelRepository repository,
   })  : _repository = repository,
         super(LabelsState.initial(initialValue));
 
@@ -55,7 +55,7 @@ class LabelsState extends Equatable {
   LabelsState(this.selected, this.labels, this.isLoading, this.hasError);
 
   /// Constructor for the initial state.
-  factory LabelsState.initial(IList<Label> oldLabels) => LabelsState(
+  factory LabelsState.initial(IList<Label>? oldLabels) => LabelsState(
         oldLabels ?? IList.empty(),
         IList.empty(),
         true,
@@ -64,10 +64,10 @@ class LabelsState extends Equatable {
 
   /// Returns a copy of [LabelsState] with some field changed.
   LabelsState copyWith({
-    IList<Label> selected,
-    IList<Label> labels,
-    bool hasError,
-    bool isLoading,
+    IList<Label>? selected,
+    IList<Label>? labels,
+    bool? hasError,
+    bool? isLoading,
   }) =>
       LabelsState(
         selected ?? this.selected,

@@ -9,7 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 /// can insert a title and a description.
 /// This Widget is used only inside [TaskFormPage].
 class TaskFormInputWidget extends StatelessWidget {
-  const TaskFormInputWidget({Key key}) : super(key: key);
+  const TaskFormInputWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

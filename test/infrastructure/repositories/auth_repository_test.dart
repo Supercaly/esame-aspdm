@@ -18,9 +18,9 @@ import '../../mocks/mock_preference_service.dart';
 import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
-  AuthRepository repository;
-  RemoteDataSource dataSource;
-  PreferenceService preferenceService;
+  late AuthRepository repository;
+  late RemoteDataSource dataSource;
+  late PreferenceService preferenceService;
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
@@ -29,12 +29,6 @@ void main() {
       dataSource: dataSource,
       preferenceService: preferenceService,
     );
-  });
-
-  tearDownAll(() {
-    repository = null;
-    dataSource = null;
-    preferenceService = null;
   });
 
   test("get signed in user returns a user", () async {

@@ -12,18 +12,15 @@ import 'package:mocktail/mocktail.dart';
 import '../../mocks/mock_remote_data_source.dart';
 
 void main() {
-  MembersRepository repository;
-  RemoteDataSource dataSource;
+  late MembersRepository repository;
+  late RemoteDataSource dataSource;
 
   setUpAll(() {
     dataSource = MockRemoteDataSource();
     repository = MembersRepositoryImpl(dataSource: dataSource);
   });
 
-  tearDownAll(() {
-    repository = null;
-    dataSource = null;
-  });
+
 
   test("get users returns some data", () async {
     when(dataSource)

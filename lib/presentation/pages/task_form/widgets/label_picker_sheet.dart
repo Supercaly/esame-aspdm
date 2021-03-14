@@ -15,11 +15,11 @@ import '../../../../locator.dart';
 /// Display a bottom sheet that picks the labels.
 /// Passing an existing [IList] of [labels] to mark them as already selected.
 /// Returns a [IList] of all the selected [Label]s.
-Future<IList<Label>> showLabelPickerSheet(
+Future<IList<Label>?> showLabelPickerSheet(
   BuildContext context,
   IList<Label> labels,
 ) {
-  return showSlidingBottomSheet(
+  return showSlidingBottomSheet<IList<Label>>(
     context,
     resizeToAvoidBottomInset: false,
     parentBuilder: (context, sheet) => BlocProvider<LabelsBloc>(
