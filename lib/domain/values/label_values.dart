@@ -16,7 +16,7 @@ class LabelName extends ValueObject {
   /// Creates a [LabelName] from an input [String] that has
   /// at most [maxLength] characters.
   /// The input can't be null, empty or longer than [maxLength].
-  factory LabelName(String input) {
+  factory LabelName(String? input) {
     if (input == null || input.isEmpty)
       return LabelName._(Either.left(ValueFailure.empty(input)));
     if (input.length > maxLength)
@@ -44,7 +44,7 @@ class LabelColor extends ValueObject<Color> {
 
   /// Create a [LabelColor] from a [Color] input.
   /// The color can't be null.
-  factory LabelColor(Color input) {
+  factory LabelColor(Color? input) {
     if (input == null)
       return LabelColor._(Either.left(ValueFailure.empty(input)));
     return LabelColor._(Either.right(input));

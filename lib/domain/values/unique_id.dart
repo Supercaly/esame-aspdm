@@ -11,7 +11,7 @@ class UniqueId extends ValueObject<String> {
 
   /// Creates a [UniqueId] from a [String] id.
   /// If the id is `null` or empty an [AssertionError] will be thrown.
-  factory UniqueId(String id) {
+  factory UniqueId(String? id) {
     if (id != null && id.isNotEmpty) return UniqueId._(Either.right(id));
     return UniqueId._(Either.left(ValueFailure.invalidId(id)));
   }

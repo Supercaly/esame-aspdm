@@ -27,7 +27,7 @@ abstract class Maybe<A> {
   Maybe<R> flatMap<R>(Maybe<R> Function(A value) f);
 
   /// Returns the value contained by the [Just] or [null].
-  A getOrNull();
+  A? getOrNull();
 
   /// Returns the value contained by the [Just] or
   /// the result of applying [orElse].
@@ -58,7 +58,7 @@ class Nothing<A> extends Maybe<A> {
   A getOrElse(A Function() orElse) => orElse();
 
   @override
-  A getOrNull() => null;
+  A? getOrNull() => null;
 
   @override
   A getOrCrash() => throw Exception("Trying to access Nothing value of Maybe!");
@@ -90,7 +90,7 @@ class Just<A> extends Maybe<A> {
   A getOrElse(A Function() orElse) => _value;
 
   @override
-  A getOrNull() => _value;
+  A? getOrNull() => _value;
 
   @override
   A getOrCrash() => _value;

@@ -18,9 +18,9 @@ class Label extends Equatable {
 
   /// Create a new [Label] with all his values.
   const Label({
-    @required this.id,
-    @required this.color,
-    @required this.label,
+    required this.id,
+    required this.color,
+    required this.label,
   });
 
   /// Create a new [Label] with some of his values.
@@ -28,9 +28,9 @@ class Label extends Equatable {
   /// will be used instead.
   @visibleForTesting
   factory Label.test({
-    UniqueId id,
-    LabelColor color,
-    LabelName label,
+    UniqueId? id,
+    LabelColor? color,
+    LabelName? label,
   }) =>
       Label(
         id: id ?? UniqueId.empty(),

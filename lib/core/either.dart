@@ -41,7 +41,7 @@ abstract class Either<L, R> {
   Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f);
 
   /// Returns the value if it's a right side value or null.
-  R getOrNull();
+  R? getOrNull();
 
   /// Returns the value if it's a right side value or throws an exception.
   R getOrCrash();
@@ -86,7 +86,7 @@ class Left<L, R> extends Either<L, R> {
       Either<L, R2>.left(_value);
 
   @override
-  R getOrNull() => null;
+  R? getOrNull() => null;
 
   @override
   R getOrCrash() => throw Exception("Trying to get invalid value!");
@@ -122,7 +122,7 @@ class Right<L, R> extends Either<L, R> {
   Either<L, R2> flatMap<R2>(Either<L, R2> Function(R right) f) => f(_value);
 
   @override
-  R getOrNull() => _value;
+  R? getOrNull() => _value;
 
   @override
   R getOrCrash() => _value;

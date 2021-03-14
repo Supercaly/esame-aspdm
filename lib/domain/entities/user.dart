@@ -20,10 +20,10 @@ class User extends Equatable {
 
   /// Create a new [User] from all his values.
   const User({
-    @required this.id,
-    @required this.name,
-    @required this.email,
-    @required this.profileColor,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.profileColor,
   });
 
   /// Create an empty [User].
@@ -41,10 +41,10 @@ class User extends Equatable {
   /// will be used instead.
   @visibleForTesting
   factory User.test({
-    UniqueId id,
-    UserName name,
-    EmailAddress email,
-    Maybe<ProfileColor> profileColor,
+    UniqueId? id,
+    UserName? name,
+    EmailAddress? email,
+    Maybe<ProfileColor>? profileColor,
   }) =>
       User(
         id: id ?? UniqueId.empty(),
