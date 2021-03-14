@@ -77,33 +77,12 @@ void main() async {
       expect(pressed, isFalse);
     });
 
-    test("create with null parameters throws an exception", () {
-      try {
-        LikeButton(
-          value: 123,
-        );
-        fail("This should throw an exception");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      try {
-        LikeButton(
-          icon: Icons.thumb_down,
-        );
-        fail("This should throw an exception");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
-
-      expect(LikeButton(icon: Icons.thumb_down, value: 123).selected, isFalse);
-    });
   });
 
   group("AddCommentWidget test", () {
     testWidgets("create new comment with success", (tester) async {
       bool commentSent = false;
-      CommentContent contentSent;
+      CommentContent? contentSent;
 
       await tester.pumpLocalizedWidget(
         AddCommentWidget(
@@ -129,7 +108,7 @@ void main() async {
   });
 
   group("CommentWidget test", () {
-    AuthBloc authBloc;
+    late AuthBloc authBloc;
 
     setUpAll(() {
       authBloc = MockAuthBloc();
@@ -137,7 +116,6 @@ void main() async {
 
     tearDownAll(() {
       authBloc.close();
-      authBloc = null;
     });
 
     testWidgets("show comment of another user", (tester) async {
@@ -207,7 +185,7 @@ void main() async {
     });
 
     testWidgets("edit comment", (tester) async {
-      CommentContent editedComment;
+      CommentContent? editedComment;
       when(authBloc).calls(#state).thenReturn(AuthState.authenticated(
             Maybe.just(
               User.test(
@@ -270,7 +248,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       // Comment is updated
-      expect(editedComment.value.getOrNull(),
+      expect(editedComment?.value.getOrNull(),
           equals("Mock comment content edited"));
     });
 

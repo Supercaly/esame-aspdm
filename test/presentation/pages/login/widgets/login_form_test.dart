@@ -17,8 +17,8 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   group("LoginForm test", () {
-    LogService logService;
-    LoginBloc loginBloc;
+    late LogService logService;
+    late LoginBloc loginBloc;
 
     setUpAll(() {
       logService = MockLogService();
@@ -34,8 +34,6 @@ void main() async {
 
     tearDownAll(() {
       loginBloc.close();
-      logService = null;
-      loginBloc = null;
     });
 
     testWidgets("create widget with success", (tester) async {

@@ -23,8 +23,10 @@ void main() {
 
       expect(find.text(DateFormat("dd MMM y").format(expDate)), findsOneWidget);
       expect(ContainerByColorFinder(EasyColors.timeExpired), findsOneWidget);
-      expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
-          equals(Colors.white));
+      expect(
+        (tester.firstWidget(find.byType(Text)) as Text).style?.color,
+        equals(Colors.white),
+      );
       expect((tester.firstWidget(find.byType(Icon)) as Icon).color,
           equals(Colors.white));
     });
@@ -45,8 +47,10 @@ void main() {
 
       expect(find.text(DateFormat("dd MMM y").format(expDate)), findsOneWidget);
       expect(ContainerByColorFinder(EasyColors.timeExpiring), findsOneWidget);
-      expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
-          equals(Colors.white));
+      expect(
+        (tester.firstWidget(find.byType(Text)) as Text).style?.color,
+        equals(Colors.white),
+      );
       expect((tester.firstWidget(find.byType(Icon)) as Icon).color,
           equals(Colors.white));
     });
@@ -68,19 +72,12 @@ void main() {
       expect(find.text(DateFormat("dd MMM y").format(expDate)), findsOneWidget);
       expect(ContainerByColorFinder(EasyColors.timeExpiring), findsNothing);
       expect(ContainerByColorFinder(EasyColors.timeExpired), findsNothing);
-      expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
-          equals(Color(0x8a000000)));
+      expect(
+        (tester.firstWidget(find.byType(Text)) as Text).style?.color,
+        equals(Color(0x8a000000)),
+      );
       expect((tester.firstWidget(find.byType(Icon)) as Icon).color,
           equals(Color(0x8a000000)));
-    });
-
-    test("create badge with null date throws an error", () {
-      try {
-        ExpirationBadge(date: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
     });
   });
 }

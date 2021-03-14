@@ -13,7 +13,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   group("ConnectionStateListener test", () {
-    ConnectivityService service;
+    late ConnectivityService service;
 
     setUpAll(() {
       service = MockConnectivityService();

@@ -12,16 +12,14 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 class MembersPickerItemWidget extends StatelessWidget {
   final User member;
   final bool selected;
-  final void Function(bool value) onSelected;
+  final void Function(bool value)? onSelected;
 
   MembersPickerItemWidget({
-    Key key,
-    @required this.member,
+    Key? key,
+    required this.member,
     this.selected = false,
     this.onSelected,
-  })  : assert(member != null),
-        assert(selected != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {

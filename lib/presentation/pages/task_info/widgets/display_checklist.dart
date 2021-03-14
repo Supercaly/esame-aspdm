@@ -15,21 +15,20 @@ class DisplayChecklist extends StatefulWidget {
   /// This method has the [ChecklistItem] and [bool] value.
   /// If this is `null` the widget will be un-modifiable by
   /// the current user.
-  final void Function(ChecklistItem, Toggle) onItemChange;
+  final void Function(ChecklistItem, Toggle)? onItemChange;
 
   const DisplayChecklist({
-    Key key,
-    @required this.checklist,
+    Key? key,
+    required this.checklist,
     this.onItemChange,
-  })  : assert(checklist != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   _DisplayChecklistState createState() => _DisplayChecklistState();
 }
 
 class _DisplayChecklistState extends State<DisplayChecklist> {
-  bool _showItems;
+  late bool _showItems;
 
   @override
   void initState() {
@@ -41,7 +40,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
   @override
   Widget build(BuildContext context) {
     final hasItems =
-        widget.checklist.items != null && widget.checklist.items.isNotEmpty;
+        widget.checklist.items.isNotEmpty;
 
     return Card(
       child: Padding(
@@ -98,7 +97,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  .copyWith(
+                                  ?.copyWith(
                                     decoration: item.complete.value.fold(
                                       (_) => null,
                                       (c) =>
@@ -118,7 +117,7 @@ class _DisplayChecklistState extends State<DisplayChecklist> {
 
   @visibleForTesting
   double getChecklistProgress(IList<ChecklistItem> items) {
-    if (items == null || items.isEmpty) return 0.0;
+    if (items.isEmpty) return 0.0;
     final checkedItems =
         items.filter((element) => element.complete.value.getOrCrash());
     if (checkedItems.isEmpty) return 0.0;

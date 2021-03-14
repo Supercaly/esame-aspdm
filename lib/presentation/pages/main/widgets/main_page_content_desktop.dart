@@ -7,15 +7,15 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 class MainPageContentDesktop extends StatelessWidget {
   final int currentIndex;
   final List<Widget> pages;
-  final void Function(int) navigateTo;
+  final void Function(int)? navigateTo;
 
   MainPageContentDesktop({
-    Key key,
-    @required this.currentIndex,
-    @required this.pages,
+    Key? key,
+    required this.currentIndex,
+    required this.pages,
     this.navigateTo,
-  })  : assert(currentIndex != null && currentIndex >= 0),
-        assert(pages != null && pages.isNotEmpty),
+  })  : assert(currentIndex >= 0),
+        assert(pages.isNotEmpty),
         super(key: key);
 
   @override
@@ -55,21 +55,21 @@ class MainPageContentDesktop extends StatelessWidget {
 /// some [actions] and a central menu.
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// Title displayed on the left.
-  final List<Widget> leading;
+  final List<Widget>? leading;
 
   /// Actions on the right.
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// Current selected menu item.
   final int selectedIndex;
 
   /// Callback called when a menu item is pressed.
-  final Function(int) onTap;
+  final Function(int)? onTap;
 
   CustomAppBar({
     this.leading,
     this.actions,
-    this.selectedIndex,
+    required this.selectedIndex,
     this.onTap,
   });
 
@@ -90,7 +90,7 @@ class _CustomAppBarState extends State<CustomAppBar>
     final IconThemeData actionsIconTheme =
         appBarTheme.actionsIconTheme ?? theme.primaryIconTheme;
     final TextStyle titleTextStyle =
-        theme.textTheme.headline6.copyWith(color: Colors.white);
+        theme.textTheme.headline6!.copyWith(color: Colors.white);
 
     // Title widget
     Widget titleWidget = Align(
@@ -99,7 +99,7 @@ class _CustomAppBarState extends State<CustomAppBar>
         style: titleTextStyle,
         softWrap: false,
         overflow: TextOverflow.ellipsis,
-        child: Row(children: widget.leading),
+        child: Row(children: widget.leading ?? []),
       ),
     );
 
@@ -147,14 +147,14 @@ class _CustomAppBarState extends State<CustomAppBar>
     );
 
     // Actions widget
-    Widget actionsWidget;
-    if (widget.actions != null && widget.actions.isNotEmpty)
+    Widget? actionsWidget;
+    if (widget.actions != null && widget.actions!.isNotEmpty)
       actionsWidget = IconTheme.merge(
         data: actionsIconTheme,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: widget.actions,
+          children: widget.actions!,
         ),
       );
 

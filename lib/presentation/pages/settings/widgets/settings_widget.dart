@@ -10,19 +10,18 @@ class SettingsGroup extends StatelessWidget {
   final List<SettingsGroupItem> children;
 
   SettingsGroup({
-    Key key,
-    @required this.title,
-    @required this.children,
-  })  : assert(title != null),
-        assert(children != null && children.isNotEmpty,
+    Key? key,
+    required this.title,
+    required this.children,
+  })  : assert(children.isNotEmpty,
             "You must give at least one children!"),
         super(key: key);
 
   /// Creates a [SettingsGroup] with a single [SettingsGroupItem].
   factory SettingsGroup.single({
-    Key key,
-    @required String title,
-    @required SettingsGroupItem item,
+    Key? key,
+    required String title,
+    required SettingsGroupItem item,
   }) =>
       SettingsGroup(
         key: key,
@@ -53,29 +52,28 @@ class SettingsGroup extends StatelessWidget {
 /// Widget that displays a single item of the settings.
 class SettingsGroupItem extends StatelessWidget {
   /// Widget displayed as an icon.
-  final Widget icon;
+  final Widget? icon;
 
   /// Text displayed on the button.
   final String text;
 
   /// Callback called when the user taps on the item.
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// Callback called when the user long-presses the item.
-  final VoidCallback onLongPress;
+  final VoidCallback? onLongPress;
 
   /// Color of the text.
-  final Color textColor;
+  final Color? textColor;
 
   SettingsGroupItem({
-    Key key,
+    Key? key,
     this.icon,
-    @required this.text,
+    required this.text,
     this.onTap,
     this.onLongPress,
     this.textColor,
-  })  : assert(text != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +86,14 @@ class SettingsGroupItem extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              (icon != null) ? icon : SizedBox(width: 24.0, height: 24.0),
+              (icon != null) ? icon! : SizedBox(width: 24.0, height: 24.0),
               SizedBox(width: 16.0),
               Text(
                 text,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: textColor),
+                    ?.copyWith(color: textColor),
               ),
             ],
           ),

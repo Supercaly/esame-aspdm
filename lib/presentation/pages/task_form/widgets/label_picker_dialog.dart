@@ -12,9 +12,9 @@ import 'package:easy_localization/easy_localization.dart';
 /// Display a dialog that picks the labels.
 /// Passing an existing [List] of [labels] to mark them as already selected.
 /// Returns a [List] of all the selected [Label]s.
-Future<IList<Label>> showLabelPickerDialog(
+Future<IList<Label>?> showLabelPickerDialog(
   BuildContext context,
-  IList<Label> labels,
+  IList<Label>? labels,
 ) {
   return showDialog(
     context: context,
@@ -24,9 +24,9 @@ Future<IList<Label>> showLabelPickerDialog(
 
 /// Widget that display a dialog that picks labels
 class LabelPickerDialog extends StatefulWidget {
-  final IList<Label> labels;
+  final IList<Label>? labels;
 
-  LabelPickerDialog({Key key, this.labels}) : super(key: key);
+  LabelPickerDialog({Key? key, this.labels}) : super(key: key);
 
   @override
   _LabelPickerDialogState createState() => _LabelPickerDialogState();

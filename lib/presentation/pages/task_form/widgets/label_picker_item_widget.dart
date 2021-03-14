@@ -11,16 +11,14 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 class LabelPickerItemWidget extends StatelessWidget {
   final Label label;
   final bool selected;
-  final void Function(bool value) onSelected;
+  final void Function(bool value)? onSelected;
 
   LabelPickerItemWidget({
-    Key key,
-    @required this.label,
+    Key? key,
+    required this.label,
     this.selected = false,
     this.onSelected,
-  })  : assert(label != null),
-        assert(selected != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class LabelPickerItemWidget extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Colors.white),
+                          ?.copyWith(color: Colors.white),
                     ),
                   ),
                   selected

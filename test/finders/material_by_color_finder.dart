@@ -13,7 +13,7 @@ class MaterialByColorFinder extends MatchFinder {
   @override
   bool matches(Element candidate) {
     if (candidate.widget is Material) {
-      final Material materialWidget = candidate.widget;
+      final Material materialWidget = candidate.widget as Material;
       if (materialWidget.color == color) return true;
     }
     return false;

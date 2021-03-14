@@ -6,15 +6,14 @@ import 'package:tasky/domain/values/task_values.dart';
 import 'package:tasky/domain/values/unique_id.dart';
 import 'package:tasky/presentation/pages/task_form/misc/checklist_primitive.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:tasky/domain/entities/task.dart';
 
 /// Class representing a primitive task used
 /// during the creation or editing of a task.
 class TaskPrimitive extends Equatable {
   final UniqueId id;
-  final String title;
-  final String description;
+  final String? title;
+  final String? description;
   final Maybe<DateTime> expireDate;
   final IList<Label> labels;
   final IList<User> members;
@@ -23,25 +22,25 @@ class TaskPrimitive extends Equatable {
 
   /// Creates a [TaskPrimitive].
   TaskPrimitive({
-    @required this.id,
-    @required this.title,
-    @required this.description,
-    @required this.expireDate,
-    @required this.labels,
-    @required this.members,
-    @required this.checklists,
-    @required this.author,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.expireDate,
+    required this.labels,
+    required this.members,
+    required this.checklists,
+    required this.author,
   });
 
   /// Creates a copy of a [TaskPrimitive] with some
   /// changed fields.
   TaskPrimitive copyWith({
-    String title,
-    String description,
-    Maybe<DateTime> expireDate,
-    IList<Label> labels,
-    IList<User> members,
-    IList<ChecklistPrimitive> checklists,
+    String? title,
+    String? description,
+    Maybe<DateTime>? expireDate,
+    IList<Label>? labels,
+    IList<User>? members,
+    IList<ChecklistPrimitive>? checklists,
   }) =>
       TaskPrimitive(
         id: id,
@@ -70,7 +69,7 @@ class TaskPrimitive extends Equatable {
   factory TaskPrimitive.fromTask(Task task) => TaskPrimitive(
         id: task.id,
         title: task.title.value.getOrNull(),
-        description: task.description.getOrNull()?.value?.getOrNull(),
+        description: task.description.getOrNull()?.value.getOrNull(),
         expireDate: task.expireDate.flatMap((value) => value.value.toMaybe()),
         labels: task.labels,
         members: task.members,
@@ -83,7 +82,7 @@ class TaskPrimitive extends Equatable {
   Task toTask() => Task(
         id: id,
         title: TaskTitle(title),
-        description: (description != null && description.isNotEmpty)
+        description: (description != null && description!.isNotEmpty)
             ? Maybe.just(TaskDescription(description))
             : Maybe.nothing(),
         labels: labels,
@@ -97,7 +96,7 @@ class TaskPrimitive extends Equatable {
       );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         title,
         description,

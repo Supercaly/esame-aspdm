@@ -36,17 +36,17 @@ class CommentWidget extends StatefulWidget {
   final Comment comment;
 
   /// Callback called when the user edited the comment.
-  final void Function(CommentContent) onEdit;
+  final void Function(CommentContent)? onEdit;
 
   /// Callback called when the user wants to delete this comment.
-  final VoidCallback onDelete;
+  final VoidCallback? onDelete;
 
-  final VoidCallback onLike;
-  final VoidCallback onDislike;
+  final VoidCallback? onLike;
+  final VoidCallback? onDislike;
 
   CommentWidget({
-    Key key,
-    @required this.comment,
+    Key? key,
+    required this.comment,
     this.onEdit,
     this.onDelete,
     this.onLike,
@@ -58,16 +58,16 @@ class CommentWidget extends StatefulWidget {
 }
 
 class _CommentWidgetState extends State<CommentWidget> {
-  CommentWidgetType _type;
-  TextEditingController _editingController;
+  late CommentWidgetType _type;
+  late TextEditingController _editingController;
 
   @override
   void initState() {
     super.initState();
 
     _type = CommentWidgetType.normal;
-    _editingController = TextEditingController(
-        text: widget.comment?.content?.value?.getOrNull());
+    _editingController =
+        TextEditingController(text: widget.comment.content.value.getOrNull());
   }
 
   @override
@@ -79,7 +79,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         children: [
           UserAvatar(
             size: 48.0,
-            user: widget.comment?.author,
+            user: widget.comment.author,
           ),
           SizedBox(width: 10.0),
           Expanded(
@@ -87,7 +87,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.comment?.author?.name?.value?.getOrNull() ?? "",
+                  widget.comment.author.name.value.getOrNull() ?? "",
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 SizedBox(height: 10.0),
@@ -116,7 +116,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         minLines: 1,
                         textInputAction: TextInputAction.done,
                       )
-                    : Text(widget.comment?.content?.value?.getOrNull() ?? ""),
+                    : Text(widget.comment.content.value.getOrNull() ?? ""),
                 SizedBox(height: 10.0),
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) => Wrap(
@@ -126,9 +126,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
                           icon: FeatherIcons.thumbsUp,
-                          value: widget.comment?.likes?.length ?? 0,
-                          selected: widget.comment?.likes
-                              ?.contains(state.user.getOrNull()),
+                          value: widget.comment.likes.length,
+                          selected: widget.comment.likes
+                              .contains(state.user.getOrNull()),
                           onPressed: () => widget.onLike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
@@ -136,15 +136,15 @@ class _CommentWidgetState extends State<CommentWidget> {
                       if (_type == CommentWidgetType.normal)
                         LikeButton(
                           icon: FeatherIcons.thumbsDown,
-                          value: widget.comment?.dislikes?.length ?? 0,
-                          selected: widget.comment?.dislikes
-                              ?.contains(state.user.getOrNull()),
+                          value: widget.comment.dislikes.length,
+                          selected: widget.comment.dislikes
+                              .contains(state.user.getOrNull()),
                           onPressed: () => widget.onDislike?.call(),
                         ),
                       if (_type == CommentWidgetType.normal)
                         SizedBox(width: 6.0),
                       Ago(
-                        time: widget.comment?.creationDate?.value?.getOrNull(),
+                        time: widget.comment.creationDate.value.getOrNull(),
                       ),
                     ],
                   ),
@@ -155,7 +155,7 @@ class _CommentWidgetState extends State<CommentWidget> {
           if (_type == CommentWidgetType.normal)
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) =>
-                  (state.user.getOrNull() == widget.comment?.author)
+                  (state.user.getOrNull() == widget.comment.author)
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: PopupMenuButton<CommentWidgetAction>(
@@ -201,21 +201,18 @@ class LikeButton extends StatelessWidget {
   final int value;
 
   /// Callback called when the button is pressed.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// Flag representing a liked/disliked comment.
   final bool selected;
 
   const LikeButton({
-    Key key,
-    this.icon,
-    this.value,
+    Key? key,
+    required this.icon,
+    required this.value,
     this.onPressed,
-    bool selected,
-  })  : selected = selected ?? false,
-        assert(icon != null),
-        assert(value != null),
-        super(key: key);
+    this.selected = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -249,10 +246,10 @@ class LikeButton extends StatelessWidget {
 /// Widget that lets the user add a new comment.
 class AddCommentWidget extends StatefulWidget {
   /// Callback called when the user finishes creating a new comment.
-  final void Function(CommentContent) onNewComment;
+  final void Function(CommentContent)? onNewComment;
 
   AddCommentWidget({
-    Key key,
+    Key? key,
     this.onNewComment,
   }) : super(key: key);
 
@@ -261,8 +258,8 @@ class AddCommentWidget extends StatefulWidget {
 }
 
 class _AddCommentWidgetState extends State<AddCommentWidget> {
-  bool _sendEnabled;
-  TextEditingController _controller;
+  late bool _sendEnabled;
+  late TextEditingController _controller;
 
   @override
   void initState() {
@@ -278,7 +275,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
       controller: _controller,
       onChanged: (value) {
         setState(() {
-          _sendEnabled = value?.isNotEmpty ?? false;
+          _sendEnabled = value.isNotEmpty;
         });
       },
       decoration: InputDecoration(
@@ -294,7 +291,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
                     setState(() {
                       _sendEnabled = false;
                     });
-                    FocusManager.instance.primaryFocus.unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
                   }
                 }
               : null,

@@ -14,12 +14,10 @@ class ConnectionStateListener extends StatelessWidget {
   final ConnectivityService connectivityService;
 
   ConnectionStateListener({
-    Key key,
-    @required this.child,
-    @required this.connectivityService,
-  })  : assert(child != null),
-        assert(connectivityService != null),
-        super(key: key);
+    Key? key,
+    required this.child,
+    required this.connectivityService,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class ConnectionStateListener extends StatelessWidget {
       initialData: ConnectivityState.unknown,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data == ConnectivityState.none) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
             ScaffoldMessenger.maybeOf(context)?.showSnackBar(
               SnackBar(content: Text('device_offline_msg').tr()),
             );

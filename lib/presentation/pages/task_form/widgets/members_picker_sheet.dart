@@ -14,7 +14,7 @@ import '../../../../locator.dart';
 /// Display a bottom sheet that picks the members.
 /// Passing an existing [IList] of [members] to mark them as already selected.
 /// Returns a [IList] of all the selected [User]s.
-Future<IList<User>> showMembersPickerSheet(
+Future<IList<User>?> showMembersPickerSheet(
   BuildContext context,
   IList<User> members,
 ) {

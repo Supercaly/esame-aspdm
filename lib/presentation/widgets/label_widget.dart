@@ -14,11 +14,10 @@ class LabelWidget extends StatelessWidget {
   final bool compact;
 
   const LabelWidget({
-    Key key,
-    @required this.label,
+    Key? key,
+    required this.label,
     this.compact = false,
-  })  : assert(label != null),
-        super(key: key);
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +35,8 @@ class LabelWidget extends StatelessWidget {
           child: (!compact)
               ? Center(
                   child: Text(
-                  label.label?.value?.getOrNull() ?? "",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  label.label.value.getOrNull() ?? "",
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
                         fontWeight: FontWeight.w400,
                         color: Colors.white,
                       ),

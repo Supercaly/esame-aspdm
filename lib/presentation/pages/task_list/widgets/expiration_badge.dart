@@ -13,16 +13,15 @@ class ExpirationBadge extends StatelessWidget {
   final DateTime date;
 
   ExpirationBadge({
-    Key key,
-    @required this.date,
-  })  : assert(date != null),
-        super(key: key);
+    Key? key,
+    required this.date,
+  })  : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    Color color;
-    Color bgColor;
+    Color? color;
+    Color? bgColor;
 
     if (date.toUtc().isBefore(now)) {
       // The task has expired
@@ -34,7 +33,7 @@ class ExpirationBadge extends StatelessWidget {
       bgColor = EasyColors.timeExpiring;
     } else {
       // The task is not expired yet
-      color = Theme.of(context).textTheme.caption.color;
+      color = Theme.of(context).textTheme.caption?.color;
     }
 
     return Container(
@@ -54,7 +53,7 @@ class ExpirationBadge extends StatelessWidget {
           SizedBox(width: 4.0),
           Text(
             DateFormat("dd MMM y").format(date),
-            style: Theme.of(context).textTheme.caption.copyWith(color: color),
+            style: Theme.of(context).textTheme.caption?.copyWith(color: color),
           ),
         ],
       ),

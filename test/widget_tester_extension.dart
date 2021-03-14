@@ -15,8 +15,8 @@ class _LocalizedScaffold extends StatelessWidget {
   final Widget child;
 
   const _LocalizedScaffold({
-    Key key,
-    this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override

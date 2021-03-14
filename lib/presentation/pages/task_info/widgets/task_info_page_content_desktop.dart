@@ -10,13 +10,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'display_checklist.dart';
 
 class TaskInfoPageContentDesktop extends StatelessWidget {
-  final Task task;
+  final Task? task;
   final bool canModify;
 
   TaskInfoPageContentDesktop({
-    Key key,
-    @required this.task,
-    @required this.canModify,
+    Key? key,
+    required this.task,
+    required this.canModify,
   }) : super(key: key);
 
   @override
@@ -38,10 +38,10 @@ class TaskInfoPageContentDesktop extends StatelessWidget {
                 child: Column(
                   children: [
                     DescriptionCard(task: task),
-                    if (task != null) HeaderCard(task: task),
-                    if (task?.checklists != null && task.checklists.isNotEmpty)
+                    if (task != null) HeaderCard(task: task!),
+                    if (task?.checklists != null && task!.checklists.isNotEmpty)
                       Column(
-                        children: task.checklists
+                        children: task!.checklists
                             .map((checklist) => DisplayChecklist(
                                 checklist: checklist,
                                 onItemChange: canModify

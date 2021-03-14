@@ -230,13 +230,4 @@ void main() {
 
     verify(navService).called(#navigateTo).once();
   });
-
-  test("create task with null arguments throws an error", () {
-    try {
-      TaskCard(task: null);
-      fail("This should throw an error!");
-    } catch (e) {
-      expect(e, isA<AssertionError>());
-    }
-  });
 }

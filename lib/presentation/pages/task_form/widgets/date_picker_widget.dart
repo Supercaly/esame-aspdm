@@ -9,7 +9,7 @@ import 'package:tasky/presentation/pages/task_form/misc/date_time_extension.dart
 /// Widget that lets the user pick an expiring date.
 class DatePickerWidget extends StatelessWidget {
   const DatePickerWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class DatePickerWidget extends StatelessWidget {
         leading: Icon(FeatherIcons.calendar),
         title: (state.taskPrimitive.expireDate.getOrNull() != null)
             ? Text(DateFormat("dd MMM y HH:mm")
-                .format(state.taskPrimitive.expireDate.getOrNull()))
+                .format(state.taskPrimitive.expireDate.getOrCrash()))
             : Text('expiration_date_text').tr(),
         trailing: IconButton(
           icon: Icon(Icons.close),

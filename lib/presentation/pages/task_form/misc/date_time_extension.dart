@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Extension methods on [DateTime].
 extension DateTimeX on DateTime {
   /// Returns a new [DateTime] combining the current with a [TimeOfDay].
-  DateTime combine(TimeOfDay time) => DateTime(
+  DateTime combine(TimeOfDay? time) => DateTime(
         year,
         month,
         day,
@@ -12,5 +12,5 @@ extension DateTimeX on DateTime {
       );
 
   /// Returns a [TimeOfDay] from a [DateTime].
-  TimeOfDay toTime() => TimeOfDay(hour: hour ?? 0, minute: minute ?? 0);
+  TimeOfDay toTime() => TimeOfDay(hour: hour, minute: minute);
 }

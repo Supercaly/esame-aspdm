@@ -11,16 +11,12 @@ class MockLinkService extends Mock implements LinkService {}
 
 void main() {
   group("NotificationManager test", () {
-    NotificationService notificationService;
-    LinkService linkService;
+    late NotificationService notificationService;
+    late LinkService linkService;
 
     setUp(() {
       notificationService = MockNotificationService();
       linkService = MockLinkService();
-    });
-
-    tearDown(() {
-      notificationService = null;
     });
 
     testWidgets("creating widget initializes the notification service",
@@ -65,19 +61,6 @@ void main() {
 
       await tester.pumpWidget(Container());
       verify(notificationService).called(#close).once();
-    });
-
-    test("create widget with null child throws an exception", () {
-      try {
-        ServiceManager(
-          child: null,
-          linkService: null,
-          notificationService: null,
-        );
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
     });
   });
 }

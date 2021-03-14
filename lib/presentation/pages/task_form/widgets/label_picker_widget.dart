@@ -13,7 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 /// Widget that lets the user pick the labels.
 class LabelPickerWidget extends StatelessWidget {
   const LabelPickerWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -21,8 +21,7 @@ class LabelPickerWidget extends StatelessWidget {
     return BlocBuilder<TaskFormBloc, TaskFormState>(
       builder: (context, state) => ListTile(
         leading: Icon(FeatherIcons.tag),
-        title: (state.taskPrimitive.labels != null &&
-                state.taskPrimitive.labels.isNotEmpty)
+        title: (state.taskPrimitive.labels.isNotEmpty)
             ? Wrap(
                 spacing: 8.0,
                 runSpacing: 4.0,
@@ -32,7 +31,7 @@ class LabelPickerWidget extends StatelessWidget {
               )
             : Text('labels_text').tr(),
         onTap: () async {
-          IList<Label> selectedLabels;
+          IList<Label>? selectedLabels;
           if (Responsive.isSmall(context))
             selectedLabels = await showLabelPickerSheet(
               context,

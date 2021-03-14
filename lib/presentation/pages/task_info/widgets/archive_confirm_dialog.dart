@@ -4,7 +4,7 @@ import 'package:tasky/services/navigation_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 /// Show a confirm dialog before archiving a task.
-Future<bool> showArchiveConfirmDialog(BuildContext context) {
+Future<bool?> showArchiveConfirmDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -25,7 +25,7 @@ Future<bool> showArchiveConfirmDialog(BuildContext context) {
 }
 
 /// Show a confirm dialog before un-archiving a task.
-Future<bool> showUnarchiveConfirmDialog(BuildContext context) {
+Future<bool?> showUnarchiveConfirmDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(

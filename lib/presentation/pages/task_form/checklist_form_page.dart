@@ -19,9 +19,9 @@ import 'package:easy_localization/easy_localization.dart';
 ///   * [showChecklistFormDialog]
 class ChecklistFormPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final ChecklistPrimitive primitive;
+  final ChecklistPrimitive? primitive;
 
-  ChecklistFormPage({Key key, this.primitive}) : super(key: key);
+  ChecklistFormPage({Key? key, this.primitive}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class ChecklistFormPage extends StatelessWidget {
                   child: Text('save_btn').tr(),
                   style: TextButton.styleFrom(primary: Colors.white),
                   onPressed: () {
-                    if (_formKey.currentState.validate())
+                    if (_formKey.currentState!.validate())
                       context.read<ChecklistFormBloc>().save();
                   },
                 ),

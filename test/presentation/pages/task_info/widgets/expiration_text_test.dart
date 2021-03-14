@@ -22,8 +22,10 @@ void main() {
 
       expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)),
           findsOneWidget);
-      expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
-          equals(EasyColors.timeExpired));
+      expect(
+        (tester.firstWidget(find.byType(Text)) as Text).style?.color,
+        equals(EasyColors.timeExpired),
+      );
     });
 
     testWidgets("create text with expiring date", (tester) async {
@@ -42,8 +44,10 @@ void main() {
 
       expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)),
           findsOneWidget);
-      expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
-          equals(EasyColors.timeExpiring));
+      expect(
+        (tester.firstWidget(find.byType(Text)) as Text).style?.color,
+        equals(EasyColors.timeExpiring),
+      );
     });
 
     testWidgets("create text with not expiring date", (tester) async {
@@ -62,17 +66,10 @@ void main() {
 
       expect(find.text(DateFormat("dd MMM y HH:mm").format(expDate)),
           findsOneWidget);
-      expect((tester.firstWidget(find.byType(Text)) as Text).style.color,
-          equals(Color(0x8a000000)));
-    });
-
-    test("create text with null date throws an error", () {
-      try {
-        ExpirationText(date: null);
-        fail("This should throw an exception!");
-      } catch (e) {
-        expect(e, isA<AssertionError>());
-      }
+      expect(
+        (tester.firstWidget(find.byType(Text)) as Text).style?.color,
+        equals(Color(0x8a000000)),
+      );
     });
   });
 }

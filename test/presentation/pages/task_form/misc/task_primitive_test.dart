@@ -37,7 +37,7 @@ void main() {
         checklists: IList.empty(),
         expireDate: Maybe.nothing(),
         id: UniqueId("task_id"),
-        author: null,
+        author: User.empty(),
       );
       final t2 = t1.copyWith(title: "new title");
       final t3 = t1.copyWith(description: "new description");

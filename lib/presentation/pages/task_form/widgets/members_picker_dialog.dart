@@ -12,8 +12,8 @@ import 'package:easy_localization/easy_localization.dart';
 /// Display a dialog that picks the members.
 /// Passing an existing [List] of [members] to mark them as already selected.
 /// Returns a [List] of all the selected [User]s.
-Future<IList<User>> showMembersPickerDialog(
-    BuildContext context, IList<User> members) {
+Future<IList<User>?> showMembersPickerDialog(
+    BuildContext context, IList<User>? members) {
   return showDialog(
     context: context,
     builder: (context) => MembersPickerDialog(members: members),
@@ -22,9 +22,9 @@ Future<IList<User>> showMembersPickerDialog(
 
 /// Widget that display a dialog that picks members
 class MembersPickerDialog extends StatefulWidget {
-  final IList<User> members;
+  final IList<User>? members;
 
-  MembersPickerDialog({Key key, this.members}) : super(key: key);
+  MembersPickerDialog({Key? key, this.members}) : super(key: key);
 
   @override
   _MembersPickerDialogState createState() => _MembersPickerDialogState();
